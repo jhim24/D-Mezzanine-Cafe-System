@@ -552,11 +552,47 @@ body{
 
 </div>
 
-<script>
+<script type="module">
+
+import { initializeApp }
+
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+
+import {
+
+    getFirestore,
+    collection,
+    addDoc
+
+}
+
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+const firebaseConfig = {
+
+    apiKey: "AIzaSyAdOguugiFH6-3OQK1HsYGfkCIXVTK9Wc4",
+
+    authDomain: "d-mezzanine-cafe.firebaseapp.com",
+
+    projectId: "d-mezzanine-cafe",
+
+    storageBucket: "d-mezzanine-cafe.firebasestorage.app",
+
+    messagingSenderId: "586558456999",
+
+    appId: "1:586558456999:web:86fd07961a36abc2de0782",
+
+    measurementId: "G-C48ZSREBT1"
+
+};
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
 
 let cart = [];
 
-function addItem(name,price){
+window.addItem = function(name,price){
 
     let existing = cart.find(item=>item.name===name);
 
@@ -626,14 +662,14 @@ function renderCart(){
     document.getElementById("itemCount").innerText = count;
 }
 
-function increaseQty(index){
+window.increaseQty = function(index){
 
     cart[index].qty++;
 
     renderCart();
 }
 
-function decreaseQty(index){
+window.decreaseQty = function(index){
 
     if(cart[index].qty > 1){
 
@@ -648,14 +684,14 @@ function decreaseQty(index){
     renderCart();
 }
 
-function clearCart(){
+window.clearCart = function(){
 
     cart = [];
 
     renderCart();
 }
 
-function checkout(){
+window.checkout = async function(){
 
     if(cart.length === 0){
 
@@ -703,27 +739,33 @@ function checkout(){
 
     document.getElementById("receiptChange").innerText = change;
 
-    let sales = JSON.parse(localStorage.getItem("sales")) || [];
+    try{
 
-    sales.push({
+        await addDoc(collection(db,"sales"),{
 
-        date:new Date().toLocaleString(),
+            date:new Date().toLocaleString(),
 
-        total:total,
+            total:total,
 
-        items: cart.map(item => ({
+            items: cart.map(item => ({
 
-            name:item.name,
+                name:item.name,
 
-            qty:item.qty,
+                qty:item.qty,
 
-            price:item.price
+                price:item.price
 
-        }))
+            }))
 
-    });
+        });
 
-    localStorage.setItem("sales",JSON.stringify(sales));
+        console.log("Sale saved to Firebase");
+
+    }catch(error){
+
+        console.log(error);
+
+    }
 
     cart = [];
 
@@ -732,7 +774,7 @@ function checkout(){
     document.getElementById("cash").value = "";
 }
 
-function closeReceipt(){
+window.closeReceipt = function(){
 
     document.getElementById("receipt").style.display = "none";
 
@@ -748,24 +790,6 @@ function updateTime(){
 setInterval(updateTime,1000);
 
 updateTime();
-
-if ('serviceWorker' in navigator) {
-
-    window.addEventListener('load', async () => {
-
-        try {
-
-            await navigator.serviceWorker.register('./sw.js?v=999');
-
-        } catch (error) {
-
-            console.log(error);
-
-        }
-
-    });
-
-}
 
 </script>
 
