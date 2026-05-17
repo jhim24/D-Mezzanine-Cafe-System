@@ -42,24 +42,34 @@ overflow-x:hidden;
 
 .sidebar{
 width:260px;
-background:var(--sidebar);
+background:rgba(22,22,22,.96);
 height:100vh;
 position:fixed;
 padding:20px;
 border-right:1px solid #2d2d2d;
 overflow:auto;
-transition:.3s;
+transition:
+left .4s ease,
+transform .4s ease,
+opacity .4s ease;
 z-index:999;
 left:0;
+opacity:1;
+transform:translateX(0);
+backdrop-filter:blur(10px);
+box-shadow:0 0 25px rgba(0,0,0,.5);
 }
 
 .sidebar.hide{
 left:-260px;
+opacity:.3;
+transform:translateX(-40px);
 }
 
 .logo{
 text-align:center;
 margin-bottom:30px;
+animation:fadeIn 1s ease;
 }
 
 .logo i{
@@ -90,6 +100,7 @@ font-size:16px;
 cursor:pointer;
 transition:.3s;
 text-align:left;
+animation:fadeIn .8s ease;
 }
 
 .menu button i{
@@ -99,7 +110,7 @@ margin-right:10px;
 .menu button:hover{
 background:linear-gradient(45deg,var(--gold2),var(--gold));
 color:black;
-transform:translateX(5px);
+transform:translateX(5px) scale(1.02);
 }
 
 /* MAIN */
@@ -107,7 +118,7 @@ transform:translateX(5px);
 .main{
 margin-left:260px;
 width:100%;
-transition:.3s;
+transition:.4s ease;
 }
 
 .main.full{
@@ -119,7 +130,7 @@ margin-left:0;
 .hero{
 height:100vh;
 background:
-linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)),
+linear-gradient(rgba(0,0,0,.72),rgba(0,0,0,.72)),
 url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085');
 background-size:cover;
 background-position:center;
@@ -128,12 +139,18 @@ align-items:center;
 justify-content:center;
 text-align:center;
 padding:40px;
+animation:zoomBg 15s infinite alternate ease-in-out;
+}
+
+.hero-content{
+animation:fadeUp 1.2s ease;
 }
 
 .hero-content h1{
 font-size:65px;
 color:var(--gold);
 margin-bottom:15px;
+text-shadow:0 0 15px rgba(240,180,58,.3);
 }
 
 .hero-content p{
@@ -151,14 +168,20 @@ top:15px;
 left:15px;
 background:linear-gradient(45deg,var(--gold2),var(--gold));
 border:none;
-width:50px;
-height:50px;
-border-radius:12px;
+width:52px;
+height:52px;
+border-radius:14px;
 color:black;
 font-size:22px;
 cursor:pointer;
 z-index:2000;
 font-weight:bold;
+transition:.3s;
+box-shadow:0 0 20px rgba(240,180,58,.3);
+}
+
+.toggle-btn:hover{
+transform:scale(1.08);
 }
 
 /* INSTALL BUTTON */
@@ -177,6 +200,68 @@ cursor:pointer;
 z-index:9999;
 display:none;
 font-size:16px;
+transition:.3s;
+box-shadow:0 0 20px rgba(240,180,58,.4);
+}
+
+.install-btn:hover{
+transform:scale(1.05);
+}
+
+/* ANIMATIONS */
+
+@keyframes slideIn{
+
+0%{
+transform:translateX(-100%);
+opacity:0;
+}
+
+100%{
+transform:translateX(0);
+opacity:1;
+}
+
+}
+
+@keyframes fadeIn{
+
+0%{
+opacity:0;
+transform:translateY(20px);
+}
+
+100%{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+@keyframes fadeUp{
+
+0%{
+opacity:0;
+transform:translateY(50px);
+}
+
+100%{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+@keyframes zoomBg{
+
+0%{
+background-size:100%;
+}
+
+100%{
+background-size:110%;
+}
+
 }
 
 /* MOBILE */
@@ -189,6 +274,9 @@ left:-260px;
 
 .sidebar.show{
 left:0;
+opacity:1;
+transform:translateX(0);
+animation:slideIn .4s ease;
 }
 
 .main{
@@ -264,8 +352,9 @@ font-size:16px;
 
 <p>
 Modern Coffee Shop Management System with premium branding,
-mobile responsive design, installable app support,
-POS system, inventory management, and sales monitoring.
+mobile responsive design, smooth animations,
+installable app support, POS system, inventory management,
+and sales monitoring.
 </p>
 
 </div>
