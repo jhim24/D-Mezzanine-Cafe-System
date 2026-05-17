@@ -1,1012 +1,213 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>D' Mezzanine Premium Accounting System</title>
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
+<title>Cafe System</title>
+
+<!-- CSS -->
+<link rel="stylesheet" href="style.css">
+
+<!-- PWA -->
 <link rel="manifest" href="manifest.json">
 
-<meta name="theme-color" content="#f0b43a">
+<meta name="theme-color"
+content="#111827">
 
+<!-- IOS -->
+<link rel="apple-touch-icon"
+href="assets/images/icon-192.png">
+
+<meta name="apple-mobile-web-app-capable"
+content="yes">
+
+<meta name="apple-mobile-web-app-status-bar-style"
+content="black-translucent">
+
+<!-- ICONS -->
 <link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Segoe UI',sans-serif;
-}
-
-:root{
---bg:#0f0f0f;
---sidebar:#161616;
---card:#1d1d1d;
---gold:#f0b43a;
---gold2:#c58b39;
---gray:#aaa;
-}
-
-body{
-background:linear-gradient(135deg,#0f0f0f,#171717);
-color:white;
-display:flex;
-overflow-x:hidden;
-min-height:100vh;
-}
-
-/* SIDEBAR */
-
-.sidebar{
-width:270px;
-background:rgba(22,22,22,.97);
-backdrop-filter:blur(12px);
-height:100vh;
-position:fixed;
-padding:20px;
-overflow:auto;
-transition:.4s ease;
-z-index:999;
-border-right:1px solid rgba(255,255,255,.06);
-box-shadow:0 0 30px rgba(0,0,0,.4);
-left:0;
-}
-
-.sidebar.hide{
-left:-270px;
-}
-
-.logo{
-text-align:center;
-margin-bottom:35px;
-}
-
-.logo i{
-font-size:65px;
-color:var(--gold);
-margin-bottom:12px;
-}
-
-.logo h1{
-font-size:29px;
-color:var(--gold);
-}
-
-.logo p{
-color:var(--gray);
-font-size:14px;
-margin-top:6px;
-}
-
-.menu button{
-width:100%;
-padding:16px;
-margin-bottom:14px;
-border:none;
-border-radius:16px;
-background:#232323;
-color:white;
-font-size:15px;
-cursor:pointer;
-transition:.3s;
-text-align:left;
-font-weight:600;
-}
-
-.menu button i{
-margin-right:10px;
-}
-
-.menu button:hover,
-.menu button.active{
-background:linear-gradient(45deg,var(--gold2),var(--gold));
-color:black;
-transform:translateX(5px);
-}
-
-/* MAIN */
-
-.main{
-margin-left:270px;
-width:100%;
-transition:.4s;
-}
-
-.main.full{
-margin-left:0;
-}
-
-/* HEADER */
-
-.header{
-height:260px;
-background:
-linear-gradient(rgba(0,0,0,.75),rgba(0,0,0,.75)),
-url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085');
-background-size:cover;
-background-position:center;
-display:flex;
-justify-content:center;
-align-items:center;
-text-align:center;
-padding:30px;
-}
-
-.header h1{
-font-size:58px;
-color:var(--gold);
-}
-
-.header p{
-margin-top:12px;
-font-size:18px;
-color:#ddd;
-}
-
-/* PAGE */
-
-.page{
-display:none;
-padding:40px;
-animation:fadeIn .6s ease;
-}
-
-.page.active{
-display:block;
-}
-
-/* DASHBOARD */
-
-.dashboard-cards{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
-gap:25px;
-}
-
-.card{
-background:linear-gradient(145deg,#1f1f1f,#161616);
-padding:30px;
-border-radius:28px;
-box-shadow:
-0 0 30px rgba(0,0,0,.45),
-inset 0 0 10px rgba(255,255,255,.02);
-border:1px solid rgba(255,255,255,.05);
-transition:.3s;
-}
-
-.card:hover{
-transform:translateY(-8px);
-}
-
-.card i{
-font-size:42px;
-margin-bottom:18px;
-color:var(--gold);
-}
-
-.card h2{
-margin-bottom:12px;
-font-size:22px;
-}
-
-.card h1{
-color:var(--gold);
-font-size:36px;
-}
-
-/* ACCOUNTING */
-
-.accounting-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:30px;
-flex-wrap:wrap;
-gap:15px;
-}
-
-.accounting-header h1{
-color:var(--gold);
-font-size:40px;
-}
-
-.add-btn{
-padding:15px 22px;
-border:none;
-border-radius:16px;
-background:linear-gradient(45deg,var(--gold2),var(--gold));
-color:black;
-font-weight:bold;
-cursor:pointer;
-font-size:16px;
-transition:.3s;
-}
-
-.add-btn:hover{
-transform:scale(1.05);
-}
-
-/* PREMIUM TABLE */
-
-.table-container{
-background:linear-gradient(145deg,#1b1b1b,#131313);
-padding:30px;
-border-radius:28px;
-overflow:auto;
-box-shadow:
-0 0 30px rgba(0,0,0,.45),
-inset 0 0 10px rgba(255,255,255,.02);
-border:1px solid rgba(255,255,255,.05);
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-overflow:hidden;
-border-radius:18px;
-}
-
-th{
-background:
-linear-gradient(45deg,#c58b39,#f0b43a);
-color:black;
-padding:22px;
-font-size:17px;
-font-weight:700;
-text-transform:uppercase;
-letter-spacing:1px;
-border:1px solid rgba(0,0,0,.15);
-}
-
-td{
-padding:12px 18px;
-font-size:15px;
-border:1px solid rgba(255,255,255,.08);
-background:#1e1e1e;
-transition:.3s;
-height:55px;
-}
-
-tbody tr:hover td{
-background:#252525;
-}
-
-/* BADGES */
-
-.type-badge{
-padding:7px 12px;
-border-radius:30px;
-font-size:13px;
-font-weight:bold;
-display:inline-block;
-min-width:95px;
-text-align:center;
-}
-
-.asset{
-background:linear-gradient(45deg,#2e7d32,#43a047);
-}
-
-.liability{
-background:linear-gradient(45deg,#c62828,#e53935);
-}
-
-.income{
-background:linear-gradient(45deg,#1565c0,#1e88e5);
-}
-
-.expense{
-background:linear-gradient(45deg,#ef6c00,#ff9800);
-color:black;
-}
-
-.equity{
-background:linear-gradient(45deg,#6a1b9a,#8e24aa);
-}
-
-/* BUTTONS */
-
-.action-btn{
-padding:10px 14px;
-border:none;
-border-radius:12px;
-cursor:pointer;
-margin-right:8px;
-transition:.3s;
-font-size:14px;
-}
-
-.action-btn:hover{
-transform:scale(1.08);
-}
-
-.edit-btn{
-background:linear-gradient(45deg,#1976d2,#42a5f5);
-color:white;
-}
-
-.delete-btn{
-background:linear-gradient(45deg,#c62828,#ef5350);
-color:white;
-}
-
-/* MODAL */
-
-.modal{
-display:none;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,.7);
-justify-content:center;
-align-items:center;
-z-index:9999;
-}
-
-.modal-content{
-background:#1d1d1d;
-padding:30px;
-border-radius:28px;
-width:90%;
-max-width:500px;
-}
-
-.modal-content h2{
-margin-bottom:20px;
-color:var(--gold);
-}
-
-.modal-content input,
-.modal-content select{
-width:100%;
-padding:15px;
-margin-bottom:15px;
-border:none;
-border-radius:14px;
-background:#2a2a2a;
-color:white;
-font-size:16px;
-}
-
-.save-btn{
-width:100%;
-padding:15px;
-border:none;
-border-radius:16px;
-background:linear-gradient(45deg,var(--gold2),var(--gold));
-color:black;
-font-weight:bold;
-cursor:pointer;
-font-size:16px;
-}
-
-/* TOGGLE */
-
-.toggle-btn{
-position:fixed;
-top:15px;
-left:15px;
-width:52px;
-height:52px;
-border:none;
-border-radius:14px;
-background:linear-gradient(45deg,var(--gold2),var(--gold));
-color:black;
-font-size:20px;
-cursor:pointer;
-z-index:1000;
-}
-
-/* MOBILE */
-
-@media(max-width:900px){
-
-.sidebar{
-left:-270px;
-}
-
-.sidebar.show{
-left:0;
-}
-
-.main{
-margin-left:0;
-}
-
-.header h1{
-font-size:38px;
-}
-
-.dashboard-cards{
-grid-template-columns:1fr;
-}
-
-}
-
-/* ANIMATION */
-
-@keyframes fadeIn{
-from{
-opacity:0;
-transform:translateY(20px);
-}
-to{
-opacity:1;
-transform:translateY(0);
-}
-}
-
-</style>
 </head>
 
 <body>
 
-<!-- TOGGLE -->
-
-<button class="toggle-btn" onclick="toggleSidebar()">
-<i class="fa-solid fa-bars"></i>
-</button>
-
 <!-- SIDEBAR -->
 
-<div class="sidebar" id="sidebar">
+<div class="sidebar">
 
-<div class="logo">
-<i class="fa-solid fa-mug-hot"></i>
-<h1>D' Mezzanine</h1>
-<p>Premium Accounting System</p>
-</div>
+    <div class="logo">
 
-<div class="menu">
+        <i class="fa-solid fa-mug-hot"></i>
 
-<button class="active" onclick="showPage('dashboard',this)">
-<i class="fa-solid fa-house"></i>
- Dashboard
-</button>
+        Cafe System
 
-<button onclick="showPage('chartaccounts',this)">
-<i class="fa-solid fa-chart-pie"></i>
- Chart of Accounts
-</button>
+    </div>
 
-<button onclick="showPage('journalentries',this)">
-<i class="fa-solid fa-book"></i>
- Journal Entries
-</button>
+    <ul>
 
-<button onclick="showPage('balancesheet',this)">
-<i class="fa-solid fa-building-columns"></i>
- Balance Sheet
-</button>
+        <li>
 
-<button onclick="showPage('incomestatement',this)">
-<i class="fa-solid fa-money-bill-trend-up"></i>
- Income Statement
-</button>
+            <a href="#">
 
-</div>
+                <i class="fa-solid fa-chart-line"></i>
+
+                Dashboard
+
+            </a>
+
+        </li>
+
+        <li>
+
+            <a href="#">
+
+                <i class="fa-solid fa-cash-register"></i>
+
+                POS
+
+            </a>
+
+        </li>
+
+        <li>
+
+            <a href="#">
+
+                <i class="fa-solid fa-boxes-stacked"></i>
+
+                Inventory
+
+            </a>
+
+        </li>
+
+        <li>
+
+            <a href="#">
+
+                <i class="fa-solid fa-chart-column"></i>
+
+                Sales
+
+            </a>
+
+        </li>
+
+        <li>
+
+            <a href="#">
+
+                <i class="fa-solid fa-file-invoice-dollar"></i>
+
+                Accounting
+
+            </a>
+
+        </li>
+
+        <li>
+
+            <a href="#">
+
+                <i class="fa-solid fa-users"></i>
+
+                Employees
+
+            </a>
+
+        </li>
+
+    </ul>
 
 </div>
 
 <!-- MAIN -->
 
-<div class="main" id="main">
+<div class="main">
 
-<div class="header">
+    <div class="topbar">
 
-<div>
+        <h1>Dashboard</h1>
 
-<h1>D' Mezzanine Accounting</h1>
+        <button id="installBtn"
+        class="install-btn">
 
-<p>
-Professional Coffee Shop Accounting & Financial System
-</p>
+            <i class="fa-solid fa-download"></i>
 
-</div>
+            Install App
 
-</div>
+        </button>
 
-<!-- DASHBOARD -->
+    </div>
 
-<div class="page active" id="dashboard">
+    <div class="cards">
 
-<div class="dashboard-cards">
+        <div class="card">
 
-<div class="card">
-<i class="fa-solid fa-wallet"></i>
-<h2>Assets</h2>
-<h1 id="dashboardAssets">₱250,000</h1>
-</div>
+            <div class="card-icon">
 
-<div class="card">
-<i class="fa-solid fa-file-invoice-dollar"></i>
-<h2>Liabilities</h2>
-<h1 id="dashboardLiabilities">₱85,000</h1>
-</div>
+                <i class="fa-solid fa-money-bill-wave"></i>
 
-<div class="card">
-<i class="fa-solid fa-money-bill-trend-up"></i>
-<h2>Income</h2>
-<h1 id="dashboardIncome">₱320,000</h1>
-</div>
+            </div>
 
-<div class="card">
-<i class="fa-solid fa-coins"></i>
-<h2>Profit</h2>
-<h1 id="dashboardProfit">₱145,000</h1>
-</div>
+            <h2>Today's Sales</h2>
 
-</div>
+            <p>₱ 0.00</p>
 
-</div>
+        </div>
 
-<!-- CHART OF ACCOUNTS -->
+        <div class="card">
 
-<div class="page" id="chartaccounts">
+            <div class="card-icon">
 
-<div class="accounting-header">
+                <i class="fa-solid fa-receipt"></i>
 
-<h1>
-<i class="fa-solid fa-chart-pie"></i>
- Chart of Accounts
-</h1>
+            </div>
 
-<button class="add-btn" onclick="openModal()">
-<i class="fa-solid fa-plus"></i>
- Add Account
-</button>
+            <h2>Total Orders</h2>
 
-</div>
+            <p>0</p>
 
-<div class="table-container">
+        </div>
 
-<table id="accountsTable">
+        <div class="card">
 
-<thead>
+            <div class="card-icon">
 
-<tr>
-<th>Code</th>
-<th>Account Name</th>
-<th>Type</th>
-<th>Balance</th>
-<th>Action</th>
-</tr>
+                <i class="fa-solid fa-mug-saucer"></i>
 
-</thead>
+            </div>
 
-<tbody>
+            <h2>Products</h2>
 
-<tr>
-<td>101</td>
-<td>Cash on Hand</td>
-<td><span class="type-badge asset">Asset</span></td>
-<td>₱50,000</td>
-<td>
-<button class="action-btn delete-btn" onclick="deleteRow(this)">
-<i class="fa-solid fa-trash"></i>
-</button>
-</td>
-</tr>
+            <p>0</p>
 
-<tr>
-<td>201</td>
-<td>Accounts Payable</td>
-<td><span class="type-badge liability">Liability</span></td>
-<td>₱35,000</td>
-<td>
-<button class="action-btn delete-btn" onclick="deleteRow(this)">
-<i class="fa-solid fa-trash"></i>
-</button>
-</td>
-</tr>
+        </div>
 
-</tbody>
+        <div class="card">
 
-</table>
+            <div class="card-icon">
+
+                <i class="fa-solid fa-user-group"></i>
+
+            </div>
+
+            <h2>Employees</h2>
+
+            <p>0</p>
+
+        </div>
+
+    </div>
 
 </div>
 
-</div>
-
-<!-- JOURNAL ENTRIES -->
-
-<div class="page" id="journalentries">
-
-<div class="accounting-header">
-
-<h1>
-<i class="fa-solid fa-book"></i>
- Journal Entries
-</h1>
-
-<button class="add-btn" onclick="openJournalModal()">
-<i class="fa-solid fa-plus"></i>
- Add Entry
-</button>
-
-</div>
-
-<div class="table-container">
-
-<table id="journalTable">
-
-<thead>
-
-<tr>
-<th>Date</th>
-<th>Account</th>
-<th>Debit</th>
-<th>Credit</th>
-<th>Description</th>
-<th>Action</th>
-</tr>
-
-</thead>
-
-<tbody>
-
-<tr>
-<td>2026-05-17</td>
-<td>Coffee Sales</td>
-<td>₱5,000</td>
-<td>₱0</td>
-<td>Daily Sales</td>
-<td>
-<button class="action-btn delete-btn" onclick="deleteRow(this)">
-<i class="fa-solid fa-trash"></i>
-</button>
-</td>
-</tr>
-
-</tbody>
-
-</table>
-
-</div>
-
-</div>
-
-<!-- BALANCE SHEET -->
-
-<div class="page" id="balancesheet">
-
-<div class="accounting-header">
-
-<h1>
-<i class="fa-solid fa-building-columns"></i>
- Balance Sheet
-</h1>
-
-</div>
-
-<div class="dashboard-cards">
-
-<div class="card">
-<i class="fa-solid fa-wallet"></i>
-<h2>Total Assets</h2>
-<h1 id="totalAssets">₱250,000</h1>
-</div>
-
-<div class="card">
-<i class="fa-solid fa-file-invoice-dollar"></i>
-<h2>Total Liabilities</h2>
-<h1 id="totalLiabilities">₱85,000</h1>
-</div>
-
-<div class="card">
-<i class="fa-solid fa-coins"></i>
-<h2>Equity</h2>
-<h1 id="totalEquity">₱165,000</h1>
-</div>
-
-</div>
-
-</div>
-
-<!-- INCOME STATEMENT -->
-
-<div class="page" id="incomestatement">
-
-<div class="accounting-header">
-
-<h1>
-<i class="fa-solid fa-money-bill-trend-up"></i>
- Income Statement
-</h1>
-
-</div>
-
-<div class="dashboard-cards">
-
-<div class="card">
-<i class="fa-solid fa-money-bill"></i>
-<h2>Total Income</h2>
-<h1 id="incomeTotal">₱320,000</h1>
-</div>
-
-<div class="card">
-<i class="fa-solid fa-file-invoice"></i>
-<h2>Total Expenses</h2>
-<h1 id="expenseTotal">₱175,000</h1>
-</div>
-
-<div class="card">
-<i class="fa-solid fa-chart-line"></i>
-<h2>Net Profit</h2>
-<h1 id="netProfit">₱145,000</h1>
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- ACCOUNT MODAL -->
-
-<div class="modal" id="accountModal">
-
-<div class="modal-content">
-
-<h2>Add New Account</h2>
-
-<input type="text" id="accountCode" placeholder="Account Code">
-
-<input type="text" id="accountName" placeholder="Account Name">
-
-<select id="accountType">
-
-<option value="Asset">Asset</option>
-<option value="Liability">Liability</option>
-<option value="Equity">Equity</option>
-<option value="Income">Income</option>
-<option value="Expense">Expense</option>
-
-</select>
-
-<input type="number" id="accountBalance" placeholder="Balance">
-
-<button class="save-btn" onclick="addAccount()">
-Save Account
-</button>
-
-</div>
-
-</div>
-
-<!-- JOURNAL MODAL -->
-
-<div class="modal" id="journalModal">
-
-<div class="modal-content">
-
-<h2>Add Journal Entry</h2>
-
-<input type="date" id="journalDate">
-
-<input type="text" id="journalAccount" placeholder="Account Name">
-
-<input type="number" id="journalDebit" placeholder="Debit Amount">
-
-<input type="number" id="journalCredit" placeholder="Credit Amount">
-
-<input type="text" id="journalDesc" placeholder="Description">
-
-<button class="save-btn" onclick="addJournalEntry()">
-Save Entry
-</button>
-
-</div>
-
-</div>
-
-<script>
-
-// SIDEBAR
-
-function toggleSidebar(){
-
-const sidebar = document.getElementById("sidebar");
-const main = document.getElementById("main");
-
-if(window.innerWidth <= 900){
-
-sidebar.classList.toggle("show");
-
-}else{
-
-sidebar.classList.toggle("hide");
-main.classList.toggle("full");
-
-}
-
-}
-
-// PAGE SWITCH
-
-function showPage(pageId,btn){
-
-document.querySelectorAll(".page").forEach(page=>{
-page.classList.remove("active");
-});
-
-document.getElementById(pageId).classList.add("active");
-
-document.querySelectorAll(".menu button").forEach(button=>{
-button.classList.remove("active");
-});
-
-btn.classList.add("active");
-
-}
-
-// MODAL
-
-function openModal(){
-document.getElementById("accountModal").style.display = "flex";
-}
-
-function openJournalModal(){
-document.getElementById("journalModal").style.display = "flex";
-}
-
-window.onclick = function(e){
-
-if(e.target == document.getElementById("accountModal")){
-document.getElementById("accountModal").style.display = "none";
-}
-
-if(e.target == document.getElementById("journalModal")){
-document.getElementById("journalModal").style.display = "none";
-}
-
-}
-
-// ADD ACCOUNT
-
-function addAccount(){
-
-let code = document.getElementById("accountCode").value;
-let name = document.getElementById("accountName").value;
-let type = document.getElementById("accountType").value;
-let balance = document.getElementById("accountBalance").value;
-
-if(code=="" || name=="" || balance==""){
-alert("Fill all fields");
-return;
-}
-
-let classType = type.toLowerCase();
-
-let row = `
-<tr>
-
-<td>${code}</td>
-
-<td>${name}</td>
-
-<td>
-<span class="type-badge ${classType}">
-${type}
-</span>
-</td>
-
-<td>₱${parseFloat(balance).toLocaleString()}</td>
-
-<td>
-<button class="action-btn delete-btn" onclick="deleteRow(this)">
-<i class="fa-solid fa-trash"></i>
-</button>
-</td>
-
-</tr>
-`;
-
-document.querySelector("#accountsTable tbody").innerHTML += row;
-
-document.getElementById("accountModal").style.display = "none";
-
-}
-
-// ADD JOURNAL ENTRY
-
-function addJournalEntry(){
-
-let date = document.getElementById("journalDate").value;
-let account = document.getElementById("journalAccount").value;
-let debit = parseFloat(document.getElementById("journalDebit").value) || 0;
-let credit = parseFloat(document.getElementById("journalCredit").value) || 0;
-let desc = document.getElementById("journalDesc").value;
-
-if(date=="" || account==""){
-alert("Fill all fields");
-return;
-}
-
-let row = `
-<tr>
-
-<td>${date}</td>
-
-<td>${account}</td>
-
-<td>₱${debit.toLocaleString()}</td>
-
-<td>₱${credit.toLocaleString()}</td>
-
-<td>${desc}</td>
-
-<td>
-<button class="action-btn delete-btn" onclick="deleteRow(this)">
-<i class="fa-solid fa-trash"></i>
-</button>
-</td>
-
-</tr>
-`;
-
-document.querySelector("#journalTable tbody").innerHTML += row;
-
-// AUTO UPDATE FINANCIALS
-
-let assets = 250000 + debit;
-let liabilities = 85000;
-let income = 320000 + credit;
-let expenses = 175000;
-let equity = assets - liabilities;
-let profit = income - expenses;
-
-document.getElementById("totalAssets").innerText =
-`₱${assets.toLocaleString()}`;
-
-document.getElementById("totalLiabilities").innerText =
-`₱${liabilities.toLocaleString()}`;
-
-document.getElementById("totalEquity").innerText =
-`₱${equity.toLocaleString()}`;
-
-document.getElementById("incomeTotal").innerText =
-`₱${income.toLocaleString()}`;
-
-document.getElementById("expenseTotal").innerText =
-`₱${expenses.toLocaleString()}`;
-
-document.getElementById("netProfit").innerText =
-`₱${profit.toLocaleString()}`;
-
-document.getElementById("dashboardAssets").innerText =
-`₱${assets.toLocaleString()}`;
-
-document.getElementById("dashboardLiabilities").innerText =
-`₱${liabilities.toLocaleString()}`;
-
-document.getElementById("dashboardIncome").innerText =
-`₱${income.toLocaleString()}`;
-
-document.getElementById("dashboardProfit").innerText =
-`₱${profit.toLocaleString()}`;
-
-document.getElementById("journalModal").style.display = "none";
-
-}
-
-// DELETE
-
-function deleteRow(btn){
-
-if(confirm("Delete this record?")){
-btn.parentElement.parentElement.remove();
-}
-
-}
-
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>
