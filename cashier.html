@@ -104,7 +104,6 @@ body{
     border-radius:20px;
     padding:15px;
     text-align:center;
-    cursor:pointer;
     transition:.3s;
     border:1px solid transparent;
 }
@@ -262,31 +261,18 @@ body{
 }
 
 .receipt{
-
     position:fixed;
-
     top:50%;
-
     left:50%;
-
     transform:translate(-50%,-50%);
-
     width:320px;
-
     background:white;
-
     color:black;
-
     padding:20px;
-
     border-radius:10px;
-
     display:none;
-
     z-index:9999;
-
     font-family:monospace;
-
     box-shadow:0 0 20px rgba(0,0,0,0.5);
 }
 
@@ -581,8 +567,8 @@ function addItem(name,price){
     }else{
 
         cart.push({
-            name,
-            price,
+            name:name,
+            price:price,
             qty:1
         });
 
@@ -671,6 +657,13 @@ function clearCart(){
 
 function checkout(){
 
+    if(cart.length === 0){
+
+        alert("Cart is empty!");
+
+        return;
+    }
+
     let total = cart.reduce((sum,item)=>
 
         sum + (item.price * item.qty)
@@ -695,7 +688,7 @@ function checkout(){
     document.getElementById("receiptDate").innerText =
     new Date().toLocaleString();
 
-    document.getElementById("receiptItems").innerHTML = cart.map(item=>
+    document.getElementById("receiptItems").innerHTML = cart.map(item =>
 
         `<p>
             <span>${item.qty}x ${item.name}</span>
@@ -712,28 +705,31 @@ function checkout(){
 
     let sales = JSON.parse(localStorage.getItem("sales")) || [];
 
-   sales.push({
+    sales.push({
 
-    date:new Date().toLocaleString(),
+        date:new Date().toLocaleString(),
 
-    total,
+        total:total,
 
-    items: cart.map(item => ({
+        items: cart.map(item => ({
 
-        name:item.name,
+            name:item.name,
 
-        qty:item.qty,
+            qty:item.qty,
 
-        price:item.price
+            price:item.price
 
-    }))
+        }))
 
-});
+    });
+
     localStorage.setItem("sales",JSON.stringify(sales));
 
     cart = [];
 
     renderCart();
+
+    document.getElementById("cash").value = "";
 }
 
 function closeReceipt(){
@@ -741,14 +737,12 @@ function closeReceipt(){
     document.getElementById("receipt").style.display = "none";
 
     document.getElementById("overlay").style.display = "none";
-
 }
 
 function updateTime(){
 
     document.getElementById("time").innerText =
     new Date().toLocaleString();
-
 }
 
 setInterval(updateTime,1000);
