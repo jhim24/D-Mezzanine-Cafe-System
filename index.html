@@ -11,7 +11,7 @@
 
 <meta name="theme-color" content="#facc15">
 
-<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="./icon-192.png?v=10">
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
@@ -648,159 +648,11 @@ table{
 
     </div>
 
-    <div class="content">
-
-        <div class="box">
-
-            <div class="section-title">
-
-                <h2>Recent Orders</h2>
-
-                <button class="btn">Add Order</button>
-
-            </div>
-
-            <table>
-
-                <thead>
-
-                    <tr>
-                        <th>Order ID</th>
-                        <th>Customer</th>
-                        <th>Item</th>
-                        <th>Total</th>
-                        <th>Status</th>
-                    </tr>
-
-                </thead>
-
-                <tbody>
-
-                    <tr>
-                        <td>#1001</td>
-                        <td>John Cruz</td>
-                        <td>Spanish Latte</td>
-                        <td>₱220</td>
-                        <td><span class="status completed">Completed</span></td>
-                    </tr>
-
-                    <tr>
-                        <td>#1002</td>
-                        <td>Maria Santos</td>
-                        <td>Carbonara</td>
-                        <td>₱350</td>
-                        <td><span class="status pending">Pending</span></td>
-                    </tr>
-
-                    <tr>
-                        <td>#1003</td>
-                        <td>James Byron</td>
-                        <td>Dark Mocha</td>
-                        <td>₱280</td>
-                        <td><span class="status completed">Completed</span></td>
-                    </tr>
-
-                    <tr>
-                        <td>#1004</td>
-                        <td>Angela Reyes</td>
-                        <td>Chicken Wings</td>
-                        <td>₱420</td>
-                        <td><span class="status pending">Pending</span></td>
-                    </tr>
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-        <div class="box">
-
-            <div class="section-title">
-                <h2>Recent Activity</h2>
-            </div>
-
-            <div class="activity">
-
-                <i class="fa-solid fa-cart-plus"></i>
-
-                <div>
-                    <h4>New Order Received</h4>
-                    <p>Table 5 ordered Spanish Latte.</p>
-                </div>
-
-            </div>
-
-            <div class="activity">
-
-                <i class="fa-solid fa-box"></i>
-
-                <div>
-                    <h4>Inventory Alert</h4>
-                    <p>Milk stock is running low.</p>
-                </div>
-
-            </div>
-
-            <div class="activity">
-
-                <i class="fa-solid fa-user"></i>
-
-                <div>
-                    <h4>New Customer</h4>
-                    <p>New loyalty account created.</p>
-                </div>
-
-            </div>
-
-            <div class="activity">
-
-                <i class="fa-solid fa-money-check-dollar"></i>
-
-                <div>
-                    <h4>Sales Report</h4>
-                    <p>Daily sales report generated.</p>
-                </div>
-
-            </div>
-
-            <div class="quick-actions">
-
-                <div class="quick-btn">
-                    <i class="fa-solid fa-plus"></i>
-                    <p>New Order</p>
-                </div>
-
-                <div class="quick-btn">
-                    <i class="fa-solid fa-calendar"></i>
-                    <p>Reservation</p>
-                </div>
-
-                <div class="quick-btn">
-                    <i class="fa-solid fa-mug-hot"></i>
-                    <p>Add Menu</p>
-                </div>
-
-                <div class="quick-btn">
-                    <i class="fa-solid fa-chart-column"></i>
-                    <p>Reports</p>
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="footer">
-        © 2026 D' Mezzanine Cafe • Premium Cafe Management System
-    </div>
-
 </div>
 
 <script>
 
-if ('serviceWorker' in navigator') {
+if ('serviceWorker' in navigator) {
 
     navigator.serviceWorker.getRegistrations().then(function(registrations) {
 
