@@ -50,6 +50,11 @@ border-right:1px solid #2d2d2d;
 overflow:auto;
 transition:.3s;
 z-index:999;
+left:0;
+}
+
+.sidebar.hide{
+left:-260px;
 }
 
 .logo{
@@ -102,6 +107,11 @@ transform:translateX(5px);
 .main{
 margin-left:260px;
 width:100%;
+transition:.3s;
+}
+
+.main.full{
+margin-left:0;
 }
 
 /* HERO */
@@ -133,6 +143,24 @@ color:#ddd;
 font-size:20px;
 }
 
+/* TOGGLE BUTTON */
+
+.toggle-btn{
+position:fixed;
+top:15px;
+left:15px;
+background:linear-gradient(45deg,var(--gold2),var(--gold));
+border:none;
+width:50px;
+height:50px;
+border-radius:12px;
+color:black;
+font-size:22px;
+cursor:pointer;
+z-index:2000;
+font-weight:bold;
+}
+
 /* INSTALL BUTTON */
 
 .install-btn{
@@ -153,36 +181,18 @@ font-size:16px;
 
 /* MOBILE */
 
-.mobile-menu{
-display:none;
-position:fixed;
-top:15px;
-left:15px;
-background:var(--gold2);
-border:none;
-padding:12px;
-border-radius:10px;
-color:white;
-font-size:20px;
-z-index:1000;
-}
-
 @media(max-width:900px){
 
 .sidebar{
-left:-100%;
+left:-260px;
 }
 
-.sidebar.active{
+.sidebar.show{
 left:0;
 }
 
 .main{
 margin-left:0;
-}
-
-.mobile-menu{
-display:block;
 }
 
 .hero{
@@ -204,9 +214,13 @@ font-size:16px;
 
 <body>
 
-<button class="mobile-menu" onclick="toggleMenu()">
+<!-- TOGGLE BUTTON -->
+
+<button class="toggle-btn" onclick="toggleSidebar()">
 <i class="fa-solid fa-bars"></i>
 </button>
+
+<!-- SIDEBAR -->
 
 <div class="sidebar" id="sidebar">
 
@@ -238,7 +252,9 @@ font-size:16px;
 
 </div>
 
-<div class="main">
+<!-- MAIN -->
+
+<div class="main" id="main">
 
 <div class="hero">
 
@@ -258,6 +274,8 @@ POS system, inventory management, and sales monitoring.
 
 </div>
 
+<!-- INSTALL BUTTON -->
+
 <button class="install-btn" id="installBtn">
 <i class="fa-solid fa-download"></i>
  Install App
@@ -265,8 +283,24 @@ POS system, inventory management, and sales monitoring.
 
 <script>
 
-function toggleMenu(){
-document.getElementById("sidebar").classList.toggle("active");
+// SIDEBAR TOGGLE
+
+function toggleSidebar(){
+
+const sidebar = document.getElementById("sidebar");
+const main = document.getElementById("main");
+
+if(window.innerWidth <= 900){
+
+sidebar.classList.toggle("show");
+
+}else{
+
+sidebar.classList.toggle("hide");
+main.classList.toggle("full");
+
+}
+
 }
 
 // INSTALL APP
