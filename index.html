@@ -6,6 +6,10 @@
 
 <title>D' Mezzanine Premium Accounting System</title>
 
+<link rel="manifest" href="manifest.json">
+
+<meta name="theme-color" content="#f0b43a">
+
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
@@ -49,6 +53,7 @@ transition:.4s ease;
 z-index:999;
 border-right:1px solid rgba(255,255,255,.06);
 box-shadow:0 0 30px rgba(0,0,0,.4);
+left:0;
 }
 
 .sidebar.hide{
@@ -58,14 +63,12 @@ left:-270px;
 .logo{
 text-align:center;
 margin-bottom:35px;
-animation:fadeIn 1s ease;
 }
 
 .logo i{
 font-size:65px;
 color:var(--gold);
 margin-bottom:12px;
-text-shadow:0 0 20px rgba(240,180,58,.3);
 }
 
 .logo h1{
@@ -103,7 +106,6 @@ margin-right:10px;
 background:linear-gradient(45deg,var(--gold2),var(--gold));
 color:black;
 transform:translateX(5px);
-box-shadow:0 0 20px rgba(240,180,58,.25);
 }
 
 /* MAIN */
@@ -132,13 +134,11 @@ justify-content:center;
 align-items:center;
 text-align:center;
 padding:30px;
-animation:zoomBg 15s infinite alternate ease-in-out;
 }
 
 .header h1{
 font-size:58px;
 color:var(--gold);
-text-shadow:0 0 20px rgba(240,180,58,.3);
 }
 
 .header p{
@@ -271,10 +271,6 @@ transition:.3s;
 height:55px;
 }
 
-tr{
-border:1px solid rgba(255,255,255,.08);
-}
-
 tbody tr:hover td{
 background:#252525;
 }
@@ -359,7 +355,6 @@ padding:30px;
 border-radius:28px;
 width:90%;
 max-width:500px;
-box-shadow:0 0 30px rgba(0,0,0,.5);
 }
 
 .modal-content h2{
@@ -406,34 +401,6 @@ color:black;
 font-size:20px;
 cursor:pointer;
 z-index:1000;
-box-shadow:0 0 20px rgba(240,180,58,.3);
-transition:.3s;
-}
-
-.toggle-btn:hover{
-transform:scale(1.08);
-}
-
-/* ANIMATION */
-
-@keyframes fadeIn{
-from{
-opacity:0;
-transform:translateY(20px);
-}
-to{
-opacity:1;
-transform:translateY(0);
-}
-}
-
-@keyframes zoomBg{
-0%{
-background-size:100%;
-}
-100%{
-background-size:110%;
-}
 }
 
 /* MOBILE */
@@ -456,36 +423,31 @@ margin-left:0;
 font-size:38px;
 }
 
-.header p{
-font-size:15px;
-}
-
 .dashboard-cards{
 grid-template-columns:1fr;
 }
 
-.accounting-header{
-flex-direction:column;
-align-items:flex-start;
 }
 
-th{
-font-size:13px;
-padding:16px;
-}
+/* ANIMATION */
 
-td{
-font-size:13px;
-padding:10px;
-height:50px;
+@keyframes fadeIn{
+from{
+opacity:0;
+transform:translateY(20px);
 }
-
+to{
+opacity:1;
+transform:translateY(0);
+}
 }
 
 </style>
 </head>
 
 <body>
+
+<!-- TOGGLE -->
 
 <button class="toggle-btn" onclick="toggleSidebar()">
 <i class="fa-solid fa-bars"></i>
@@ -513,17 +475,17 @@ height:50px;
  Chart of Accounts
 </button>
 
-<button>
+<button onclick="showPage('journalentries',this)">
 <i class="fa-solid fa-book"></i>
  Journal Entries
 </button>
 
-<button>
+<button onclick="showPage('balancesheet',this)">
 <i class="fa-solid fa-building-columns"></i>
  Balance Sheet
 </button>
 
-<button>
+<button onclick="showPage('incomestatement',this)">
 <i class="fa-solid fa-money-bill-trend-up"></i>
  Income Statement
 </button>
@@ -559,25 +521,25 @@ Professional Coffee Shop Accounting & Financial System
 <div class="card">
 <i class="fa-solid fa-wallet"></i>
 <h2>Assets</h2>
-<h1>₱250,000</h1>
+<h1 id="dashboardAssets">₱250,000</h1>
 </div>
 
 <div class="card">
 <i class="fa-solid fa-file-invoice-dollar"></i>
 <h2>Liabilities</h2>
-<h1>₱85,000</h1>
+<h1 id="dashboardLiabilities">₱85,000</h1>
 </div>
 
 <div class="card">
 <i class="fa-solid fa-money-bill-trend-up"></i>
 <h2>Income</h2>
-<h1>₱320,000</h1>
+<h1 id="dashboardIncome">₱320,000</h1>
 </div>
 
 <div class="card">
 <i class="fa-solid fa-coins"></i>
 <h2>Profit</h2>
-<h1>₱145,000</h1>
+<h1 id="dashboardProfit">₱145,000</h1>
 </div>
 
 </div>
@@ -626,15 +588,9 @@ Professional Coffee Shop Accounting & Financial System
 <td><span class="type-badge asset">Asset</span></td>
 <td>₱50,000</td>
 <td>
-
-<button class="action-btn edit-btn">
-<i class="fa-solid fa-pen"></i>
-</button>
-
 <button class="action-btn delete-btn" onclick="deleteRow(this)">
 <i class="fa-solid fa-trash"></i>
 </button>
-
 </td>
 </tr>
 
@@ -644,33 +600,9 @@ Professional Coffee Shop Accounting & Financial System
 <td><span class="type-badge liability">Liability</span></td>
 <td>₱35,000</td>
 <td>
-
-<button class="action-btn edit-btn">
-<i class="fa-solid fa-pen"></i>
-</button>
-
 <button class="action-btn delete-btn" onclick="deleteRow(this)">
 <i class="fa-solid fa-trash"></i>
 </button>
-
-</td>
-</tr>
-
-<tr>
-<td>401</td>
-<td>Coffee Sales</td>
-<td><span class="type-badge income">Income</span></td>
-<td>₱120,000</td>
-<td>
-
-<button class="action-btn edit-btn">
-<i class="fa-solid fa-pen"></i>
-</button>
-
-<button class="action-btn delete-btn" onclick="deleteRow(this)">
-<i class="fa-solid fa-trash"></i>
-</button>
-
 </td>
 </tr>
 
@@ -682,18 +614,147 @@ Professional Coffee Shop Accounting & Financial System
 
 </div>
 
+<!-- JOURNAL ENTRIES -->
+
+<div class="page" id="journalentries">
+
+<div class="accounting-header">
+
+<h1>
+<i class="fa-solid fa-book"></i>
+ Journal Entries
+</h1>
+
+<button class="add-btn" onclick="openJournalModal()">
+<i class="fa-solid fa-plus"></i>
+ Add Entry
+</button>
+
 </div>
 
-<!-- MODAL -->
+<div class="table-container">
+
+<table id="journalTable">
+
+<thead>
+
+<tr>
+<th>Date</th>
+<th>Account</th>
+<th>Debit</th>
+<th>Credit</th>
+<th>Description</th>
+<th>Action</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+<td>2026-05-17</td>
+<td>Coffee Sales</td>
+<td>₱5,000</td>
+<td>₱0</td>
+<td>Daily Sales</td>
+<td>
+<button class="action-btn delete-btn" onclick="deleteRow(this)">
+<i class="fa-solid fa-trash"></i>
+</button>
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<!-- BALANCE SHEET -->
+
+<div class="page" id="balancesheet">
+
+<div class="accounting-header">
+
+<h1>
+<i class="fa-solid fa-building-columns"></i>
+ Balance Sheet
+</h1>
+
+</div>
+
+<div class="dashboard-cards">
+
+<div class="card">
+<i class="fa-solid fa-wallet"></i>
+<h2>Total Assets</h2>
+<h1 id="totalAssets">₱250,000</h1>
+</div>
+
+<div class="card">
+<i class="fa-solid fa-file-invoice-dollar"></i>
+<h2>Total Liabilities</h2>
+<h1 id="totalLiabilities">₱85,000</h1>
+</div>
+
+<div class="card">
+<i class="fa-solid fa-coins"></i>
+<h2>Equity</h2>
+<h1 id="totalEquity">₱165,000</h1>
+</div>
+
+</div>
+
+</div>
+
+<!-- INCOME STATEMENT -->
+
+<div class="page" id="incomestatement">
+
+<div class="accounting-header">
+
+<h1>
+<i class="fa-solid fa-money-bill-trend-up"></i>
+ Income Statement
+</h1>
+
+</div>
+
+<div class="dashboard-cards">
+
+<div class="card">
+<i class="fa-solid fa-money-bill"></i>
+<h2>Total Income</h2>
+<h1 id="incomeTotal">₱320,000</h1>
+</div>
+
+<div class="card">
+<i class="fa-solid fa-file-invoice"></i>
+<h2>Total Expenses</h2>
+<h1 id="expenseTotal">₱175,000</h1>
+</div>
+
+<div class="card">
+<i class="fa-solid fa-chart-line"></i>
+<h2>Net Profit</h2>
+<h1 id="netProfit">₱145,000</h1>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ACCOUNT MODAL -->
 
 <div class="modal" id="accountModal">
 
 <div class="modal-content">
 
-<h2>
-<i class="fa-solid fa-plus"></i>
- Add New Account
-</h2>
+<h2>Add New Account</h2>
 
 <input type="text" id="accountCode" placeholder="Account Code">
 
@@ -713,6 +774,32 @@ Professional Coffee Shop Accounting & Financial System
 
 <button class="save-btn" onclick="addAccount()">
 Save Account
+</button>
+
+</div>
+
+</div>
+
+<!-- JOURNAL MODAL -->
+
+<div class="modal" id="journalModal">
+
+<div class="modal-content">
+
+<h2>Add Journal Entry</h2>
+
+<input type="date" id="journalDate">
+
+<input type="text" id="journalAccount" placeholder="Account Name">
+
+<input type="number" id="journalDebit" placeholder="Debit Amount">
+
+<input type="number" id="journalCredit" placeholder="Credit Amount">
+
+<input type="text" id="journalDesc" placeholder="Description">
+
+<button class="save-btn" onclick="addJournalEntry()">
+Save Entry
 </button>
 
 </div>
@@ -765,12 +852,18 @@ function openModal(){
 document.getElementById("accountModal").style.display = "flex";
 }
 
+function openJournalModal(){
+document.getElementById("journalModal").style.display = "flex";
+}
+
 window.onclick = function(e){
 
-const modal = document.getElementById("accountModal");
+if(e.target == document.getElementById("accountModal")){
+document.getElementById("accountModal").style.display = "none";
+}
 
-if(e.target == modal){
-modal.style.display = "none";
+if(e.target == document.getElementById("journalModal")){
+document.getElementById("journalModal").style.display = "none";
 }
 
 }
@@ -784,8 +877,8 @@ let name = document.getElementById("accountName").value;
 let type = document.getElementById("accountType").value;
 let balance = document.getElementById("accountBalance").value;
 
-if(code == "" || name == "" || balance == ""){
-alert("Please fill all fields");
+if(code=="" || name=="" || balance==""){
+alert("Fill all fields");
 return;
 }
 
@@ -807,15 +900,9 @@ ${type}
 <td>₱${parseFloat(balance).toLocaleString()}</td>
 
 <td>
-
-<button class="action-btn edit-btn">
-<i class="fa-solid fa-pen"></i>
-</button>
-
 <button class="action-btn delete-btn" onclick="deleteRow(this)">
 <i class="fa-solid fa-trash"></i>
 </button>
-
 </td>
 
 </tr>
@@ -825,9 +912,87 @@ document.querySelector("#accountsTable tbody").innerHTML += row;
 
 document.getElementById("accountModal").style.display = "none";
 
-document.getElementById("accountCode").value = "";
-document.getElementById("accountName").value = "";
-document.getElementById("accountBalance").value = "";
+}
+
+// ADD JOURNAL ENTRY
+
+function addJournalEntry(){
+
+let date = document.getElementById("journalDate").value;
+let account = document.getElementById("journalAccount").value;
+let debit = parseFloat(document.getElementById("journalDebit").value) || 0;
+let credit = parseFloat(document.getElementById("journalCredit").value) || 0;
+let desc = document.getElementById("journalDesc").value;
+
+if(date=="" || account==""){
+alert("Fill all fields");
+return;
+}
+
+let row = `
+<tr>
+
+<td>${date}</td>
+
+<td>${account}</td>
+
+<td>₱${debit.toLocaleString()}</td>
+
+<td>₱${credit.toLocaleString()}</td>
+
+<td>${desc}</td>
+
+<td>
+<button class="action-btn delete-btn" onclick="deleteRow(this)">
+<i class="fa-solid fa-trash"></i>
+</button>
+</td>
+
+</tr>
+`;
+
+document.querySelector("#journalTable tbody").innerHTML += row;
+
+// AUTO UPDATE FINANCIALS
+
+let assets = 250000 + debit;
+let liabilities = 85000;
+let income = 320000 + credit;
+let expenses = 175000;
+let equity = assets - liabilities;
+let profit = income - expenses;
+
+document.getElementById("totalAssets").innerText =
+`₱${assets.toLocaleString()}`;
+
+document.getElementById("totalLiabilities").innerText =
+`₱${liabilities.toLocaleString()}`;
+
+document.getElementById("totalEquity").innerText =
+`₱${equity.toLocaleString()}`;
+
+document.getElementById("incomeTotal").innerText =
+`₱${income.toLocaleString()}`;
+
+document.getElementById("expenseTotal").innerText =
+`₱${expenses.toLocaleString()}`;
+
+document.getElementById("netProfit").innerText =
+`₱${profit.toLocaleString()}`;
+
+document.getElementById("dashboardAssets").innerText =
+`₱${assets.toLocaleString()}`;
+
+document.getElementById("dashboardLiabilities").innerText =
+`₱${liabilities.toLocaleString()}`;
+
+document.getElementById("dashboardIncome").innerText =
+`₱${income.toLocaleString()}`;
+
+document.getElementById("dashboardProfit").innerText =
+`₱${profit.toLocaleString()}`;
+
+document.getElementById("journalModal").style.display = "none";
 
 }
 
@@ -835,10 +1000,8 @@ document.getElementById("accountBalance").value = "";
 
 function deleteRow(btn){
 
-if(confirm("Delete this account?")){
-
+if(confirm("Delete this record?")){
 btn.parentElement.parentElement.remove();
-
 }
 
 }
