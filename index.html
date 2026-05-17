@@ -1,207 +1,450 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>D' Mezzanine Cafe Dashboard</title>
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<title>Cafe System</title>
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
 
-<!-- CSS -->
-<link rel="stylesheet" href="style.css">
+body{
+    background:#f5f7fb;
+    display:flex;
+}
 
-<!-- PWA -->
-<link rel="manifest" href="manifest.json">
+.sidebar{
+    width:260px;
+    height:100vh;
+    background:#111827;
+    color:white;
+    position:fixed;
+    left:0;
+    top:0;
+    padding:20px;
+    overflow-y:auto;
+}
 
-<meta name="theme-color"
-content="#111827">
+.logo{
+    text-align:center;
+    margin-bottom:30px;
+}
 
-<!-- IOS -->
-<link rel="apple-touch-icon"
-href="assets/images/icon-192.png">
+.logo h2{
+    font-size:24px;
+    color:#facc15;
+}
 
-<meta name="apple-mobile-web-app-capable"
-content="yes">
+.logo p{
+    font-size:12px;
+    color:#9ca3af;
+}
 
-<meta name="apple-mobile-web-app-status-bar-style"
-content="black-translucent">
+.menu{
+    list-style:none;
+}
 
-<!-- ICONS -->
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+.menu li{
+    margin-bottom:12px;
+}
 
+.menu a{
+    text-decoration:none;
+    color:white;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:14px;
+    border-radius:12px;
+    transition:.3s;
+    font-size:15px;
+}
+
+.menu a:hover,
+.menu a.active{
+    background:#facc15;
+    color:#111827;
+}
+
+.main{
+    margin-left:260px;
+    width:calc(100% - 260px);
+    padding:25px;
+}
+
+.topbar{
+    background:white;
+    padding:20px;
+    border-radius:18px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 2px 10px rgba(0,0,0,.05);
+    margin-bottom:25px;
+}
+
+.topbar h1{
+    font-size:24px;
+    color:#111827;
+}
+
+.admin{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.admin img{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+    margin-bottom:25px;
+}
+
+.card{
+    background:white;
+    padding:25px;
+    border-radius:18px;
+    box-shadow:0 2px 10px rgba(0,0,0,.05);
+    position:relative;
+    overflow:hidden;
+}
+
+.card i{
+    position:absolute;
+    right:20px;
+    top:20px;
+    font-size:35px;
+    opacity:.15;
+}
+
+.card h3{
+    font-size:15px;
+    color:#6b7280;
+    margin-bottom:10px;
+}
+
+.card h2{
+    font-size:28px;
+    color:#111827;
+}
+
+.card p{
+    margin-top:8px;
+    font-size:13px;
+    color:#10b981;
+}
+
+.content{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:20px;
+}
+
+.table-box,
+.activity-box{
+    background:white;
+    padding:20px;
+    border-radius:18px;
+    box-shadow:0 2px 10px rgba(0,0,0,.05);
+}
+
+.section-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.section-title h2{
+    font-size:20px;
+    color:#111827;
+}
+
+button{
+    background:#111827;
+    color:white;
+    border:none;
+    padding:10px 16px;
+    border-radius:10px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+button:hover{
+    background:#facc15;
+    color:#111827;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+table th{
+    background:#111827;
+    color:white;
+    padding:14px;
+    text-align:left;
+    font-size:14px;
+}
+
+table td{
+    padding:14px;
+    border-bottom:1px solid #e5e7eb;
+    font-size:14px;
+}
+
+.status{
+    padding:6px 12px;
+    border-radius:30px;
+    font-size:12px;
+    font-weight:600;
+}
+
+.completed{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.pending{
+    background:#fef3c7;
+    color:#92400e;
+}
+
+.activity{
+    display:flex;
+    gap:12px;
+    margin-bottom:18px;
+    padding-bottom:18px;
+    border-bottom:1px solid #e5e7eb;
+}
+
+.activity i{
+    width:45px;
+    height:45px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:#111827;
+    color:#facc15;
+}
+
+.activity h4{
+    font-size:15px;
+    margin-bottom:4px;
+}
+
+.activity p{
+    font-size:13px;
+    color:#6b7280;
+}
+
+@media(max-width:900px){
+
+.content{
+    grid-template-columns:1fr;
+}
+
+.sidebar{
+    width:80px;
+}
+
+.sidebar .logo p,
+.sidebar .menu a span{
+    display:none;
+}
+
+.main{
+    margin-left:80px;
+    width:calc(100% - 80px);
+}
+
+}
+</style>
 </head>
-
 <body>
-
-<!-- SIDEBAR -->
 
 <div class="sidebar">
 
     <div class="logo">
-
-        <i class="fa-solid fa-mug-hot"></i>
-
-        Cafe System
-
+        <h2>D' Mezzanine</h2>
+        <p>Premium Cafe Dashboard</p>
     </div>
 
-    <ul>
-
-        <li>
-
-            <a href="index.html">
-
-                <i class="fa-solid fa-chart-line"></i>
-
-                Dashboard
-
-            </a>
-
-        </li>
-
-        <li>
-
-            <a href="pages/pos.html">
-
-                <i class="fa-solid fa-cash-register"></i>
-
-                POS
-
-            </a>
-
-        </li>
-
-        <li>
-
-            <a href="pages/inventory.html">
-
-                <i class="fa-solid fa-boxes-stacked"></i>
-
-                Inventory
-
-            </a>
-
-        </li>
-
-        <li>
-
-            <a href="pages/sales.html">
-
-                <i class="fa-solid fa-chart-column"></i>
-
-                Sales
-
-            </a>
-
-        </li>
-
-        <li>
-
-            <a href="pages/accounting.html">
-
-                <i class="fa-solid fa-file-invoice-dollar"></i>
-
-                Accounting
-
-            </a>
-
-        </li>
-
-        <li>
-
-            <a href="pages/employees.html">
-
-                <i class="fa-solid fa-users"></i>
-
-                Employees
-
-            </a>
-
-        </li>
-
+    <ul class="menu">
+        <li><a href="#" class="active"><i class="fa-solid fa-chart-line"></i><span>Dashboard</span></a></li>
+        <li><a href="#"><i class="fa-solid fa-cash-register"></i><span>POS</span></a></li>
+        <li><a href="#"><i class="fa-solid fa-box"></i><span>Inventory</span></a></li>
+        <li><a href="#"><i class="fa-solid fa-mug-hot"></i><span>Products</span></a></li>
+        <li><a href="#"><i class="fa-solid fa-users"></i><span>Customers</span></a></li>
+        <li><a href="#"><i class="fa-solid fa-user-tie"></i><span>Employees</span></a></li>
+        <li><a href="#"><i class="fa-solid fa-file-invoice-dollar"></i><span>Accounting</span></a></li>
+        <li><a href="#"><i class="fa-solid fa-chart-pie"></i><span>Reports</span></a></li>
+        <li><a href="#"><i class="fa-solid fa-gear"></i><span>Settings</span></a></li>
     </ul>
 
 </div>
 
-<!-- MAIN -->
-
 <div class="main">
 
     <div class="topbar">
+        <div>
+            <h1>Dashboard Overview</h1>
+            <p>Welcome back, Admin ☕</p>
+        </div>
 
-        <h1>Dashboard</h1>
-
-        <button id="installBtn"
-        class="install-btn">
-
-            <i class="fa-solid fa-download"></i>
-
-            Install App
-
-        </button>
-
+        <div class="admin">
+            <img src="https://i.imgur.com/6VBx3io.png">
+            <div>
+                <h4>Administrator</h4>
+                <small>Owner Access</small>
+            </div>
+        </div>
     </div>
-
-    <!-- DASHBOARD CARDS -->
 
     <div class="cards">
 
         <div class="card">
-
-            <div class="card-icon">
-
-                <i class="fa-solid fa-money-bill-wave"></i>
-
-            </div>
-
-            <h2>Today's Sales</h2>
-
-            <p>₱ 0.00</p>
-
+            <i class="fa-solid fa-money-bill-wave"></i>
+            <h3>Today's Sales</h3>
+            <h2>₱ 24,580</h2>
+            <p>+12% from yesterday</p>
         </div>
 
         <div class="card">
-
-            <div class="card-icon">
-
-                <i class="fa-solid fa-receipt"></i>
-
-            </div>
-
-            <h2>Total Orders</h2>
-
-            <p>0</p>
-
+            <i class="fa-solid fa-cart-shopping"></i>
+            <h3>Total Orders</h3>
+            <h2>158</h2>
+            <p>+8 new orders</p>
         </div>
 
         <div class="card">
-
-            <div class="card-icon">
-
-                <i class="fa-solid fa-mug-saucer"></i>
-
-            </div>
-
-            <h2>Products</h2>
-
-            <p>0</p>
-
+            <i class="fa-solid fa-users"></i>
+            <h3>Customers</h3>
+            <h2>1,284</h2>
+            <p>+25 this week</p>
         </div>
 
         <div class="card">
+            <i class="fa-solid fa-mug-hot"></i>
+            <h3>Best Seller</h3>
+            <h2>Spanish Latte</h2>
+            <p>Top selling today</p>
+        </div>
 
-            <div class="card-icon">
+    </div>
 
-                <i class="fa-solid fa-user-group"></i>
+    <div class="content">
 
+        <div class="table-box">
+
+            <div class="section-title">
+                <h2>Recent Orders</h2>
+                <button>Add Order</button>
             </div>
 
-            <h2>Employees</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer</th>
+                        <th>Item</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
 
-            <p>0</p>
+                <tbody>
+                    <tr>
+                        <td>#1001</td>
+                        <td>John Cruz</td>
+                        <td>Spanish Latte</td>
+                        <td>₱220</td>
+                        <td><span class="status completed">Completed</span></td>
+                    </tr>
+
+                    <tr>
+                        <td>#1002</td>
+                        <td>Maria Santos</td>
+                        <td>Carbonara</td>
+                        <td>₱350</td>
+                        <td><span class="status pending">Pending</span></td>
+                    </tr>
+
+                    <tr>
+                        <td>#1003</td>
+                        <td>James Dela Cruz</td>
+                        <td>Mocha Frappe</td>
+                        <td>₱190</td>
+                        <td><span class="status completed">Completed</span></td>
+                    </tr>
+
+                    <tr>
+                        <td>#1004</td>
+                        <td>Angela Reyes</td>
+                        <td>Chicken Wings</td>
+                        <td>₱420</td>
+                        <td><span class="status pending">Pending</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <div class="activity-box">
+
+            <div class="section-title">
+                <h2>Recent Activity</h2>
+            </div>
+
+            <div class="activity">
+                <i class="fa-solid fa-cart-plus"></i>
+                <div>
+                    <h4>New Order Received</h4>
+                    <p>Table 5 ordered Spanish Latte.</p>
+                </div>
+            </div>
+
+            <div class="activity">
+                <i class="fa-solid fa-box"></i>
+                <div>
+                    <h4>Inventory Alert</h4>
+                    <p>Milk stock is running low.</p>
+                </div>
+            </div>
+
+            <div class="activity">
+                <i class="fa-solid fa-user"></i>
+                <div>
+                    <h4>New Customer</h4>
+                    <p>Customer loyalty account created.</p>
+                </div>
+            </div>
+
+            <div class="activity">
+                <i class="fa-solid fa-money-check-dollar"></i>
+                <div>
+                    <h4>Sales Updated</h4>
+                    <p>Daily sales report generated.</p>
+                </div>
+            </div>
 
         </div>
 
@@ -209,7 +452,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 
 </div>
 
-<script src="script.js"></script>
+<script>
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js');
+    });
+}
+</script>
 
 </body>
 </html>
