@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>D' Mezzanine Cafe System</title>
 
 <style>
@@ -15,9 +14,20 @@
     font-family:'Segoe UI',sans-serif;
 }
 
+:root{
+    --bg:#0f0f0f;
+    --sidebar:#161616;
+    --card:#1e1e1e;
+    --gold:#f0b43a;
+    --gold-dark:#c58b39;
+    --text:#ffffff;
+    --muted:#aaaaaa;
+    --border:#2d2d2d;
+}
+
 body{
-    background:#111;
-    color:white;
+    background:var(--bg);
+    color:var(--text);
     display:flex;
     min-height:100vh;
 }
@@ -26,30 +36,36 @@ body{
 
 .sidebar{
     width:260px;
-    background:#1b1b1b;
+    background:var(--sidebar);
     padding:20px;
     position:fixed;
     height:100%;
     overflow:auto;
+    border-right:1px solid var(--border);
 }
 
-.logo{
+.brand{
     text-align:center;
     margin-bottom:30px;
 }
 
-.logo h1{
-    color:#f5c16c;
-    font-size:28px;
+.brand img{
+    width:100px;
+    height:100px;
+    border-radius:50%;
+    object-fit:cover;
+    border:3px solid var(--gold);
+    margin-bottom:10px;
 }
 
-.logo p{
-    color:#aaa;
+.brand h1{
+    color:var(--gold);
+    font-size:26px;
+}
+
+.brand p{
+    color:var(--muted);
     font-size:14px;
-}
-
-.menu{
-    margin-top:20px;
 }
 
 .menu button{
@@ -57,16 +73,18 @@ body{
     padding:15px;
     margin-bottom:12px;
     border:none;
-    border-radius:12px;
-    background:#2b1d0e;
+    border-radius:14px;
+    background:#232323;
     color:white;
     font-size:16px;
     cursor:pointer;
     transition:.3s;
+    text-align:left;
 }
 
 .menu button:hover{
-    background:#c58b39;
+    background:linear-gradient(45deg,var(--gold-dark),var(--gold));
+    color:black;
 }
 
 /* MAIN */
@@ -74,10 +92,39 @@ body{
 .main{
     margin-left:260px;
     width:100%;
-    padding:20px;
 }
 
-/* TOPBAR */
+/* HERO */
+
+.hero{
+    height:320px;
+    background:
+    linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)),
+    url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085');
+    background-size:cover;
+    background-position:center;
+    display:flex;
+    align-items:center;
+    padding:40px;
+}
+
+.hero-content h1{
+    font-size:50px;
+    color:var(--gold);
+    margin-bottom:10px;
+}
+
+.hero-content p{
+    color:#ddd;
+    max-width:600px;
+    line-height:1.6;
+}
+
+/* CONTENT */
+
+.content{
+    padding:25px;
+}
 
 .topbar{
     display:flex;
@@ -85,23 +132,17 @@ body{
     align-items:center;
     margin-bottom:25px;
     flex-wrap:wrap;
-    gap:10px;
-}
-
-.topbar h2{
-    color:#f5c16c;
+    gap:15px;
 }
 
 .topbar input{
-    padding:12px;
-    width:250px;
+    padding:14px;
     border:none;
-    border-radius:10px;
-    background:#222;
+    border-radius:12px;
+    background:#1f1f1f;
     color:white;
+    width:280px;
 }
-
-/* CARDS */
 
 .cards{
     display:grid;
@@ -111,92 +152,107 @@ body{
 }
 
 .card{
-    background:#1e1e1e;
-    padding:20px;
-    border-radius:18px;
-    box-shadow:0 0 10px rgba(0,0,0,.3);
+    background:var(--card);
+    padding:25px;
+    border-radius:22px;
+    border:1px solid var(--border);
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
 }
 
 .card h3{
-    color:#bbb;
+    color:var(--muted);
     margin-bottom:10px;
 }
 
 .card h1{
-    color:#f5c16c;
+    color:var(--gold);
+    font-size:35px;
 }
 
-/* POS */
+/* MENU */
 
 .section-title{
+    color:var(--gold);
     margin-bottom:20px;
-    color:#f5c16c;
+    font-size:28px;
 }
 
 .products{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
     gap:20px;
 }
 
 .product{
-    background:#1e1e1e;
-    border-radius:18px;
+    background:var(--card);
+    border-radius:20px;
     overflow:hidden;
+    border:1px solid var(--border);
     transition:.3s;
 }
 
 .product:hover{
-    transform:translateY(-5px);
+    transform:scale(1.03);
 }
 
 .product img{
     width:100%;
-    height:160px;
+    height:180px;
     object-fit:cover;
 }
 
 .product-content{
-    padding:15px;
+    padding:18px;
 }
 
 .product-content h3{
-    margin-bottom:10px;
+    margin-bottom:8px;
 }
 
 .product-content p{
-    color:#f5c16c;
+    color:var(--gold);
     margin-bottom:12px;
+    font-size:18px;
 }
 
 .product-content button{
     width:100%;
-    padding:12px;
+    padding:13px;
     border:none;
-    border-radius:10px;
-    background:#c58b39;
-    color:white;
+    border-radius:12px;
+    background:linear-gradient(45deg,var(--gold-dark),var(--gold));
+    color:black;
+    font-weight:bold;
     cursor:pointer;
     font-size:15px;
 }
 
 /* ORDER PANEL */
 
-.order-panel{
+.order-panel,
+.inventory{
     margin-top:30px;
-    background:#1e1e1e;
-    padding:20px;
-    border-radius:18px;
+    background:var(--card);
+    padding:25px;
+    border-radius:22px;
+    border:1px solid var(--border);
 }
 
-.order-panel table{
+.order-panel table,
+.inventory table{
     width:100%;
     border-collapse:collapse;
 }
 
 .order-panel th,
-.order-panel td{
-    padding:12px;
+.order-panel td,
+.inventory th,
+.inventory td{
+    padding:14px;
     border-bottom:1px solid #333;
     text-align:left;
 }
@@ -207,40 +263,20 @@ body{
 }
 
 .total h2{
-    color:#f5c16c;
+    color:var(--gold);
 }
 
 .print-btn{
-    margin-top:20px;
     width:100%;
-    padding:15px;
-    background:#f5c16c;
+    padding:16px;
     border:none;
-    border-radius:12px;
-    font-size:18px;
-    cursor:pointer;
+    border-radius:14px;
+    margin-top:20px;
+    background:linear-gradient(45deg,var(--gold-dark),var(--gold));
     color:black;
+    font-size:18px;
     font-weight:bold;
-}
-
-/* INVENTORY */
-
-.inventory{
-    margin-top:30px;
-    background:#1e1e1e;
-    padding:20px;
-    border-radius:18px;
-}
-
-.inventory table{
-    width:100%;
-    border-collapse:collapse;
-}
-
-.inventory th,
-.inventory td{
-    padding:14px;
-    border-bottom:1px solid #333;
+    cursor:pointer;
 }
 
 /* MOBILE */
@@ -250,7 +286,7 @@ body{
     position:fixed;
     top:15px;
     left:15px;
-    background:#c58b39;
+    background:var(--gold-dark);
     border:none;
     padding:12px;
     border-radius:10px;
@@ -273,11 +309,19 @@ body{
 
     .main{
         margin-left:0;
-        padding-top:70px;
     }
 
     .mobile-menu{
         display:block;
+    }
+
+    .hero{
+        height:auto;
+        padding:90px 25px 40px;
+    }
+
+    .hero-content h1{
+        font-size:35px;
     }
 
     .topbar input{
@@ -296,9 +340,10 @@ body{
 
 <div class="sidebar" id="sidebar">
 
-<div class="logo">
-<h1>☕ D' Mezzanine</h1>
-<p>Cafe Management System</p>
+<div class="brand">
+<img src="https://images.unsplash.com/photo-1511920170033-f8396924c348" alt="logo">
+<h1>D' Mezzanine</h1>
+<p>Premium Cafe Management</p>
 </div>
 
 <div class="menu">
@@ -306,6 +351,7 @@ body{
 <button>☕ POS / Cashier</button>
 <button>📦 Inventory</button>
 <button>📈 Sales Reports</button>
+<button>🧾 Receipts</button>
 <button>👥 Employees</button>
 <button>⚙ Settings</button>
 <button>🚪 Logout</button>
@@ -317,10 +363,25 @@ body{
 
 <div class="main">
 
-<div class="topbar">
-<h2>Dashboard</h2>
+<!-- HERO -->
 
-<input type="text" placeholder="Search coffee...">
+<div class="hero">
+<div class="hero-content">
+<h1>D' Mezzanine Cafe</h1>
+<p>
+Modern Coffee Shop Management System with POS, Inventory,
+Sales Monitoring, Receipt Printing, and Mobile Responsive Dashboard.
+</p>
+</div>
+</div>
+
+<!-- CONTENT -->
+
+<div class="content">
+
+<div class="topbar">
+<h2>☕ Coffee Shop Dashboard</h2>
+<input type="text" placeholder="Search coffee menu...">
 </div>
 
 <!-- DASHBOARD CARDS -->
@@ -339,7 +400,7 @@ body{
 
 <div class="card">
 <h3>Best Seller</h3>
-<h1>Caramel Latte</h1>
+<h1>Spanish Latte</h1>
 </div>
 
 <div class="card">
@@ -349,7 +410,7 @@ body{
 
 </div>
 
-<!-- POS -->
+<!-- PRODUCTS -->
 
 <h2 class="section-title">☕ Coffee Menu</h2>
 
@@ -380,9 +441,9 @@ Add Order
 <div class="product">
 <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348">
 <div class="product-content">
-<h3>Mocha Coffee</h3>
-<p>₱130</p>
-<button onclick="addOrder('Mocha Coffee',130)">
+<h3>Spanish Latte</h3>
+<p>₱135</p>
+<button onclick="addOrder('Spanish Latte',135)">
 Add Order
 </button>
 </div>
@@ -415,9 +476,8 @@ Add Order
 </tr>
 </thead>
 
-<tbody id="orderList">
+<tbody id="orderList"></tbody>
 
-</tbody>
 </table>
 
 <div class="total">
@@ -468,6 +528,8 @@ Add Order
 </tr>
 
 </table>
+
+</div>
 
 </div>
 
