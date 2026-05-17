@@ -26,22 +26,44 @@
     font-family:'Poppins',sans-serif;
 }
 
+html,body{
+    width:100%;
+    height:100%;
+}
+
 body{
+
     min-height:100vh;
+
     overflow-x:hidden;
+
     color:white;
 
-    background:url('bg.jpg') center center/cover no-repeat fixed;
+    background-image:url('./bg.jpg?v=10');
+
+    background-size:cover;
+
+    background-position:center;
+
+    background-repeat:no-repeat;
+
+    background-attachment:fixed;
 
     position:relative;
 }
 
 body::before{
+
     content:'';
+
     position:fixed;
+
     top:0;
+
     left:0;
+
     width:100%;
+
     height:100%;
 
     background:rgba(0,0,0,0.72);
@@ -50,10 +72,15 @@ body::before{
 }
 
 .sidebar{
+
     position:fixed;
+
     top:0;
+
     left:0;
+
     width:260px;
+
     height:100vh;
 
     background:rgba(0,0,0,0.45);
@@ -65,6 +92,8 @@ body::before{
     padding:20px;
 
     overflow-y:auto;
+
+    z-index:999;
 }
 
 .logo{
@@ -100,8 +129,11 @@ body::before{
 }
 
 .menu a{
+
     display:flex;
+
     align-items:center;
+
     gap:14px;
 
     text-decoration:none;
@@ -128,13 +160,18 @@ body::before{
 }
 
 .main{
+
     margin-left:260px;
+
     padding:25px;
 }
 
 .topbar{
+
     display:flex;
+
     justify-content:space-between;
+
     align-items:center;
 
     background:rgba(255,255,255,0.08);
@@ -172,9 +209,13 @@ body::before{
 }
 
 .cards{
+
     display:grid;
+
     grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+
     gap:20px;
+
     margin-bottom:25px;
 }
 
@@ -202,11 +243,17 @@ body::before{
 }
 
 .card i{
+
     position:absolute;
+
     top:20px;
+
     right:20px;
+
     font-size:42px;
+
     opacity:.2;
+
     color:#facc15;
 }
 
@@ -226,8 +273,11 @@ body::before{
 }
 
 .content{
+
     display:grid;
+
     grid-template-columns:2fr 1fr;
+
     gap:20px;
 }
 
@@ -245,9 +295,13 @@ body::before{
 }
 
 .section-title{
+
     display:flex;
+
     justify-content:space-between;
+
     align-items:center;
+
     margin-bottom:20px;
 }
 
@@ -256,8 +310,11 @@ body::before{
 }
 
 .btn{
+
     border:none;
+
     padding:10px 18px;
+
     border-radius:12px;
 
     background:linear-gradient(135deg,#facc15,#ca8a04);
@@ -286,14 +343,20 @@ table th{
 }
 
 table td{
+
     padding:15px;
+
     border-bottom:1px solid rgba(255,255,255,0.08);
 }
 
 .status{
+
     padding:6px 14px;
+
     border-radius:30px;
+
     font-size:12px;
+
     font-weight:600;
 }
 
@@ -308,19 +371,28 @@ table td{
 }
 
 .activity{
+
     display:flex;
+
     gap:14px;
+
     margin-bottom:20px;
+
     padding-bottom:20px;
+
     border-bottom:1px solid rgba(255,255,255,0.08);
 }
 
 .activity i{
+
     width:48px;
+
     height:48px;
 
     display:flex;
+
     align-items:center;
+
     justify-content:center;
 
     border-radius:50%;
@@ -340,9 +412,13 @@ table td{
 }
 
 .quick-actions{
+
     display:grid;
+
     grid-template-columns:repeat(2,1fr);
+
     gap:15px;
+
     margin-top:20px;
 }
 
@@ -376,9 +452,13 @@ table td{
 }
 
 .footer{
+
     text-align:center;
+
     margin-top:25px;
+
     color:#d1d5db;
+
     font-size:13px;
 }
 
@@ -427,6 +507,7 @@ table{
 }
 
 </style>
+
 </head>
 
 <body>
@@ -435,7 +516,7 @@ table{
 
     <div class="logo">
 
-        <img src="icon-192.png">
+        <img src="./icon-192.png?v=10">
 
         <div>
             <h2>D'Mezzanine</h2>
@@ -524,7 +605,7 @@ table{
 
         <div class="admin">
 
-            <img src="icon-192.png">
+            <img src="./icon-192.png?v=10">
 
             <div>
                 <h3>Administrator</h3>
@@ -572,8 +653,11 @@ table{
         <div class="box">
 
             <div class="section-title">
+
                 <h2>Recent Orders</h2>
+
                 <button class="btn">Add Order</button>
+
             </div>
 
             <table>
@@ -716,11 +800,15 @@ table{
 
 <script>
 
-if ('serviceWorker' in navigator) {
+if ('serviceWorker' in navigator') {
 
-    window.addEventListener('load', () => {
+    navigator.serviceWorker.getRegistrations().then(function(registrations) {
 
-        navigator.serviceWorker.register('sw.js');
+        for(let registration of registrations) {
+
+            registration.unregister();
+
+        }
 
     });
 
