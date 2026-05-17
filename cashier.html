@@ -712,14 +712,23 @@ function checkout(){
 
     let sales = JSON.parse(localStorage.getItem("sales")) || [];
 
-    sales.push({
+   sales.push({
 
-        date:new Date().toLocaleString(),
+    date:new Date().toLocaleString(),
 
-        total
+    total,
 
-    });
+    items: cart.map(item => ({
 
+        name:item.name,
+
+        qty:item.qty,
+
+        price:item.price
+
+    }))
+
+});
     localStorage.setItem("sales",JSON.stringify(sales));
 
     cart = [];
