@@ -1,21 +1,24 @@
 {
-  "name": "D' Mezzanine Cafe System",
-  "short_name": "DMezzanine",
-  "start_url": "./index.html",
-  "display": "standalone",
-  "background_color": "#111111",
-  "theme_color": "#f0b43a",
-  "orientation": "portrait",
-  "icons": [
-    {
-      "src": "https://cdn-icons-png.flaticon.com/512/924/924514.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "https://cdn-icons-png.flaticon.com/512/924/924514.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
-  ]
+    "name":"Cafe System",
+    "short_name":"CafePOS",
+    "start_url":"index.html",
+    "display":"standalone",
+    "background_color":"#111827",
+    "theme_color":"#111827",
+
+    "icons":[
+
+        {
+            "src":"assets/images/icon-192.png",
+            "sizes":"192x192",
+            "type":"image/png"
+        },
+
+        {
+            "src":"assets/images/icon-512.png",
+            "sizes":"512x512",
+            "type":"image/png"
+        }
+
+    ]
 }
