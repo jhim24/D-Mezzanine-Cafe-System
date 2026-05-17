@@ -15,6 +15,186 @@ href="../style.css">
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
+<style>
+
+.inventory-top{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:25px;
+}
+
+.add-btn{
+
+    border:none;
+
+    background:#f5b041;
+
+    color:black;
+
+    padding:14px 20px;
+
+    border-radius:14px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+.table-container{
+
+    overflow:auto;
+}
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    background:#1b1b1b;
+
+    border-radius:20px;
+
+    overflow:hidden;
+}
+
+th{
+
+    background:#222;
+
+    padding:16px;
+
+    text-align:left;
+}
+
+td{
+
+    padding:16px;
+
+    border-bottom:1px solid #333;
+}
+
+.product-img{
+
+    width:60px;
+    height:60px;
+
+    object-fit:cover;
+
+    border-radius:10px;
+}
+
+.low-stock{
+
+    color:red;
+    font-weight:bold;
+}
+
+.action-btn{
+
+    border:none;
+
+    padding:8px 12px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    margin-right:5px;
+}
+
+.edit-btn{
+
+    background:#f5b041;
+}
+
+.delete-btn{
+
+    background:red;
+    color:white;
+}
+
+/* MODAL */
+
+.modal{
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:100%;
+
+    background:rgba(0,0,0,.7);
+
+    display:none;
+
+    justify-content:center;
+    align-items:center;
+}
+
+.modal-content{
+
+    width:90%;
+    max-width:500px;
+
+    background:#1b1b1b;
+
+    padding:25px;
+
+    border-radius:24px;
+}
+
+.modal-content h2{
+
+    margin-bottom:20px;
+}
+
+.form-group{
+
+    margin-bottom:15px;
+}
+
+.form-group input{
+
+    width:100%;
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#2a2a2a;
+
+    color:white;
+}
+
+.save-btn{
+
+    width:100%;
+
+    border:none;
+
+    background:#f5b041;
+
+    color:black;
+
+    padding:15px;
+
+    border-radius:14px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+</style>
+
 </head>
 
 <body>
@@ -61,49 +241,298 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
             </a>
         </li>
 
-        <li>
-            <a href="sales.html">
-
-                <i class="fa-solid fa-chart-column"></i>
-
-                Sales
-
-            </a>
-        </li>
-
-        <li>
-            <a href="accounting.html">
-
-                <i class="fa-solid fa-file-invoice-dollar"></i>
-
-                Accounting
-
-            </a>
-        </li>
-
-        <li>
-            <a href="employees.html">
-
-                <i class="fa-solid fa-users"></i>
-
-                Employees
-
-            </a>
-        </li>
-
     </ul>
 
 </div>
 
 <div class="main">
 
-    <div class="topbar">
+    <div class="inventory-top">
 
         <h1>Inventory</h1>
+
+        <button class="add-btn"
+        onclick="openModal()">
+
+            <i class="fa-solid fa-plus"></i>
+
+            Add Product
+
+        </button>
+
+    </div>
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Image</th>
+                    <th>Product</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="inventoryTable">
+
+            </tbody>
+
+        </table>
 
     </div>
 
 </div>
+
+<!-- MODAL -->
+
+<div class="modal"
+id="modal">
+
+    <div class="modal-content">
+
+        <h2>Add Product</h2>
+
+        <div class="form-group">
+
+            <input type="text"
+            id="productName"
+            placeholder="Product Name">
+
+        </div>
+
+        <div class="form-group">
+
+            <input type="text"
+            id="productCategory"
+            placeholder="Category">
+
+        </div>
+
+        <div class="form-group">
+
+            <input type="number"
+            id="productPrice"
+            placeholder="Price">
+
+        </div>
+
+        <div class="form-group">
+
+            <input type="number"
+            id="productStock"
+            placeholder="Stock">
+
+        </div>
+
+        <div class="form-group">
+
+            <input type="text"
+            id="productImage"
+            placeholder="Image URL">
+
+        </div>
+
+        <button class="save-btn"
+        onclick="saveProduct()">
+
+            Save Product
+
+        </button>
+
+    </div>
+
+</div>
+
+<script>
+
+let inventory = JSON.parse(
+    localStorage.getItem('inventory')
+) || [];
+
+function renderInventory(){
+
+    const table =
+    document.getElementById('inventoryTable');
+
+    table.innerHTML='';
+
+    inventory.forEach((product,index)=>{
+
+        table.innerHTML += `
+
+        <tr>
+
+            <td>
+
+                <img
+                src="${product.image}"
+                class="product-img">
+
+            </td>
+
+            <td>${product.name}</td>
+
+            <td>${product.category}</td>
+
+            <td>₱${product.price}</td>
+
+            <td class="${
+                product.stock <= 5
+                ? 'low-stock'
+                : ''
+            }">
+
+                ${product.stock}
+
+            </td>
+
+            <td>
+
+                <button
+                class="action-btn edit-btn"
+                onclick="editProduct(${index})">
+
+                    Edit
+
+                </button>
+
+                <button
+                class="action-btn delete-btn"
+                onclick="deleteProduct(${index})">
+
+                    Delete
+
+                </button>
+
+            </td>
+
+        </tr>
+
+        `;
+
+    });
+
+}
+
+renderInventory();
+
+function openModal(){
+
+    document
+    .getElementById('modal')
+    .style.display='flex';
+
+}
+
+function closeModal(){
+
+    document
+    .getElementById('modal')
+    .style.display='none';
+
+}
+
+function saveProduct(){
+
+    const name =
+    document
+    .getElementById('productName')
+    .value;
+
+    const category =
+    document
+    .getElementById('productCategory')
+    .value;
+
+    const price =
+    document
+    .getElementById('productPrice')
+    .value;
+
+    const stock =
+    document
+    .getElementById('productStock')
+    .value;
+
+    const image =
+    document
+    .getElementById('productImage')
+    .value;
+
+    inventory.push({
+
+        name,
+        category,
+        price,
+        stock,
+        image
+
+    });
+
+    localStorage.setItem(
+        'inventory',
+        JSON.stringify(inventory)
+    );
+
+    renderInventory();
+
+    closeModal();
+
+}
+
+function deleteProduct(index){
+
+    inventory.splice(index,1);
+
+    localStorage.setItem(
+        'inventory',
+        JSON.stringify(inventory)
+    );
+
+    renderInventory();
+
+}
+
+function editProduct(index){
+
+    const product =
+    inventory[index];
+
+    document
+    .getElementById('productName')
+    .value = product.name;
+
+    document
+    .getElementById('productCategory')
+    .value = product.category;
+
+    document
+    .getElementById('productPrice')
+    .value = product.price;
+
+    document
+    .getElementById('productStock')
+    .value = product.stock;
+
+    document
+    .getElementById('productImage')
+    .value = product.image;
+
+    deleteProduct(index);
+
+    openModal();
+
+}
+
+</script>
 
 </body>
 </html>
