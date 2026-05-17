@@ -4,11 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>D' Mezzanine Cafe Accounting System</title>
-
-<link rel="manifest" href="manifest.json">
-
-<meta name="theme-color" content="#f0b43a">
+<title>D' Mezzanine Accounting System</title>
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
@@ -35,7 +31,6 @@ body{
 background:var(--bg);
 color:white;
 display:flex;
-min-height:100vh;
 overflow-x:hidden;
 }
 
@@ -43,15 +38,13 @@ overflow-x:hidden;
 
 .sidebar{
 width:260px;
-background:rgba(22,22,22,.96);
+background:#161616;
 height:100vh;
 position:fixed;
 padding:20px;
-border-right:1px solid #2d2d2d;
 overflow:auto;
-transition:.4s ease;
+transition:.4s;
 z-index:999;
-left:0;
 }
 
 .sidebar.hide{
@@ -76,7 +69,6 @@ color:var(--gold);
 
 .logo p{
 color:var(--gray);
-font-size:14px;
 }
 
 .menu button{
@@ -97,10 +89,10 @@ text-align:left;
 margin-right:10px;
 }
 
-.menu button:hover{
+.menu button:hover,
+.menu button.active{
 background:linear-gradient(45deg,var(--gold2),var(--gold));
 color:black;
-transform:translateX(5px);
 }
 
 /* MAIN */
@@ -115,40 +107,73 @@ transition:.4s;
 margin-left:0;
 }
 
-/* HERO */
+/* HEADER */
 
-.hero{
-height:300px;
+.header{
+height:250px;
 background:
-linear-gradient(rgba(0,0,0,.75),rgba(0,0,0,.75)),
+linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)),
 url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085');
 background-size:cover;
 background-position:center;
 display:flex;
-align-items:center;
 justify-content:center;
+align-items:center;
 text-align:center;
+padding:30px;
+}
+
+.header h1{
+font-size:55px;
+color:var(--gold);
+}
+
+.header p{
+margin-top:10px;
+font-size:18px;
+color:#ddd;
+}
+
+/* PAGE */
+
+.page{
+display:none;
 padding:40px;
 }
 
-.hero-content h1{
-font-size:60px;
+.page.active{
+display:block;
+}
+
+/* DASHBOARD */
+
+.dashboard-cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:25px;
+}
+
+.card{
+background:var(--card);
+padding:30px;
+border-radius:24px;
+}
+
+.card i{
+font-size:40px;
+margin-bottom:15px;
 color:var(--gold);
+}
+
+.card h2{
 margin-bottom:10px;
 }
 
-.hero-content p{
-font-size:18px;
-color:#ddd;
-max-width:700px;
-line-height:1.7;
+.card h1{
+color:var(--gold);
 }
 
 /* ACCOUNTING */
-
-.accounting-section{
-padding:40px;
-}
 
 .accounting-header{
 display:flex;
@@ -175,14 +200,11 @@ cursor:pointer;
 font-size:16px;
 }
 
-/* TABLE */
-
 .table-container{
 background:var(--card);
 padding:25px;
 border-radius:24px;
 overflow:auto;
-box-shadow:0 0 20px rgba(0,0,0,.4);
 }
 
 table{
@@ -194,17 +216,11 @@ th{
 background:#2a2a2a;
 color:var(--gold);
 padding:18px;
-font-size:18px;
 }
 
 td{
 padding:18px;
 border-bottom:1px solid #333;
-font-size:16px;
-}
-
-tr:hover{
-background:#222;
 }
 
 .type-badge{
@@ -222,10 +238,6 @@ background:#2e7d32;
 background:#c62828;
 }
 
-.equity{
-background:#6a1b9a;
-}
-
 .income{
 background:#1565c0;
 }
@@ -234,7 +246,11 @@ background:#1565c0;
 background:#ef6c00;
 }
 
-/* ACTION BUTTONS */
+.equity{
+background:#6a1b9a;
+}
+
+/* BUTTONS */
 
 .action-btn{
 padding:10px 14px;
@@ -242,7 +258,6 @@ border:none;
 border-radius:10px;
 cursor:pointer;
 margin-right:8px;
-font-weight:bold;
 }
 
 .edit-btn{
@@ -292,7 +307,6 @@ border:none;
 border-radius:12px;
 background:#2a2a2a;
 color:white;
-font-size:16px;
 }
 
 .save-btn{
@@ -303,7 +317,6 @@ border-radius:14px;
 background:linear-gradient(45deg,var(--gold2),var(--gold));
 color:black;
 font-weight:bold;
-font-size:16px;
 cursor:pointer;
 }
 
@@ -340,13 +353,8 @@ left:0;
 margin-left:0;
 }
 
-.hero-content h1{
+.header h1{
 font-size:38px;
-}
-
-.accounting-header{
-flex-direction:column;
-align-items:flex-start;
 }
 
 }
@@ -355,8 +363,6 @@ align-items:flex-start;
 </head>
 
 <body>
-
-<!-- TOGGLE -->
 
 <button class="toggle-btn" onclick="toggleSidebar()">
 <i class="fa-solid fa-bars"></i>
@@ -374,19 +380,30 @@ align-items:flex-start;
 
 <div class="menu">
 
-<button><i class="fa-solid fa-house"></i> Dashboard</button>
+<button class="active" onclick="showPage('dashboard',this)">
+<i class="fa-solid fa-house"></i>
+ Dashboard
+</button>
 
-<button><i class="fa-solid fa-calculator"></i> Accounting</button>
+<button onclick="showPage('chartaccounts',this)">
+<i class="fa-solid fa-chart-pie"></i>
+ Chart of Accounts
+</button>
 
-<button><i class="fa-solid fa-chart-pie"></i> Chart of Accounts</button>
+<button>
+<i class="fa-solid fa-book"></i>
+ Journal Entries
+</button>
 
-<button><i class="fa-solid fa-book"></i> Journal Entries</button>
+<button>
+<i class="fa-solid fa-building-columns"></i>
+ Balance Sheet
+</button>
 
-<button><i class="fa-solid fa-money-bill-trend-up"></i> Income Statement</button>
-
-<button><i class="fa-solid fa-building-columns"></i> Balance Sheet</button>
-
-<button><i class="fa-solid fa-gear"></i> Settings</button>
+<button>
+<i class="fa-solid fa-money-bill-trend-up"></i>
+ Income Statement
+</button>
 
 </div>
 
@@ -396,25 +413,57 @@ align-items:flex-start;
 
 <div class="main" id="main">
 
-<div class="hero">
+<div class="header">
 
-<div class="hero-content">
+<div>
 
 <h1>D' Mezzanine Accounting</h1>
 
 <p>
-Professional Accounting System with Chart of Accounts,
-Journal Entries, Balance Sheet, Income Statement,
-and Financial Reporting.
+Professional Coffee Shop Accounting & Financial System
 </p>
 
 </div>
 
 </div>
 
-<!-- ACCOUNTING -->
+<!-- DASHBOARD -->
 
-<div class="accounting-section">
+<div class="page active" id="dashboard">
+
+<div class="dashboard-cards">
+
+<div class="card">
+<i class="fa-solid fa-wallet"></i>
+<h2>Assets</h2>
+<h1>₱250,000</h1>
+</div>
+
+<div class="card">
+<i class="fa-solid fa-file-invoice-dollar"></i>
+<h2>Liabilities</h2>
+<h1>₱85,000</h1>
+</div>
+
+<div class="card">
+<i class="fa-solid fa-money-bill-trend-up"></i>
+<h2>Income</h2>
+<h1>₱320,000</h1>
+</div>
+
+<div class="card">
+<i class="fa-solid fa-coins"></i>
+<h2>Profit</h2>
+<h1>₱145,000</h1>
+</div>
+
+</div>
+
+</div>
+
+<!-- CHART OF ACCOUNTS -->
+
+<div class="page" id="chartaccounts">
 
 <div class="accounting-header">
 
@@ -454,6 +503,7 @@ and Financial Reporting.
 <td><span class="type-badge asset">Asset</span></td>
 <td>₱50,000</td>
 <td>
+
 <button class="action-btn edit-btn">
 <i class="fa-solid fa-pen"></i>
 </button>
@@ -461,6 +511,7 @@ and Financial Reporting.
 <button class="action-btn delete-btn" onclick="deleteRow(this)">
 <i class="fa-solid fa-trash"></i>
 </button>
+
 </td>
 </tr>
 
@@ -470,6 +521,7 @@ and Financial Reporting.
 <td><span class="type-badge liability">Liability</span></td>
 <td>₱35,000</td>
 <td>
+
 <button class="action-btn edit-btn">
 <i class="fa-solid fa-pen"></i>
 </button>
@@ -477,22 +529,7 @@ and Financial Reporting.
 <button class="action-btn delete-btn" onclick="deleteRow(this)">
 <i class="fa-solid fa-trash"></i>
 </button>
-</td>
-</tr>
 
-<tr>
-<td>401</td>
-<td>Coffee Sales</td>
-<td><span class="type-badge income">Income</span></td>
-<td>₱120,000</td>
-<td>
-<button class="action-btn edit-btn">
-<i class="fa-solid fa-pen"></i>
-</button>
-
-<button class="action-btn delete-btn" onclick="deleteRow(this)">
-<i class="fa-solid fa-trash"></i>
-</button>
 </td>
 </tr>
 
@@ -512,10 +549,7 @@ and Financial Reporting.
 
 <div class="modal-content">
 
-<h2>
-<i class="fa-solid fa-plus"></i>
- Add New Account
-</h2>
+<h2>Add New Account</h2>
 
 <input type="text" id="accountCode" placeholder="Account Code">
 
@@ -543,7 +577,7 @@ Save Account
 
 <script>
 
-// SIDEBAR
+// TOGGLE SIDEBAR
 
 function toggleSidebar(){
 
@@ -560,6 +594,24 @@ sidebar.classList.toggle("hide");
 main.classList.toggle("full");
 
 }
+
+}
+
+// PAGE SWITCHER
+
+function showPage(pageId,btn){
+
+document.querySelectorAll(".page").forEach(page=>{
+page.classList.remove("active");
+});
+
+document.getElementById(pageId).classList.add("active");
+
+document.querySelectorAll(".menu button").forEach(button=>{
+button.classList.remove("active");
+});
+
+btn.classList.add("active");
 
 }
 
