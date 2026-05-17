@@ -100,7 +100,6 @@ font-size:16px;
 cursor:pointer;
 transition:.3s;
 text-align:left;
-animation:fadeIn .8s ease;
 }
 
 .menu button i{
@@ -158,6 +157,111 @@ max-width:700px;
 line-height:1.8;
 color:#ddd;
 font-size:20px;
+}
+
+/* ACCOUNTING */
+
+.accounting-section{
+padding:40px;
+background:#111;
+}
+
+.accounting-title{
+font-size:40px;
+margin-bottom:30px;
+color:var(--gold);
+text-align:center;
+}
+
+.accounting-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+gap:25px;
+margin-bottom:40px;
+}
+
+.account-card{
+padding:30px;
+border-radius:24px;
+color:white;
+box-shadow:0 0 25px rgba(0,0,0,.4);
+transition:.3s;
+}
+
+.account-card:hover{
+transform:translateY(-8px);
+}
+
+.account-card i{
+font-size:45px;
+margin-bottom:15px;
+}
+
+.account-card h2{
+margin-bottom:10px;
+font-size:28px;
+}
+
+.account-card h1{
+font-size:38px;
+margin-bottom:10px;
+}
+
+.account-card p{
+color:#ddd;
+}
+
+.assets{
+background:linear-gradient(45deg,#2e7d32,#43a047);
+}
+
+.liabilities{
+background:linear-gradient(45deg,#c62828,#e53935);
+}
+
+.income{
+background:linear-gradient(45deg,#1565c0,#1e88e5);
+}
+
+.profit{
+background:linear-gradient(45deg,#f57c00,#ffb300);
+color:black;
+}
+
+.chart-accounts{
+background:#1a1a1a;
+padding:30px;
+border-radius:24px;
+overflow:auto;
+box-shadow:0 0 20px rgba(0,0,0,.4);
+}
+
+.chart-accounts h2{
+margin-bottom:25px;
+font-size:32px;
+color:var(--gold);
+}
+
+.chart-accounts table{
+width:100%;
+border-collapse:collapse;
+}
+
+.chart-accounts th{
+background:#2a2a2a;
+color:var(--gold);
+padding:18px;
+font-size:18px;
+}
+
+.chart-accounts td{
+padding:18px;
+border-bottom:1px solid #333;
+font-size:16px;
+}
+
+.chart-accounts tr:hover{
+background:#222;
 }
 
 /* TOGGLE BUTTON */
@@ -295,6 +399,10 @@ font-size:40px;
 font-size:16px;
 }
 
+.accounting-title{
+font-size:28px;
+}
+
 }
 
 </style>
@@ -328,7 +436,9 @@ font-size:16px;
 
 <button><i class="fa-solid fa-chart-line"></i> Sales Reports</button>
 
-<button><i class="fa-solid fa-receipt"></i> Receipts</button>
+<button><i class="fa-solid fa-calculator"></i> Accounting</button>
+
+<button><i class="fa-solid fa-chart-pie"></i> Chart of Accounts</button>
 
 <button><i class="fa-solid fa-users"></i> Employees</button>
 
@@ -354,8 +464,113 @@ font-size:16px;
 Modern Coffee Shop Management System with premium branding,
 mobile responsive design, smooth animations,
 installable app support, POS system, inventory management,
-and sales monitoring.
+sales monitoring, and professional accounting dashboard.
 </p>
+
+</div>
+
+</div>
+
+<!-- ACCOUNTING -->
+
+<div class="accounting-section">
+
+<h1 class="accounting-title">
+<i class="fa-solid fa-building-columns"></i>
+ Professional Accounting Dashboard
+</h1>
+
+<div class="accounting-grid">
+
+<div class="account-card assets">
+<i class="fa-solid fa-wallet"></i>
+<h2>Assets</h2>
+<h1>₱250,000</h1>
+<p>Cash, Equipment, Inventory</p>
+</div>
+
+<div class="account-card liabilities">
+<i class="fa-solid fa-file-invoice-dollar"></i>
+<h2>Liabilities</h2>
+<h1>₱85,000</h1>
+<p>Loans, Payables</p>
+</div>
+
+<div class="account-card income">
+<i class="fa-solid fa-money-bill-trend-up"></i>
+<h2>Income</h2>
+<h1>₱320,000</h1>
+<p>Total Revenue</p>
+</div>
+
+<div class="account-card profit">
+<i class="fa-solid fa-coins"></i>
+<h2>Net Profit</h2>
+<h1>₱145,000</h1>
+<p>Current Profit</p>
+</div>
+
+</div>
+
+<div class="chart-accounts">
+
+<h2>
+<i class="fa-solid fa-book"></i>
+ Chart of Accounts
+</h2>
+
+<table>
+
+<tr>
+<th>Account Code</th>
+<th>Account Name</th>
+<th>Type</th>
+<th>Balance</th>
+</tr>
+
+<tr>
+<td>101</td>
+<td>Cash on Hand</td>
+<td>Asset</td>
+<td>₱50,000</td>
+</tr>
+
+<tr>
+<td>102</td>
+<td>Bank Account</td>
+<td>Asset</td>
+<td>₱120,000</td>
+</tr>
+
+<tr>
+<td>201</td>
+<td>Accounts Payable</td>
+<td>Liability</td>
+<td>₱35,000</td>
+</tr>
+
+<tr>
+<td>301</td>
+<td>Owner Capital</td>
+<td>Equity</td>
+<td>₱200,000</td>
+</tr>
+
+<tr>
+<td>401</td>
+<td>Coffee Sales</td>
+<td>Income</td>
+<td>₱320,000</td>
+</tr>
+
+<tr>
+<td>501</td>
+<td>Operating Expense</td>
+<td>Expense</td>
+<td>₱175,000</td>
+</tr>
+
+</table>
 
 </div>
 
