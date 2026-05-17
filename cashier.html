@@ -84,10 +84,8 @@ body{
     color:white;
     cursor:pointer;
     white-space:nowrap;
-    transition:.3s;
 }
 
-.categories button:hover,
 .categories .active{
     background:#facc15;
     color:black;
@@ -105,12 +103,10 @@ body{
     padding:15px;
     text-align:center;
     transition:.3s;
-    border:1px solid transparent;
 }
 
 .product:hover{
     transform:translateY(-5px);
-    border-color:#facc15;
 }
 
 .product img{
@@ -234,10 +230,6 @@ body{
     cursor:pointer;
 }
 
-.checkout:hover{
-    background:#16a34a;
-}
-
 .clear{
     width:100%;
     margin-top:10px;
@@ -272,8 +264,6 @@ body{
     border-radius:10px;
     display:none;
     z-index:9999;
-    font-family:monospace;
-    box-shadow:0 0 20px rgba(0,0,0,0.5);
 }
 
 .receipt-header{
@@ -283,34 +273,18 @@ body{
     margin-bottom:10px;
 }
 
-.receipt-header h2{
-    font-size:22px;
-    margin-bottom:5px;
-}
-
-.receipt-items{
-    margin-top:10px;
-    margin-bottom:10px;
-}
-
-.receipt-items p{
-    display:flex;
-    justify-content:space-between;
-    font-size:14px;
-    margin-bottom:5px;
-}
-
-.receipt-summary{
-    border-top:1px dashed #000;
-    padding-top:10px;
-    margin-top:10px;
-}
-
+.receipt-items p,
 .receipt-summary p{
     display:flex;
     justify-content:space-between;
     margin-bottom:6px;
     font-size:14px;
+}
+
+.receipt-summary{
+    border-top:1px dashed #000;
+    margin-top:10px;
+    padding-top:10px;
 }
 
 .receipt-footer{
@@ -374,126 +348,127 @@ body{
 
 <div class="left">
 
-    <div class="topbar">
+<div class="topbar">
 
-        <h1>Cashier POS ☕</h1>
+<h1>Cashier POS ☕</h1>
 
-        <div class="time" id="time"></div>
+<div class="time" id="time"></div>
 
-    </div>
+</div>
 
-    <div class="categories">
+<div class="categories">
 
-        <button class="active">Coffee</button>
-        <button>Meals</button>
-        <button>Frappes</button>
-        <button>Desserts</button>
+<button class="active">Coffee</button>
+<button>Meals</button>
+<button>Frappes</button>
+<button>Desserts</button>
 
-    </div>
+</div>
 
-    <div class="products">
+<div class="products">
 
-        <div class="product">
+<div class="product">
 
-            <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=800">
+<img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=800">
 
-            <h3>Spanish Latte</h3>
+<h3>Spanish Latte</h3>
 
-            <p>₱220</p>
+<p>₱220</p>
 
-            <button onclick="addItem('Spanish Latte',220)">
-                Add
-            </button>
+<button onclick="addItem('Spanish Latte',220)">
+Add
+</button>
 
-        </div>
+</div>
 
-        <div class="product">
+<div class="product">
 
-            <img src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?q=80&w=800">
+<img src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?q=80&w=800">
 
-            <h3>Dark Mocha</h3>
+<h3>Dark Mocha</h3>
 
-            <p>₱250</p>
+<p>₱250</p>
 
-            <button onclick="addItem('Dark Mocha',250)">
-                Add
-            </button>
+<button onclick="addItem('Dark Mocha',250)">
+Add
+</button>
 
-        </div>
+</div>
 
-        <div class="product">
+<div class="product">
 
-            <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?q=80&w=800">
+<img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?q=80&w=800">
 
-            <h3>Carbonara</h3>
+<h3>Carbonara</h3>
 
-            <p>₱320</p>
+<p>₱320</p>
 
-            <button onclick="addItem('Carbonara',320)">
-                Add
-            </button>
+<button onclick="addItem('Carbonara',320)">
+Add
+</button>
 
-        </div>
+</div>
 
-        <div class="product">
+<div class="product">
 
-            <img src="https://images.unsplash.com/photo-1562967916-eb82221dfb92?q=80&w=800">
+<img src="https://images.unsplash.com/photo-1562967916-eb82221dfb92?q=80&w=800">
 
-            <h3>Chicken Wings</h3>
+<h3>Chicken Wings</h3>
 
-            <p>₱420</p>
+<p>₱420</p>
 
-            <button onclick="addItem('Chicken Wings',420)">
-                Add
-            </button>
+<button onclick="addItem('Chicken Wings',420)">
+Add
+</button>
 
-        </div>
+</div>
 
-    </div>
+</div>
 
 </div>
 
 <div class="right">
 
-    <div class="cart-title">
+<div class="cart-title">
 
-        <h2>Current Order</h2>
+<h2>Current Order</h2>
 
-        <i class="fa-solid fa-cart-shopping"></i>
+<i class="fa-solid fa-cart-shopping"></i>
 
-    </div>
+</div>
 
-    <div class="cart-items" id="cartItems"></div>
+<div class="cart-items" id="cartItems"></div>
 
-    <div class="summary">
+<div class="summary">
 
-        <div>
-            <span>Items</span>
-            <span id="itemCount">0</span>
-        </div>
+<div>
+<span>Items</span>
+<span id="itemCount">0</span>
+</div>
 
-        <div class="total">
-            <span>Total</span>
-            <span>₱ <span id="total">0</span></span>
-        </div>
+<div class="total">
+<span>Total</span>
+<span>₱ <span id="total">0</span></span>
+</div>
 
-        <div class="payment">
+<div class="payment">
 
-            <label>Cash Payment</label>
+<label>Cash Payment</label>
 
-            <input type="number" id="cash" placeholder="Enter cash amount">
+<input type="number" id="cash"
+placeholder="Enter cash amount">
 
-        </div>
+</div>
 
-        <button class="checkout" onclick="checkout()">
-            COMPLETE ORDER
-        </button>
+<button class="checkout" onclick="checkout()">
+COMPLETE ORDER
+</button>
 
-        <button class="clear" onclick="clearCart()">
-            CLEAR CART
-        </button>
+<button class="clear" onclick="clearCart()">
+CLEAR CART
+</button>
 
-    </div>
+</div>
 
 </div>
 
@@ -503,52 +478,52 @@ body{
 
 <div class="receipt" id="receipt">
 
-    <div class="receipt-header">
+<div class="receipt-header">
 
-        <h2>D' Mezzanine Cafe</h2>
+<h2>D' Mezzanine Cafe</h2>
 
-        <p>Cafe & Restaurant</p>
+<p>Cafe & Restaurant</p>
 
-        <small id="receiptDate"></small>
+<small id="receiptDate"></small>
 
-    </div>
+</div>
 
-    <div class="receipt-items" id="receiptItems"></div>
+<div class="receipt-items" id="receiptItems"></div>
 
-    <div class="receipt-summary">
+<div class="receipt-summary">
 
-        <p>
-            <span>Total</span>
-            <span>₱ <span id="receiptTotal"></span></span>
-        </p>
+<p>
+<span>Total</span>
+<span>₱ <span id="receiptTotal"></span></span>
+</p>
 
-        <p>
-            <span>Cash</span>
-            <span>₱ <span id="receiptCash"></span></span>
-        </p>
+<p>
+<span>Cash</span>
+<span>₱ <span id="receiptCash"></span></span>
+</p>
 
-        <p>
-            <span>Change</span>
-            <span>₱ <span id="receiptChange"></span></span>
-        </p>
+<p>
+<span>Change</span>
+<span>₱ <span id="receiptChange"></span></span>
+</p>
 
-    </div>
+</div>
 
-    <div class="receipt-footer">
-        Thank you for your order ☕
-    </div>
+<div class="receipt-footer">
+Thank you for your order ☕
+</div>
 
-    <div class="receipt-buttons">
+<div class="receipt-buttons">
 
-        <button class="print-btn" onclick="window.print()">
-            PRINT
-        </button>
+<button class="print-btn" onclick="window.print()">
+PRINT
+</button>
 
-        <button class="close-btn" onclick="closeReceipt()">
-            CLOSE
-        </button>
+<button class="close-btn" onclick="closeReceipt()">
+CLOSE
+</button>
 
-    </div>
+</div>
 
 </div>
 
@@ -560,9 +535,9 @@ from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 
 import {
 
-    getFirestore,
-    collection,
-    addDoc
+getFirestore,
+collection,
+addDoc
 
 }
 
@@ -570,19 +545,19 @@ from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
 const firebaseConfig = {
 
-    apiKey: "AIzaSyAdOguugiFH6-3OQK1HsYGfkCIXVTK9Wc4",
+apiKey: "AIzaSyCYjuZlpgE-Lci33e53014F7fRIid6u7Dg",
 
-    authDomain: "d-mezzanine-cafe.firebaseapp.com",
+authDomain: "family-web-10cb8.firebaseapp.com",
 
-    projectId: "d-mezzanine-cafe",
+projectId: "family-web-10cb8",
 
-    storageBucket: "d-mezzanine-cafe.firebasestorage.app",
+storageBucket: "family-web-10cb8.firebasestorage.app",
 
-    messagingSenderId: "586558456999",
+messagingSenderId: "152048365178",
 
-    appId: "1:586558456999:web:86fd07961a36abc2de0782",
+appId: "1:152048365178:web:3e42c20e03a7c563d915c3",
 
-    measurementId: "G-C48ZSREBT1"
+measurementId: "G-1X8L2KQDYF"
 
 };
 
@@ -594,197 +569,213 @@ let cart = [];
 
 window.addItem = function(name,price){
 
-    let existing = cart.find(item=>item.name===name);
+let existing = cart.find(item => item.name === name);
 
-    if(existing){
+if(existing){
 
-        existing.qty++;
+existing.qty++;
 
-    }else{
+}else{
 
-        cart.push({
-            name:name,
-            price:price,
-            qty:1
-        });
+cart.push({
+name:name,
+price:price,
+qty:1
+});
 
-    }
+}
 
-    renderCart();
+renderCart();
+
 }
 
 function renderCart(){
 
-    const cartItems = document.getElementById("cartItems");
+const cartItems = document.getElementById("cartItems");
 
-    cartItems.innerHTML = "";
+cartItems.innerHTML = "";
 
-    let total = 0;
+let total = 0;
 
-    let count = 0;
+let count = 0;
 
-    cart.forEach((item,index)=>{
+cart.forEach((item,index)=>{
 
-        total += item.price * item.qty;
+total += item.price * item.qty;
 
-        count += item.qty;
+count += item.qty;
 
-        cartItems.innerHTML += `
+cartItems.innerHTML += `
 
-        <div class="cart-item">
+<div class="cart-item">
 
-            <div>
+<div>
 
-                <h4>${item.name}</h4>
+<h4>${item.name}</h4>
 
-                <p>₱${item.price}</p>
+<p>₱${item.price}</p>
 
-            </div>
+</div>
 
-            <div class="qty">
+<div class="qty">
 
-                <button onclick="decreaseQty(${index})">-</button>
+<button onclick="decreaseQty(${index})">-</button>
 
-                <span>${item.qty}</span>
+<span>${item.qty}</span>
 
-                <button onclick="increaseQty(${index})">+</button>
+<button onclick="increaseQty(${index})">+</button>
 
-            </div>
+</div>
 
-        </div>
+</div>
 
-        `;
+`;
 
-    });
+});
 
-    document.getElementById("total").innerText = total;
+document.getElementById("total").innerText = total;
 
-    document.getElementById("itemCount").innerText = count;
+document.getElementById("itemCount").innerText = count;
+
 }
 
 window.increaseQty = function(index){
 
-    cart[index].qty++;
+cart[index].qty++;
 
-    renderCart();
+renderCart();
+
 }
 
 window.decreaseQty = function(index){
 
-    if(cart[index].qty > 1){
+if(cart[index].qty > 1){
 
-        cart[index].qty--;
+cart[index].qty--;
 
-    }else{
+}else{
 
-        cart.splice(index,1);
+cart.splice(index,1);
 
-    }
+}
 
-    renderCart();
+renderCart();
+
 }
 
 window.clearCart = function(){
 
-    cart = [];
+cart = [];
 
-    renderCart();
+renderCart();
+
 }
 
 window.checkout = async function(){
 
-    if(cart.length === 0){
+if(cart.length === 0){
 
-        alert("Cart is empty!");
+alert("Cart is empty!");
 
-        return;
-    }
+return;
 
-    let total = cart.reduce((sum,item)=>
+}
 
-        sum + (item.price * item.qty)
+let total = cart.reduce((sum,item)=>
 
-    ,0);
+sum + (item.price * item.qty)
 
-    let cash = parseFloat(document.getElementById("cash").value);
+,0);
 
-    if(isNaN(cash) || cash < total){
+let cash = parseFloat(
+document.getElementById("cash").value
+);
 
-        alert("Insufficient cash!");
+if(isNaN(cash) || cash < total){
 
-        return;
-    }
+alert("Insufficient cash!");
 
-    let change = cash - total;
+return;
 
-    document.getElementById("overlay").style.display = "block";
+}
 
-    document.getElementById("receipt").style.display = "block";
+let change = cash - total;
 
-    document.getElementById("receiptDate").innerText =
-    new Date().toLocaleString();
+document.getElementById("overlay").style.display = "block";
 
-    document.getElementById("receiptItems").innerHTML = cart.map(item =>
+document.getElementById("receipt").style.display = "block";
 
-        `<p>
-            <span>${item.qty}x ${item.name}</span>
-            <span>₱${item.price * item.qty}</span>
-        </p>`
+document.getElementById("receiptDate").innerText =
+new Date().toLocaleString();
 
-    ).join("");
+document.getElementById("receiptItems").innerHTML =
 
-    document.getElementById("receiptTotal").innerText = total;
+cart.map(item =>
 
-    document.getElementById("receiptCash").innerText = cash;
+`<p>
+<span>${item.qty}x ${item.name}</span>
+<span>₱${item.price * item.qty}</span>
+</p>`
 
-    document.getElementById("receiptChange").innerText = change;
+).join("");
 
-    try{
+document.getElementById("receiptTotal").innerText = total;
 
-        await addDoc(collection(db,"sales"),{
+document.getElementById("receiptCash").innerText = cash;
 
-            date:new Date().toLocaleString(),
+document.getElementById("receiptChange").innerText = change;
 
-            total:total,
+try{
 
-            items: cart.map(item => ({
+await addDoc(collection(db,"sales"),{
 
-                name:item.name,
+date:new Date().toISOString(),
 
-                qty:item.qty,
+total:total,
 
-                price:item.price
+items: cart.map(item => ({
 
-            }))
+name:item.name,
 
-        });
+qty:item.qty,
 
-        console.log("Sale saved to Firebase");
+price:item.price
 
-    }catch(error){
+}))
 
-        console.log(error);
+});
 
-    }
+console.log("Sale saved to Firebase");
 
-    cart = [];
+}catch(error){
 
-    renderCart();
+console.log(error);
 
-    document.getElementById("cash").value = "";
+alert("Firebase save failed");
+
+}
+
+cart = [];
+
+renderCart();
+
+document.getElementById("cash").value = "";
+
 }
 
 window.closeReceipt = function(){
 
-    document.getElementById("receipt").style.display = "none";
+document.getElementById("receipt").style.display = "none";
 
-    document.getElementById("overlay").style.display = "none";
+document.getElementById("overlay").style.display = "none";
+
 }
 
 function updateTime(){
 
-    document.getElementById("time").innerText =
-    new Date().toLocaleString();
+document.getElementById("time").innerText =
+new Date().toLocaleString();
+
 }
 
 setInterval(updateTime,1000);
