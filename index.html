@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>D' Mezzanine Cafe System</title>
 
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#f0b43a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="D Mezzanine">
+
 <style>
 
 *{
@@ -561,6 +568,53 @@ function printReceipt(){
 
 function toggleMenu(){
     document.getElementById("sidebar").classList.toggle("active");
+}
+
+</script>
+
+<script>
+
+// PWA INSTALL SUPPORT
+
+let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+
+    const installBtn = document.createElement('button');
+    installBtn.innerText = '📲 Install App';
+    installBtn.style.position = 'fixed';
+    installBtn.style.bottom = '20px';
+    installBtn.style.right = '20px';
+    installBtn.style.padding = '15px';
+    installBtn.style.border = 'none';
+    installBtn.style.borderRadius = '14px';
+    installBtn.style.background = '#f0b43a';
+    installBtn.style.color = 'black';
+    installBtn.style.fontWeight = 'bold';
+    installBtn.style.cursor = 'pointer';
+    installBtn.style.zIndex = '9999';
+
+    document.body.appendChild(installBtn);
+
+    installBtn.addEventListener('click', async () => {
+        installBtn.remove();
+
+        if(deferredPrompt){
+            deferredPrompt.prompt();
+            await deferredPrompt.userChoice;
+            deferredPrompt = null;
+        }
+    });
+});
+
+// REGISTER SERVICE WORKER
+
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js');
+    });
 }
 
 </script>
