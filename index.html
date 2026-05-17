@@ -3,49 +3,286 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>D' Mezzanine Cafe</title>
+
+<title>D' Mezzanine Cafe System</title>
 
 <style>
 
-body{
+*{
     margin:0;
-    font-family:Segoe UI;
-    background:#111;
-    color:white;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
 }
 
-header{
-    background:#2b1d0e;
+body{
+    background:#111;
+    color:white;
+    display:flex;
+    min-height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    width:260px;
+    background:#1b1b1b;
     padding:20px;
+    position:fixed;
+    height:100%;
+    overflow:auto;
+}
+
+.logo{
     text-align:center;
-    font-size:30px;
-    font-weight:bold;
+    margin-bottom:30px;
+}
+
+.logo h1{
+    color:#f5c16c;
+    font-size:28px;
+}
+
+.logo p{
+    color:#aaa;
+    font-size:14px;
+}
+
+.menu{
+    margin-top:20px;
+}
+
+.menu button{
+    width:100%;
+    padding:15px;
+    margin-bottom:12px;
+    border:none;
+    border-radius:12px;
+    background:#2b1d0e;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.menu button:hover{
+    background:#c58b39;
+}
+
+/* MAIN */
+
+.main{
+    margin-left:260px;
+    width:100%;
+    padding:20px;
+}
+
+/* TOPBAR */
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+    flex-wrap:wrap;
+    gap:10px;
+}
+
+.topbar h2{
     color:#f5c16c;
 }
 
-.container{
-    padding:20px;
+.topbar input{
+    padding:12px;
+    width:250px;
+    border:none;
+    border-radius:10px;
+    background:#222;
+    color:white;
+}
+
+/* CARDS */
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+    margin-bottom:30px;
 }
 
 .card{
     background:#1e1e1e;
     padding:20px;
-    border-radius:15px;
-    margin-bottom:20px;
+    border-radius:18px;
+    box-shadow:0 0 10px rgba(0,0,0,.3);
 }
 
-button{
+.card h3{
+    color:#bbb;
+    margin-bottom:10px;
+}
+
+.card h1{
+    color:#f5c16c;
+}
+
+/* POS */
+
+.section-title{
+    margin-bottom:20px;
+    color:#f5c16c;
+}
+
+.products{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:20px;
+}
+
+.product{
+    background:#1e1e1e;
+    border-radius:18px;
+    overflow:hidden;
+    transition:.3s;
+}
+
+.product:hover{
+    transform:translateY(-5px);
+}
+
+.product img{
+    width:100%;
+    height:160px;
+    object-fit:cover;
+}
+
+.product-content{
+    padding:15px;
+}
+
+.product-content h3{
+    margin-bottom:10px;
+}
+
+.product-content p{
+    color:#f5c16c;
+    margin-bottom:12px;
+}
+
+.product-content button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
     background:#c58b39;
     color:white;
-    border:none;
-    padding:12px 20px;
-    border-radius:10px;
     cursor:pointer;
-    font-size:16px;
+    font-size:15px;
 }
 
-button:hover{
-    background:#e0a24a;
+/* ORDER PANEL */
+
+.order-panel{
+    margin-top:30px;
+    background:#1e1e1e;
+    padding:20px;
+    border-radius:18px;
+}
+
+.order-panel table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.order-panel th,
+.order-panel td{
+    padding:12px;
+    border-bottom:1px solid #333;
+    text-align:left;
+}
+
+.total{
+    text-align:right;
+    margin-top:20px;
+}
+
+.total h2{
+    color:#f5c16c;
+}
+
+.print-btn{
+    margin-top:20px;
+    width:100%;
+    padding:15px;
+    background:#f5c16c;
+    border:none;
+    border-radius:12px;
+    font-size:18px;
+    cursor:pointer;
+    color:black;
+    font-weight:bold;
+}
+
+/* INVENTORY */
+
+.inventory{
+    margin-top:30px;
+    background:#1e1e1e;
+    padding:20px;
+    border-radius:18px;
+}
+
+.inventory table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.inventory th,
+.inventory td{
+    padding:14px;
+    border-bottom:1px solid #333;
+}
+
+/* MOBILE */
+
+.mobile-menu{
+    display:none;
+    position:fixed;
+    top:15px;
+    left:15px;
+    background:#c58b39;
+    border:none;
+    padding:12px;
+    border-radius:10px;
+    color:white;
+    font-size:20px;
+    z-index:1000;
+}
+
+@media(max-width:900px){
+
+    .sidebar{
+        left:-100%;
+        transition:.3s;
+        z-index:999;
+    }
+
+    .sidebar.active{
+        left:0;
+    }
+
+    .main{
+        margin-left:0;
+        padding-top:70px;
+    }
+
+    .mobile-menu{
+        display:block;
+    }
+
+    .topbar input{
+        width:100%;
+    }
 }
 
 </style>
@@ -53,27 +290,218 @@ button:hover{
 
 <body>
 
-<header>
-☕ D' Mezzanine Cafe System
-</header>
+<button class="mobile-menu" onclick="toggleMenu()">☰</button>
 
-<div class="container">
+<!-- SIDEBAR -->
+
+<div class="sidebar" id="sidebar">
+
+<div class="logo">
+<h1>☕ D' Mezzanine</h1>
+<p>Cafe Management System</p>
+</div>
+
+<div class="menu">
+<button>🏠 Dashboard</button>
+<button>☕ POS / Cashier</button>
+<button>📦 Inventory</button>
+<button>📈 Sales Reports</button>
+<button>👥 Employees</button>
+<button>⚙ Settings</button>
+<button>🚪 Logout</button>
+</div>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
+
+<div class="topbar">
+<h2>Dashboard</h2>
+
+<input type="text" placeholder="Search coffee...">
+</div>
+
+<!-- DASHBOARD CARDS -->
+
+<div class="cards">
 
 <div class="card">
-<h2>Dashboard</h2>
-<p>Welcome to your coffee shop management system.</p>
+<h3>Daily Sales</h3>
+<h1>₱12,500</h1>
+</div>
 
-<button onclick="alert('POS System Coming Soon')">
-Open POS
+<div class="card">
+<h3>Total Orders</h3>
+<h1>85</h1>
+</div>
+
+<div class="card">
+<h3>Best Seller</h3>
+<h1>Caramel Latte</h1>
+</div>
+
+<div class="card">
+<h3>Pending Orders</h3>
+<h1>5</h1>
+</div>
+
+</div>
+
+<!-- POS -->
+
+<h2 class="section-title">☕ Coffee Menu</h2>
+
+<div class="products">
+
+<div class="product">
+<img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93">
+<div class="product-content">
+<h3>Caramel Latte</h3>
+<p>₱120</p>
+<button onclick="addOrder('Caramel Latte',120)">
+Add Order
 </button>
 </div>
+</div>
 
-<div class="card">
-<h2>Daily Sales</h2>
-<h1>₱0.00</h1>
+<div class="product">
+<img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085">
+<div class="product-content">
+<h3>Cappuccino</h3>
+<p>₱110</p>
+<button onclick="addOrder('Cappuccino',110)">
+Add Order
+</button>
+</div>
+</div>
+
+<div class="product">
+<img src="https://images.unsplash.com/photo-1511920170033-f8396924c348">
+<div class="product-content">
+<h3>Mocha Coffee</h3>
+<p>₱130</p>
+<button onclick="addOrder('Mocha Coffee',130)">
+Add Order
+</button>
+</div>
+</div>
+
+<div class="product">
+<img src="https://images.unsplash.com/photo-1497636577773-f1231844b336">
+<div class="product-content">
+<h3>Iced Coffee</h3>
+<p>₱100</p>
+<button onclick="addOrder('Iced Coffee',100)">
+Add Order
+</button>
+</div>
 </div>
 
 </div>
+
+<!-- ORDER PANEL -->
+
+<div class="order-panel">
+
+<h2 class="section-title">🧾 Current Orders</h2>
+
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Price</th>
+</tr>
+</thead>
+
+<tbody id="orderList">
+
+</tbody>
+</table>
+
+<div class="total">
+<h2>Total: ₱<span id="total">0</span></h2>
+</div>
+
+<button class="print-btn" onclick="printReceipt()">
+🖨 Print Receipt
+</button>
+
+</div>
+
+<!-- INVENTORY -->
+
+<div class="inventory">
+
+<h2 class="section-title">📦 Inventory</h2>
+
+<table>
+<tr>
+<th>Item</th>
+<th>Stock</th>
+<th>Status</th>
+</tr>
+
+<tr>
+<td>Milk</td>
+<td>25</td>
+<td>Available</td>
+</tr>
+
+<tr>
+<td>Coffee Beans</td>
+<td>15</td>
+<td>Low Stock</td>
+</tr>
+
+<tr>
+<td>Cups</td>
+<td>100</td>
+<td>Available</td>
+</tr>
+
+<tr>
+<td>Chocolate Syrup</td>
+<td>8</td>
+<td>Low Stock</td>
+</tr>
+
+</table>
+
+</div>
+
+</div>
+
+<script>
+
+let total = 0;
+
+function addOrder(name,price){
+
+    let row = `
+    <tr>
+        <td>${name}</td>
+        <td>₱${price}</td>
+    </tr>
+    `;
+
+    document.getElementById("orderList").innerHTML += row;
+
+    total += price;
+
+    document.getElementById("total").innerText = total;
+}
+
+function printReceipt(){
+    window.print();
+}
+
+function toggleMenu(){
+    document.getElementById("sidebar").classList.toggle("active");
+}
+
+</script>
 
 </body>
 </html>
