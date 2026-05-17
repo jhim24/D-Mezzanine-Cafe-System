@@ -105,6 +105,12 @@ table td{
     font-weight:600;
 }
 
+.loading{
+    text-align:center;
+    padding:30px;
+    color:#cbd5e1;
+}
+
 @media(max-width:700px){
 
 table{
@@ -176,83 +182,174 @@ table{
 
         </thead>
 
-        <tbody id="salesTable"></tbody>
+        <tbody id="salesTable">
+
+            <tr>
+
+                <td colspan="4" class="loading">
+                    Loading sales...
+                </td>
+
+            </tr>
+
+        </tbody>
 
     </table>
 
 </div>
 
-<script>
+<script type="module">
 
-let sales = JSON.parse(localStorage.getItem("sales")) || [];
+import { initializeApp }
 
-let today = new Date().toLocaleDateString();
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 
-let totalToday = 0;
+import {
 
-document.getElementById("todayDate").innerText = today;
+    getFirestore,
+    collection,
+    getDocs,
+    query,
+    orderBy
 
-document.getElementById("totalOrders").innerText = sales.length;
+}
 
-sales.reverse().forEach(sale=>{
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
-    let saleDate = new Date(sale.date).toLocaleDateString();
+const firebaseConfig = {
 
-    if(saleDate === today){
+    apiKey: "AIzaSyAdOguugiFH6-3OQK1HsYGfkCIXVTK9Wc4",
 
-        totalToday += sale.total;
+    authDomain: "d-mezzanine-cafe.firebaseapp.com",
 
-    }
+    projectId: "d-mezzanine-cafe",
 
-    // OLD SALES WITHOUT ITEMS
-    if(!sale.items){
+    storageBucket: "d-mezzanine-cafe.firebasestorage.app",
 
-        document.getElementById("salesTable").innerHTML += `
+    messagingSenderId: "586558456999",
+
+    appId: "1:586558456999:web:86fd07961a36abc2de0782",
+
+    measurementId: "G-C48ZSREBT1"
+
+};
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+document.getElementById("todayDate").innerText =
+new Date().toLocaleDateString();
+
+async function loadSales(){
+
+    try{
+
+        const salesTable = document.getElementById("salesTable");
+
+        salesTable.innerHTML = "";
+
+        let totalToday = 0;
+
+        let totalOrders = 0;
+
+        let today = new Date().toLocaleDateString();
+
+        const q = query(
+
+            collection(db,"sales")
+
+        );
+
+        const querySnapshot = await getDocs(q);
+
+        if(querySnapshot.empty){
+
+            salesTable.innerHTML = `
 
             <tr>
 
-                <td>${sale.date}</td>
-
-                <td>Old Transaction</td>
-
-                <td>-</td>
-
-                <td class="total-row">₱${sale.total}</td>
+                <td colspan="4" class="loading">
+                    No sales found
+                </td>
 
             </tr>
 
-        `;
-
-    }else{
-
-        sale.items.forEach(item=>{
-
-            document.getElementById("salesTable").innerHTML += `
-
-                <tr>
-
-                    <td>${sale.date}</td>
-
-                    <td>${item.name}</td>
-
-                    <td>${item.qty}</td>
-
-                    <td class="total-row">
-                        ₱${item.price * item.qty}
-                    </td>
-
-                </tr>
-
             `;
+
+        }
+
+        querySnapshot.forEach((doc)=>{
+
+            const sale = doc.data();
+
+            totalOrders++;
+
+            let saleDate = new Date(sale.date).toLocaleDateString();
+
+            if(saleDate === today){
+
+                totalToday += sale.total;
+
+            }
+
+            if(sale.items){
+
+                sale.items.forEach(item=>{
+
+                    salesTable.innerHTML += `
+
+                    <tr>
+
+                        <td>${sale.date}</td>
+
+                        <td>${item.name}</td>
+
+                        <td>${item.qty}</td>
+
+                        <td class="total-row">
+                            ₱${item.price * item.qty}
+                        </td>
+
+                    </tr>
+
+                    `;
+
+                });
+
+            }
 
         });
 
+        document.getElementById("todaySales").innerText =
+
+        "₱" + totalToday.toLocaleString();
+
+        document.getElementById("totalOrders").innerText =
+
+        totalOrders;
+
+    }catch(error){
+
+        console.log(error);
+
+        document.getElementById("salesTable").innerHTML = `
+
+        <tr>
+
+            <td colspan="4" class="loading">
+                Failed to load Firebase sales
+            </td>
+
+        </tr>
+
+        `;
+
     }
 
-});
+}
 
-document.getElementById("todaySales").innerText =
-"₱" + totalToday.toLocaleString();
+loadSales();
 
 </script>
 
