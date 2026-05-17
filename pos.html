@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>D' Mezzanine Cafe POS</title>
+
+<link rel="manifest" href="manifest.json">
+
+<meta name="theme-color" content="#facc15">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+
+    background:#0f172a;
+
+    color:white;
+
+    overflow-x:hidden;
+}
+
+.container{
+    display:flex;
+    min-height:100vh;
+}
+
+.sidebar{
+
+    width:260px;
+
+    background:#111827;
+
+    padding:20px;
+
+    position:fixed;
+
+    height:100vh;
+
+    overflow-y:auto;
+}
+
+.logo{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    margin-bottom:30px;
+}
+
+.logo img{
+
+    width:60px;
+
+    height:60px;
+
+    border-radius:50%;
+
+    border:2px solid #facc15;
+}
+
+.logo h2{
+    color:#facc15;
+}
+
+.menu{
+    list-style:none;
+}
+
+.menu li{
+    margin-bottom:10px;
+}
+
+.menu a{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    text-decoration:none;
+
+    color:white;
+
+    padding:15px;
+
+    border-radius:14px;
+
+    transition:.3s;
+}
+
+.menu a:hover,
+.menu a.active{
+
+    background:#facc15;
+
+    color:black;
+}
+
+.main{
+
+    margin-left:260px;
+
+    width:calc(100% - 260px);
+
+    padding:20px;
+}
+
+.topbar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:25px;
+}
+
+.topbar h1{
+    font-size:28px;
+}
+
+.dashboard{
+
+    display:grid;
+
+    grid-template-columns:2fr 1fr;
+
+    gap:20px;
+}
+
+.products{
+
+    background:#1e293b;
+
+    padding:20px;
+
+    border-radius:20px;
+}
+
+.products h2{
+    margin-bottom:20px;
+}
+
+.product-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+
+    gap:20px;
+}
+
+.product{
+
+    background:#0f172a;
+
+    border:1px solid rgba(255,255,255,0.05);
+
+    border-radius:18px;
+
+    padding:15px;
+
+    text-align:center;
+
+    transition:.3s;
+
+    cursor:pointer;
+}
+
+.product:hover{
+
+    transform:translateY(-5px);
+
+    border-color:#facc15;
+}
+
+.product img{
+
+    width:100%;
+
+    height:140px;
+
+    object-fit:cover;
+
+    border-radius:12px;
+
+    margin-bottom:10px;
+}
+
+.product h3{
+    margin-bottom:5px;
+}
+
+.product p{
+    color:#facc15;
+    margin-bottom:10px;
+}
+
+.product button{
+
+    width:100%;
+
+    border:none;
+
+    background:#facc15;
+
+    color:black;
+
+    padding:10px;
+
+    border-radius:10px;
+
+    font-weight:600;
+
+    cursor:pointer;
+}
+
+.cart{
+
+    background:#1e293b;
+
+    padding:20px;
+
+    border-radius:20px;
+
+    height:fit-content;
+
+    position:sticky;
+
+    top:20px;
+}
+
+.cart h2{
+    margin-bottom:20px;
+}
+
+.cart-item{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-bottom:15px;
+
+    padding-bottom:10px;
+
+    border-bottom:1px solid rgba(255,255,255,0.05);
+}
+
+.total{
+
+    margin-top:20px;
+
+    font-size:22px;
+
+    color:#facc15;
+}
+
+.payment{
+
+    margin-top:20px;
+}
+
+.payment input{
+
+    width:100%;
+
+    padding:12px;
+
+    border:none;
+
+    border-radius:10px;
+
+    margin-top:10px;
+
+    background:#0f172a;
+
+    color:white;
+}
+
+.checkout-btn{
+
+    width:100%;
+
+    margin-top:20px;
+
+    padding:14px;
+
+    border:none;
+
+    background:#22c55e;
+
+    color:white;
+
+    border-radius:12px;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    cursor:pointer;
+}
+
+.checkout-btn:hover{
+    background:#16a34a;
+}
+
+.receipt{
+
+    margin-top:20px;
+
+    background:#0f172a;
+
+    padding:15px;
+
+    border-radius:14px;
+
+    display:none;
+}
+
+.receipt h3{
+    margin-bottom:10px;
+}
+
+.receipt p{
+    margin-bottom:6px;
+}
+
+.print-btn{
+
+    width:100%;
+
+    margin-top:15px;
+
+    padding:12px;
+
+    border:none;
+
+    background:#facc15;
+
+    color:black;
+
+    border-radius:10px;
+
+    font-weight:600;
+
+    cursor:pointer;
+}
+
+@media(max-width:950px){
+
+.dashboard{
+    grid-template-columns:1fr;
+}
+
+.sidebar{
+    width:85px;
+}
+
+.sidebar span,
+.logo div{
+    display:none;
+}
+
+.main{
+    margin-left:85px;
+    width:calc(100% - 85px);
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="sidebar">
+
+    <div class="logo">
+
+        <img src="./icon-192.png">
+
+        <div>
+            <h2>D'Mezzanine</h2>
+            <small>POS SYSTEM</small>
+        </div>
+
+    </div>
+
+    <ul class="menu">
+
+        <li>
+            <a href="#" class="active">
+                <i class="fa-solid fa-cash-register"></i>
+                <span>POS</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                <i class="fa-solid fa-box"></i>
+                <span>Inventory</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                <i class="fa-solid fa-file-invoice-dollar"></i>
+                <span>Sales</span>
+            </a>
+        </li>
+
+    </ul>
+
+</div>
+
+<div class="main">
+
+    <div class="topbar">
+
+        <h1>Cafe POS System ☕</h1>
+
+        <h2 id="date"></h2>
+
+    </div>
+
+    <div class="dashboard">
+
+        <div class="products">
+
+            <h2>Menu Products</h2>
+
+            <div class="product-grid">
+
+                <div class="product">
+
+                    <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=800">
+
+                    <h3>Spanish Latte</h3>
+
+                    <p>₱220</p>
+
+                    <button onclick="addToCart('Spanish Latte',220)">Add</button>
+
+                </div>
+
+                <div class="product">
+
+                    <img src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?q=80&w=800">
+
+                    <h3>Dark Mocha</h3>
+
+                    <p>₱250</p>
+
+                    <button onclick="addToCart('Dark Mocha',250)">Add</button>
+
+                </div>
+
+                <div class="product">
+
+                    <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?q=80&w=800">
+
+                    <h3>Carbonara</h3>
+
+                    <p>₱320</p>
+
+                    <button onclick="addToCart('Carbonara',320)">Add</button>
+
+                </div>
+
+                <div class="product">
+
+                    <img src="https://images.unsplash.com/photo-1562967916-eb82221dfb92?q=80&w=800">
+
+                    <h3>Chicken Wings</h3>
+
+                    <p>₱420</p>
+
+                    <button onclick="addToCart('Chicken Wings',420)">Add</button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="cart">
+
+            <h2>Cart</h2>
+
+            <div id="cartItems"></div>
+
+            <div class="total">
+                Total: ₱ <span id="total">0</span>
+            </div>
+
+            <div class="payment">
+
+                <label>Cash Payment</label>
+
+                <input type="number" id="cash" placeholder="Enter cash">
+
+            </div>
+
+            <button class="checkout-btn" onclick="checkout()">
+                Checkout
+            </button>
+
+            <div class="receipt" id="receipt">
+
+                <h3>Receipt</h3>
+
+                <div id="receiptItems"></div>
+
+                <p><strong>Total:</strong> ₱ <span id="receiptTotal"></span></p>
+
+                <p><strong>Cash:</strong> ₱ <span id="receiptCash"></span></p>
+
+                <p><strong>Change:</strong> ₱ <span id="receiptChange"></span></p>
+
+                <button class="print-btn" onclick="window.print()">
+                    Print Receipt
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+<script>
+
+let cart = [];
+
+function addToCart(name,price){
+
+    cart.push({name,price});
+
+    renderCart();
+}
+
+function renderCart(){
+
+    const cartItems = document.getElementById("cartItems");
+
+    cartItems.innerHTML = "";
+
+    let total = 0;
+
+    cart.forEach(item=>{
+
+        total += item.price;
+
+        cartItems.innerHTML += `
+
+            <div class="cart-item">
+
+                <span>${item.name}</span>
+
+                <span>₱${item.price}</span>
+
+            </div>
+
+        `;
+
+    });
+
+    document.getElementById("total").innerText = total;
+}
+
+function checkout(){
+
+    let total = cart.reduce((sum,item)=>sum+item.price,0);
+
+    let cash = parseFloat(document.getElementById("cash").value);
+
+    if(isNaN(cash) || cash < total){
+
+        alert("Insufficient cash!");
+
+        return;
+    }
+
+    let change = cash - total;
+
+    document.getElementById("receipt").style.display = "block";
+
+    document.getElementById("receiptItems").innerHTML = cart.map(item=>
+
+        `<p>${item.name} - ₱${item.price}</p>`
+
+    ).join("");
+
+    document.getElementById("receiptTotal").innerText = total;
+
+    document.getElementById("receiptCash").innerText = cash;
+
+    document.getElementById("receiptChange").innerText = change;
+
+    let sales = JSON.parse(localStorage.getItem("sales")) || [];
+
+    sales.push({
+
+        date:new Date().toLocaleString(),
+
+        total
+
+    });
+
+    localStorage.setItem("sales",JSON.stringify(sales));
+
+    cart = [];
+
+    renderCart();
+}
+
+document.getElementById("date").innerText =
+new Date().toLocaleDateString();
+
+if ('serviceWorker' in navigator) {
+
+    window.addEventListener('load', async () => {
+
+        try {
+
+            await navigator.serviceWorker.register('./sw.js?v=999');
+
+        } catch (error) {
+
+            console.log(error);
+
+        }
+
+    });
+
+}
+
+</script>
+
+</body>
+</html>
