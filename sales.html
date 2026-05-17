@@ -208,9 +208,7 @@ import {
 
     getFirestore,
     collection,
-    getDocs,
-    query,
-    orderBy
+    getDocs
 
 }
 
@@ -218,19 +216,19 @@ from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
 const firebaseConfig = {
 
-    apiKey: "AIzaSyAdOguugiFH6-3OQK1HsYGfkCIXVTK9Wc4",
+    apiKey: "AIzaSyCYjuZlpgE-Lci33e53014F7fRIid6u7Dg",
 
-    authDomain: "d-mezzanine-cafe.firebaseapp.com",
+    authDomain: "family-web-10cb8.firebaseapp.com",
 
-    projectId: "d-mezzanine-cafe",
+    projectId: "family-web-10cb8",
 
-    storageBucket: "d-mezzanine-cafe.firebasestorage.app",
+    storageBucket: "family-web-10cb8.firebasestorage.app",
 
-    messagingSenderId: "586558456999",
+    messagingSenderId: "152048365178",
 
-    appId: "1:586558456999:web:86fd07961a36abc2de0782",
+    appId: "1:152048365178:web:3e42c20e03a7c563d915c3",
 
-    measurementId: "G-C48ZSREBT1"
+    measurementId: "G-1X8L2KQDYF"
 
 };
 
@@ -255,13 +253,9 @@ async function loadSales(){
 
         let today = new Date().toLocaleDateString();
 
-        const q = query(
-
+        const querySnapshot = await getDocs(
             collection(db,"sales")
-
         );
-
-        const querySnapshot = await getDocs(q);
 
         if(querySnapshot.empty){
 
@@ -277,6 +271,7 @@ async function loadSales(){
 
             `;
 
+            return;
         }
 
         querySnapshot.forEach((doc)=>{
@@ -285,15 +280,29 @@ async function loadSales(){
 
             totalOrders++;
 
-            let saleDate = new Date(sale.date).toLocaleDateString();
+            let saleDate = "";
 
-            if(saleDate === today){
+            if(sale.date){
 
-                totalToday += sale.total;
+                saleDate = new Date(sale.date)
+                .toLocaleString();
+
+            }else{
+
+                saleDate = "No Date";
 
             }
 
-            if(sale.items){
+            if(
+                new Date(sale.date)
+                .toLocaleDateString() === today
+            ){
+
+                totalToday += sale.total || 0;
+
+            }
+
+            if(sale.items && sale.items.length > 0){
 
                 sale.items.forEach(item=>{
 
@@ -301,14 +310,14 @@ async function loadSales(){
 
                     <tr>
 
-                        <td>${sale.date}</td>
+                        <td>${saleDate}</td>
 
-                        <td>${item.name}</td>
+                        <td>${item.name || "-"}</td>
 
-                        <td>${item.qty}</td>
+                        <td>${item.qty || 0}</td>
 
                         <td class="total-row">
-                            ₱${item.price * item.qty}
+                            ₱${(item.price || 0) * (item.qty || 0)}
                         </td>
 
                     </tr>
@@ -316,6 +325,26 @@ async function loadSales(){
                     `;
 
                 });
+
+            }else{
+
+                salesTable.innerHTML += `
+
+                <tr>
+
+                    <td>${saleDate}</td>
+
+                    <td>Old Transaction</td>
+
+                    <td>-</td>
+
+                    <td class="total-row">
+                        ₱${sale.total || 0}
+                    </td>
+
+                </tr>
+
+                `;
 
             }
 
