@@ -533,6 +533,10 @@ initializeApp(firebaseConfig);
 
 const db =
 getFirestore(app);
+/* ADMIN PASSWORD */
+
+const adminPassword =
+"admin123";
 let salesChart;
 /* DATE */
 
@@ -544,6 +548,23 @@ new Date().toLocaleDateString();
 
 window.deleteSale =
 async function(id){
+
+let password =
+prompt("Enter Admin Password");
+
+if(password === null){
+
+return;
+
+}
+
+if(password !== adminPassword){
+
+alert("Wrong Admin Password");
+
+return;
+
+}
 
 let confirmDelete =
 confirm("Delete this sale?");
@@ -569,7 +590,6 @@ alert("Delete failed");
 }
 
 }
-
 /* VIEW */
 
 window.viewSale =
