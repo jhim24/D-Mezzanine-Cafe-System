@@ -93,26 +93,36 @@ background:#2563eb;
 
 .toolbar{
 background:#ececec;
-border-top:1px solid #999;
-border-bottom:1px solid #999;
-padding:8px;
+padding:10px;
 display:flex;
-gap:12px;
+gap:10px;
 flex-wrap:wrap;
 }
 
 .toolbar button{
-background:white;
-border:1px solid #999;
-padding:8px 14px;
+padding:10px 16px;
+border:none;
+border-radius:8px;
 cursor:pointer;
-font-size:13px;
-border-radius:4px;
+font-weight:600;
+}
+
+.save-btn{
+background:#22c55e;
+color:white;
+}
+
+.print-btn{
+background:#facc15;
+}
+
+.add-btn{
+background:#2563eb;
+color:white;
 }
 
 .form-section{
 padding:15px;
-border-bottom:2px solid #8aa8c5;
 background:#f9f9f9;
 }
 
@@ -129,24 +139,12 @@ margin-top:15px;
 width:100%;
 padding:10px;
 border:1px solid #999;
-background:white;
 border-radius:8px;
 }
 
 .form-grid textarea{
 height:80px;
 resize:none;
-}
-
-.save-btn{
-background:#22c55e !important;
-color:white;
-border:none;
-padding:12px 18px;
-border-radius:8px;
-cursor:pointer;
-margin-top:15px;
-font-weight:600;
 }
 
 .table-container{
@@ -189,7 +187,6 @@ background:#ececec;
 padding:12px;
 display:flex;
 justify-content:space-between;
-align-items:center;
 flex-wrap:wrap;
 gap:15px;
 border-top:2px solid #999;
@@ -221,13 +218,13 @@ border-radius:6px;
 cursor:pointer;
 }
 
-@media(max-width:900px){
-
-.footer{
-flex-direction:column;
-align-items:flex-start;
-}
-
+.account-preview{
+background:#e0f2fe;
+padding:10px;
+border-radius:8px;
+margin-top:10px;
+font-weight:600;
+color:#0f172a;
 }
 
 </style>
@@ -262,11 +259,7 @@ Dashboard
 
 </div>
 
-<div>
-
 <div id="currentDate"></div>
-
-</div>
 
 </div>
 
@@ -275,7 +268,6 @@ Dashboard
 <button class="tab-btn"
 onclick="showSection('journalSection')">
 
-<i class="fa-solid fa-book"></i>
 Journal Voucher
 
 </button>
@@ -283,7 +275,6 @@ Journal Voucher
 <button class="tab-btn"
 onclick="showSection('chartSection')">
 
-<i class="fa-solid fa-sitemap"></i>
 Chart of Accounts
 
 </button>
@@ -291,7 +282,6 @@ Chart of Accounts
 <button class="tab-btn"
 onclick="showSection('customerSection')">
 
-<i class="fa-solid fa-users"></i>
 Customers / Suppliers
 
 </button>
@@ -307,21 +297,20 @@ Customers / Suppliers
 <button class="save-btn"
 onclick="saveVoucher()">
 
-<i class="fa-solid fa-floppy-disk"></i>
 Save Voucher
 
 </button>
 
-<button onclick="addRow()">
+<button class="add-btn"
+onclick="addRow()">
 
-<i class="fa-solid fa-plus"></i>
 Add Row
 
 </button>
 
-<button onclick="window.print()">
+<button class="print-btn"
+onclick="window.print()">
 
-<i class="fa-solid fa-print"></i>
 Print
 
 </button>
@@ -384,25 +373,35 @@ placeholder="Remarks"></textarea>
 </td>
 
 <td>
-<input type="text">
+
+<input type="text"
+onkeyup="autoFillAccount(this)">
+
 </td>
 
 <td>
-<input type="text">
+
+<input type="text"
+class="accountName">
+
 </td>
 
 <td>
+
 <input type="number"
 class="debit"
 value="0"
 oninput="computeTotals()">
+
 </td>
 
 <td>
+
 <input type="number"
 class="credit"
 value="0"
 oninput="computeTotals()">
+
 </td>
 
 <td>
@@ -462,27 +461,38 @@ style="display:none;">
 
 <div class="form-grid">
 
+<select id="accountCategory"
+onchange="generateCode()">
+
+<option value="">Select Category</option>
+
+<option value="1">Assets</option>
+<option value="2">Liabilities</option>
+<option value="3">Equity</option>
+<option value="4">Income</option>
+<option value="5">Expenses</option>
+
+</select>
+
 <input type="text"
 id="accountCode"
-placeholder="Account Code">
+placeholder="Auto Account Code"
+readonly>
 
 <input type="text"
 id="accountName"
 placeholder="Account Name">
 
-<select id="accountType">
-
-<option>Assets</option>
-<option>Liabilities</option>
-<option>Equity</option>
-<option>Income</option>
-<option>Expenses</option>
-
-</select>
-
 <input type="number"
 id="openingBalance"
 placeholder="Opening Balance">
+
+</div>
+
+<div class="account-preview"
+id="accountPreview">
+
+Account Preview: -
 
 </div>
 
@@ -564,7 +574,8 @@ from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 import {
 getFirestore,
 collection,
-addDoc
+addDoc,
+getDocs
 }
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
@@ -588,6 +599,8 @@ const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
 
+let accountCounter = 1000;
+
 window.showSection = function(sectionId){
 
 document.getElementById("journalSection")
@@ -601,6 +614,35 @@ document.getElementById("customerSection")
 
 document.getElementById(sectionId)
 .style.display = "block";
+
+}
+
+window.generateCode = function(){
+
+const category =
+document.getElementById("accountCategory").value;
+
+accountCounter++;
+
+const generatedCode =
+category + accountCounter;
+
+document.getElementById("accountCode").value =
+generatedCode;
+
+const categoryName =
+document.getElementById("accountCategory")
+.options[
+document.getElementById("accountCategory")
+.selectedIndex
+].text;
+
+document.getElementById("accountPreview")
+.innerText =
+"Account Preview: " +
+categoryName +
+" - " +
+generatedCode;
 
 }
 
@@ -623,25 +665,35 @@ tbody.innerHTML += `
 </td>
 
 <td>
-<input type="text">
+
+<input type="text"
+onkeyup="autoFillAccount(this)">
+
 </td>
 
 <td>
-<input type="text">
+
+<input type="text"
+class="accountName">
+
 </td>
 
 <td>
+
 <input type="number"
 class="debit"
 value="0"
 oninput="computeTotals()">
+
 </td>
 
 <td>
+
 <input type="number"
 class="credit"
 value="0"
 oninput="computeTotals()">
+
 </td>
 
 <td>
@@ -658,6 +710,33 @@ Delete
 </tr>
 
 `;
+
+}
+
+window.autoFillAccount = async function(input){
+
+const accountCode = input.value;
+
+const snapshot =
+await getDocs(
+collection(db,"chartOfAccounts")
+);
+
+snapshot.forEach((doc)=>{
+
+const data = doc.data();
+
+if(data.accountCode === accountCode){
+
+const row =
+input.closest("tr");
+
+row.querySelector(".accountName").value =
+data.accountName;
+
+}
+
+});
 
 }
 
@@ -727,14 +806,14 @@ console.log(error);
 
 window.saveAccount = async function(){
 
+const accountCategory =
+document.getElementById("accountCategory").value;
+
 const accountCode =
 document.getElementById("accountCode").value;
 
 const accountName =
 document.getElementById("accountName").value;
-
-const accountType =
-document.getElementById("accountType").value;
 
 const openingBalance =
 document.getElementById("openingBalance").value;
@@ -745,9 +824,9 @@ await addDoc(
 collection(db,"chartOfAccounts"),
 {
 
+accountCategory,
 accountCode,
 accountName,
-accountType,
 openingBalance,
 createdAt:new Date().toISOString()
 
