@@ -16,109 +16,123 @@ rel="stylesheet">
 <style>
 
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
 }
 
 body{
-    background:#0f172a;
-    color:white;
-    padding:20px;
+background:#0f172a;
+color:white;
+padding:20px;
 }
 
 .topbar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:25px;
-    flex-wrap:wrap;
-    gap:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+flex-wrap:wrap;
+gap:15px;
 }
 
 .topbar h1{
-    font-size:30px;
+font-size:30px;
 }
 
 .cards{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:20px;
-    margin-bottom:25px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+margin-bottom:25px;
 }
 
 .card{
-    background:#1e293b;
-    padding:25px;
-    border-radius:20px;
+background:#1e293b;
+padding:25px;
+border-radius:20px;
 }
 
 .card h3{
-    color:#cbd5e1;
-    margin-bottom:10px;
+color:#cbd5e1;
+margin-bottom:10px;
 }
 
 .card h2{
-    color:#facc15;
-    font-size:30px;
+color:#facc15;
+font-size:30px;
 }
 
 .table-box{
-    background:#1e293b;
-    padding:20px;
-    border-radius:20px;
-    overflow-x:auto;
+background:#1e293b;
+padding:20px;
+border-radius:20px;
+overflow-x:auto;
 }
 
 table{
-    width:100%;
-    border-collapse:collapse;
+width:100%;
+border-collapse:collapse;
 }
 
 table th{
-    background:#111827;
-    color:#facc15;
-    padding:15px;
-    text-align:left;
-    white-space:nowrap;
+background:#111827;
+color:#facc15;
+padding:15px;
+text-align:left;
+white-space:nowrap;
 }
 
 table td{
-    padding:15px;
-    border-bottom:1px solid rgba(255,255,255,0.08);
+padding:15px;
+border-bottom:1px solid rgba(255,255,255,0.08);
 }
 
 .back-btn{
-    display:inline-block;
-    margin-bottom:20px;
-    text-decoration:none;
-    background:#facc15;
-    color:black;
-    padding:12px 18px;
-    border-radius:12px;
-    font-weight:600;
+display:inline-block;
+margin-bottom:20px;
+text-decoration:none;
+background:#facc15;
+color:black;
+padding:12px 18px;
+border-radius:12px;
+font-weight:600;
 }
 
 .total-row{
-    color:#4ade80;
-    font-weight:600;
+color:#4ade80;
+font-weight:600;
 }
 
 .loading{
-    text-align:center;
-    padding:30px;
-    color:#cbd5e1;
+text-align:center;
+padding:30px;
+color:#cbd5e1;
+}
+
+.delete-btn{
+background:#ef4444;
+border:none;
+color:white;
+padding:8px 12px;
+border-radius:8px;
+cursor:pointer;
+font-weight:600;
+}
+
+.delete-btn:hover{
+background:#dc2626;
 }
 
 @media(max-width:700px){
 
 table{
-    font-size:12px;
+font-size:12px;
 }
 
 .card h2{
-    font-size:24px;
+font-size:24px;
 }
 
 }
@@ -130,85 +144,84 @@ table{
 <body>
 
 <a href="index.html" class="back-btn">
-    <i class="fa-solid fa-arrow-left"></i>
-    Dashboard
+<i class="fa-solid fa-arrow-left"></i>
+Dashboard
 </a>
 
 <div class="topbar">
 
-    <h1>Sales Report 📊</h1>
+<h1>Sales Report 📊</h1>
 
-    <h2 id="todayDate"></h2>
+<h2 id="todayDate"></h2>
 
 </div>
 
 <div class="cards">
 
-    <div class="card">
+<div class="card">
 
-        <h3>Today's Sales</h3>
+<h3>Today's Sales</h3>
 
-        <h2 id="todaySales">₱0</h2>
+<h2 id="todaySales">₱0</h2>
 
-    </div>
+</div>
 
-    <div class="card">
+<div class="card">
 
-        <h3>Total Orders</h3>
+<h3>Total Orders</h3>
 
-        <h2 id="totalOrders">0</h2>
+<h2 id="totalOrders">0</h2>
 
-    </div>
+</div>
 
 </div>
 
 <div class="table-box">
 
-    <table>
+<table>
 
-        <thead>
+<thead>
 
-            <tr>
+<tr>
 
-                <th>Order Date</th>
+<th>Order Date</th>
+<th>Product</th>
+<th>Quantity</th>
+<th>Total Amount</th>
+<th>Action</th>
 
-                <th>Product</th>
+</tr>
 
-                <th>Quantity</th>
+</thead>
 
-                <th>Total Amount</th>
+<tbody id="salesTable">
 
-            </tr>
+<tr>
 
-        </thead>
+<td colspan="5" class="loading">
+Loading sales...
+</td>
 
-        <tbody id="salesTable">
+</tr>
 
-            <tr>
+</tbody>
 
-                <td colspan="4" class="loading">
-                    Loading sales...
-                </td>
-
-            </tr>
-
-        </tbody>
-
-    </table>
+</table>
 
 </div>
 
 <script type="module">
 
 import { initializeApp }
-
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 
 import {
 
-    getFirestore,
-    collection,
-    getDocs
+getFirestore,
+collection,
+getDocs,
+deleteDoc,
+doc
 
 }
 
@@ -216,19 +229,19 @@ from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
 const firebaseConfig = {
 
-    apiKey: "AIzaSyCYjuZlpgE-Lci33e53014F7fRIid6u7Dg",
+apiKey: "AIzaSyCYjuZlpgE-Lci33e53014F7fRIid6u7Dg",
 
-    authDomain: "family-web-10cb8.firebaseapp.com",
+authDomain: "family-web-10cb8.firebaseapp.com",
 
-    projectId: "family-web-10cb8",
+projectId: "family-web-10cb8",
 
-    storageBucket: "family-web-10cb8.firebasestorage.app",
+storageBucket: "family-web-10cb8.firebasestorage.app",
 
-    messagingSenderId: "152048365178",
+messagingSenderId: "152048365178",
 
-    appId: "1:152048365178:web:3e42c20e03a7c563d915c3",
+appId: "1:152048365178:web:3e42c20e03a7c563d915c3",
 
-    measurementId: "G-1X8L2KQDYF"
+measurementId: "G-1X8L2KQDYF"
 
 };
 
@@ -239,142 +252,190 @@ const db = getFirestore(app);
 document.getElementById("todayDate").innerText =
 new Date().toLocaleDateString();
 
+window.deleteSale = async function(id){
+
+let confirmDelete =
+confirm("Delete this sale?");
+
+if(!confirmDelete) return;
+
+try{
+
+await deleteDoc(doc(db,"sales",id));
+
+alert("Sale Deleted!");
+
+loadSales();
+
+}catch(error){
+
+console.log(error);
+
+alert("Delete failed");
+
+}
+
+}
+
 async function loadSales(){
 
-    try{
+try{
 
-        const salesTable = document.getElementById("salesTable");
+const salesTable =
+document.getElementById("salesTable");
 
-        salesTable.innerHTML = "";
+salesTable.innerHTML = "";
 
-        let totalToday = 0;
+let totalToday = 0;
 
-        let totalOrders = 0;
+let totalOrders = 0;
 
-        let today = new Date().toLocaleDateString();
+let today =
+new Date().toLocaleDateString();
 
-        const querySnapshot = await getDocs(
-            collection(db,"sales")
-        );
+const querySnapshot =
+await getDocs(collection(db,"sales"));
 
-        if(querySnapshot.empty){
+if(querySnapshot.empty){
 
-            salesTable.innerHTML = `
+salesTable.innerHTML = `
 
-            <tr>
+<tr>
 
-                <td colspan="4" class="loading">
-                    No sales found
-                </td>
+<td colspan="5" class="loading">
+No sales found
+</td>
 
-            </tr>
+</tr>
 
-            `;
+`;
 
-            return;
-        }
+return;
 
-        querySnapshot.forEach((doc)=>{
+}
 
-            const sale = doc.data();
+querySnapshot.forEach((firebaseDoc)=>{
 
-            totalOrders++;
+const sale = firebaseDoc.data();
 
-            let saleDate = "";
+totalOrders++;
 
-            if(sale.date){
+let saleDate = "";
 
-                saleDate = new Date(sale.date)
-                .toLocaleString();
+if(sale.date){
 
-            }else{
+saleDate =
+new Date(sale.date)
+.toLocaleString();
 
-                saleDate = "No Date";
+}else{
 
-            }
+saleDate = "No Date";
 
-            if(
-                new Date(sale.date)
-                .toLocaleDateString() === today
-            ){
+}
 
-                totalToday += sale.total || 0;
+if(
+new Date(sale.date)
+.toLocaleDateString() === today
+){
 
-            }
+totalToday += sale.total || 0;
 
-            if(sale.items && sale.items.length > 0){
+}
 
-                sale.items.forEach(item=>{
+if(sale.items && sale.items.length > 0){
 
-                    salesTable.innerHTML += `
+sale.items.forEach(item=>{
 
-                    <tr>
+salesTable.innerHTML += `
 
-                        <td>${saleDate}</td>
+<tr>
 
-                        <td>${item.name || "-"}</td>
+<td>${saleDate}</td>
 
-                        <td>${item.qty || 0}</td>
+<td>${item.name || "-"}</td>
 
-                        <td class="total-row">
-                            ₱${(item.price || 0) * (item.qty || 0)}
-                        </td>
+<td>${item.qty || 0}</td>
 
-                    </tr>
+<td class="total-row">
+₱${(item.price || 0) * (item.qty || 0)}
+</td>
 
-                    `;
+<td>
 
-                });
+<button class="delete-btn"
+onclick="deleteSale('${firebaseDoc.id}')">
 
-            }else{
+Delete
 
-                salesTable.innerHTML += `
+</button>
 
-                <tr>
+</td>
 
-                    <td>${saleDate}</td>
+</tr>
 
-                    <td>Old Transaction</td>
+`;
 
-                    <td>-</td>
+});
 
-                    <td class="total-row">
-                        ₱${sale.total || 0}
-                    </td>
+}else{
 
-                </tr>
+salesTable.innerHTML += `
 
-                `;
+<tr>
 
-            }
+<td>${saleDate}</td>
 
-        });
+<td>Old Transaction</td>
 
-        document.getElementById("todaySales").innerText =
+<td>-</td>
 
-        "₱" + totalToday.toLocaleString();
+<td class="total-row">
+₱${sale.total || 0}
+</td>
 
-        document.getElementById("totalOrders").innerText =
+<td>
 
-        totalOrders;
+<button class="delete-btn"
+onclick="deleteSale('${firebaseDoc.id}')">
 
-    }catch(error){
+Delete
 
-        console.log(error);
+</button>
 
-        document.getElementById("salesTable").innerHTML = `
+</td>
 
-        <tr>
+</tr>
 
-            <td colspan="4" class="loading">
-                Failed to load Firebase sales
-            </td>
+`;
 
-        </tr>
+}
 
-        `;
+});
 
-    }
+document.getElementById("todaySales").innerText =
+"₱" + totalToday.toLocaleString();
+
+document.getElementById("totalOrders").innerText =
+totalOrders;
+
+}catch(error){
+
+console.log(error);
+
+document.getElementById("salesTable").innerHTML = `
+
+<tr>
+
+<td colspan="5" class="loading">
+Failed to load Firebase sales
+</td>
+
+</tr>
+
+`;
+
+}
 
 }
 
