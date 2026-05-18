@@ -35,11 +35,11 @@ body{
 background:
 
 linear-gradient(
-rgba(15,23,42,0.92),
-rgba(15,23,42,0.96)
+rgba(0,0,0,0.72),
+rgba(0,0,0,0.78)
 ),
 
-url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1600&auto=format&fit=crop')
+url('images/cafe-bg.jpg')
 
 center/cover no-repeat fixed;
 
@@ -51,27 +51,46 @@ overflow:hidden;
 .container{
 display:flex;
 height:100vh;
-backdrop-filter:blur(3px);
+backdrop-filter:blur(2px);
 }
 
 /* SIDEBAR */
 
 .sidebar{
 width:270px;
-background:rgba(17,24,39,0.92);
+background:rgba(17,24,39,0.82);
 padding:20px;
 overflow-y:auto;
 border-right:1px solid rgba(255,255,255,0.08);
-backdrop-filter:blur(10px);
+backdrop-filter:blur(12px);
 }
 
-.logo{
-font-size:30px;
-font-weight:700;
-color:#facc15;
-margin-bottom:30px;
+.logo-box{
 text-align:center;
-letter-spacing:1px;
+margin-bottom:30px;
+}
+
+.logo-box img{
+width:120px;
+height:120px;
+object-fit:cover;
+border-radius:50%;
+border:4px solid #facc15;
+box-shadow:0 4px 20px rgba(0,0,0,0.4);
+margin-bottom:12px;
+background:white;
+}
+
+.logo-box h2{
+color:#facc15;
+font-size:26px;
+font-weight:700;
+}
+
+.logo-box p{
+font-size:13px;
+color:#cbd5e1;
+margin-top:5px;
 }
 
 .menu a{
@@ -80,7 +99,7 @@ align-items:center;
 gap:12px;
 padding:14px;
 margin-bottom:12px;
-background:rgba(30,41,59,0.85);
+background:rgba(30,41,59,0.82);
 border-radius:14px;
 text-decoration:none;
 color:white;
@@ -117,16 +136,18 @@ gap:15px;
 }
 
 .topbar h1{
-font-size:36px;
+font-size:38px;
 font-weight:700;
+text-shadow:0 3px 10px rgba(0,0,0,0.4);
 }
 
 .datetime{
 font-size:16px;
 color:#facc15;
-background:rgba(0,0,0,0.3);
+background:rgba(0,0,0,0.35);
 padding:10px 15px;
 border-radius:12px;
+backdrop-filter:blur(10px);
 }
 
 /* CARDS */
@@ -139,13 +160,13 @@ margin-bottom:25px;
 }
 
 .card{
-background:rgba(30,41,59,0.85);
+background:rgba(30,41,59,0.72);
 padding:25px;
 border-radius:24px;
 transition:.3s;
-backdrop-filter:blur(10px);
-border:1px solid rgba(255,255,255,0.05);
-box-shadow:0 4px 20px rgba(0,0,0,0.25);
+backdrop-filter:blur(14px);
+border:1px solid rgba(255,255,255,0.06);
+box-shadow:0 6px 25px rgba(0,0,0,0.35);
 position:relative;
 overflow:hidden;
 }
@@ -153,8 +174,8 @@ overflow:hidden;
 .card::before{
 content:"";
 position:absolute;
-top:-50px;
-right:-50px;
+top:-40px;
+right:-40px;
 width:120px;
 height:120px;
 background:rgba(250,204,21,0.08);
@@ -163,18 +184,18 @@ border-radius:50%;
 
 .card:hover{
 transform:translateY(-6px);
-box-shadow:0 10px 25px rgba(0,0,0,0.35);
+box-shadow:0 10px 30px rgba(0,0,0,0.45);
 }
 
 .card h3{
-color:#cbd5e1;
+color:#e2e8f0;
 margin-bottom:12px;
 font-size:14px;
 font-weight:500;
 }
 
 .card h2{
-font-size:34px;
+font-size:36px;
 color:#facc15;
 font-weight:700;
 }
@@ -189,15 +210,16 @@ margin-top:25px;
 }
 
 .quick-card{
-background:rgba(30,41,59,0.88);
+background:rgba(30,41,59,0.75);
 padding:28px;
 border-radius:24px;
 text-align:center;
 text-decoration:none;
 color:white;
 transition:.3s;
-backdrop-filter:blur(10px);
-border:1px solid rgba(255,255,255,0.05);
+backdrop-filter:blur(12px);
+border:1px solid rgba(255,255,255,0.06);
+box-shadow:0 5px 20px rgba(0,0,0,0.3);
 }
 
 .quick-card:hover{
@@ -224,13 +246,13 @@ font-size:16px;
 /* LOW STOCK */
 
 .sales-box{
-background:rgba(30,41,59,0.88);
+background:rgba(30,41,59,0.75);
 padding:25px;
 border-radius:24px;
 margin-top:30px;
-backdrop-filter:blur(10px);
-border:1px solid rgba(255,255,255,0.05);
-box-shadow:0 4px 20px rgba(0,0,0,0.25);
+backdrop-filter:blur(12px);
+border:1px solid rgba(255,255,255,0.06);
+box-shadow:0 6px 25px rgba(0,0,0,0.35);
 }
 
 .sales-box h2{
@@ -301,6 +323,10 @@ padding:15px;
 font-size:28px;
 }
 
+.logo-box{
+display:none;
+}
+
 }
 
 </style>
@@ -315,9 +341,13 @@ font-size:28px;
 
 <div class="sidebar">
 
-<div class="logo">
+<div class="logo-box">
 
-☕ D' Mezzanine
+<img src="images/logo.png">
+
+<h2>D' Mezzanine</h2>
+
+<p>Cafe & Restaurant Management</p>
 
 </div>
 
