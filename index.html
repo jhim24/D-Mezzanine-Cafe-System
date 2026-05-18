@@ -438,7 +438,8 @@ grid-template-columns:1fr;
 
 <div class="logo-box">
 
-<img src="./logo.png">
+<img src="./logo.png"
+onerror="this.src='https://via.placeholder.com/70'">
 
 <div class="logo-text">
 
@@ -456,7 +457,6 @@ grid-template-columns:1fr;
 class="active">
 
 <i class="fa-solid fa-chart-line"></i>
-
 Dashboard
 
 </a>
@@ -464,7 +464,6 @@ Dashboard
 <a href="cashier.html">
 
 <i class="fa-solid fa-cash-register"></i>
-
 Cashier POS
 
 </a>
@@ -472,7 +471,6 @@ Cashier POS
 <a href="products.html">
 
 <i class="fa-solid fa-mug-hot"></i>
-
 Products
 
 </a>
@@ -480,7 +478,6 @@ Products
 <a href="inventory.html">
 
 <i class="fa-solid fa-box"></i>
-
 Inventory
 
 </a>
@@ -488,7 +485,6 @@ Inventory
 <a href="sales-report.html">
 
 <i class="fa-solid fa-chart-column"></i>
-
 Sales Report
 
 </a>
@@ -496,7 +492,6 @@ Sales Report
 <a href="accounts.html">
 
 <i class="fa-solid fa-file-invoice-dollar"></i>
-
 Accounts
 
 </a>
@@ -504,7 +499,6 @@ Accounts
 <a href="hr.html">
 
 <i class="fa-solid fa-users"></i>
-
 HR
 
 </a>
@@ -512,16 +506,14 @@ HR
 <a href="settings.html">
 
 <i class="fa-solid fa-gear"></i>
-
 Settings
 
 </a>
 
-<a href="login.html"
+<a href="#"
 onclick="logout()">
 
 <i class="fa-solid fa-right-from-bracket"></i>
-
 Logout
 
 </a>
@@ -534,8 +526,6 @@ Logout
 
 <div class="main">
 
-<!-- HEADER -->
-
 <div class="header-box">
 
 <div class="header-left">
@@ -543,16 +533,15 @@ Logout
 <h1>Dashboard Overview ☕</h1>
 
 <p id="dateTime">
-
 Realtime Firebase Analytics
-
 </p>
 
 </div>
 
 <div class="admin-box">
 
-<img src="./logo.png">
+<img src="./logo.png"
+onerror="this.src='https://via.placeholder.com/70'">
 
 <div class="admin-info">
 
@@ -687,9 +676,7 @@ class="quick-card">
 <tr>
 
 <td colspan="3">
-
 Loading...
-
 </td>
 
 </tr>
@@ -700,8 +687,6 @@ Loading...
 
 </div>
 
-<!-- REFRESH -->
-
 <button class="refresh-btn"
 onclick="refreshDashboard()">
 
@@ -710,8 +695,6 @@ onclick="refreshDashboard()">
 Refresh Dashboard
 
 </button>
-
-<!-- FOOTER -->
 
 <div class="footer">
 
@@ -729,36 +712,26 @@ import { initializeApp }
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 
 import {
-
 getFirestore,
 collection,
 getDocs
-
 }
-
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
 const firebaseConfig = {
 
 apiKey: "AIzaSyCYjuZlpgE-Lci33e53014F7fRIid6u7Dg",
-
 authDomain: "family-web-10cb8.firebaseapp.com",
-
 projectId: "family-web-10cb8",
-
 storageBucket: "family-web-10cb8.firebasestorage.app",
-
 messagingSenderId: "152048365178",
-
 appId: "1:152048365178:web:3e42c20e03a7c563d915c3"
 
 };
 
-const app =
-initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
-const db =
-getFirestore(app);
+const db = getFirestore(app);
 
 /* DATE TIME */
 
@@ -774,7 +747,7 @@ setInterval(updateDateTime,1000);
 
 updateDateTime();
 
-/* LOAD DASHBOARD */
+/* DASHBOARD */
 
 async function loadDashboard(){
 
@@ -794,9 +767,10 @@ let productCounter = {};
 const today =
 new Date().toLocaleDateString();
 
-snapshot.forEach((doc)=>{
+snapshot.forEach((firebaseDoc)=>{
 
-const sale = doc.data();
+const sale =
+firebaseDoc.data();
 
 const rawDate =
 sale.date || sale.createdAt;
@@ -806,15 +780,13 @@ new Date(rawDate);
 
 if(
 !isNaN(saleDate) &&
-saleDate.toLocaleDateString()
-=== today
+saleDate.toLocaleDateString() === today
 ){
 
 todaySales +=
 Number(sale.total || 0);
 
 totalOrders++;
-
 customers++;
 
 if(sale.items){
@@ -871,7 +843,12 @@ bestSeller;
 
 }catch(error){
 
-console.log(error);
+console.error(
+"Dashboard Error:",
+error
+);
+
+alert(error.message);
 
 }
 
@@ -880,6 +857,8 @@ console.log(error);
 /* LOW STOCK */
 
 async function loadLowStock(){
+
+try{
 
 const snapshot =
 await getDocs(
@@ -893,12 +872,15 @@ table.innerHTML = "";
 
 let hasLowStock = false;
 
-snapshot.forEach((doc)=>{
+snapshot.forEach((firebaseDoc)=>{
 
-const product = doc.data();
+const product =
+firebaseDoc.data();
 
 const stock =
-product.quantity || product.stock || 0;
+product.quantity ||
+product.stock ||
+0;
 
 if(stock <= 5){
 
@@ -908,14 +890,12 @@ table.innerHTML += `
 
 <tr>
 
-<td>${product.name}</td>
+<td>${product.name || "-"}</td>
 
-<td>${product.category}</td>
+<td>${product.category || "-"}</td>
 
 <td class="low-stock">
-
 ${stock}
-
 </td>
 
 </tr>
@@ -944,11 +924,20 @@ No low stock items
 
 }
 
+}catch(error){
+
+console.error(
+"Low Stock Error:",
+error
+);
+
+}
+
 }
 
 /* REFRESH */
 
-window.refreshDashboard = function(){
+function refreshDashboard(){
 
 loadDashboard();
 loadLowStock();
@@ -957,7 +946,7 @@ loadLowStock();
 
 /* LOGOUT */
 
-window.logout = function(){
+function logout(){
 
 localStorage.removeItem("isLoggedIn");
 
@@ -965,6 +954,14 @@ window.location.href =
 "login.html";
 
 }
+
+/* GLOBAL */
+
+window.refreshDashboard =
+refreshDashboard;
+
+window.logout =
+logout;
 
 /* LOAD */
 
