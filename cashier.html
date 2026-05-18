@@ -8,6 +8,7 @@
 <title>D' Mezzanine Cashier POS</title>
 
 <link rel="manifest" href="manifest.json">
+
 <meta name="theme-color" content="#facc15">
 
 <link rel="stylesheet"
@@ -223,7 +224,12 @@ color:#facc15;
 font-weight:700;
 }
 
-.payment input{
+.payment{
+margin-top:15px;
+}
+
+.payment input,
+.payment select{
 width:100%;
 padding:14px;
 border:none;
@@ -443,11 +449,21 @@ id="cartItems"></div>
 
 <div class="payment">
 
-<label>Cash Payment</label>
+<label>Payment Method</label>
+
+<select id="paymentMethod">
+
+<option value="Cash">Cash</option>
+<option value="GCash">GCash</option>
+<option value="Maya">Maya</option>
+<option value="Card">Card</option>
+<option value="Bank Transfer">Bank Transfer</option>
+
+</select>
 
 <input type="number"
 id="cash"
-placeholder="Enter cash amount">
+placeholder="Enter payment amount">
 
 </div>
 
@@ -498,7 +514,7 @@ id="receiptItems"></div>
 </p>
 
 <p>
-<span>Cash</span>
+<span id="paymentLabel">Cash</span>
 <span>₱ <span id="receiptCash"></span></span>
 </p>
 
@@ -565,6 +581,8 @@ measurementId: "G-1X8L2KQDYF"
 const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
+
+let cart = [];
 
 window.filterProducts = function(category,event){
 
@@ -663,8 +681,6 @@ await loadProducts();
 alert("Products Refreshed!");
 
 }
-
-let cart = [];
 
 window.addItem = function(name,price){
 
@@ -792,11 +808,17 @@ document.getElementById("cash").value
 
 if(isNaN(cash) || cash < total){
 
-alert("Insufficient cash!");
+alert("Insufficient payment!");
 
 return;
 
 }
+
+const paymentMethod =
+document.getElementById("paymentMethod").value;
+
+document.getElementById("paymentLabel").innerText =
+paymentMethod;
 
 for(const item of cart){
 
@@ -873,6 +895,8 @@ await addDoc(collection(db,"sales"),{
 date:new Date().toISOString(),
 
 total:total,
+
+paymentMethod:paymentMethod,
 
 items: cart.map(item => ({
 
