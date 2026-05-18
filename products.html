@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Products Management</title>
 
 <link rel="stylesheet"
@@ -52,7 +54,8 @@ gap:15px;
 margin-top:15px;
 }
 
-input{
+input,
+select{
 padding:14px;
 border:none;
 border-radius:12px;
@@ -111,8 +114,30 @@ border-radius:12px;
 font-weight:600;
 }
 
+.low{
+background:#ef4444;
+padding:8px 12px;
+border-radius:30px;
+font-size:12px;
+font-weight:600;
+}
+
+.good{
+background:#22c55e;
+padding:8px 12px;
+border-radius:30px;
+font-size:12px;
+font-weight:600;
+}
+
+.table-box{
+overflow-x:auto;
+}
+
 </style>
+
 </head>
+
 <body>
 
 <a href="index.html" class="back-btn">
@@ -125,28 +150,70 @@ Dashboard
 </div>
 
 <div class="form-box">
+
 <h2>Add Product</h2>
 
 <div class="inputs">
-<input type="text" id="name" placeholder="Product Name">
-<input type="number" id="price" placeholder="Price">
-<input type="text" id="image" placeholder="Image URL">
-<button onclick="addProduct()">SAVE PRODUCT</button>
+
+<input type="text"
+id="name"
+placeholder="Product Name">
+
+<select id="category">
+
+<option value="">Select Category</option>
+
+<option>Coffee</option>
+<option>Meals</option>
+<option>Frappes</option>
+<option>Desserts</option>
+
+</select>
+
+<input type="number"
+id="price"
+placeholder="Price">
+
+<input type="number"
+id="quantity"
+placeholder="Stock Quantity">
+
+<input type="text"
+id="image"
+placeholder="Image URL">
+
+<button onclick="addProduct()">
+SAVE PRODUCT
+</button>
+
 </div>
+
 </div>
 
 <div class="table-box">
+
 <table>
+
 <thead>
+
 <tr>
+
 <th>Image</th>
 <th>Product</th>
+<th>Category</th>
 <th>Price</th>
+<th>Stock</th>
+<th>Status</th>
 <th>Action</th>
+
 </tr>
+
 </thead>
+
 <tbody id="productTable"></tbody>
+
 </table>
+
 </div>
 
 <script type="module">
@@ -183,34 +250,68 @@ measurementId: "G-1X8L2KQDYF"
 };
 
 const app = initializeApp(firebaseConfig);
+
 const db = getFirestore(app);
 
 async function loadProducts(){
 
-const table = document.getElementById("productTable");
+const table =
+document.getElementById("productTable");
 
 table.innerHTML = "";
 
-const snapshot = await getDocs(collection(db,"products"));
+const snapshot =
+await getDocs(collection(db,"products"));
 
 snapshot.forEach((product)=>{
 
 const data = product.data();
 
+let status = "";
+
+if(data.quantity <= 5){
+
+status =
+`<span class="low">LOW STOCK</span>`;
+
+}else{
+
+status =
+`<span class="good">AVAILABLE</span>`;
+
+}
+
 table.innerHTML += `
+
 <tr>
+
 <td>
 <img src="${data.image}">
 </td>
+
 <td>${data.name}</td>
+
+<td>${data.category}</td>
+
 <td>₱${data.price}</td>
+
+<td>${data.quantity}</td>
+
+<td>${status}</td>
+
 <td>
+
 <button class="delete-btn"
 onclick="deleteProduct('${product.id}')">
+
 DELETE
+
 </button>
+
 </td>
+
 </tr>
+
 `;
 
 });
@@ -219,26 +320,60 @@ DELETE
 
 window.addProduct = async function(){
 
-const name = document.getElementById("name").value;
-const price = document.getElementById("price").value;
-const image = document.getElementById("image").value;
+const name =
+document.getElementById("name").value;
 
-if(!name || !price || !image){
+const category =
+document.getElementById("category").value;
+
+const price =
+document.getElementById("price").value;
+
+const quantity =
+document.getElementById("quantity").value;
+
+const image =
+document.getElementById("image").value;
+
+if(
+!name ||
+!category ||
+!price ||
+!quantity ||
+!image
+){
+
 alert("Complete all fields");
+
 return;
+
 }
 
 await addDoc(collection(db,"products"),{
-name,
+
+name:name,
+
+category:category,
+
 price:Number(price),
-image
+
+quantity:Number(quantity),
+
+image:image
+
 });
 
 alert("Product Added!");
 
-name.value = "";
-price.value = "";
-image.value = "";
+document.getElementById("name").value = "";
+
+document.getElementById("category").value = "";
+
+document.getElementById("price").value = "";
+
+document.getElementById("quantity").value = "";
+
+document.getElementById("image").value = "";
 
 loadProducts();
 
