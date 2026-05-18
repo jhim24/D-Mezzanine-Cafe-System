@@ -81,6 +81,7 @@ background:#1e293b;
 padding:20px;
 border-radius:20px;
 margin-bottom:25px;
+overflow-x:auto;
 }
 
 .form-grid{
@@ -144,11 +145,13 @@ color:#facc15;
 padding:15px;
 text-align:left;
 white-space:nowrap;
+font-size:13px;
 }
 
 table td{
 padding:15px;
 border-bottom:1px solid rgba(255,255,255,0.08);
+font-size:13px;
 }
 
 .product-img{
@@ -156,6 +159,7 @@ width:60px;
 height:60px;
 object-fit:cover;
 border-radius:10px;
+background:white;
 }
 
 .low-stock{
@@ -183,20 +187,25 @@ cursor:pointer;
 margin-right:5px;
 }
 
-.edit-btn{
-background:#3b82f6;
-color:white;
-}
-
 .delete-btn{
 background:#ef4444;
 color:white;
 }
 
+.revenue{
+color:#4ade80;
+font-weight:700;
+}
+
+.sold{
+color:#facc15;
+font-weight:700;
+}
+
 @media(max-width:700px){
 
 table{
-font-size:12px;
+font-size:11px;
 }
 
 .card h2{
@@ -242,39 +251,65 @@ Dashboard
 
 </div>
 
+<div class="card">
+
+<h3>Total Revenue</h3>
+
+<h2 id="totalRevenue">₱0</h2>
+
+</div>
+
 </div>
 
 <div class="form-box">
 
-<h2 style="margin-bottom:20px;">Add Inventory Item</h2>
+<h2 style="margin-bottom:20px;">
+Add Inventory Item
+</h2>
 
 <div class="form-grid">
 
-<input type="text" id="productName" placeholder="Product Name">
+<input type="text"
+id="productName"
+placeholder="Product Name">
 
 <select id="productCategory">
+
 <option value="Coffee">Coffee</option>
 <option value="Meals">Meals</option>
 <option value="Frappes">Frappes</option>
 <option value="Desserts">Desserts</option>
+
 </select>
 
-<input type="number" id="productPrice" placeholder="Price">
+<input type="number"
+id="productPrice"
+placeholder="Price">
 
-<input type="number" id="productQty" placeholder="Quantity">
+<input type="number"
+id="productQty"
+placeholder="Quantity">
 
-<input type="text" id="productImage" placeholder="Image URL">
+<input type="text"
+id="productImage"
+placeholder="Image URL">
 
 </div>
 
-<button class="add-btn" onclick="saveProduct()">
+<button class="add-btn"
+onclick="saveProduct()">
+
 <i class="fa-solid fa-plus"></i>
 Add Product
+
 </button>
 
-<button class="refresh-btn" onclick="loadProducts()">
+<button class="refresh-btn"
+onclick="loadProducts()">
+
 <i class="fa-solid fa-rotate-right"></i>
 Refresh
+
 </button>
 
 </div>
@@ -282,10 +317,12 @@ Refresh
 <div class="table-box">
 
 <div class="search-box">
+
 <input type="text"
 id="searchInput"
 placeholder="Search product..."
 onkeyup="searchProduct()">
+
 </div>
 
 <table>
@@ -298,7 +335,10 @@ onkeyup="searchProduct()">
 <th>Product</th>
 <th>Category</th>
 <th>Price</th>
-<th>Quantity</th>
+<th>Original</th>
+<th>Sold</th>
+<th>Remaining</th>
+<th>Revenue</th>
 <th>Status</th>
 <th>Action</th>
 
@@ -309,9 +349,14 @@ onkeyup="searchProduct()">
 <tbody id="inventoryTable">
 
 <tr>
-<td colspan="7" style="text-align:center;padding:30px;">
+
+<td colspan="10"
+style="text-align:center;padding:30px;">
+
 Loading inventory...
+
 </td>
+
 </tr>
 
 </tbody>
@@ -326,13 +371,16 @@ import { initializeApp }
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 
 import {
+
 getFirestore,
 collection,
 addDoc,
 getDocs,
 deleteDoc,
 doc
+
 }
+
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -357,10 +405,14 @@ const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
 
-document.getElementById("todayDate").innerText =
+document.getElementById("todayDate")
+.innerText =
 new Date().toLocaleDateString();
 
-window.saveProduct = async function(){
+/* SAVE PRODUCT */
+
+window.saveProduct =
+async function(){
 
 const name =
 document.getElementById("productName").value;
@@ -369,10 +421,14 @@ const category =
 document.getElementById("productCategory").value;
 
 const price =
-parseFloat(document.getElementById("productPrice").value);
+parseFloat(
+document.getElementById("productPrice").value
+);
 
 const quantity =
-parseInt(document.getElementById("productQty").value);
+parseInt(
+document.getElementById("productQty").value
+);
 
 const image =
 document.getElementById("productImage").value;
@@ -413,6 +469,8 @@ alert("Failed to save product");
 
 }
 
+/* CLEAR */
+
 function clearFields(){
 
 productName.value = "";
@@ -422,7 +480,10 @@ productImage.value = "";
 
 }
 
-window.deleteProduct = async function(id){
+/* DELETE */
+
+window.deleteProduct =
+async function(id){
 
 let confirmDelete =
 confirm("Delete this product?");
@@ -431,7 +492,9 @@ if(!confirmDelete) return;
 
 try{
 
-await deleteDoc(doc(db,"products",id));
+await deleteDoc(
+doc(db,"products",id)
+);
 
 alert("Product Deleted!");
 
@@ -447,7 +510,10 @@ alert("Delete failed");
 
 }
 
-window.loadProducts = async function(){
+/* LOAD PRODUCTS */
+
+window.loadProducts =
+async function(){
 
 const inventoryTable =
 document.getElementById("inventoryTable");
@@ -456,39 +522,112 @@ inventoryTable.innerHTML = "";
 
 let totalProducts = 0;
 let lowStocks = 0;
+let totalRevenue = 0;
 
-const snapshot =
-await getDocs(collection(db,"products"));
+const productSnapshot =
+await getDocs(
+collection(db,"products")
+);
 
-if(snapshot.empty){
+const salesSnapshot =
+await getDocs(
+collection(db,"sales")
+);
+
+let soldData = {};
+
+/* SALES */
+
+salesSnapshot.forEach((saleDoc)=>{
+
+const sale = saleDoc.data();
+
+if(sale.items){
+
+sale.items.forEach((item)=>{
+
+if(!soldData[item.name]){
+
+soldData[item.name] = {
+
+qty:0,
+revenue:0
+
+};
+
+}
+
+soldData[item.name].qty +=
+Number(item.qty || 0);
+
+soldData[item.name].revenue +=
+(item.price || 0) *
+(item.qty || 0);
+
+});
+
+}
+
+});
+
+if(productSnapshot.empty){
 
 inventoryTable.innerHTML = `
+
 <tr>
-<td colspan="7" style="text-align:center;padding:30px;">
+
+<td colspan="10"
+style="text-align:center;padding:30px;">
+
 No products found
+
 </td>
+
 </tr>
+
 `;
 
 return;
 
 }
 
-snapshot.forEach((product)=>{
+productSnapshot.forEach((product)=>{
 
 const data = product.data();
 
 totalProducts++;
 
-let status =
-`<span class="good-stock">Good</span>`;
+const currentStock =
+data.quantity || data.stock || 0;
 
-if(data.quantity <= 5){
+const sold =
+soldData[data.name]
+? soldData[data.name].qty
+: 0;
+
+const revenue =
+soldData[data.name]
+? soldData[data.name].revenue
+: 0;
+
+totalRevenue += revenue;
+
+const originalStock =
+currentStock + sold;
+
+let status =
+`<span class="good-stock">
+Good
+</span>`;
+
+if(currentStock <= 5){
 
 lowStocks++;
 
 status =
-`<span class="low-stock">Low Stock</span>`;
+`<span class="low-stock">
+Low Stock
+</span>`;
 
 }
 
@@ -497,8 +636,11 @@ inventoryTable.innerHTML += `
 <tr>
 
 <td>
+
 <img src="${data.image}"
-class="product-img">
+class="product-img"
+onerror="this.src='./logo.png'">
+
 </td>
 
 <td>${data.name}</td>
@@ -507,7 +649,25 @@ class="product-img">
 
 <td>₱${data.price}</td>
 
-<td>${data.quantity}</td>
+<td>${originalStock}</td>
+
+<td class="sold">
+
+${sold}
+
+</td>
+
+<td>
+
+${currentStock}
+
+</td>
+
+<td class="revenue">
+
+₱${revenue.toLocaleString()}
+
+</td>
 
 <td>${status}</td>
 
@@ -515,7 +675,9 @@ class="product-img">
 
 <button class="action-btn delete-btn"
 onclick="deleteProduct('${product.id}')">
+
 Delete
+
 </button>
 
 </td>
@@ -526,27 +688,34 @@ Delete
 
 });
 
+document.getElementById("totalProducts")
+.innerText = totalProducts;
 
-document.getElementById("totalProducts").innerText =
-totalProducts;
+document.getElementById("lowStocks")
+.innerText = lowStocks;
 
-
-document.getElementById("lowStocks").innerText =
-lowStocks;
+document.getElementById("totalRevenue")
+.innerText =
+"₱" + totalRevenue.toLocaleString();
 
 }
 
-window.searchProduct = function(){
+/* SEARCH */
+
+window.searchProduct =
+function(){
 
 let input =
-document.getElementById("searchInput").value.toLowerCase();
+document.getElementById("searchInput")
+.value.toLowerCase();
 
 let rows =
 document.querySelectorAll("#inventoryTable tr");
 
 rows.forEach(row=>{
 
-let text = row.innerText.toLowerCase();
+let text =
+row.innerText.toLowerCase();
 
 if(text.includes(input)){
 
@@ -562,10 +731,11 @@ row.style.display = "none";
 
 }
 
+/* LOAD */
+
 loadProducts();
 
 </script>
 
 </body>
 </html>
-```
