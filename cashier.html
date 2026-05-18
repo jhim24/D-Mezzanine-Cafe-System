@@ -729,7 +729,7 @@ const data = product.data();
 
 let stockStatus = "";
 
-if((data.quantity || data.stock || 0) <= 5)
+if((data.quantity || data.stock || 0) <= 5){
 
 stockStatus =
 
@@ -923,7 +923,8 @@ sum + (item.price * item.qty),0);
 let cash = parseFloat(
 document.getElementById("cash").value
 );
-
+const paymentMethod =
+document.getElementById("paymentMethod").value;
 if(paymentMethod === "Cash"){
 
 if(isNaN(cash) || cash < total){
@@ -935,15 +936,6 @@ return;
 }
 
 }
-
-alert("Insufficient payment!");
-
-return;
-
-}
-
-const paymentMethod =
-document.getElementById("paymentMethod").value;
 
 const referenceNumber =
 document.getElementById("referenceNumber").value;
