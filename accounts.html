@@ -517,9 +517,7 @@ Save Account
 
 </thead>
 
-<tbody id="chartTable">
-
-</tbody>
+<tbody id="chartTable"></tbody>
 
 </table>
 
@@ -602,9 +600,7 @@ Save Details
 
 </thead>
 
-<tbody id="customerTable">
-
-</tbody>
+<tbody id="customerTable"></tbody>
 
 </table>
 
@@ -633,8 +629,7 @@ collection,
 addDoc,
 getDocs,
 deleteDoc,
-doc,
-updateDoc
+doc
 }
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
@@ -677,8 +672,11 @@ document.getElementById("accountCategory").value;
 
 accountCounter++;
 
-document.getElementById("accountCode").value =
+const generatedCode =
 category + accountCounter;
+
+document.getElementById("accountCode").value =
+generatedCode;
 
 }
 
@@ -893,7 +891,7 @@ document.getElementById("accountName").value;
 const openingBalance =
 document.getElementById("openingBalance").value;
 
-const docRef = await addDoc(
+await addDoc(
 collection(db,"chartOfAccounts"),
 {
 accountCategory,
@@ -903,53 +901,9 @@ openingBalance
 }
 );
 
-document.getElementById("chartTable")
-.innerHTML += `
-
-<tr id="${docRef.id}">
-
-<td>${accountCode}</td>
-<td>${accountName}</td>
-<td>${accountCategory}</td>
-<td>₱${openingBalance}</td>
-
-<td>
-
-<button class="edit-btn"
-onclick="editAccount('${docRef.id}')">
-
-Edit
-
-</button>
-
-<button class="delete-btn"
-onclick="deleteAccount('${docRef.id}')">
-
-Delete
-
-</button>
-
-</td>
-
-</tr>
-
-`;
+loadChartAccounts();
 
 alert("Account Saved!");
-
-}
-
-window.deleteAccount = async function(id){
-
-await deleteDoc(doc(db,"chartOfAccounts",id));
-
-document.getElementById(id).remove();
-
-}
-
-window.editAccount = function(id){
-
-alert("Edit function ready for " + id);
 
 }
 
@@ -977,7 +931,7 @@ document.getElementById("emailAddress").value;
 const address =
 document.getElementById("address").value;
 
-const docRef = await addDoc(
+await addDoc(
 collection(db,"customersSuppliers"),
 {
 customerCode,
@@ -990,28 +944,59 @@ address
 }
 );
 
-document.getElementById("customerTable")
-.innerHTML += `
+loadCustomers();
 
-<tr id="${docRef.id}">
+alert("Saved!");
 
-<td>${customerCode}</td>
-<td>${partyType}</td>
-<td>${companyName}</td>
-<td>${contactPerson}</td>
-<td>${mobileNumber}</td>
+}
+
+window.deleteAccount = async function(id){
+
+await deleteDoc(doc(db,"chartOfAccounts",id));
+
+loadChartAccounts();
+
+}
+
+window.deleteCustomer = async function(id){
+
+await deleteDoc(
+doc(db,"customersSuppliers",id)
+);
+
+loadCustomers();
+
+}
+
+async function loadChartAccounts(){
+
+const snapshot =
+await getDocs(
+collection(db,"chartOfAccounts")
+);
+
+const table =
+document.getElementById("chartTable");
+
+table.innerHTML = "";
+
+snapshot.forEach((d)=>{
+
+const data = d.data();
+
+table.innerHTML += `
+
+<tr>
+
+<td>${data.accountCode}</td>
+<td>${data.accountName}</td>
+<td>${data.accountCategory}</td>
+<td>₱${data.openingBalance}</td>
 
 <td>
 
-<button class="edit-btn"
-onclick="editCustomer('${docRef.id}')">
-
-Edit
-
-</button>
-
 <button class="delete-btn"
-onclick="deleteCustomer('${docRef.id}')">
+onclick="deleteAccount('${d.id}')">
 
 Delete
 
@@ -1023,25 +1008,57 @@ Delete
 
 `;
 
-alert("Saved!");
+});
 
 }
 
-window.deleteCustomer = async function(id){
+async function loadCustomers(){
 
-await deleteDoc(
-doc(db,"customersSuppliers",id)
+const snapshot =
+await getDocs(
+collection(db,"customersSuppliers")
 );
 
-document.getElementById(id).remove();
+const table =
+document.getElementById("customerTable");
+
+table.innerHTML = "";
+
+snapshot.forEach((d)=>{
+
+const data = d.data();
+
+table.innerHTML += `
+
+<tr>
+
+<td>${data.customerCode}</td>
+<td>${data.partyType}</td>
+<td>${data.companyName}</td>
+<td>${data.contactPerson}</td>
+<td>${data.mobileNumber}</td>
+
+<td>
+
+<button class="delete-btn"
+onclick="deleteCustomer('${d.id}')">
+
+Delete
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
 
 }
 
-window.editCustomer = function(id){
-
-alert("Edit function ready for " + id);
-
-}
+loadChartAccounts();
+loadCustomers();
 
 document.getElementById("currentDate")
 .innerText =
