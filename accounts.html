@@ -157,6 +157,7 @@ table{
 width:100%;
 border-collapse:collapse;
 background:white;
+margin-top:15px;
 }
 
 table th{
@@ -503,6 +504,42 @@ Save Account
 
 </button>
 
+<div class="table-container">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Code</th>
+<th>Account Name</th>
+<th>Category</th>
+<th>Opening Balance</th>
+
+</tr>
+
+</thead>
+
+<tbody id="chartTable">
+
+<tr>
+
+<td colspan="4"
+style="text-align:center;">
+
+No accounts yet
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
 </div>
 
 </div>
@@ -553,6 +590,44 @@ onclick="saveCustomerSupplier()">
 Save Details
 
 </button>
+
+<div class="table-container">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Type</th>
+<th>Company</th>
+<th>Contact Person</th>
+<th>Mobile</th>
+<th>Email</th>
+<th>Address</th>
+
+</tr>
+
+</thead>
+
+<tbody id="customerTable">
+
+<tr>
+
+<td colspan="6"
+style="text-align:center;">
+
+No customer/supplier yet
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
 
 </div>
 
@@ -834,6 +909,23 @@ createdAt:new Date().toISOString()
 
 );
 
+document.getElementById("chartTable")
+.innerHTML += `
+
+<tr>
+
+<td>${accountCode}</td>
+
+<td>${accountName}</td>
+
+<td>${accountCategory}</td>
+
+<td>₱${Number(openingBalance).toLocaleString()}</td>
+
+</tr>
+
+`;
+
 alert("Account Saved!");
 
 }catch(error){
@@ -882,6 +974,27 @@ createdAt:new Date().toISOString()
 }
 
 );
+
+document.getElementById("customerTable")
+.innerHTML += `
+
+<tr>
+
+<td>${partyType}</td>
+
+<td>${companyName}</td>
+
+<td>${contactPerson}</td>
+
+<td>${mobileNumber}</td>
+
+<td>${emailAddress}</td>
+
+<td>${address}</td>
+
+</tr>
+
+`;
 
 alert("Details Saved!");
 
