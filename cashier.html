@@ -57,27 +57,10 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 margin-bottom:25px;
-gap:10px;
 }
 
 .topbar h1{
 font-size:30px;
-}
-
-.time{
-color:#facc15;
-font-size:18px;
-}
-
-.refresh-btn{
-border:none;
-width:42px;
-height:42px;
-border-radius:12px;
-background:#facc15;
-color:black;
-cursor:pointer;
-font-size:16px;
 }
 
 .categories{
@@ -85,6 +68,7 @@ display:flex;
 gap:12px;
 margin-bottom:25px;
 overflow-x:auto;
+flex-wrap:wrap;
 }
 
 .category-btn{
@@ -94,13 +78,12 @@ border-radius:14px;
 background:#1e293b;
 color:white;
 cursor:pointer;
-white-space:nowrap;
-transition:.3s;
 font-weight:600;
+transition:.3s;
 }
 
-.category-btn.active,
-.category-btn:hover{
+.category-btn:hover,
+.category-btn.active{
 background:#facc15;
 color:black;
 }
@@ -116,11 +99,6 @@ background:#1e293b;
 border-radius:20px;
 padding:15px;
 text-align:center;
-transition:.3s;
-}
-
-.product:hover{
-transform:translateY(-5px);
 }
 
 .product img{
@@ -129,16 +107,6 @@ height:140px;
 object-fit:cover;
 border-radius:14px;
 margin-bottom:10px;
-}
-
-.product h3{
-margin-bottom:5px;
-}
-
-.product small{
-display:block;
-margin-bottom:10px;
-color:#cbd5e1;
 }
 
 .product p{
@@ -151,8 +119,8 @@ width:100%;
 border:none;
 padding:10px;
 border-radius:10px;
-background:#facc15;
-color:black;
+background:#22c55e;
+color:white;
 font-weight:600;
 cursor:pointer;
 }
@@ -167,18 +135,9 @@ display:inline-block;
 margin-bottom:10px;
 }
 
-.cart-title{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:20px;
-}
-
 .cart-items{
 flex:1;
 overflow-y:auto;
-max-height:280px;
-padding-right:4px;
 }
 
 .cart-item{
@@ -186,69 +145,29 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 background:#1e293b;
-padding:8px 10px;
+padding:10px;
 border-radius:10px;
-margin-bottom:8px;
-min-height:58px;
-}
-.cart-item h4{
-font-size:12px;
-margin-bottom:2px;
+margin-bottom:10px;
 }
 
-.cart-item p{
-font-size:11px;
-color:#facc15;
-}
 .qty{
 display:flex;
 align-items:center;
 gap:5px;
-font-size:12px;
 }
+
 .qty button{
 width:24px;
 height:24px;
-font-size:12px;
 border:none;
 border-radius:8px;
 background:#facc15;
-color:black;
-font-weight:bold;
 cursor:pointer;
+font-weight:bold;
 }
 
 .summary{
 margin-top:20px;
-border-top:1px solid rgba(255,255,255,0.08);
-padding-top:20px;
-}
-
-.summary div{
-display:flex;
-justify-content:space-between;
-margin-bottom:12px;
-}
-
-.total{
-font-size:24px;
-color:#facc15;
-font-weight:700;
-}
-
-.payment{
-margin-top:15px;
-}
-
-.payment input,
-.payment select{
-width:100%;
-padding:14px;
-border:none;
-border-radius:12px;
-background:#1e293b;
-color:white;
-margin-top:10px;
 }
 
 .checkout{
@@ -275,85 +194,6 @@ color:white;
 cursor:pointer;
 }
 
-.overlay{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.7);
-display:none;
-z-index:999;
-}
-
-.receipt{
-position:fixed;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-width:320px;
-background:white;
-color:black;
-padding:20px;
-border-radius:10px;
-display:none;
-z-index:9999;
-}
-
-.receipt-header{
-text-align:center;
-border-bottom:1px dashed #000;
-padding-bottom:10px;
-margin-bottom:10px;
-}
-
-.receipt-items p,
-.receipt-summary p{
-display:flex;
-justify-content:space-between;
-margin-bottom:6px;
-}
-
-.receipt-summary{
-border-top:1px dashed #000;
-padding-top:10px;
-margin-top:10px;
-}
-
-.receipt-footer{
-text-align:center;
-margin-top:15px;
-border-top:1px dashed #000;
-padding-top:10px;
-font-size:13px;
-}
-
-.receipt-buttons{
-display:flex;
-gap:10px;
-margin-top:15px;
-}
-
-.print-btn,
-.close-btn{
-flex:1;
-border:none;
-padding:12px;
-border-radius:8px;
-cursor:pointer;
-font-weight:600;
-}
-
-.print-btn{
-background:#111827;
-color:white;
-}
-
-.close-btn{
-background:#ef4444;
-color:white;
-}
-
 @media(max-width:950px){
 
 .container{
@@ -363,10 +203,6 @@ flex-direction:column;
 .left,
 .right{
 width:100%;
-}
-
-.right{
-height:50vh;
 }
 
 }
@@ -385,105 +221,41 @@ height:50vh;
 
 <h1>Cashier POS ☕</h1>
 
-<div style="display:flex;align-items:center;gap:10px;">
+</div>
 
-<div class="time" id="time"></div>
+<!-- AUTO CATEGORY BUTTONS -->
 
-<button class="refresh-btn"
-onclick="refreshProducts()">
-
-<i class="fa-solid fa-rotate-right"></i>
-
-</button>
+<div class="categories"
+id="categoryButtons">
 
 </div>
 
-</div>
-
-<div class="categories">
-
-<button class="category-btn active"
-onclick="filterProducts('all',event)">
-All
-</button>
-
-<button class="category-btn"
-onclick="filterProducts('Coffee',event)">
-Coffee
-</button>
-
-<button class="category-btn"
-onclick="filterProducts('Meals',event)">
-Meals
-</button>
-
-<button class="category-btn"
-onclick="filterProducts('Frappes',event)">
-Frappes
-</button>
-
-<button class="category-btn"
-onclick="filterProducts('Desserts',event)">
-Desserts
-</button>
-
-</div>
+<!-- PRODUCTS -->
 
 <div class="products"
-id="productsContainer"></div>
+id="productsContainer">
 
 </div>
+
+</div>
+
+<!-- RIGHT -->
 
 <div class="right">
 
-<div class="cart-title">
-
 <h2>Current Order</h2>
 
-<i class="fa-solid fa-cart-shopping"></i>
+<div class="cart-items"
+id="cartItems">
 
 </div>
-
-<div class="cart-items"
-id="cartItems"></div>
 
 <div class="summary">
 
-<div>
-<span>Items</span>
-<span id="itemCount">0</span>
-</div>
-
-<div class="total">
-<span>Total</span>
-<span>₱ <span id="total">0</span></span>
-</div>
-
-<div class="payment">
-
-<label>Payment Method</label>
-
-<select id="paymentMethod"
-onchange="toggleReferenceField()">
-
-<option value="Cash">Cash</option>
-<option value="GCash">GCash</option>
-<option value="Maya">Maya</option>
-<option value="Card">Card</option>
-<option value="Bank Transfer">Bank Transfer</option>
-
-</select>
-
-<input type="number"
-id="cash"
-placeholder="Enter payment amount">
-
-<input type="text"
-id="referenceNumber"
-placeholder="Reference Number"
-style="display:none;">
-
-</div>
+<h2>
+Total:
+₱ <span id="total">0</span>
+</h2>
 
 <button class="checkout"
 onclick="checkout()">
@@ -505,85 +277,20 @@ CLEAR CART
 
 </div>
 
-<div class="overlay"
-id="overlay"></div>
-
-<div class="receipt"
-id="receipt">
-
-<div class="receipt-header">
-
-<h2>D' Mezzanine Cafe</h2>
-
-<p>Cafe & Restaurant</p>
-
-<small id="receiptDate"></small>
-
-</div>
-
-<div class="receipt-items"
-id="receiptItems"></div>
-
-<div class="receipt-summary">
-
-<p>
-<span>Total</span>
-<span>₱ <span id="receiptTotal"></span></span>
-</p>
-
-<p>
-<span id="paymentLabel">Cash</span>
-<span>₱ <span id="receiptCash"></span></span>
-</p>
-
-<p id="referenceRow"
-style="display:none;">
-
-<span>Reference</span>
-
-<span id="receiptReference"></span>
-
-</p>
-
-<p>
-<span>Change</span>
-<span>₱ <span id="receiptChange"></span></span>
-</p>
-
-</div>
-
-<div class="receipt-footer">
-Thank you for your order ☕
-</div>
-
-<div class="receipt-buttons">
-
-<button class="print-btn"
-onclick="window.print()">
-PRINT
-</button>
-
-<button class="close-btn"
-onclick="closeReceipt()">
-CLOSE
-</button>
-
-</div>
-
-</div>
-
 <script type="module">
 
 import { initializeApp }
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 
 import {
+
 getFirestore,
 collection,
-addDoc,
 getDocs,
+addDoc,
 doc,
 updateDoc
+
 }
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
@@ -599,121 +306,52 @@ storageBucket: "family-web-10cb8.firebasestorage.app",
 
 messagingSenderId: "152048365178",
 
-appId: "1:152048365178:web:3e42c20e03a7c563d915c3",
-
-measurementId: "G-1X8L2KQDYF"
+appId: "1:152048365178:web:3e42c20e03a7c563d915c3"
 
 };
 
-const app = initializeApp(firebaseConfig);
+const app =
+initializeApp(firebaseConfig);
 
-const db = getFirestore(app);
+const db =
+getFirestore(app);
 
 let cart = [];
 
-window.toggleReferenceField = function(){
+async function loadCategoryButtons(){
 
-const paymentMethod =
-document.getElementById("paymentMethod").value;
-
-const referenceField =
-document.getElementById("referenceNumber");
-
-if(paymentMethod === "Cash"){
-
-referenceField.style.display = "none";
-
-}else{
-
-referenceField.style.display = "block";
-
-}
-
-}
-
-window.filterProducts = function(category,event){
-
-const allProducts =
-document.querySelectorAll(".product");
-
-const buttons =
-document.querySelectorAll(".category-btn");
-
-buttons.forEach(btn=>{
-btn.classList.remove("active");
-});
-
-event.target.classList.add("active");
-
-allProducts.forEach(product=>{
-
-const productCategory =
-product.getAttribute("data-category");
-
-if(category === "all"){
-
-product.style.display = "block";
-
-}else if(productCategory === category){
-
-product.style.display = "block";
-
-}else{
-
-product.style.display = "none";
-
-}
-
-});
-
-}
-
-async function loadProducts(){
-
-const productsContainer =
-document.getElementById("productsContainer");
-
-productsContainer.innerHTML = "";
-
-const snapshot = await getDocs(
-collection(db,"products")
+const snapshot =
+await getDocs(
+collection(db,"categories")
 );
 
-snapshot.forEach((product)=>{
+const container =
+document.getElementById("categoryButtons");
 
-const data = product.data();
+container.innerHTML = `
 
-let stockStatus = "";
+<button class="category-btn active"
+onclick="filterCategory('all',event)">
 
-if(data.quantity <= 5){
+All
 
-stockStatus =
-`<div class="low-stock">LOW STOCK</div>`;
-
-}
-
-productsContainer.innerHTML += `
-
-<div class="product"
-data-category="${data.category}">
-
-<img src="${data.image}">
-
-${stockStatus}
-
-<h3>${data.name}</h3>
-
-<small>${data.category}</small>
-
-<p>₱${data.price}</p>
-
-<p>Stock: ${data.quantity}</p>
-
-<button onclick="addItem('${data.name}',${data.price})">
-Add
 </button>
 
-</div>
+`;
+
+snapshot.forEach((doc)=>{
+
+const data = doc.data();
+
+container.innerHTML += `
+
+<button class="category-btn"
+
+onclick="filterCategory('${data.name}',event)">
+
+${data.name}
+
+</button>
 
 `;
 
@@ -721,18 +359,91 @@ Add
 
 }
 
-window.refreshProducts = async function(){
+window.filterCategory =
+async function(category,event){
 
-await loadProducts();
+const buttons =
+document.querySelectorAll(".category-btn");
 
-alert("Products Refreshed!");
+buttons.forEach(btn=>{
+
+btn.classList.remove("active");
+
+});
+
+event.target.classList.add("active");
+
+const snapshot =
+await getDocs(
+collection(db,"products")
+);
+
+const container =
+document.getElementById("productsContainer");
+
+container.innerHTML = "";
+
+snapshot.forEach((doc)=>{
+
+const data = doc.data();
+
+if(
+category === "all" ||
+data.category === category
+){
+
+let stockBadge = "";
+
+if(data.stock <= 5){
+
+stockBadge =
+`<div class="low-stock">
+LOW STOCK
+</div>`;
 
 }
 
-window.addItem = function(name,price){
+container.innerHTML += `
 
-let existing =
-cart.find(item => item.name === name);
+<div class="product">
+
+<img src="${data.image}">
+
+${stockBadge}
+
+<h3>${data.name}</h3>
+
+<small>${data.category}</small>
+
+<p>₱${data.price}</p>
+
+<p>Stock: ${data.stock}</p>
+
+<button onclick="addItem(
+'${doc.id}',
+'${data.name}',
+${data.price}
+)">
+
+Add
+
+</button>
+
+</div>
+
+`;
+
+}
+
+});
+
+}
+
+window.addItem =
+function(id,name,price){
+
+const existing =
+cart.find(item=>item.id===id);
 
 if(existing){
 
@@ -741,8 +452,9 @@ existing.qty++;
 }else{
 
 cart.push({
-name:name,
-price:price,
+id,
+name,
+price,
 qty:1
 });
 
@@ -761,13 +473,9 @@ cartItems.innerHTML = "";
 
 let total = 0;
 
-let count = 0;
-
 cart.forEach((item,index)=>{
 
 total += item.price * item.qty;
-
-count += item.qty;
 
 cartItems.innerHTML += `
 
@@ -783,11 +491,19 @@ cartItems.innerHTML += `
 
 <div class="qty">
 
-<button onclick="decreaseQty(${index})">-</button>
+<button onclick="decreaseQty(${index})">
+
+-
+
+</button>
 
 <span>${item.qty}</span>
 
-<button onclick="increaseQty(${index})">+</button>
+<button onclick="increaseQty(${index})">
+
++
+
+</button>
 
 </div>
 
@@ -797,13 +513,13 @@ cartItems.innerHTML += `
 
 });
 
-document.getElementById("total").innerText = total;
-
-document.getElementById("itemCount").innerText = count;
+document.getElementById("total")
+.innerText = total;
 
 }
 
-window.increaseQty = function(index){
+window.increaseQty =
+function(index){
 
 cart[index].qty++;
 
@@ -811,7 +527,8 @@ renderCart();
 
 }
 
-window.decreaseQty = function(index){
+window.decreaseQty =
+function(index){
 
 if(cart[index].qty > 1){
 
@@ -827,7 +544,8 @@ renderCart();
 
 }
 
-window.clearCart = function(){
+window.clearCart =
+function(){
 
 cart = [];
 
@@ -835,68 +553,25 @@ renderCart();
 
 }
 
-window.checkout = async function(){
+window.checkout =
+async function(){
 
 if(cart.length === 0){
 
-alert("Cart is empty!");
+alert("Cart Empty");
 
 return;
 
 }
 
-let total =
-cart.reduce((sum,item)=>
-sum + (item.price * item.qty),0);
-
-let cash = parseFloat(
-document.getElementById("cash").value
-);
-
-if(isNaN(cash) || cash < total){
-
-alert("Insufficient payment!");
-
-return;
-
-}
-
-const paymentMethod =
-document.getElementById("paymentMethod").value;
-
-const referenceNumber =
-document.getElementById("referenceNumber").value;
-
-if(paymentMethod !== "Cash" &&
-!referenceNumber){
-
-alert("Reference number required!");
-
-return;
-
-}
-
-document.getElementById("paymentLabel").innerText =
-paymentMethod;
-
-if(paymentMethod !== "Cash"){
-
-document.getElementById("referenceRow")
-.style.display = "flex";
-
-document.getElementById("receiptReference")
-.innerText = referenceNumber;
-
-}else{
-
-document.getElementById("referenceRow")
-.style.display = "none";
-
-}
+let total = 0;
 
 for(const item of cart){
 
-const snapshot = await getDocs(
+total += item.price * item.qty;
+
+const snapshot =
+await getDocs(
 collection(db,"products")
 );
 
@@ -906,12 +581,12 @@ const data = product.data();
 
 if(data.name === item.name){
 
-let newQty =
-data.quantity - item.qty;
+let newStock =
+data.stock - item.qty;
 
-if(newQty < 0){
+if(newStock < 0){
 
-newQty = 0;
+newStock = 0;
 
 }
 
@@ -920,7 +595,7 @@ await updateDoc(
 doc(db,"products",product.id),
 
 {
-quantity:newQty
+stock:newStock
 }
 
 );
@@ -931,107 +606,33 @@ quantity:newQty
 
 }
 
-let change = cash - total;
-
-document.getElementById("overlay").style.display =
-"block";
-
-document.getElementById("receipt").style.display =
-"block";
-
-document.getElementById("receiptDate").innerText =
-new Date().toLocaleString();
-
-document.getElementById("receiptItems").innerHTML =
-
-cart.map(item =>
-
-`<p>
-<span>${item.qty}x ${item.name}</span>
-<span>₱${item.price * item.qty}</span>
-</p>`
-
-).join("");
-
-document.getElementById("receiptTotal").innerText =
-total;
-
-document.getElementById("receiptCash").innerText =
-cash;
-
-document.getElementById("receiptChange").innerText =
-change;
-
-try{
-
-await addDoc(collection(db,"sales"),{
-
-date:new Date().toISOString(),
-
+await addDoc(
+collection(db,"sales"),
+{
+items:cart,
 total:total,
-
-paymentMethod:paymentMethod,
-
-referenceNumber:
-paymentMethod === "Cash"
-? ""
-: referenceNumber,
-
-items: cart.map(item => ({
-
-name:item.name,
-qty:item.qty,
-price:item.price
-
-}))
-
-});
-
-alert("Order Saved!");
-
-await loadProducts();
-
-}catch(error){
-
-console.log(error);
-
-alert("Firebase save failed");
-
+createdAt:
+new Date().toISOString()
 }
+);
+
+alert("Order Complete!");
 
 cart = [];
 
 renderCart();
 
-document.getElementById("cash").value = "";
-
-document.getElementById("referenceNumber").value =
-"";
-
-}
-
-window.closeReceipt = function(){
-
-document.getElementById("receipt").style.display =
-"none";
-
-document.getElementById("overlay").style.display =
-"none";
+filterCategory("all",{
+target:document.querySelector(".category-btn")
+});
 
 }
 
-function updateTime(){
+loadCategoryButtons();
 
-document.getElementById("time").innerText =
-new Date().toLocaleString();
-
-}
-
-setInterval(updateTime,1000);
-
-updateTime();
-
-loadProducts();
+filterCategory("all",{
+target:document.querySelector(".category-btn")
+});
 
 </script>
 
