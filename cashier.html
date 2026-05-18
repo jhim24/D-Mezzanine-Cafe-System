@@ -57,6 +57,7 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 margin-bottom:25px;
+gap:10px;
 }
 
 .topbar h1{
@@ -66,6 +67,18 @@ font-size:30px;
 .time{
 color:#facc15;
 font-size:18px;
+}
+
+.refresh-btn{
+border:none;
+width:42px;
+height:42px;
+border-radius:12px;
+background:#facc15;
+color:black;
+cursor:pointer;
+font-size:16px;
+font-weight:bold;
 }
 
 .categories{
@@ -356,7 +369,18 @@ height:50vh;
 
 <h1>Cashier POS ☕</h1>
 
+<div style="display:flex;align-items:center;gap:10px;">
+
 <div class="time" id="time"></div>
+
+<button class="refresh-btn"
+onclick="refreshProducts()">
+
+<i class="fa-solid fa-rotate-right"></i>
+
+</button>
+
+</div>
 
 </div>
 
@@ -389,75 +413,8 @@ Desserts
 
 </div>
 
-<div class="products" id="productsContainer">
-
-<!-- DEFAULT PRODUCTS -->
-
-<div class="product" data-category="Coffee">
-
-<img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=800">
-
-<h3>Spanish Latte</h3>
-
-<small>Coffee</small>
-
-<p>₱220</p>
-
-<button onclick="addItem('Spanish Latte',220)">
-Add
-</button>
-
-</div>
-
-<div class="product" data-category="Coffee">
-
-<img src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?q=80&w=800">
-
-<h3>Dark Mocha</h3>
-
-<small>Coffee</small>
-
-<p>₱250</p>
-
-<button onclick="addItem('Dark Mocha',250)">
-Add
-</button>
-
-</div>
-
-<div class="product" data-category="Meals">
-
-<img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?q=80&w=800">
-
-<h3>Carbonara</h3>
-
-<small>Meals</small>
-
-<p>₱320</p>
-
-<button onclick="addItem('Carbonara',320)">
-Add
-</button>
-
-</div>
-
-<div class="product" data-category="Meals">
-
-<img src="https://images.unsplash.com/photo-1562967916-eb82221dfb92?q=80&w=800">
-
-<h3>Chicken Wings</h3>
-
-<small>Meals</small>
-
-<p>₱420</p>
-
-<button onclick="addItem('Chicken Wings',420)">
-Add
-</button>
-
-</div>
-
-</div>
+<div class="products"
+id="productsContainer"></div>
 
 </div>
 
@@ -471,7 +428,8 @@ Add
 
 </div>
 
-<div class="cart-items" id="cartItems"></div>
+<div class="cart-items"
+id="cartItems"></div>
 
 <div class="summary">
 
@@ -495,12 +453,18 @@ placeholder="Enter cash amount">
 
 </div>
 
-<button class="checkout" onclick="checkout()">
+<button class="checkout"
+onclick="checkout()">
+
 COMPLETE ORDER
+
 </button>
 
-<button class="clear" onclick="clearCart()">
+<button class="clear"
+onclick="clearCart()">
+
 CLEAR CART
+
 </button>
 
 </div>
@@ -509,9 +473,11 @@ CLEAR CART
 
 </div>
 
-<div class="overlay" id="overlay"></div>
+<div class="overlay"
+id="overlay"></div>
 
-<div class="receipt" id="receipt">
+<div class="receipt"
+id="receipt">
 
 <div class="receipt-header">
 
@@ -523,7 +489,8 @@ CLEAR CART
 
 </div>
 
-<div class="receipt-items" id="receiptItems"></div>
+<div class="receipt-items"
+id="receiptItems"></div>
 
 <div class="receipt-summary">
 
@@ -550,12 +517,18 @@ Thank you for your order ☕
 
 <div class="receipt-buttons">
 
-<button class="print-btn" onclick="window.print()">
+<button class="print-btn"
+onclick="window.print()">
+
 PRINT
+
 </button>
 
-<button class="close-btn" onclick="closeReceipt()">
+<button class="close-btn"
+onclick="closeReceipt()">
+
 CLOSE
+
 </button>
 
 </div>
@@ -639,6 +612,8 @@ async function loadProducts(){
 const productsContainer =
 document.getElementById("productsContainer");
 
+productsContainer.innerHTML = "";
+
 const snapshot = await getDocs(
 collection(db,"products")
 );
@@ -683,11 +658,21 @@ Add
 
 }
 
+window.refreshProducts =
+async function(){
+
+await loadProducts();
+
+alert("Products Refreshed!");
+
+}
+
 let cart = [];
 
 window.addItem = function(name,price){
 
-let existing = cart.find(item => item.name === name);
+let existing =
+cart.find(item => item.name === name);
 
 if(existing){
 
@@ -800,8 +785,12 @@ return;
 
 }
 
-let total = cart.reduce((sum,item)=>
-sum + (item.price * item.qty),0);
+let total =
+cart.reduce((sum,item)=>
+
+sum + (item.price * item.qty)
+
+,0);
 
 let cash = parseFloat(
 document.getElementById("cash").value
@@ -817,9 +806,11 @@ return;
 
 let change = cash - total;
 
-document.getElementById("overlay").style.display = "block";
+document.getElementById("overlay").style.display =
+"block";
 
-document.getElementById("receipt").style.display = "block";
+document.getElementById("receipt").style.display =
+"block";
 
 document.getElementById("receiptDate").innerText =
 new Date().toLocaleString();
@@ -835,11 +826,14 @@ cart.map(item =>
 
 ).join("");
 
-document.getElementById("receiptTotal").innerText = total;
+document.getElementById("receiptTotal").innerText =
+total;
 
-document.getElementById("receiptCash").innerText = cash;
+document.getElementById("receiptCash").innerText =
+cash;
 
-document.getElementById("receiptChange").innerText = change;
+document.getElementById("receiptChange").innerText =
+change;
 
 try{
 
@@ -879,9 +873,11 @@ document.getElementById("cash").value = "";
 
 window.closeReceipt = function(){
 
-document.getElementById("receipt").style.display = "none";
+document.getElementById("receipt").style.display =
+"none";
 
-document.getElementById("overlay").style.display = "none";
+document.getElementById("overlay").style.display =
+"none";
 
 }
 
