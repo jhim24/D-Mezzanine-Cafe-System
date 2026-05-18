@@ -125,6 +125,93 @@ font-weight:600;
 background:#dc2626;
 }
 
+.filters{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-bottom:20px;
+}
+
+.filters input{
+padding:12px;
+border:none;
+border-radius:10px;
+background:#111827;
+color:white;
+}
+
+.filter-btn,
+.print-btn{
+border:none;
+padding:12px 18px;
+border-radius:10px;
+font-weight:600;
+cursor:pointer;
+}
+
+.filter-btn{
+background:#facc15;
+color:black;
+}
+
+.print-btn{
+background:#22c55e;
+color:white;
+}
+
+@media print{
+
+body{
+background:white;
+color:black;
+padding:0;
+}
+
+.back-btn,
+.filters,
+.delete-btn,
+.no-print,
+th:last-child,
+td:last-child{
+display:none !important;
+}
+
+.topbar{
+margin-bottom:20px;
+}
+
+.card{
+background:white;
+border:1px solid #ccc;
+color:black;
+}
+
+.card h3,
+.card h2{
+color:black;
+}
+
+.table-box{
+background:white;
+padding:0;
+}
+
+table{
+width:100%;
+}
+
+table th{
+background:#ddd;
+color:black;
+}
+
+table td{
+color:black;
+border-bottom:1px solid #ccc;
+}
+
+}
+
 @media(max-width:700px){
 
 table{
@@ -176,6 +263,30 @@ Dashboard
 
 </div>
 
+<div class="filters no-print">
+
+<input type="date" id="startDate">
+
+<input type="date" id="endDate">
+
+<button class="filter-btn"
+onclick="loadSales()">
+
+<i class="fa-solid fa-filter"></i>
+Filter
+
+</button>
+
+<button class="print-btn"
+onclick="window.print()">
+
+<i class="fa-solid fa-print"></i>
+Print Report
+
+</button>
+
+</div>
+
 <div class="table-box">
 
 <table>
@@ -187,6 +298,7 @@ Dashboard
 <th>Order Date</th>
 <th>Product</th>
 <th>Quantity</th>
+<th>Payment</th>
 <th>Total Amount</th>
 <th>Action</th>
 
@@ -198,7 +310,7 @@ Dashboard
 
 <tr>
 
-<td colspan="5" class="loading">
+<td colspan="6" class="loading">
 Loading sales...
 </td>
 
@@ -277,7 +389,7 @@ alert("Delete failed");
 
 }
 
-async function loadSales(){
+window.loadSales = async function(){
 
 try{
 
@@ -293,6 +405,12 @@ let totalOrders = 0;
 let today =
 new Date().toLocaleDateString();
 
+const startDate =
+document.getElementById("startDate").value;
+
+const endDate =
+document.getElementById("endDate").value;
+
 const querySnapshot =
 await getDocs(collection(db,"sales"));
 
@@ -302,7 +420,7 @@ salesTable.innerHTML = `
 
 <tr>
 
-<td colspan="5" class="loading">
+<td colspan="6" class="loading">
 No sales found
 </td>
 
@@ -318,25 +436,32 @@ querySnapshot.forEach((firebaseDoc)=>{
 
 const sale = firebaseDoc.data();
 
-totalOrders++;
+let saleDateObject =
+new Date(sale.date);
 
-let saleDate = "";
+let saleDate =
+saleDateObject.toLocaleString();
 
-if(sale.date){
+let saleOnlyDate =
+saleDateObject.toISOString().split('T')[0];
 
-saleDate =
-new Date(sale.date)
-.toLocaleString();
+if(startDate && saleOnlyDate < startDate){
 
-}else{
-
-saleDate = "No Date";
+return;
 
 }
 
+if(endDate && saleOnlyDate > endDate){
+
+return;
+
+}
+
+totalOrders++;
+
 if(
-new Date(sale.date)
-.toLocaleDateString() === today
+saleDateObject.toLocaleDateString()
+=== today
 ){
 
 totalToday += sale.total || 0;
@@ -356,6 +481,8 @@ salesTable.innerHTML += `
 <td>${item.name || "-"}</td>
 
 <td>${item.qty || 0}</td>
+
+<td>${sale.paymentMethod || "Cash"}</td>
 
 <td class="total-row">
 ₱${(item.price || 0) * (item.qty || 0)}
@@ -389,6 +516,8 @@ salesTable.innerHTML += `
 <td>Old Transaction</td>
 
 <td>-</td>
+
+<td>${sale.paymentMethod || "Cash"}</td>
 
 <td class="total-row">
 ₱${sale.total || 0}
@@ -427,7 +556,7 @@ document.getElementById("salesTable").innerHTML = `
 
 <tr>
 
-<td colspan="5" class="loading">
+<td colspan="6" class="loading">
 Failed to load Firebase sales
 </td>
 
