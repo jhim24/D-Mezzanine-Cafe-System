@@ -113,6 +113,16 @@ border-radius:8px;
 cursor:pointer;
 }
 
+.edit-btn{
+background:#f59e0b;
+color:white;
+padding:7px 10px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+margin-right:5px;
+}
+
 table{
 width:100%;
 border-collapse:collapse;
@@ -298,7 +308,7 @@ Refresh
 <th>Price</th>
 <th>Stock</th>
 <th>Status</th>
-<th>Action</th>
+<th>Actions</th>
 
 </tr>
 
@@ -334,7 +344,8 @@ collection,
 addDoc,
 getDocs,
 deleteDoc,
-doc
+doc,
+updateDoc
 
 }
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
@@ -360,6 +371,10 @@ initializeApp(firebaseConfig);
 
 const db =
 getFirestore(app);
+
+let editId = null;
+
+// CATEGORY
 
 window.saveCategory =
 async function(){
@@ -473,6 +488,8 @@ loadCategories();
 
 }
 
+// SAVE / UPDATE PRODUCT
+
 window.saveProduct =
 async function(){
 
@@ -491,20 +508,41 @@ document.getElementById("productStock").value;
 const productImage =
 document.getElementById("productImage").value;
 
-await addDoc(
-collection(db,"products"),
-{
+const productData = {
 
 name:productName,
 category:productCategory,
 price:Number(productPrice),
 stock:Number(productStock),
+quantity:Number(productStock),
 image:productImage
 
-}
+};
+
+if(editId){
+
+await updateDoc(
+
+doc(db,"products",editId),
+
+productData
+
+);
+
+alert("Product Updated!");
+
+editId = null;
+
+}else{
+
+await addDoc(
+collection(db,"products"),
+productData
 );
 
 alert("Product Saved");
+
+}
 
 document.getElementById("productName").value = "";
 document.getElementById("productPrice").value = "";
@@ -514,6 +552,8 @@ document.getElementById("productImage").value = "";
 loadProducts();
 
 }
+
+// LOAD PRODUCTS
 
 window.loadProducts =
 async function(){
@@ -546,8 +586,11 @@ snapshot.forEach((d)=>{
 
 const data = d.data();
 
+let stockValue =
+data.quantity || data.stock || 0;
+
 let status =
-data.stock <= 5
+stockValue <= 5
 ? "<span class='low-stock'>LOW STOCK</span>"
 : "<span class='in-stock'>IN STOCK</span>";
 
@@ -568,11 +611,25 @@ class="product-img">
 
 <td>₱${data.price}</td>
 
-<td>${data.stock}</td>
+<td>${stockValue}</td>
 
 <td>${status}</td>
 
 <td>
+
+<button class="edit-btn"
+onclick="editProduct(
+'${d.id}',
+'${data.name}',
+'${data.category}',
+'${data.price}',
+'${stockValue}',
+'${data.image}'
+)">
+
+Edit
+
+</button>
 
 <button class="delete-btn"
 onclick="deleteProduct('${d.id}')">
@@ -591,6 +648,43 @@ Delete
 
 }
 
+// EDIT PRODUCT
+
+window.editProduct = function(
+id,
+name,
+category,
+price,
+stock,
+image
+){
+
+editId = id;
+
+document.getElementById("productName").value =
+name;
+
+document.getElementById("productCategory").value =
+category;
+
+document.getElementById("productPrice").value =
+price;
+
+document.getElementById("productStock").value =
+stock;
+
+document.getElementById("productImage").value =
+image;
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+}
+
+// DELETE PRODUCT
+
 window.deleteProduct =
 async function(id){
 
@@ -601,6 +695,8 @@ doc(db,"products",id)
 loadProducts();
 
 }
+
+// LOAD
 
 loadCategories();
 loadProducts();
