@@ -68,6 +68,31 @@ color:#facc15;
 font-size:18px;
 }
 
+.categories{
+display:flex;
+gap:12px;
+margin-bottom:25px;
+overflow-x:auto;
+}
+
+.category-btn{
+border:none;
+padding:12px 18px;
+border-radius:14px;
+background:#1e293b;
+color:white;
+cursor:pointer;
+white-space:nowrap;
+transition:.3s;
+font-weight:600;
+}
+
+.category-btn:hover,
+.category-btn.active{
+background:#facc15;
+color:black;
+}
+
 .products{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
@@ -118,6 +143,16 @@ background:#facc15;
 color:black;
 font-weight:600;
 cursor:pointer;
+}
+
+.low-stock{
+background:#ef4444;
+padding:5px 10px;
+border-radius:30px;
+font-size:11px;
+font-weight:600;
+display:inline-block;
+margin-bottom:10px;
 }
 
 .cart-title{
@@ -290,16 +325,6 @@ background:#ef4444;
 color:white;
 }
 
-.low-stock{
-background:#ef4444;
-padding:5px 10px;
-border-radius:30px;
-font-size:11px;
-font-weight:600;
-display:inline-block;
-margin-bottom:10px;
-}
-
 @media(max-width:950px){
 
 .container{
@@ -335,11 +360,40 @@ height:50vh;
 
 </div>
 
+<div class="categories">
+
+<button class="category-btn active"
+onclick="filterProducts('all',event)">
+All
+</button>
+
+<button class="category-btn"
+onclick="filterProducts('Coffee',event)">
+Coffee
+</button>
+
+<button class="category-btn"
+onclick="filterProducts('Meals',event)">
+Meals
+</button>
+
+<button class="category-btn"
+onclick="filterProducts('Frappes',event)">
+Frappes
+</button>
+
+<button class="category-btn"
+onclick="filterProducts('Desserts',event)">
+Desserts
+</button>
+
+</div>
+
 <div class="products" id="productsContainer">
 
 <!-- DEFAULT PRODUCTS -->
 
-<div class="product">
+<div class="product" data-category="Coffee">
 
 <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=800">
 
@@ -355,7 +409,7 @@ Add
 
 </div>
 
-<div class="product">
+<div class="product" data-category="Coffee">
 
 <img src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?q=80&w=800">
 
@@ -371,7 +425,7 @@ Add
 
 </div>
 
-<div class="product">
+<div class="product" data-category="Meals">
 
 <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?q=80&w=800">
 
@@ -387,7 +441,7 @@ Add
 
 </div>
 
-<div class="product">
+<div class="product" data-category="Meals">
 
 <img src="https://images.unsplash.com/photo-1562967916-eb82221dfb92?q=80&w=800">
 
@@ -543,6 +597,43 @@ const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
 
+window.filterProducts = function(category,event){
+
+const allProducts =
+document.querySelectorAll(".product");
+
+const buttons =
+document.querySelectorAll(".category-btn");
+
+buttons.forEach(btn=>{
+btn.classList.remove("active");
+});
+
+event.target.classList.add("active");
+
+allProducts.forEach(product=>{
+
+const productCategory =
+product.getAttribute("data-category");
+
+if(category === "all"){
+
+product.style.display = "block";
+
+}else if(productCategory === category){
+
+product.style.display = "block";
+
+}else{
+
+product.style.display = "none";
+
+}
+
+});
+
+}
+
 async function loadProducts(){
 
 const productsContainer =
@@ -567,7 +658,8 @@ stockStatus =
 
 productsContainer.innerHTML += `
 
-<div class="product">
+<div class="product"
+data-category="${data.category}">
 
 <img src="${data.image}">
 
