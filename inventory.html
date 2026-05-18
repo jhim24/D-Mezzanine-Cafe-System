@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Inventory Management</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#0f172a;
+color:white;
+padding:20px;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+flex-wrap:wrap;
+gap:15px;
+}
+
+.topbar h1{
+font-size:30px;
+}
+
+.back-btn{
+display:inline-block;
+margin-bottom:20px;
+text-decoration:none;
+background:#facc15;
+color:black;
+padding:12px 18px;
+border-radius:12px;
+font-weight:600;
+}
+
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+margin-bottom:25px;
+}
+
+.card{
+background:#1e293b;
+padding:25px;
+border-radius:20px;
+}
+
+.card h3{
+color:#cbd5e1;
+margin-bottom:10px;
+}
+
+.card h2{
+color:#facc15;
+font-size:30px;
+}
+
+.form-box,
+.table-box{
+background:#1e293b;
+padding:20px;
+border-radius:20px;
+margin-bottom:25px;
+}
+
+.form-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+}
+
+.form-grid input,
+.form-grid select{
+padding:14px;
+border:none;
+border-radius:12px;
+background:#0f172a;
+color:white;
+}
+
+.add-btn{
+margin-top:20px;
+border:none;
+padding:14px 20px;
+border-radius:12px;
+background:#22c55e;
+color:white;
+font-weight:700;
+cursor:pointer;
+}
+
+.refresh-btn{
+margin-left:10px;
+border:none;
+padding:14px 20px;
+border-radius:12px;
+background:#facc15;
+color:black;
+font-weight:700;
+cursor:pointer;
+}
+
+.search-box{
+margin-bottom:20px;
+}
+
+.search-box input{
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+background:#0f172a;
+color:white;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+table th{
+background:#111827;
+color:#facc15;
+padding:15px;
+text-align:left;
+white-space:nowrap;
+}
+
+table td{
+padding:15px;
+border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+.product-img{
+width:60px;
+height:60px;
+object-fit:cover;
+border-radius:10px;
+}
+
+.low-stock{
+background:#ef4444;
+padding:6px 12px;
+border-radius:30px;
+font-size:12px;
+font-weight:600;
+}
+
+.good-stock{
+background:#22c55e;
+padding:6px 12px;
+border-radius:30px;
+font-size:12px;
+font-weight:600;
+}
+
+.action-btn{
+border:none;
+padding:8px 12px;
+border-radius:8px;
+font-weight:600;
+cursor:pointer;
+margin-right:5px;
+}
+
+.edit-btn{
+background:#3b82f6;
+color:white;
+}
+
+.delete-btn{
+background:#ef4444;
+color:white;
+}
+
+@media(max-width:700px){
+
+table{
+font-size:12px;
+}
+
+.card h2{
+font-size:24px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<a href="index.html" class="back-btn">
+<i class="fa-solid fa-arrow-left"></i>
+Dashboard
+</a>
+
+<div class="topbar">
+
+<h1>Inventory Management 📦</h1>
+
+<h2 id="todayDate"></h2>
+
+</div>
+
+<div class="cards">
+
+<div class="card">
+
+<h3>Total Products</h3>
+
+<h2 id="totalProducts">0</h2>
+
+</div>
+
+<div class="card">
+
+<h3>Low Stock Items</h3>
+
+<h2 id="lowStocks">0</h2>
+
+</div>
+
+</div>
+
+<div class="form-box">
+
+<h2 style="margin-bottom:20px;">Add Inventory Item</h2>
+
+<div class="form-grid">
+
+<input type="text" id="productName" placeholder="Product Name">
+
+<select id="productCategory">
+<option value="Coffee">Coffee</option>
+<option value="Meals">Meals</option>
+<option value="Frappes">Frappes</option>
+<option value="Desserts">Desserts</option>
+</select>
+
+<input type="number" id="productPrice" placeholder="Price">
+
+<input type="number" id="productQty" placeholder="Quantity">
+
+<input type="text" id="productImage" placeholder="Image URL">
+
+</div>
+
+<button class="add-btn" onclick="saveProduct()">
+<i class="fa-solid fa-plus"></i>
+Add Product
+</button>
+
+<button class="refresh-btn" onclick="loadProducts()">
+<i class="fa-solid fa-rotate-right"></i>
+Refresh
+</button>
+
+</div>
+
+<div class="table-box">
+
+<div class="search-box">
+<input type="text"
+id="searchInput"
+placeholder="Search product..."
+onkeyup="searchProduct()">
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Image</th>
+<th>Product</th>
+<th>Category</th>
+<th>Price</th>
+<th>Quantity</th>
+<th>Status</th>
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="inventoryTable">
+
+<tr>
+<td colspan="7" style="text-align:center;padding:30px;">
+Loading inventory...
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+
+import {
+getFirestore,
+collection,
+addDoc,
+getDocs,
+deleteDoc,
+doc
+}
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyCYjuZlpgE-Lci33e53014F7fRIid6u7Dg",
+
+authDomain: "family-web-10cb8.firebaseapp.com",
+
+projectId: "family-web-10cb8",
+
+storageBucket: "family-web-10cb8.firebasestorage.app",
+
+messagingSenderId: "152048365178",
+
+appId: "1:152048365178:web:3e42c20e03a7c563d915c3",
+
+measurementId: "G-1X8L2KQDYF"
+
+};
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+document.getElementById("todayDate").innerText =
+new Date().toLocaleDateString();
+
+window.saveProduct = async function(){
+
+const name =
+document.getElementById("productName").value;
+
+const category =
+document.getElementById("productCategory").value;
+
+const price =
+parseFloat(document.getElementById("productPrice").value);
+
+const quantity =
+parseInt(document.getElementById("productQty").value);
+
+const image =
+document.getElementById("productImage").value;
+
+if(!name || !price || !quantity || !image){
+
+alert("Please complete all fields");
+
+return;
+
+}
+
+try{
+
+await addDoc(collection(db,"products"),{
+
+name:name,
+category:category,
+price:price,
+quantity:quantity,
+image:image
+
+});
+
+alert("Product Added!");
+
+clearFields();
+
+loadProducts();
+
+}catch(error){
+
+console.log(error);
+
+alert("Failed to save product");
+
+}
+
+}
+
+function clearFields(){
+
+productName.value = "";
+productPrice.value = "";
+productQty.value = "";
+productImage.value = "";
+
+}
+
+window.deleteProduct = async function(id){
+
+let confirmDelete =
+confirm("Delete this product?");
+
+if(!confirmDelete) return;
+
+try{
+
+await deleteDoc(doc(db,"products",id));
+
+alert("Product Deleted!");
+
+loadProducts();
+
+}catch(error){
+
+console.log(error);
+
+alert("Delete failed");
+
+}
+
+}
+
+window.loadProducts = async function(){
+
+const inventoryTable =
+document.getElementById("inventoryTable");
+
+inventoryTable.innerHTML = "";
+
+let totalProducts = 0;
+let lowStocks = 0;
+
+const snapshot =
+await getDocs(collection(db,"products"));
+
+if(snapshot.empty){
+
+inventoryTable.innerHTML = `
+<tr>
+<td colspan="7" style="text-align:center;padding:30px;">
+No products found
+</td>
+</tr>
+`;
+
+return;
+
+}
+
+snapshot.forEach((product)=>{
+
+const data = product.data();
+
+totalProducts++;
+
+let status =
+`<span class="good-stock">Good</span>`;
+
+if(data.quantity <= 5){
+
+lowStocks++;
+
+status =
+`<span class="low-stock">Low Stock</span>`;
+
+}
+
+inventoryTable.innerHTML += `
+
+<tr>
+
+<td>
+<img src="${data.image}"
+class="product-img">
+</td>
+
+<td>${data.name}</td>
+
+<td>${data.category}</td>
+
+<td>₱${data.price}</td>
+
+<td>${data.quantity}</td>
+
+<td>${status}</td>
+
+<td>
+
+<button class="action-btn delete-btn"
+onclick="deleteProduct('${product.id}')">
+Delete
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+
+document.getElementById("totalProducts").innerText =
+totalProducts;
+
+
+document.getElementById("lowStocks").innerText =
+lowStocks;
+
+}
+
+window.searchProduct = function(){
+
+let input =
+document.getElementById("searchInput").value.toLowerCase();
+
+let rows =
+document.querySelectorAll("#inventoryTable tr");
+
+rows.forEach(row=>{
+
+let text = row.innerText.toLowerCase();
+
+if(text.includes(input)){
+
+row.style.display = "";
+
+}else{
+
+row.style.display = "none";
+
+}
+
+});
+
+}
+
+loadProducts();
+
+</script>
+
+</body>
+</html>
+```
