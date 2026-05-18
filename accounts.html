@@ -555,10 +555,17 @@ style="display:none;">
 
 <div class="form-grid">
 
-<select id="partyType">
+<input type="text"
+id="customerCode"
+placeholder="Auto Customer/Supplier Code"
+readonly>
 
-<option>Customer</option>
-<option>Supplier</option>
+<select id="partyType"
+onchange="generateCustomerCode()">
+
+<option value="">Select Type</option>
+<option value="CUS">Customer</option>
+<option value="SUP">Supplier</option>
 
 </select>
 
@@ -599,6 +606,7 @@ Save Details
 
 <tr>
 
+<th>Code</th>
 <th>Type</th>
 <th>Company</th>
 <th>Contact Person</th>
@@ -614,7 +622,7 @@ Save Details
 
 <tr>
 
-<td colspan="6"
+<td colspan="7"
 style="text-align:center;">
 
 No customer/supplier yet
@@ -675,20 +683,15 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 let accountCounter = 1000;
+let customerCounter = 1000;
 
 window.showSection = function(sectionId){
 
-document.getElementById("journalSection")
-.style.display = "none";
+document.getElementById("journalSection").style.display = "none";
+document.getElementById("chartSection").style.display = "none";
+document.getElementById("customerSection").style.display = "none";
 
-document.getElementById("chartSection")
-.style.display = "none";
-
-document.getElementById("customerSection")
-.style.display = "none";
-
-document.getElementById(sectionId)
-.style.display = "block";
+document.getElementById(sectionId).style.display = "block";
 
 }
 
@@ -717,6 +720,21 @@ document.getElementById("accountPreview")
 "Account Preview: " +
 categoryName +
 " - " +
+generatedCode;
+
+}
+
+window.generateCustomerCode = function(){
+
+const type =
+document.getElementById("partyType").value;
+
+customerCounter++;
+
+const generatedCode =
+type + customerCounter;
+
+document.getElementById("customerCode").value =
 generatedCode;
 
 }
@@ -939,6 +957,9 @@ console.log(error);
 window.saveCustomerSupplier =
 async function(){
 
+const customerCode =
+document.getElementById("customerCode").value;
+
 const partyType =
 document.getElementById("partyType").value;
 
@@ -963,6 +984,7 @@ await addDoc(
 collection(db,"customersSuppliers"),
 {
 
+customerCode,
 partyType,
 companyName,
 contactPerson,
@@ -979,6 +1001,8 @@ document.getElementById("customerTable")
 .innerHTML += `
 
 <tr>
+
+<td>${customerCode}</td>
 
 <td>${partyType}</td>
 
