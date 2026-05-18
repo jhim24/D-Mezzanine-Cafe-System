@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Chart of Accounts</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#0f172a;
+color:white;
+padding:20px;
+}
+
+.back-btn{
+display:inline-block;
+margin-bottom:20px;
+text-decoration:none;
+background:#facc15;
+color:black;
+padding:12px 18px;
+border-radius:10px;
+font-weight:600;
+}
+
+.container{
+background:#1e293b;
+padding:20px;
+border-radius:20px;
+}
+
+.title{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+flex-wrap:wrap;
+gap:10px;
+}
+
+.title h1{
+font-size:30px;
+}
+
+.form-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+margin-bottom:20px;
+}
+
+.form-grid input,
+.form-grid select,
+.form-grid textarea{
+padding:14px;
+border:none;
+border-radius:12px;
+background:#0f172a;
+color:white;
+}
+
+textarea{
+resize:none;
+height:90px;
+}
+
+.save-btn{
+border:none;
+padding:14px 20px;
+border-radius:12px;
+background:#22c55e;
+color:white;
+font-weight:700;
+cursor:pointer;
+}
+
+.refresh-btn{
+border:none;
+padding:14px 20px;
+border-radius:12px;
+background:#facc15;
+color:black;
+font-weight:700;
+cursor:pointer;
+margin-left:10px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:25px;
+}
+
+table th{
+background:#111827;
+padding:15px;
+color:#facc15;
+text-align:left;
+}
+
+table td{
+padding:14px;
+border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+.delete-btn{
+border:none;
+padding:8px 12px;
+background:#ef4444;
+color:white;
+border-radius:8px;
+cursor:pointer;
+}
+
+@media(max-width:700px){
+
+table{
+font-size:12px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<a href="accounts.html" class="back-btn">
+
+<i class="fa-solid fa-arrow-left"></i>
+
+Accounts Management
+
+</a>
+
+<div class="container">
+
+<div class="title">
+
+<h1>Chart of Accounts 📚</h1>
+
+<h3 id="todayDate"></h3>
+
+</div>
+
+<div class="form-grid">
+
+<input type="text"
+id="accountCode"
+placeholder="Account Code">
+
+<input type="text"
+id="accountName"
+placeholder="Account Name">
+
+<select id="accountType">
+
+<option value="">Select Account Type</option>
+
+<option>Assets</option>
+<option>Liabilities</option>
+<option>Equity</option>
+<option>Income</option>
+<option>Expenses</option>
+<option>Cost of Sales</option>
+<option>Bank</option>
+<option>Cash</option>
+<option>Accounts Receivable</option>
+<option>Accounts Payable</option>
+
+</select>
+
+<input type="text"
+id="parentAccount"
+placeholder="Parent Account">
+
+<input type="number"
+id="openingBalance"
+placeholder="Opening Balance">
+
+<select id="status">
+
+<option>Active</option>
+<option>Inactive</option>
+
+</select>
+
+<textarea id="description"
+placeholder="Description"></textarea>
+
+</div>
+
+<button class="save-btn"
+onclick="saveAccount()">
+
+<i class="fa-solid fa-floppy-disk"></i>
+
+Save Account
+
+</button>
+
+<button class="refresh-btn"
+onclick="loadAccounts()">
+
+<i class="fa-solid fa-rotate-right"></i>
+
+Refresh
+
+</button>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Code</th>
+<th>Account Name</th>
+<th>Type</th>
+<th>Parent</th>
+<th>Balance</th>
+<th>Status</th>
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="accountsTable">
+
+<tr>
+
+<td colspan="7"
+style="text-align:center;padding:30px;">
+
+Loading accounts...
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+
+import {
+
+getFirestore,
+collection,
+addDoc,
+getDocs,
+deleteDoc,
+doc
+
+}
+
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyCYjuZlpgE-Lci33e53014F7fRIid6u7Dg",
+
+authDomain: "family-web-10cb8.firebaseapp.com",
+
+projectId: "family-web-10cb8",
+
+storageBucket: "family-web-10cb8.firebasestorage.app",
+
+messagingSenderId: "152048365178",
+
+appId: "1:152048365178:web:3e42c20e03a7c563d915c3"
+
+};
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+document.getElementById("todayDate").innerText =
+new Date().toLocaleDateString();
+
+window.saveAccount = async function(){
+
+const accountCode =
+document.getElementById("accountCode").value;
+
+const accountName =
+document.getElementById("accountName").value;
+
+const accountType =
+document.getElementById("accountType").value;
+
+const parentAccount =
+document.getElementById("parentAccount").value;
+
+const openingBalance =
+document.getElementById("openingBalance").value;
+
+const status =
+document.getElementById("status").value;
+
+const description =
+document.getElementById("description").value;
+
+if(!accountCode || !accountName || !accountType){
+
+alert("Please complete required fields");
+
+return;
+
+}
+
+try{
+
+await addDoc(
+collection(db,"chartOfAccounts"),
+{
+
+accountCode,
+accountName,
+accountType,
+parentAccount,
+openingBalance,
+status,
+description,
+createdAt:new Date().toISOString()
+
+}
+
+);
+
+alert("Account Saved!");
+
+loadAccounts();
+
+}catch(error){
+
+console.log(error);
+
+alert("Save Failed");
+
+}
+
+}
+
+window.deleteAccount = async function(id){
+
+let confirmDelete =
+confirm("Delete account?");
+
+if(!confirmDelete) return;
+
+try{
+
+await deleteDoc(
+doc(db,"chartOfAccounts",id)
+);
+
+alert("Deleted!");
+
+loadAccounts();
+
+}catch(error){
+
+console.log(error);
+
+}
+
+}
+
+window.loadAccounts = async function(){
+
+const accountsTable =
+document.getElementById("accountsTable");
+
+accountsTable.innerHTML = "";
+
+const snapshot =
+await getDocs(
+collection(db,"chartOfAccounts")
+);
+
+if(snapshot.empty){
+
+accountsTable.innerHTML = `
+
+<tr>
+
+<td colspan="7"
+style="text-align:center;padding:30px;">
+
+No accounts found
+
+</td>
+
+</tr>
+
+`;
+
+return;
+
+}
+
+snapshot.forEach((account)=>{
+
+const data = account.data();
+
+accountsTable.innerHTML += `
+
+<tr>
+
+<td>${data.accountCode}</td>
+
+<td>${data.accountName}</td>
+
+<td>${data.accountType}</td>
+
+<td>${data.parentAccount || '-'}</td>
+
+<td>₱${Number(data.openingBalance || 0).toLocaleString()}</td>
+
+<td>${data.status}</td>
+
+<td>
+
+<button class="delete-btn"
+onclick="deleteAccount('${account.id}')">
+
+Delete
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+loadAccounts();
+
+</script>
+
+</body>
+</html>
