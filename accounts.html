@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Accounts Management</title>
+<title>Accounts Management ERP</title>
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -50,21 +50,12 @@ padding:10px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-color:#001f5c;
-font-weight:bold;
 flex-wrap:wrap;
 gap:10px;
 }
 
-.header-left{
-display:flex;
-align-items:center;
-gap:10px;
-}
-
 .header h1{
-font-size:34px;
-font-family:Georgia;
+font-size:32px;
 color:#003399;
 }
 
@@ -73,7 +64,6 @@ display:flex;
 gap:10px;
 padding:10px;
 background:#ececec;
-border-bottom:1px solid #999;
 flex-wrap:wrap;
 }
 
@@ -83,8 +73,8 @@ padding:12px 18px;
 border-radius:10px;
 background:#1e40af;
 color:white;
-font-weight:600;
 cursor:pointer;
+font-weight:600;
 }
 
 .tab-btn:hover{
@@ -112,13 +102,13 @@ background:#22c55e;
 color:white;
 }
 
-.print-btn{
-background:#facc15;
-}
-
 .add-btn{
 background:#2563eb;
 color:white;
+}
+
+.print-btn{
+background:#facc15;
 }
 
 .form-section{
@@ -134,17 +124,12 @@ margin-top:15px;
 }
 
 .form-grid input,
-.form-grid textarea,
-.form-grid select{
+.form-grid select,
+.form-grid textarea{
 width:100%;
 padding:10px;
 border:1px solid #999;
 border-radius:8px;
-}
-
-.form-grid textarea{
-height:80px;
-resize:none;
 }
 
 .table-container{
@@ -157,20 +142,19 @@ table{
 width:100%;
 border-collapse:collapse;
 background:white;
-margin-top:15px;
 }
 
 table th{
 background:#4a82d1;
 color:white;
 padding:10px;
-font-size:13px;
 border:1px solid #999;
+font-size:13px;
 }
 
 table td{
-border:1px solid #999;
 padding:8px;
+border:1px solid #999;
 font-size:13px;
 }
 
@@ -187,17 +171,16 @@ font-size:12px;
 background:#ececec;
 padding:12px;
 display:flex;
-justify-content:space-between;
-flex-wrap:wrap;
 gap:15px;
+flex-wrap:wrap;
 border-top:2px solid #999;
 }
 
 .total-box{
 background:#ffff99;
 padding:10px 20px;
-font-weight:bold;
 border:1px solid #999;
+font-weight:bold;
 min-width:150px;
 text-align:center;
 }
@@ -207,7 +190,6 @@ background:#0033cc;
 color:white;
 padding:8px;
 font-weight:bold;
-font-size:14px;
 }
 
 .delete-btn{
@@ -219,13 +201,22 @@ border-radius:6px;
 cursor:pointer;
 }
 
+.edit-btn{
+background:#f59e0b;
+color:white;
+border:none;
+padding:6px 10px;
+border-radius:6px;
+cursor:pointer;
+margin-right:5px;
+}
+
 .account-preview{
 background:#e0f2fe;
 padding:10px;
-border-radius:8px;
 margin-top:10px;
+border-radius:8px;
 font-weight:600;
-color:#0f172a;
 }
 
 </style>
@@ -246,19 +237,7 @@ Dashboard
 
 <div class="header">
 
-<div class="header-left">
-
-<i class="fa-solid fa-book fa-2x"></i>
-
-<div>
-
-<h1>Accounts Management</h1>
-
-<div>ERP Accounting System</div>
-
-</div>
-
-</div>
+<h1>Accounts Management ERP</h1>
 
 <div id="currentDate"></div>
 
@@ -289,7 +268,7 @@ Customers / Suppliers
 
 </div>
 
-<!-- JOURNAL SECTION -->
+<!-- JOURNAL -->
 
 <div id="journalSection">
 
@@ -352,6 +331,8 @@ placeholder="Remarks"></textarea>
 <th>D/C</th>
 <th>Account Code</th>
 <th>Account Name</th>
+<th>Sub Code</th>
+<th>Sub Name</th>
 <th>Debit</th>
 <th>Credit</th>
 <th>Action</th>
@@ -384,6 +365,20 @@ onkeyup="autoFillAccount(this)">
 
 <input type="text"
 class="accountName">
+
+</td>
+
+<td>
+
+<input type="text"
+onkeyup="autoFillSub(this)">
+
+</td>
+
+<td>
+
+<input type="text"
+class="subName">
 
 </td>
 
@@ -451,7 +446,7 @@ Difference: ₱0
 
 </div>
 
-<!-- CHART OF ACCOUNTS -->
+<!-- CHART -->
 
 <div id="chartSection"
 style="display:none;">
@@ -477,8 +472,8 @@ onchange="generateCode()">
 
 <input type="text"
 id="accountCode"
-placeholder="Auto Account Code"
-readonly>
+readonly
+placeholder="Account Code">
 
 <input type="text"
 id="accountName"
@@ -513,26 +508,16 @@ Save Account
 <tr>
 
 <th>Code</th>
-<th>Account Name</th>
+<th>Name</th>
 <th>Category</th>
-<th>Opening Balance</th>
+<th>Balance</th>
+<th>Action</th>
 
 </tr>
 
 </thead>
 
 <tbody id="chartTable">
-
-<tr>
-
-<td colspan="4"
-style="text-align:center;">
-
-No accounts yet
-
-</td>
-
-</tr>
 
 </tbody>
 
@@ -544,7 +529,7 @@ No accounts yet
 
 </div>
 
-<!-- CUSTOMER SECTION -->
+<!-- CUSTOMERS -->
 
 <div id="customerSection"
 style="display:none;">
@@ -557,8 +542,8 @@ style="display:none;">
 
 <input type="text"
 id="customerCode"
-placeholder="Auto Customer/Supplier Code"
-readonly>
+readonly
+placeholder="Auto Code">
 
 <select id="partyType"
 onchange="generateCustomerCode()">
@@ -609,27 +594,15 @@ Save Details
 <th>Code</th>
 <th>Type</th>
 <th>Company</th>
-<th>Contact Person</th>
+<th>Contact</th>
 <th>Mobile</th>
-<th>Email</th>
-<th>Address</th>
+<th>Action</th>
 
 </tr>
 
 </thead>
 
 <tbody id="customerTable">
-
-<tr>
-
-<td colspan="7"
-style="text-align:center;">
-
-No customer/supplier yet
-
-</td>
-
-</tr>
 
 </tbody>
 
@@ -658,7 +631,10 @@ import {
 getFirestore,
 collection,
 addDoc,
-getDocs
+getDocs,
+deleteDoc,
+doc,
+updateDoc
 }
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
@@ -679,7 +655,6 @@ appId: "1:152048365178:web:3e42c20e03a7c563d915c3"
 };
 
 const app = initializeApp(firebaseConfig);
-
 const db = getFirestore(app);
 
 let accountCounter = 1000;
@@ -702,25 +677,8 @@ document.getElementById("accountCategory").value;
 
 accountCounter++;
 
-const generatedCode =
-category + accountCounter;
-
 document.getElementById("accountCode").value =
-generatedCode;
-
-const categoryName =
-document.getElementById("accountCategory")
-.options[
-document.getElementById("accountCategory")
-.selectedIndex
-].text;
-
-document.getElementById("accountPreview")
-.innerText =
-"Account Preview: " +
-categoryName +
-" - " +
-generatedCode;
+category + accountCounter;
 
 }
 
@@ -731,73 +689,64 @@ document.getElementById("partyType").value;
 
 customerCounter++;
 
-const generatedCode =
-type + customerCounter;
-
 document.getElementById("customerCode").value =
-generatedCode;
+type + customerCounter;
 
 }
 
 window.addRow = function(){
 
-const tbody =
-document.getElementById("voucherBody");
-
-tbody.innerHTML += `
+document.getElementById("voucherBody")
+.innerHTML += `
 
 <tr>
 
 <td>
-
 <select>
 <option>Debit</option>
 <option>Credit</option>
 </select>
-
 </td>
 
 <td>
-
 <input type="text"
 onkeyup="autoFillAccount(this)">
-
 </td>
 
 <td>
-
 <input type="text"
 class="accountName">
-
 </td>
 
 <td>
+<input type="text"
+onkeyup="autoFillSub(this)">
+</td>
 
+<td>
+<input type="text"
+class="subName">
+</td>
+
+<td>
 <input type="number"
 class="debit"
 value="0"
 oninput="computeTotals()">
-
 </td>
 
 <td>
-
 <input type="number"
 class="credit"
 value="0"
 oninput="computeTotals()">
-
 </td>
 
 <td>
-
 <button class="delete-btn"
 onclick="deleteRow(this)">
-
 Delete
-
 </button>
-
 </td>
 
 </tr>
@@ -808,24 +757,43 @@ Delete
 
 window.autoFillAccount = async function(input){
 
-const accountCode = input.value;
+const code = input.value;
 
 const snapshot =
-await getDocs(
-collection(db,"chartOfAccounts")
-);
+await getDocs(collection(db,"chartOfAccounts"));
 
-snapshot.forEach((doc)=>{
+snapshot.forEach((d)=>{
 
-const data = doc.data();
+const data = d.data();
 
-if(data.accountCode === accountCode){
+if(data.accountCode === code){
 
-const row =
-input.closest("tr");
-
-row.querySelector(".accountName").value =
+input.closest("tr")
+.querySelector(".accountName").value =
 data.accountName;
+
+}
+
+});
+
+}
+
+window.autoFillSub = async function(input){
+
+const code = input.value;
+
+const snapshot =
+await getDocs(collection(db,"customersSuppliers"));
+
+snapshot.forEach((d)=>{
+
+const data = d.data();
+
+if(data.customerCode === code){
+
+input.closest("tr")
+.querySelector(".subName").value =
+data.companyName;
 
 }
 
@@ -860,8 +828,6 @@ credit += Number(input.value || 0);
 
 });
 
-const diff = debit - credit;
-
 document.getElementById("totalDebit")
 .innerText =
 "Debit: ₱" + debit.toLocaleString();
@@ -872,28 +838,44 @@ document.getElementById("totalCredit")
 
 document.getElementById("difference")
 .innerText =
-"Difference: ₱" + diff.toLocaleString();
+"Difference: ₱" +
+(debit-credit).toLocaleString();
 
 }
 
 window.saveVoucher = async function(){
 
-try{
+const rows = [];
+
+document.querySelectorAll("#voucherBody tr")
+.forEach(row=>{
+
+const inputs =
+row.querySelectorAll("input,select");
+
+rows.push({
+
+dc: inputs[0].value,
+accountCode: inputs[1].value,
+accountName: inputs[2].value,
+subCode: inputs[3].value,
+subName: inputs[4].value,
+debit: inputs[5].value,
+credit: inputs[6].value
+
+});
+
+});
 
 await addDoc(
 collection(db,"journalVouchers"),
 {
+rows,
 createdAt:new Date().toISOString()
 }
 );
 
 alert("Voucher Saved!");
-
-}catch(error){
-
-console.log(error);
-
-}
 
 }
 
@@ -911,34 +893,43 @@ document.getElementById("accountName").value;
 const openingBalance =
 document.getElementById("openingBalance").value;
 
-try{
-
-await addDoc(
+const docRef = await addDoc(
 collection(db,"chartOfAccounts"),
 {
-
 accountCategory,
 accountCode,
 accountName,
-openingBalance,
-createdAt:new Date().toISOString()
-
+openingBalance
 }
-
 );
 
 document.getElementById("chartTable")
 .innerHTML += `
 
-<tr>
+<tr id="${docRef.id}">
 
 <td>${accountCode}</td>
-
 <td>${accountName}</td>
-
 <td>${accountCategory}</td>
+<td>₱${openingBalance}</td>
 
-<td>₱${Number(openingBalance).toLocaleString()}</td>
+<td>
+
+<button class="edit-btn"
+onclick="editAccount('${docRef.id}')">
+
+Edit
+
+</button>
+
+<button class="delete-btn"
+onclick="deleteAccount('${docRef.id}')">
+
+Delete
+
+</button>
+
+</td>
 
 </tr>
 
@@ -946,11 +937,19 @@ document.getElementById("chartTable")
 
 alert("Account Saved!");
 
-}catch(error){
+}
 
-console.log(error);
+window.deleteAccount = async function(id){
+
+await deleteDoc(doc(db,"chartOfAccounts",id));
+
+document.getElementById(id).remove();
 
 }
+
+window.editAccount = function(id){
+
+alert("Edit function ready for " + id);
 
 }
 
@@ -978,63 +977,77 @@ document.getElementById("emailAddress").value;
 const address =
 document.getElementById("address").value;
 
-try{
-
-await addDoc(
+const docRef = await addDoc(
 collection(db,"customersSuppliers"),
 {
-
 customerCode,
 partyType,
 companyName,
 contactPerson,
 mobileNumber,
 emailAddress,
-address,
-createdAt:new Date().toISOString()
-
+address
 }
-
 );
 
 document.getElementById("customerTable")
 .innerHTML += `
 
-<tr>
+<tr id="${docRef.id}">
 
 <td>${customerCode}</td>
-
 <td>${partyType}</td>
-
 <td>${companyName}</td>
-
 <td>${contactPerson}</td>
-
 <td>${mobileNumber}</td>
 
-<td>${emailAddress}</td>
+<td>
 
-<td>${address}</td>
+<button class="edit-btn"
+onclick="editCustomer('${docRef.id}')">
+
+Edit
+
+</button>
+
+<button class="delete-btn"
+onclick="deleteCustomer('${docRef.id}')">
+
+Delete
+
+</button>
+
+</td>
 
 </tr>
 
 `;
 
-alert("Details Saved!");
-
-}catch(error){
-
-console.log(error);
+alert("Saved!");
 
 }
 
+window.deleteCustomer = async function(id){
+
+await deleteDoc(
+doc(db,"customersSuppliers",id)
+);
+
+document.getElementById(id).remove();
+
 }
 
-computeTotals();
+window.editCustomer = function(id){
+
+alert("Edit function ready for " + id);
+
+}
 
 document.getElementById("currentDate")
 .innerText =
 new Date().toDateString();
+
+computeTotals();
 
 </script>
 
