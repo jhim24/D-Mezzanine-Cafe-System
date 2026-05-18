@@ -437,7 +437,9 @@ querySnapshot.forEach((firebaseDoc)=>{
 const sale = firebaseDoc.data();
 
 let rawDate =
-sale.date || sale.createdAt;
+sale.date ||
+sale.createdAt ||
+new Date();
 
 let saleDateObject =
 new Date(rawDate);
@@ -447,8 +449,14 @@ isNaN(saleDateObject)
 ? "No Date"
 : saleDateObject.toLocaleString();
 
-let saleOnlyDate =
+let saleOnlyDate = "";
+
+if(!isNaN(saleDateObject)){
+
+saleOnlyDate =
 saleDateObject.toISOString().split('T')[0];
+
+}
 
 if(startDate && saleOnlyDate < startDate){
 
@@ -470,7 +478,7 @@ saleDateObject.toLocaleDateString()
 === today
 ){
 
-totalToday += sale.total || 0;
+totalToday += Number(sale.total || 0);
 
 }
 
@@ -556,7 +564,8 @@ totalOrders;
 
 }catch(error){
 
-console.log(error);
+console.error("Firebase Error:", error);
+alert(error.message);
 
 document.getElementById("salesTable").innerHTML = `
 
