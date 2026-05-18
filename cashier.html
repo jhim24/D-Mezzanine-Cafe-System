@@ -96,6 +96,7 @@ background:#1e293b;
 color:white;
 cursor:pointer;
 white-space:nowrap;
+transition:.3s;
 font-weight:600;
 }
 
@@ -116,6 +117,11 @@ background:#1e293b;
 border-radius:20px;
 padding:15px;
 text-align:center;
+transition:.3s;
+}
+
+.product:hover{
+transform:translateY(-5px);
 }
 
 .product img{
@@ -124,6 +130,16 @@ height:140px;
 object-fit:cover;
 border-radius:14px;
 margin-bottom:10px;
+}
+
+.product h3{
+margin-bottom:5px;
+}
+
+.product small{
+display:block;
+margin-bottom:10px;
+color:#cbd5e1;
 }
 
 .product p{
@@ -136,8 +152,8 @@ width:100%;
 border:none;
 padding:10px;
 border-radius:10px;
-background:#22c55e;
-color:white;
+background:#facc15;
+color:black;
 font-weight:600;
 cursor:pointer;
 }
@@ -152,10 +168,18 @@ display:inline-block;
 margin-bottom:10px;
 }
 
+.cart-title{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+}
+
 .cart-items{
 flex:1;
 overflow-y:auto;
-max-height:300px;
+max-height:280px;
+padding-right:4px;
 }
 
 .cart-item{
@@ -163,29 +187,57 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 background:#1e293b;
-padding:10px;
+padding:8px 10px;
 border-radius:10px;
-margin-bottom:10px;
+margin-bottom:8px;
+min-height:58px;
+}
+
+.cart-item h4{
+font-size:12px;
+margin-bottom:2px;
+}
+
+.cart-item p{
+font-size:11px;
+color:#facc15;
 }
 
 .qty{
 display:flex;
 align-items:center;
 gap:5px;
+font-size:12px;
 }
 
 .qty button{
 width:24px;
 height:24px;
+font-size:12px;
 border:none;
 border-radius:8px;
 background:#facc15;
-cursor:pointer;
+color:black;
 font-weight:bold;
+cursor:pointer;
 }
 
 .summary{
 margin-top:20px;
+border-top:1px solid rgba(255,255,255,0.08);
+padding-top:20px;
+}
+
+.summary div{
+display:flex;
+justify-content:space-between;
+margin-bottom:12px;
+}
+
+.total{
+font-size:24px;
+color:#facc15;
+font-weight:700;
 }
 
 .payment{
@@ -252,11 +304,32 @@ display:none;
 z-index:9999;
 }
 
+.receipt-header{
+text-align:center;
+border-bottom:1px dashed #000;
+padding-bottom:10px;
+margin-bottom:10px;
+}
+
 .receipt-items p,
 .receipt-summary p{
 display:flex;
 justify-content:space-between;
 margin-bottom:6px;
+}
+
+.receipt-summary{
+border-top:1px dashed #000;
+padding-top:10px;
+margin-top:10px;
+}
+
+.receipt-footer{
+text-align:center;
+margin-top:15px;
+border-top:1px dashed #000;
+padding-top:10px;
+font-size:13px;
 }
 
 .receipt-buttons{
@@ -296,6 +369,10 @@ flex-direction:column;
 width:100%;
 }
 
+.right{
+height:50vh;
+}
+
 }
 
 </style>
@@ -327,6 +404,8 @@ onclick="refreshProducts()">
 
 </div>
 
+<!-- AUTO CATEGORY -->
+
 <div class="categories"
 id="categoryButtons">
 
@@ -341,19 +420,28 @@ id="productsContainer">
 
 <div class="right">
 
+<div class="cart-title">
+
 <h2>Current Order</h2>
 
-<div class="cart-items"
-id="cartItems">
+<i class="fa-solid fa-cart-shopping"></i>
 
 </div>
 
+<div class="cart-items"
+id="cartItems"></div>
+
 <div class="summary">
 
-<h2>
-Total:
-₱ <span id="total">0</span>
-</h2>
+<div>
+<span>Items</span>
+<span id="itemCount">0</span>
+</div>
+
+<div class="total">
+<span>Total</span>
+<span>₱ <span id="total">0</span></span>
+</div>
 
 <div class="payment">
 
@@ -407,16 +495,18 @@ id="overlay"></div>
 <div class="receipt"
 id="receipt">
 
+<div class="receipt-header">
+
 <h2>D' Mezzanine Cafe</h2>
 
-<p id="receiptDate"></p>
+<p>Cafe & Restaurant</p>
 
-<hr>
+<small id="receiptDate"></small>
+
+</div>
 
 <div class="receipt-items"
 id="receiptItems"></div>
-
-<hr>
 
 <div class="receipt-summary">
 
@@ -426,7 +516,7 @@ id="receiptItems"></div>
 </p>
 
 <p>
-<span id="paymentLabel"></span>
+<span id="paymentLabel">Cash</span>
 <span>₱ <span id="receiptCash"></span></span>
 </p>
 
@@ -443,6 +533,12 @@ style="display:none;">
 <span>Change</span>
 <span>₱ <span id="receiptChange"></span></span>
 </p>
+
+</div>
+
+<div class="receipt-footer">
+
+Thank you for your order ☕
 
 </div>
 
@@ -475,8 +571,8 @@ import {
 
 getFirestore,
 collection,
-getDocs,
 addDoc,
+getDocs,
 doc,
 updateDoc
 
@@ -499,11 +595,9 @@ appId: "1:152048365178:web:3e42c20e03a7c563d915c3"
 
 };
 
-const app =
-initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
-const db =
-getFirestore(app);
+const db = getFirestore(app);
 
 let cart = [];
 
@@ -527,6 +621,8 @@ referenceField.style.display = "block";
 
 }
 
+// AUTO CATEGORY BUTTONS
+
 async function loadCategoryButtons(){
 
 const snapshot =
@@ -540,7 +636,7 @@ document.getElementById("categoryButtons");
 container.innerHTML = `
 
 <button class="category-btn active"
-onclick="filterCategory('all',event)">
+onclick="filterProducts('all',event)">
 
 All
 
@@ -555,8 +651,7 @@ const data = doc.data();
 container.innerHTML += `
 
 <button class="category-btn"
-
-onclick="filterCategory('${data.name}',event)">
+onclick="filterProducts('${data.name}',event)">
 
 ${data.name}
 
@@ -568,8 +663,12 @@ ${data.name}
 
 }
 
-window.filterCategory =
-async function(category,event){
+// FILTER PRODUCTS
+
+window.filterProducts = function(category,event){
+
+const allProducts =
+document.querySelectorAll(".product");
 
 const buttons =
 document.querySelectorAll(".category-btn");
@@ -581,57 +680,84 @@ btn.classList.remove("active");
 });
 
 if(event){
+
 event.target.classList.add("active");
+
 }
+
+allProducts.forEach(product=>{
+
+const productCategory =
+product.getAttribute("data-category");
+
+if(category === "all"){
+
+product.style.display = "block";
+
+}else if(productCategory === category){
+
+product.style.display = "block";
+
+}else{
+
+product.style.display = "none";
+
+}
+
+});
+
+}
+
+// LOAD PRODUCTS
+
+async function loadProducts(){
+
+const productsContainer =
+document.getElementById("productsContainer");
+
+productsContainer.innerHTML = "";
 
 const snapshot =
 await getDocs(
 collection(db,"products")
 );
 
-const container =
-document.getElementById("productsContainer");
+snapshot.forEach((product)=>{
 
-container.innerHTML = "";
+const data = product.data();
 
-snapshot.forEach((doc)=>{
-
-const data = doc.data();
-
-if(
-category === "all" ||
-data.category === category
-){
-
-let stockBadge = "";
+let stockStatus = "";
 
 if(data.quantity <= 5){
 
-stockBadge =
+stockStatus =
+
 `<div class="low-stock">
+
 LOW STOCK
+
 </div>`;
 
 }
 
-container.innerHTML += `
+productsContainer.innerHTML += `
 
-<div class="product">
+<div class="product"
+data-category="${data.category}">
 
 <img src="${data.image}">
 
-${stockBadge}
+${stockStatus}
 
 <h3>${data.name}</h3>
 
-<p>${data.category}</p>
+<small>${data.category}</small>
 
 <p>₱${data.price}</p>
 
 <p>Stock: ${data.quantity}</p>
 
 <button onclick="addItem(
-'${doc.id}',
 '${data.name}',
 ${data.price}
 )">
@@ -644,26 +770,24 @@ Add
 
 `;
 
-}
-
 });
 
 }
 
-window.refreshProducts =
-async function(){
+window.refreshProducts = async function(){
 
-await filterCategory("all");
+await loadProducts();
 
 alert("Products Refreshed!");
 
 }
 
-window.addItem =
-function(id,name,price){
+// CART
 
-const existing =
-cart.find(item=>item.id===id);
+window.addItem = function(name,price){
+
+let existing =
+cart.find(item => item.name === name);
 
 if(existing){
 
@@ -672,10 +796,11 @@ existing.qty++;
 }else{
 
 cart.push({
-id,
-name,
-price,
+
+name:name,
+price:price,
 qty:1
+
 });
 
 }
@@ -693,9 +818,13 @@ cartItems.innerHTML = "";
 
 let total = 0;
 
+let count = 0;
+
 cart.forEach((item,index)=>{
 
 total += item.price * item.qty;
+
+count += item.qty;
 
 cartItems.innerHTML += `
 
@@ -736,10 +865,12 @@ cartItems.innerHTML += `
 document.getElementById("total")
 .innerText = total;
 
+document.getElementById("itemCount")
+.innerText = count;
+
 }
 
-window.increaseQty =
-function(index){
+window.increaseQty = function(index){
 
 cart[index].qty++;
 
@@ -747,8 +878,7 @@ renderCart();
 
 }
 
-window.decreaseQty =
-function(index){
+window.decreaseQty = function(index){
 
 if(cart[index].qty > 1){
 
@@ -764,8 +894,7 @@ renderCart();
 
 }
 
-window.clearCart =
-function(){
+window.clearCart = function(){
 
 cart = [];
 
@@ -773,12 +902,29 @@ renderCart();
 
 }
 
-window.checkout =
-async function(){
+// CHECKOUT
+
+window.checkout = async function(){
 
 if(cart.length === 0){
 
-alert("Cart Empty");
+alert("Cart is empty!");
+
+return;
+
+}
+
+let total =
+cart.reduce((sum,item)=>
+sum + (item.price * item.qty),0);
+
+let cash = parseFloat(
+document.getElementById("cash").value
+);
+
+if(isNaN(cash) || cash < total){
+
+alert("Insufficient payment!");
 
 return;
 
@@ -787,36 +933,33 @@ return;
 const paymentMethod =
 document.getElementById("paymentMethod").value;
 
-const cash =
-parseFloat(
-document.getElementById("cash").value
-);
-
-const reference =
+const referenceNumber =
 document.getElementById("referenceNumber").value;
 
-let total = 0;
+if(paymentMethod !== "Cash" &&
+!referenceNumber){
 
-cart.forEach(item=>{
-
-total += item.price * item.qty;
-
-});
-
-if(cash < total){
-
-alert("Insufficient Payment");
+alert("Reference number required!");
 
 return;
 
 }
 
-if(paymentMethod !== "Cash" &&
-reference === ""){
+document.getElementById("paymentLabel")
+.innerText = paymentMethod;
 
-alert("Reference Required");
+if(paymentMethod !== "Cash"){
 
-return;
+document.getElementById("referenceRow")
+.style.display = "flex";
+
+document.getElementById("receiptReference")
+.innerText = referenceNumber;
+
+}else{
+
+document.getElementById("referenceRow")
+.style.display = "none";
 
 }
 
@@ -858,18 +1001,6 @@ quantity:newQty
 
 }
 
-await addDoc(
-collection(db,"sales"),
-{
-items:cart,
-total:total,
-paymentMethod,
-reference,
-createdAt:
-new Date().toISOString()
-}
-);
-
 let change = cash - total;
 
 document.getElementById("overlay")
@@ -888,8 +1019,13 @@ document.getElementById("receiptItems")
 cart.map(item =>
 
 `<p>
+
 <span>${item.qty}x ${item.name}</span>
-<span>₱${item.price * item.qty}</span>
+
+<span>
+₱${item.price * item.qty}
+</span>
+
 </p>`
 
 ).join("");
@@ -897,27 +1033,51 @@ cart.map(item =>
 document.getElementById("receiptTotal")
 .innerText = total;
 
-document.getElementById("paymentLabel")
-.innerText = paymentMethod;
-
 document.getElementById("receiptCash")
 .innerText = cash;
 
 document.getElementById("receiptChange")
 .innerText = change;
 
-if(paymentMethod !== "Cash"){
+try{
 
-document.getElementById("referenceRow")
-.style.display = "flex";
+await addDoc(collection(db,"sales"),{
 
-document.getElementById("receiptReference")
-.innerText = reference;
+date:new Date().toISOString(),
 
-}else{
+total:total,
 
-document.getElementById("referenceRow")
-.style.display = "none";
+paymentMethod:paymentMethod,
+
+referenceNumber:
+paymentMethod === "Cash"
+? ""
+: referenceNumber,
+
+items: cart.map(item => ({
+
+name:item.name,
+qty:item.qty,
+price:item.price
+
+}))
+
+});
+
+localStorage.setItem(
+"salesUpdated",
+Date.now()
+);
+
+alert("Order Saved!");
+
+await loadProducts();
+
+}catch(error){
+
+console.log(error);
+
+alert("Firebase save failed");
 
 }
 
@@ -925,12 +1085,16 @@ cart = [];
 
 renderCart();
 
-await filterCategory("all");
+document.getElementById("cash").value = "";
+
+document.getElementById("referenceNumber").value =
+"";
 
 }
 
-window.closeReceipt =
-function(){
+// RECEIPT
+
+window.closeReceipt = function(){
 
 document.getElementById("receipt")
 .style.display = "none";
@@ -939,6 +1103,8 @@ document.getElementById("overlay")
 .style.display = "none";
 
 }
+
+// TIME
 
 function updateTime(){
 
@@ -954,7 +1120,7 @@ updateTime();
 
 loadCategoryButtons();
 
-filterCategory("all");
+loadProducts();
 
 </script>
 
