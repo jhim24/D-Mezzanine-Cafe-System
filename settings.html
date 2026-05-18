@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>ERP Settings</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#0f172a;
+color:white;
+display:flex;
+height:100vh;
+overflow:hidden;
+}
+
+.sidebar{
+width:260px;
+background:#111827;
+padding:20px;
+overflow-y:auto;
+border-right:1px solid rgba(255,255,255,.08);
+}
+
+.logo{
+font-size:28px;
+font-weight:700;
+color:#facc15;
+margin-bottom:30px;
+}
+
+.menu-btn{
+width:100%;
+padding:14px;
+margin-bottom:10px;
+border:none;
+border-radius:12px;
+background:#1e293b;
+color:white;
+text-align:left;
+cursor:pointer;
+font-size:15px;
+transition:.3s;
+}
+
+.menu-btn:hover{
+background:#2563eb;
+}
+
+.main{
+flex:1;
+overflow:auto;
+padding:20px;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+}
+
+.topbar h1{
+font-size:30px;
+}
+
+.card{
+background:#1e293b;
+padding:20px;
+border-radius:18px;
+margin-bottom:20px;
+}
+
+.card h2{
+margin-bottom:20px;
+font-size:20px;
+color:#facc15;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+gap:15px;
+}
+
+.grid input,
+.grid select,
+.grid textarea{
+width:100%;
+padding:12px;
+border:none;
+border-radius:10px;
+background:#0f172a;
+color:white;
+}
+
+.grid textarea{
+height:100px;
+resize:none;
+}
+
+.btn-group{
+margin-top:20px;
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+.btn{
+padding:12px 18px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+font-weight:600;
+}
+
+.save-btn{
+background:#22c55e;
+color:white;
+}
+
+.reset-btn{
+background:#ef4444;
+color:white;
+}
+
+.back-btn{
+background:#facc15;
+color:black;
+text-decoration:none;
+padding:12px 18px;
+border-radius:10px;
+font-weight:600;
+display:inline-block;
+}
+
+.hidden{
+display:none;
+}
+
+.status-box{
+background:#0f172a;
+padding:15px;
+border-radius:12px;
+margin-top:15px;
+}
+
+.status-item{
+margin-bottom:10px;
+font-size:14px;
+}
+
+.switch{
+display:flex;
+align-items:center;
+gap:10px;
+margin-top:10px;
+}
+
+.switch input{
+transform:scale(1.2);
+}
+
+@media(max-width:850px){
+
+body{
+flex-direction:column;
+}
+
+.sidebar{
+width:100%;
+display:flex;
+overflow:auto;
+gap:10px;
+}
+
+.menu-btn{
+min-width:220px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+<div class="logo">
+
+ERP Settings
+
+</div>
+
+<button class="menu-btn"
+onclick="showSection('companySection')">
+
+<i class="fa-solid fa-building"></i>
+ Company Information
+
+</button>
+
+<button class="menu-btn"
+onclick="showSection('userSection')">
+
+<i class="fa-solid fa-users"></i>
+ User Management
+
+</button>
+
+<button class="menu-btn"
+onclick="showSection('posSection')">
+
+<i class="fa-solid fa-cash-register"></i>
+ POS Settings
+
+</button>
+
+<button class="menu-btn"
+onclick="showSection('accountingSection')">
+
+<i class="fa-solid fa-book"></i>
+ Accounting Settings
+
+</button>
+
+<button class="menu-btn"
+onclick="showSection('inventorySection')">
+
+<i class="fa-solid fa-boxes-stacked"></i>
+ Inventory Settings
+
+</button>
+
+<button class="menu-btn"
+onclick="showSection('securitySection')">
+
+<i class="fa-solid fa-shield-halved"></i>
+ Security Settings
+
+</button>
+
+<button class="menu-btn"
+onclick="showSection('backupSection')">
+
+<i class="fa-solid fa-database"></i>
+ Backup & Restore
+
+</button>
+
+<button class="menu-btn"
+onclick="showSection('systemSection')">
+
+<i class="fa-solid fa-server"></i>
+ System Information
+
+</button>
+
+<a href="index.html"
+class="back-btn">
+
+<i class="fa-solid fa-arrow-left"></i>
+ Dashboard
+
+</a>
+
+</div>
+
+<div class="main">
+
+<div class="topbar">
+
+<h1>System Settings</h1>
+
+<div id="currentDate"></div>
+
+</div>
+
+<!-- COMPANY -->
+
+<div id="companySection"
+class="card">
+
+<h2>Company Information</h2>
+
+<div class="grid">
+
+<input type="text"
+id="companyName"
+placeholder="Company Name">
+
+<input type="text"
+id="companyTIN"
+placeholder="TIN Number">
+
+<input type="text"
+id="companyPhone"
+placeholder="Phone Number">
+
+<input type="email"
+id="companyEmail"
+placeholder="Email Address">
+
+<input type="text"
+id="companyAddress"
+placeholder="Business Address">
+
+<input type="number"
+id="vatPercent"
+placeholder="VAT Percentage">
+
+<select id="currency">
+
+<option>PHP</option>
+<option>USD</option>
+<option>QAR</option>
+
+</select>
+
+<select id="timezone">
+
+<option>Asia/Manila</option>
+<option>Asia/Qatar</option>
+<option>America/Los_Angeles</option>
+
+</select>
+
+</div>
+
+<div class="btn-group">
+
+<button class="btn save-btn"
+onclick="saveCompanySettings()">
+
+Save Settings
+
+</button>
+
+</div>
+
+</div>
+
+<!-- USERS -->
+
+<div id="userSection"
+class="card hidden">
+
+<h2>User Management</h2>
+
+<div class="grid">
+
+<input type="text"
+id="newUsername"
+placeholder="Username">
+
+<input type="password"
+id="newPassword"
+placeholder="Password">
+
+<select id="userRole">
+
+<option>Admin</option>
+<option>Cashier</option>
+<option>Accounting</option>
+<option>HR</option>
+<option>Manager</option>
+
+</select>
+
+</div>
+
+<div class="btn-group">
+
+<button class="btn save-btn"
+onclick="saveUser()">
+
+Add User
+
+</button>
+
+</div>
+
+<div class="status-box">
+
+<div class="status-item">
+
+✓ User Permission Management
+
+</div>
+
+<div class="status-item">
+
+✓ Role Based Access
+
+</div>
+
+</div>
+
+</div>
+
+<!-- POS -->
+
+<div id="posSection"
+class="card hidden">
+
+<h2>POS Settings</h2>
+
+<div class="switch">
+
+<input type="checkbox"
+id="autoPrint">
+
+<label>Auto Print Receipt</label>
+
+</div>
+
+<div class="switch">
+
+<input type="checkbox"
+id="enableTax">
+
+<label>Enable VAT / Tax</label>
+
+</div>
+
+<div class="switch">
+
+<input type="checkbox"
+id="barcodeScanner">
+
+<label>Enable Barcode Scanner</label>
+
+</div>
+
+<div class="grid"
+style="margin-top:15px;">
+
+<input type="number"
+id="serviceCharge"
+placeholder="Service Charge %">
+
+<input type="text"
+id="receiptFooter"
+placeholder="Receipt Footer Message">
+
+</div>
+
+<div class="btn-group">
+
+<button class="btn save-btn"
+onclick="savePOSSettings()">
+
+Save POS Settings
+
+</button>
+
+</div>
+
+</div>
+
+<!-- ACCOUNTING -->
+
+<div id="accountingSection"
+class="card hidden">
+
+<h2>Accounting Settings</h2>
+
+<div class="grid">
+
+<input type="text"
+id="fiscalYear"
+placeholder="Fiscal Year">
+
+<input type="text"
+id="defaultCash"
+placeholder="Default Cash Account">
+
+<input type="text"
+id="defaultSales"
+placeholder="Default Sales Account">
+
+<input type="text"
+id="defaultExpense"
+placeholder="Default Expense Account">
+
+</div>
+
+<div class="switch">
+
+<input type="checkbox"
+id="autoJournal">
+
+<label>Enable Auto Journal Entry</label>
+
+</div>
+
+<div class="switch">
+
+<input type="checkbox"
+id="lockPrevious">
+
+<label>Lock Previous Month Transactions</label>
+
+</div>
+
+<div class="btn-group">
+
+<button class="btn save-btn"
+onclick="saveAccountingSettings()">
+
+Save Accounting Settings
+
+</button>
+
+</div>
+
+</div>
+
+<!-- INVENTORY -->
+
+<div id="inventorySection"
+class="card hidden">
+
+<h2>Inventory Settings</h2>
+
+<div class="switch">
+
+<input type="checkbox"
+id="lowStockAlert">
+
+<label>Enable Low Stock Alert</label>
+
+</div>
+
+<div class="switch">
+
+<input type="checkbox"
+id="autoDeduct">
+
+<label>Auto Deduct Stocks</label>
+
+</div>
+
+<div class="grid"
+style="margin-top:15px;">
+
+<input type="number"
+id="lowStockQty"
+placeholder="Low Stock Quantity">
+
+<select id="inventoryMethod">
+
+<option>FIFO</option>
+<option>LIFO</option>
+
+</select>
+
+</div>
+
+<div class="btn-group">
+
+<button class="btn save-btn"
+onclick="saveInventorySettings()">
+
+Save Inventory Settings
+
+</button>
+
+</div>
+
+</div>
+
+<!-- SECURITY -->
+
+<div id="securitySection"
+class="card hidden">
+
+<h2>Security Settings</h2>
+
+<div class="switch">
+
+<input type="checkbox"
+id="twoFactor">
+
+<label>Enable 2FA Security</label>
+
+</div>
+
+<div class="switch">
+
+<input type="checkbox"
+id="sessionTimeout">
+
+<label>Enable Session Timeout</label>
+
+</div>
+
+<div class="grid"
+style="margin-top:15px;">
+
+<input type="password"
+id="newSystemPassword"
+placeholder="New System Password">
+
+</div>
+
+<div class="btn-group">
+
+<button class="btn save-btn"
+onclick="saveSecuritySettings()">
+
+Save Security Settings
+
+</button>
+
+</div>
+
+</div>
+
+<!-- BACKUP -->
+
+<div id="backupSection"
+class="card hidden">
+
+<h2>Backup & Restore</h2>
+
+<div class="btn-group">
+
+<button class="btn save-btn">
+
+Backup Database
+
+</button>
+
+<button class="btn reset-btn">
+
+Restore Database
+
+</button>
+
+</div>
+
+<div class="status-box">
+
+<div class="status-item">
+
+Last Backup:
+Today 10:30 AM
+
+</div>
+
+<div class="status-item">
+
+Firebase Connected
+
+</div>
+
+</div>
+
+</div>
+
+<!-- SYSTEM -->
+
+<div id="systemSection"
+class="card hidden">
+
+<h2>System Information</h2>
+
+<div class="status-box">
+
+<div class="status-item">
+
+System Version:
+ERP 1.0
+
+</div>
+
+<div class="status-item">
+
+Firebase Status:
+Connected
+
+</div>
+
+<div class="status-item">
+
+Database:
+Cloud Firestore
+
+</div>
+
+<div class="status-item">
+
+Storage:
+Active
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+
+import {
+getFirestore,
+collection,
+addDoc
+}
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyCYjuZlpgE-Lci33e53014F7fRIid6u7Dg",
+
+authDomain: "family-web-10cb8.firebaseapp.com",
+
+projectId: "family-web-10cb8",
+
+storageBucket: "family-web-10cb8.firebasestorage.app",
+
+messagingSenderId: "152048365178",
+
+appId: "1:152048365178:web:3e42c20e03a7c563d915c3"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
+
+window.showSection = function(sectionId){
+
+const sections = [
+
+"companySection",
+"userSection",
+"posSection",
+"accountingSection",
+"inventorySection",
+"securitySection",
+"backupSection",
+"systemSection"
+
+];
+
+sections.forEach(id=>{
+
+document.getElementById(id)
+.classList.add("hidden");
+
+});
+
+document.getElementById(sectionId)
+.classList.remove("hidden");
+
+}
+
+window.saveCompanySettings =
+async function(){
+
+await addDoc(
+collection(db,"settings"),
+{
+type:"company",
+companyName:
+document.getElementById("companyName").value,
+companyTIN:
+document.getElementById("companyTIN").value,
+companyPhone:
+document.getElementById("companyPhone").value,
+companyEmail:
+document.getElementById("companyEmail").value,
+companyAddress:
+document.getElementById("companyAddress").value,
+vatPercent:
+document.getElementById("vatPercent").value,
+currency:
+document.getElementById("currency").value,
+timezone:
+document.getElementById("timezone").value
+}
+);
+
+alert("Company Settings Saved!");
+
+}
+
+window.saveUser =
+async function(){
+
+await addDoc(
+collection(db,"users"),
+{
+username:
+document.getElementById("newUsername").value,
+password:
+document.getElementById("newPassword").value,
+role:
+document.getElementById("userRole").value
+}
+);
+
+alert("User Added!");
+
+}
+
+window.savePOSSettings =
+async function(){
+
+await addDoc(
+collection(db,"settings"),
+{
+type:"pos",
+autoPrint:
+document.getElementById("autoPrint").checked,
+enableTax:
+document.getElementById("enableTax").checked,
+barcodeScanner:
+document.getElementById("barcodeScanner").checked,
+serviceCharge:
+document.getElementById("serviceCharge").value,
+receiptFooter:
+document.getElementById("receiptFooter").value
+}
+);
+
+alert("POS Settings Saved!");
+
+}
+
+window.saveAccountingSettings =
+async function(){
+
+await addDoc(
+collection(db,"settings"),
+{
+type:"accounting",
+fiscalYear:
+document.getElementById("fiscalYear").value,
+defaultCash:
+document.getElementById("defaultCash").value,
+defaultSales:
+document.getElementById("defaultSales").value,
+defaultExpense:
+document.getElementById("defaultExpense").value,
+autoJournal:
+document.getElementById("autoJournal").checked,
+lockPrevious:
+document.getElementById("lockPrevious").checked
+}
+);
+
+alert("Accounting Settings Saved!");
+
+}
+
+window.saveInventorySettings =
+async function(){
+
+await addDoc(
+collection(db,"settings"),
+{
+type:"inventory",
+lowStockAlert:
+document.getElementById("lowStockAlert").checked,
+autoDeduct:
+document.getElementById("autoDeduct").checked,
+lowStockQty:
+document.getElementById("lowStockQty").value,
+inventoryMethod:
+document.getElementById("inventoryMethod").value
+}
+);
+
+alert("Inventory Settings Saved!");
+
+}
+
+window.saveSecuritySettings =
+async function(){
+
+await addDoc(
+collection(db,"settings"),
+{
+type:"security",
+twoFactor:
+document.getElementById("twoFactor").checked,
+sessionTimeout:
+document.getElementById("sessionTimeout").checked,
+newPassword:
+document.getElementById("newSystemPassword").value
+}
+);
+
+alert("Security Settings Saved!");
+
+}
+
+document.getElementById("currentDate")
+.innerText =
+new Date().toLocaleString();
+
+</script>
+
+</body>
+</html>
