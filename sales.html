@@ -28,6 +28,8 @@ color:white;
 padding:20px;
 }
 
+/* TOPBAR */
+
 .topbar{
 display:flex;
 justify-content:space-between;
@@ -38,8 +40,42 @@ gap:15px;
 }
 
 .topbar h1{
-font-size:30px;
+font-size:32px;
 }
+
+/* BUTTONS */
+
+.back-btn{
+display:inline-block;
+margin-bottom:20px;
+text-decoration:none;
+background:#facc15;
+color:black;
+padding:12px 18px;
+border-radius:12px;
+font-weight:600;
+}
+
+.filter-btn,
+.print-btn{
+border:none;
+padding:12px 18px;
+border-radius:10px;
+font-weight:600;
+cursor:pointer;
+}
+
+.filter-btn{
+background:#facc15;
+color:black;
+}
+
+.print-btn{
+background:#22c55e;
+color:white;
+}
+
+/* CARDS */
 
 .cards{
 display:grid;
@@ -52,17 +88,38 @@ margin-bottom:25px;
 background:#1e293b;
 padding:25px;
 border-radius:20px;
+box-shadow:0 5px 20px rgba(0,0,0,0.25);
 }
 
 .card h3{
 color:#cbd5e1;
 margin-bottom:10px;
+font-size:15px;
 }
 
 .card h2{
 color:#facc15;
 font-size:30px;
 }
+
+/* FILTER */
+
+.filters{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-bottom:20px;
+}
+
+.filters input{
+padding:12px;
+border:none;
+border-radius:10px;
+background:#111827;
+color:white;
+}
+
+/* TABLE */
 
 .table-box{
 background:#1e293b;
@@ -87,28 +144,31 @@ white-space:nowrap;
 table td{
 padding:15px;
 border-bottom:1px solid rgba(255,255,255,0.08);
-}
-
-.back-btn{
-display:inline-block;
-margin-bottom:20px;
-text-decoration:none;
-background:#facc15;
-color:black;
-padding:12px 18px;
-border-radius:12px;
-font-weight:600;
+font-size:14px;
 }
 
 .total-row{
 color:#4ade80;
-font-weight:600;
+font-weight:700;
 }
 
 .loading{
 text-align:center;
 padding:30px;
 color:#cbd5e1;
+}
+
+/* ACTION BUTTONS */
+
+.view-btn{
+background:#2563eb;
+border:none;
+color:white;
+padding:8px 12px;
+border-radius:8px;
+cursor:pointer;
+margin-right:5px;
+font-weight:600;
 }
 
 .delete-btn{
@@ -125,39 +185,41 @@ font-weight:600;
 background:#dc2626;
 }
 
-.filters{
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-margin-bottom:20px;
+/* MODAL */
+
+.modal{
+display:none;
+position:fixed;
+z-index:999;
+left:0;
+top:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.7);
+padding:20px;
 }
 
-.filters input{
-padding:12px;
-border:none;
-border-radius:10px;
-background:#111827;
+.modal-content{
+background:#1e293b;
+padding:25px;
+border-radius:20px;
+max-width:500px;
+margin:auto;
+margin-top:50px;
 color:white;
+position:relative;
 }
 
-.filter-btn,
-.print-btn{
-border:none;
-padding:12px 18px;
-border-radius:10px;
-font-weight:600;
+.close-btn{
+position:absolute;
+right:20px;
+top:10px;
+font-size:30px;
 cursor:pointer;
+color:#facc15;
 }
 
-.filter-btn{
-background:#facc15;
-color:black;
-}
-
-.print-btn{
-background:#22c55e;
-color:white;
-}
+/* PRINT */
 
 @media print{
 
@@ -170,14 +232,11 @@ padding:0;
 .back-btn,
 .filters,
 .delete-btn,
+.view-btn,
 .no-print,
 th:last-child,
 td:last-child{
 display:none !important;
-}
-
-.topbar{
-margin-bottom:20px;
 }
 
 .card{
@@ -196,10 +255,6 @@ background:white;
 padding:0;
 }
 
-table{
-width:100%;
-}
-
 table th{
 background:#ddd;
 color:black;
@@ -211,6 +266,8 @@ border-bottom:1px solid #ccc;
 }
 
 }
+
+/* MOBILE */
 
 @media(max-width:700px){
 
@@ -230,9 +287,12 @@ font-size:24px;
 
 <body>
 
-<a href="index.html" class="back-btn">
+<a href="index.html"
+class="back-btn">
+
 <i class="fa-solid fa-arrow-left"></i>
 Dashboard
+
 </a>
 
 <div class="topbar">
@@ -242,6 +302,8 @@ Dashboard
 <h2 id="todayDate"></h2>
 
 </div>
+
+<!-- CARDS -->
 
 <div class="cards">
 
@@ -261,13 +323,49 @@ Dashboard
 
 </div>
 
+<div class="card">
+
+<h3>Cash Sales</h3>
+
+<h2 id="cashSales">₱0</h2>
+
 </div>
+
+<div class="card">
+
+<h3>GCash Sales</h3>
+
+<h2 id="gcashSales">₱0</h2>
+
+</div>
+
+<div class="card">
+
+<h3>Card Sales</h3>
+
+<h2 id="cardSales">₱0</h2>
+
+</div>
+
+<div class="card">
+
+<h3>Top Product</h3>
+
+<h2 id="topProduct">-</h2>
+
+</div>
+
+</div>
+
+<!-- FILTERS -->
 
 <div class="filters no-print">
 
-<input type="date" id="startDate">
+<input type="date"
+id="startDate">
 
-<input type="date" id="endDate">
+<input type="date"
+id="endDate">
 
 <button class="filter-btn"
 onclick="loadSales()">
@@ -287,6 +385,8 @@ Print Report
 
 </div>
 
+<!-- TABLE -->
+
 <div class="table-box">
 
 <table>
@@ -299,6 +399,7 @@ Print Report
 <th>Product</th>
 <th>Quantity</th>
 <th>Payment</th>
+<th>Reference No.</th>
 <th>Total Amount</th>
 <th>Action</th>
 
@@ -310,8 +411,11 @@ Print Report
 
 <tr>
 
-<td colspan="6" class="loading">
+<td colspan="7"
+class="loading">
+
 Loading sales...
+
 </td>
 
 </tr>
@@ -319,6 +423,30 @@ Loading sales...
 </tbody>
 
 </table>
+
+</div>
+
+<!-- MODAL -->
+
+<div id="viewModal"
+class="modal">
+
+<div class="modal-content">
+
+<span class="close-btn"
+onclick="closeModal()">
+
+&times;
+
+</span>
+
+<h2>Sale Details</h2>
+
+<br>
+
+<div id="saleDetails"></div>
+
+</div>
 
 </div>
 
@@ -339,6 +467,8 @@ doc
 
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
+/* FIREBASE */
+
 const firebaseConfig = {
 
 apiKey: "AIzaSyCYjuZlpgE-Lci33e53014F7fRIid6u7Dg",
@@ -357,14 +487,22 @@ measurementId: "G-1X8L2KQDYF"
 
 };
 
-const app = initializeApp(firebaseConfig);
+const app =
+initializeApp(firebaseConfig);
 
-const db = getFirestore(app);
+const db =
+getFirestore(app);
 
-document.getElementById("todayDate").innerText =
+/* DATE */
+
+document.getElementById("todayDate")
+.innerText =
 new Date().toLocaleDateString();
 
-window.deleteSale = async function(id){
+/* DELETE */
+
+window.deleteSale =
+async function(id){
 
 let confirmDelete =
 confirm("Delete this sale?");
@@ -373,7 +511,9 @@ if(!confirmDelete) return;
 
 try{
 
-await deleteDoc(doc(db,"sales",id));
+await deleteDoc(
+doc(db,"sales",id)
+);
 
 alert("Sale Deleted!");
 
@@ -381,7 +521,7 @@ loadSales();
 
 }catch(error){
 
-console.log(error);
+console.error(error);
 
 alert("Delete failed");
 
@@ -389,7 +529,90 @@ alert("Delete failed");
 
 }
 
-window.loadSales = async function(){
+/* VIEW */
+
+window.viewSale =
+function(sale){
+
+let itemsHTML = "";
+
+if(sale.items){
+
+sale.items.forEach((item)=>{
+
+itemsHTML += `
+
+<li>
+
+${item.name}
+x ${item.qty}
+
+</li>
+
+`;
+
+});
+
+}
+
+document.getElementById("saleDetails")
+.innerHTML = `
+
+<p>
+<b>Date:</b>
+${sale.date || "-"}
+</p>
+
+<br>
+
+<p>
+<b>Payment:</b>
+${sale.paymentMethod || "Cash"}
+</p>
+
+<br>
+
+<p>
+<b>Reference:</b>
+${sale.referenceNumber || "-"}
+</p>
+
+<br>
+
+<p>
+<b>Total:</b>
+₱${sale.total || 0}
+</p>
+
+<br>
+
+<b>Products:</b>
+
+<ul>
+
+${itemsHTML}
+
+</ul>
+
+`;
+
+document.getElementById("viewModal")
+.style.display = "block";
+
+}
+
+window.closeModal =
+function(){
+
+document.getElementById("viewModal")
+.style.display = "none";
+
+}
+
+/* LOAD SALES */
+
+window.loadSales =
+async function(){
 
 try{
 
@@ -399,8 +622,13 @@ document.getElementById("salesTable");
 salesTable.innerHTML = "";
 
 let totalToday = 0;
-
 let totalOrders = 0;
+
+let cashSales = 0;
+let gcashSales = 0;
+let cardSales = 0;
+
+let productCounter = {};
 
 let today =
 new Date().toLocaleDateString();
@@ -412,7 +640,9 @@ const endDate =
 document.getElementById("endDate").value;
 
 const querySnapshot =
-await getDocs(collection(db,"sales"));
+await getDocs(
+collection(db,"sales")
+);
 
 if(querySnapshot.empty){
 
@@ -420,8 +650,11 @@ salesTable.innerHTML = `
 
 <tr>
 
-<td colspan="6" class="loading">
+<td colspan="7"
+class="loading">
+
 No sales found
+
 </td>
 
 </tr>
@@ -434,7 +667,8 @@ return;
 
 querySnapshot.forEach((firebaseDoc)=>{
 
-const sale = firebaseDoc.data();
+const sale =
+firebaseDoc.data();
 
 let rawDate =
 sale.date ||
@@ -445,26 +679,30 @@ let saleDateObject =
 new Date(rawDate);
 
 let saleDate =
-isNaN(saleDateObject)
-? "No Date"
-: saleDateObject.toLocaleString();
+!isNaN(saleDateObject)
+? saleDateObject.toLocaleString()
+: "No Date";
 
 let saleOnlyDate = "";
 
 if(!isNaN(saleDateObject)){
 
 saleOnlyDate =
-saleDateObject.toISOString().split('T')[0];
+saleDateObject
+.toISOString()
+.split('T')[0];
 
 }
 
-if(startDate && saleOnlyDate < startDate){
+if(startDate &&
+saleOnlyDate < startDate){
 
 return;
 
 }
 
-if(endDate && saleOnlyDate > endDate){
+if(endDate &&
+saleOnlyDate > endDate){
 
 return;
 
@@ -478,13 +716,62 @@ saleDateObject.toLocaleDateString()
 === today
 ){
 
-totalToday += Number(sale.total || 0);
+totalToday +=
+Number(sale.total || 0);
 
 }
 
-if(sale.items && sale.items.length > 0){
+const paymentMethod =
+sale.paymentMethod || "Cash";
 
-sale.items.forEach(item=>{
+if(paymentMethod === "Cash"){
+
+cashSales +=
+Number(sale.total || 0);
+
+}
+
+if(paymentMethod === "GCash"){
+
+gcashSales +=
+Number(sale.total || 0);
+
+}
+
+if(paymentMethod === "Card"){
+
+cardSales +=
+Number(sale.total || 0);
+
+}
+
+/* PRODUCT COUNTER */
+
+if(sale.items){
+
+sale.items.forEach((item)=>{
+
+if(!productCounter[item.name]){
+
+productCounter[item.name] = 0;
+
+}
+
+productCounter[item.name] +=
+Number(item.qty || 1);
+
+});
+
+}
+
+/* TABLE */
+
+if(
+sale.items &&
+sale.items.length > 0
+){
+
+sale.items.forEach((item)=>{
 
 salesTable.innerHTML += `
 
@@ -498,11 +785,26 @@ salesTable.innerHTML += `
 
 <td>${sale.paymentMethod || "Cash"}</td>
 
+<td>${sale.referenceNumber || "-"}</td>
+
 <td class="total-row">
-₱${(item.price || 0) * (item.qty || 0)}
+
+₱${(
+(item.price || 0)
+*
+(item.qty || 0)
+).toLocaleString()}
+
 </td>
 
 <td>
+
+<button class="view-btn"
+onclick='viewSale(${JSON.stringify(sale)})'>
+
+View
+
+</button>
 
 <button class="delete-btn"
 onclick="deleteSale('${firebaseDoc.id}')">
@@ -533,11 +835,24 @@ salesTable.innerHTML += `
 
 <td>${sale.paymentMethod || "Cash"}</td>
 
+<td>${sale.referenceNumber || "-"}</td>
+
 <td class="total-row">
-₱${sale.total || 0}
+
+₱${Number(
+sale.total || 0
+).toLocaleString()}
+
 </td>
 
 <td>
+
+<button class="view-btn"
+onclick='viewSale(${JSON.stringify(sale)})'>
+
+View
+
+</button>
 
 <button class="delete-btn"
 onclick="deleteSale('${firebaseDoc.id}')">
@@ -556,23 +871,72 @@ Delete
 
 });
 
-document.getElementById("todaySales").innerText =
-"₱" + totalToday.toLocaleString();
+/* UPDATE CARDS */
 
-document.getElementById("totalOrders").innerText =
+document.getElementById("todaySales")
+.innerText =
+"₱" +
+totalToday.toLocaleString();
+
+document.getElementById("totalOrders")
+.innerText =
 totalOrders;
+
+document.getElementById("cashSales")
+.innerText =
+"₱" +
+cashSales.toLocaleString();
+
+document.getElementById("gcashSales")
+.innerText =
+"₱" +
+gcashSales.toLocaleString();
+
+document.getElementById("cardSales")
+.innerText =
+"₱" +
+cardSales.toLocaleString();
+
+/* TOP PRODUCT */
+
+let topProduct = "-";
+let highest = 0;
+
+for(let product in productCounter){
+
+if(
+productCounter[product]
+> highest
+){
+
+highest =
+productCounter[product];
+
+topProduct =
+product;
+
+}
+
+}
+
+document.getElementById("topProduct")
+.innerText =
+topProduct;
 
 }catch(error){
 
-console.error("Firebase Error:", error);
-alert(error.message);
+console.error(error);
 
-document.getElementById("salesTable").innerHTML = `
+document.getElementById("salesTable")
+.innerHTML = `
 
 <tr>
 
-<td colspan="6" class="loading">
+<td colspan="7"
+class="loading">
+
 Failed to load Firebase sales
+
 </td>
 
 </tr>
@@ -582,6 +946,8 @@ Failed to load Firebase sales
 }
 
 }
+
+/* LOAD */
 
 loadSales();
 
