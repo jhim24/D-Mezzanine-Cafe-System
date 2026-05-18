@@ -436,11 +436,16 @@ querySnapshot.forEach((firebaseDoc)=>{
 
 const sale = firebaseDoc.data();
 
+let rawDate =
+sale.date || sale.createdAt;
+
 let saleDateObject =
-new Date(sale.date);
+new Date(rawDate);
 
 let saleDate =
-saleDateObject.toLocaleString();
+isNaN(saleDateObject)
+? "No Date"
+: saleDateObject.toLocaleString();
 
 let saleOnlyDate =
 saleDateObject.toISOString().split('T')[0];
@@ -460,6 +465,7 @@ return;
 totalOrders++;
 
 if(
+!isNaN(saleDateObject) &&
 saleDateObject.toLocaleDateString()
 === today
 ){
