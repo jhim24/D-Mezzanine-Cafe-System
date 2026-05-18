@@ -3,9 +3,10 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-<title>Products Management</title>
+<title>Product Management</title>
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -32,80 +33,16 @@ padding:20px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-margin-bottom:25px;
+margin-bottom:20px;
+flex-wrap:wrap;
+gap:15px;
 }
 
 .topbar h1{
 font-size:30px;
 }
 
-.form-box,
-.table-box{
-background:#1e293b;
-padding:20px;
-border-radius:20px;
-margin-bottom:20px;
-}
-
-.inputs{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:15px;
-margin-top:15px;
-}
-
-input,
-select{
-padding:14px;
-border:none;
-border-radius:12px;
-background:#0f172a;
-color:white;
-}
-
-button{
-border:none;
-padding:14px;
-border-radius:12px;
-background:#facc15;
-color:black;
-font-weight:600;
-cursor:pointer;
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-}
-
-th{
-background:#111827;
-padding:15px;
-text-align:left;
-color:#facc15;
-}
-
-td{
-padding:15px;
-border-bottom:1px solid rgba(255,255,255,0.08);
-}
-
-img{
-width:60px;
-height:60px;
-object-fit:cover;
-border-radius:10px;
-}
-
-.delete-btn{
-background:#ef4444;
-color:white;
-padding:10px 14px;
-}
-
 .back-btn{
-display:inline-block;
-margin-bottom:20px;
 text-decoration:none;
 background:#facc15;
 color:black;
@@ -114,24 +51,106 @@ border-radius:12px;
 font-weight:600;
 }
 
-.low{
-background:#ef4444;
-padding:8px 12px;
-border-radius:30px;
-font-size:12px;
+.card{
+background:#1e293b;
+padding:20px;
+border-radius:18px;
+margin-bottom:20px;
+}
+
+.card h2{
+margin-bottom:20px;
+color:#facc15;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+}
+
+.grid input,
+.grid select{
+width:100%;
+padding:12px;
+border:none;
+border-radius:10px;
+background:#0f172a;
+color:white;
+}
+
+.btn-group{
+display:flex;
+gap:10px;
+margin-top:20px;
+flex-wrap:wrap;
+}
+
+.btn{
+border:none;
+padding:12px 18px;
+border-radius:10px;
+cursor:pointer;
 font-weight:600;
 }
 
-.good{
+.save-btn{
 background:#22c55e;
-padding:8px 12px;
-border-radius:30px;
-font-size:12px;
-font-weight:600;
+color:white;
 }
 
-.table-box{
-overflow-x:auto;
+.refresh-btn{
+background:#2563eb;
+color:white;
+}
+
+.delete-btn{
+background:#ef4444;
+color:white;
+padding:7px 10px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:15px;
+background:#111827;
+border-radius:15px;
+overflow:hidden;
+}
+
+table th{
+background:#0f172a;
+padding:12px;
+color:#facc15;
+text-align:left;
+font-size:13px;
+}
+
+table td{
+padding:12px;
+border-bottom:1px solid rgba(255,255,255,.08);
+font-size:13px;
+}
+
+.product-img{
+width:60px;
+height:60px;
+object-fit:cover;
+border-radius:10px;
+}
+
+.low-stock{
+color:#ef4444;
+font-weight:700;
+}
+
+.in-stock{
+color:#22c55e;
+font-weight:700;
 }
 
 </style>
@@ -140,57 +159,132 @@ overflow-x:auto;
 
 <body>
 
-<a href="index.html" class="back-btn">
+<div class="topbar">
+
+<h1>Product Management</h1>
+
+<a href="index.html"
+class="back-btn">
+
 <i class="fa-solid fa-arrow-left"></i>
 Dashboard
+
 </a>
 
-<div class="topbar">
-<h1>Products Management ☕</h1>
 </div>
 
-<div class="form-box">
+<!-- CATEGORY -->
 
-<h2>Add Product</h2>
+<div class="card">
 
-<div class="inputs">
+<h2>Product Categories</h2>
 
-<input type="text"
-id="name"
-placeholder="Product Name">
-
-<select id="category">
-
-<option value="">Select Category</option>
-
-<option>Coffee</option>
-<option>Meals</option>
-<option>Frappes</option>
-<option>Desserts</option>
-
-</select>
-
-<input type="number"
-id="price"
-placeholder="Price">
-
-<input type="number"
-id="quantity"
-placeholder="Stock Quantity">
+<div class="grid">
 
 <input type="text"
-id="image"
-placeholder="Image URL">
+id="categoryName"
+placeholder="Category Name">
 
-<button onclick="addProduct()">
-SAVE PRODUCT
+</div>
+
+<div class="btn-group">
+
+<button class="btn save-btn"
+onclick="saveCategory()">
+
+Save Category
+
+</button>
+
+<button class="btn refresh-btn"
+onclick="loadCategories()">
+
+Refresh
+
 </button>
 
 </div>
 
+<table>
+
+<thead>
+
+<tr>
+
+<th>Category Name</th>
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="categoryTable">
+
+<tr>
+
+<td colspan="2">
+
+No Categories Yet
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
 </div>
 
-<div class="table-box">
+<!-- PRODUCTS -->
+
+<div class="card">
+
+<h2>Products</h2>
+
+<div class="grid">
+
+<input type="text"
+id="productName"
+placeholder="Product Name">
+
+<select id="productCategory">
+
+<option>Select Category</option>
+
+</select>
+
+<input type="number"
+id="productPrice"
+placeholder="Price">
+
+<input type="number"
+id="productStock"
+placeholder="Stock">
+
+<input type="text"
+id="productImage"
+placeholder="Image URL">
+
+</div>
+
+<div class="btn-group">
+
+<button class="btn save-btn"
+onclick="saveProduct()">
+
+Save Product
+
+</button>
+
+<button class="btn refresh-btn"
+onclick="loadProducts()">
+
+Refresh
+
+</button>
+
+</div>
 
 <table>
 
@@ -210,7 +304,19 @@ SAVE PRODUCT
 
 </thead>
 
-<tbody id="productTable"></tbody>
+<tbody id="productTable">
+
+<tr>
+
+<td colspan="7">
+
+No Products Yet
+
+</td>
+
+</tr>
+
+</tbody>
 
 </table>
 
@@ -222,12 +328,14 @@ import { initializeApp }
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 
 import {
+
 getFirestore,
 collection,
 addDoc,
 getDocs,
 deleteDoc,
 doc
+
 }
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
@@ -243,50 +351,215 @@ storageBucket: "family-web-10cb8.firebasestorage.app",
 
 messagingSenderId: "152048365178",
 
-appId: "1:152048365178:web:3e42c20e03a7c563d915c3",
-
-measurementId: "G-1X8L2KQDYF"
+appId: "1:152048365178:web:3e42c20e03a7c563d915c3"
 
 };
 
-const app = initializeApp(firebaseConfig);
+const app =
+initializeApp(firebaseConfig);
 
-const db = getFirestore(app);
+const db =
+getFirestore(app);
 
-async function loadProducts(){
+window.saveCategory =
+async function(){
+
+const categoryName =
+document.getElementById("categoryName").value;
+
+if(!categoryName){
+
+alert("Enter Category");
+
+return;
+
+}
+
+await addDoc(
+collection(db,"categories"),
+{
+name:categoryName
+}
+);
+
+alert("Category Saved");
+
+document.getElementById("categoryName").value = "";
+
+loadCategories();
+
+}
+
+window.loadCategories =
+async function(){
+
+const snapshot =
+await getDocs(
+collection(db,"categories")
+);
+
+const table =
+document.getElementById("categoryTable");
+
+const dropdown =
+document.getElementById("productCategory");
+
+table.innerHTML = "";
+
+dropdown.innerHTML =
+"<option>Select Category</option>";
+
+if(snapshot.empty){
+
+table.innerHTML = `
+
+<tr>
+<td colspan="2">
+No Categories Yet
+</td>
+</tr>
+
+`;
+
+}
+
+snapshot.forEach((d)=>{
+
+const data = d.data();
+
+table.innerHTML += `
+
+<tr>
+
+<td>${data.name}</td>
+
+<td>
+
+<button class="delete-btn"
+onclick="deleteCategory('${d.id}')">
+
+Delete
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+dropdown.innerHTML += `
+
+<option value="${data.name}">
+
+${data.name}
+
+</option>
+
+`;
+
+});
+
+}
+
+window.deleteCategory =
+async function(id){
+
+await deleteDoc(
+doc(db,"categories",id)
+);
+
+loadCategories();
+
+}
+
+window.saveProduct =
+async function(){
+
+const productName =
+document.getElementById("productName").value;
+
+const productCategory =
+document.getElementById("productCategory").value;
+
+const productPrice =
+document.getElementById("productPrice").value;
+
+const productStock =
+document.getElementById("productStock").value;
+
+const productImage =
+document.getElementById("productImage").value;
+
+await addDoc(
+collection(db,"products"),
+{
+
+name:productName,
+category:productCategory,
+price:Number(productPrice),
+stock:Number(productStock),
+image:productImage
+
+}
+);
+
+alert("Product Saved");
+
+document.getElementById("productName").value = "";
+document.getElementById("productPrice").value = "";
+document.getElementById("productStock").value = "";
+document.getElementById("productImage").value = "";
+
+loadProducts();
+
+}
+
+window.loadProducts =
+async function(){
+
+const snapshot =
+await getDocs(
+collection(db,"products")
+);
 
 const table =
 document.getElementById("productTable");
 
 table.innerHTML = "";
 
-const snapshot =
-await getDocs(collection(db,"products"));
+if(snapshot.empty){
 
-snapshot.forEach((product)=>{
+table.innerHTML = `
 
-const data = product.data();
+<tr>
+<td colspan="7">
+No Products Yet
+</td>
+</tr>
 
-let status = "";
-
-if(data.quantity <= 5){
-
-status =
-`<span class="low">LOW STOCK</span>`;
-
-}else{
-
-status =
-`<span class="good">AVAILABLE</span>`;
+`;
 
 }
+
+snapshot.forEach((d)=>{
+
+const data = d.data();
+
+let status =
+data.stock <= 5
+? "<span class='low-stock'>LOW STOCK</span>"
+: "<span class='in-stock'>IN STOCK</span>";
 
 table.innerHTML += `
 
 <tr>
 
 <td>
-<img src="${data.image}">
+
+<img src="${data.image}"
+class="product-img">
+
 </td>
 
 <td>${data.name}</td>
@@ -295,16 +568,16 @@ table.innerHTML += `
 
 <td>₱${data.price}</td>
 
-<td>${data.quantity}</td>
+<td>${data.stock}</td>
 
 <td>${status}</td>
 
 <td>
 
 <button class="delete-btn"
-onclick="deleteProduct('${product.id}')">
+onclick="deleteProduct('${d.id}')">
 
-DELETE
+Delete
 
 </button>
 
@@ -318,75 +591,18 @@ DELETE
 
 }
 
-window.addProduct = async function(){
+window.deleteProduct =
+async function(id){
 
-const name =
-document.getElementById("name").value;
-
-const category =
-document.getElementById("category").value;
-
-const price =
-document.getElementById("price").value;
-
-const quantity =
-document.getElementById("quantity").value;
-
-const image =
-document.getElementById("image").value;
-
-if(
-!name ||
-!category ||
-!price ||
-!quantity ||
-!image
-){
-
-alert("Complete all fields");
-
-return;
-
-}
-
-await addDoc(collection(db,"products"),{
-
-name:name,
-
-category:category,
-
-price:Number(price),
-
-quantity:Number(quantity),
-
-image:image
-
-});
-
-alert("Product Added!");
-
-document.getElementById("name").value = "";
-
-document.getElementById("category").value = "";
-
-document.getElementById("price").value = "";
-
-document.getElementById("quantity").value = "";
-
-document.getElementById("image").value = "";
+await deleteDoc(
+doc(db,"products",id)
+);
 
 loadProducts();
 
 }
 
-window.deleteProduct = async function(id){
-
-await deleteDoc(doc(db,"products",id));
-
-loadProducts();
-
-}
-
+loadCategories();
 loadProducts();
 
 </script>
