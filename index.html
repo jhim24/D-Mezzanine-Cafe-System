@@ -33,14 +33,11 @@ font-family:'Poppins',sans-serif;
 body{
 
 background:
-
 linear-gradient(
 rgba(0,0,0,0.74),
 rgba(0,0,0,0.84)
 ),
-
 url('./cafe-bg.jpg')
-
 center/cover no-repeat fixed;
 
 color:white;
@@ -251,7 +248,7 @@ margin-bottom:18px;
 }
 
 .card h2{
-font-size:50px;
+font-size:46px;
 font-weight:700;
 margin-bottom:14px;
 }
@@ -341,10 +338,6 @@ padding:15px;
 border-bottom:1px solid rgba(255,255,255,0.08);
 font-size:14px;
 background:rgba(255,255,255,0.02);
-}
-
-table tr:hover td{
-background:rgba(255,255,255,0.04);
 }
 
 .low-stock{
@@ -439,6 +432,7 @@ grid-template-columns:1fr;
 <div class="logo-box">
 
 <img src="./logo.png"
+alt="Logo"
 onerror="this.src='https://via.placeholder.com/70'">
 
 <div class="logo-text">
@@ -541,6 +535,7 @@ Realtime Firebase Analytics
 <div class="admin-box">
 
 <img src="./logo.png"
+alt="Admin Logo"
 onerror="this.src='https://via.placeholder.com/70'">
 
 <div class="admin-info">
@@ -691,7 +686,6 @@ Loading...
 onclick="refreshDashboard()">
 
 <i class="fa-solid fa-rotate-right"></i>
-
 Refresh Dashboard
 
 </button>
@@ -717,6 +711,8 @@ collection,
 getDocs
 }
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+/* FIREBASE */
 
 const firebaseConfig = {
 
@@ -773,7 +769,9 @@ const sale =
 firebaseDoc.data();
 
 const rawDate =
-sale.date || sale.createdAt;
+sale.date ||
+sale.createdAt ||
+new Date();
 
 const saleDate =
 new Date(rawDate);
@@ -789,9 +787,14 @@ Number(sale.total || 0);
 totalOrders++;
 customers++;
 
-if(sale.items){
+if(
+sale.items &&
+Array.isArray(sale.items)
+){
 
 sale.items.forEach((item)=>{
+
+if(!item.name) return;
 
 if(!productCounter[item.name]){
 
@@ -848,8 +851,6 @@ console.error(
 error
 );
 
-alert(error.message);
-
 }
 
 }
@@ -878,9 +879,11 @@ const product =
 firebaseDoc.data();
 
 const stock =
+Number(
 product.quantity ||
 product.stock ||
-0;
+0
+);
 
 if(stock <= 5){
 
