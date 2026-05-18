@@ -170,7 +170,16 @@ cursor:pointer;
 margin-right:5px;
 font-weight:600;
 }
-
+.print-btn{
+background:#22c55e;
+border:none;
+color:white;
+padding:8px 12px;
+border-radius:8px;
+cursor:pointer;
+font-weight:600;
+margin-right:5px;
+}
 .delete-btn{
 background:#ef4444;
 border:none;
@@ -855,6 +864,13 @@ View
 
 </button>
 
+<button class="print-btn"
+onclick='printReceipt(${JSON.stringify(sale)})'>
+
+Receipt
+
+</button>
+
 <button class="delete-btn"
 onclick="deleteSale('${firebaseDoc.id}')">
 
@@ -1141,6 +1157,191 @@ new Date()
 .split("T")[0];
 
 loadSales();
+
+}
+  /* PRINT RECEIPT */
+
+window.printReceipt =
+function(sale){
+
+let itemsHTML = "";
+
+if(sale.items){
+
+sale.items.forEach((item)=>{
+
+itemsHTML += `
+
+<tr>
+
+<td>${item.name}</td>
+
+<td>${item.qty}</td>
+
+<td>
+₱${(
+(item.price || 0)
+*
+(item.qty || 0)
+).toLocaleString()}
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+let receiptWindow =
+window.open("","","width=400,height=700");
+
+receiptWindow.document.write(`
+
+<html>
+
+<head>
+
+<title>Receipt</title>
+
+<style>
+
+body{
+font-family:Arial;
+padding:20px;
+text-align:center;
+}
+
+.logo{
+width:80px;
+height:80px;
+object-fit:contain;
+margin-bottom:10px;
+}
+
+h2{
+margin:5px 0;
+}
+
+p{
+margin:3px 0;
+font-size:14px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:15px;
+}
+
+table th,
+table td{
+border-bottom:1px dashed #999;
+padding:8px;
+font-size:13px;
+text-align:left;
+}
+
+.total{
+font-size:18px;
+font-weight:bold;
+margin-top:15px;
+}
+
+.footer{
+margin-top:25px;
+font-size:13px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<img src="./logo.png"
+class="logo">
+
+<h2>D' Mezzanine Cafe</h2>
+
+<p>Official Receipt</p>
+
+<hr>
+
+<p>
+Date:
+${new Date().toLocaleString()}
+</p>
+
+<p>
+Payment:
+${sale.paymentMethod || "Cash"}
+</p>
+
+<p>
+Reference:
+${sale.referenceNumber || "-"}
+</p>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Item</th>
+<th>Qty</th>
+<th>Total</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+${itemsHTML}
+
+</tbody>
+
+</table>
+
+<div class="total">
+
+TOTAL:
+₱${Number(
+sale.total || 0
+).toLocaleString()}
+
+</div>
+
+<div class="footer">
+
+Thank you for dining with us ☕
+
+<br><br>
+
+Please come again.
+
+</div>
+
+<script>
+
+window.onload = function(){
+
+window.print();
+
+}
+
+<\/script>
+
+</body>
+
+</html>
+
+`);
+
+receiptWindow.document.close();
 
 }
 /* LOAD */
