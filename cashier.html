@@ -8,7 +8,6 @@
 <title>D' Mezzanine Cashier POS</title>
 
 <link rel="manifest" href="manifest.json">
-
 <meta name="theme-color" content="#facc15">
 
 <link rel="stylesheet"
@@ -78,7 +77,6 @@ background:#facc15;
 color:black;
 cursor:pointer;
 font-size:16px;
-font-weight:bold;
 }
 
 .categories{
@@ -100,8 +98,8 @@ transition:.3s;
 font-weight:600;
 }
 
-.category-btn:hover,
-.category-btn.active{
+.category-btn.active,
+.category-btn:hover{
 background:#facc15;
 color:black;
 }
@@ -136,15 +134,15 @@ margin-bottom:10px;
 margin-bottom:5px;
 }
 
-.product p{
-color:#facc15;
-margin-bottom:10px;
-}
-
 .product small{
 display:block;
 margin-bottom:10px;
 color:#cbd5e1;
+}
+
+.product p{
+color:#facc15;
+margin-bottom:10px;
 }
 
 .product button{
@@ -519,16 +517,12 @@ Thank you for your order ☕
 
 <button class="print-btn"
 onclick="window.print()">
-
 PRINT
-
 </button>
 
 <button class="close-btn"
 onclick="closeReceipt()">
-
 CLOSE
-
 </button>
 
 </div>
@@ -544,7 +538,9 @@ import {
 getFirestore,
 collection,
 addDoc,
-getDocs
+getDocs,
+doc,
+updateDoc
 }
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
@@ -646,6 +642,8 @@ ${stockStatus}
 
 <p>₱${data.price}</p>
 
+<p>Stock: ${data.quantity}</p>
+
 <button onclick="addItem('${data.name}',${data.price})">
 Add
 </button>
@@ -658,8 +656,7 @@ Add
 
 }
 
-window.refreshProducts =
-async function(){
+window.refreshProducts = async function(){
 
 await loadProducts();
 
@@ -787,10 +784,7 @@ return;
 
 let total =
 cart.reduce((sum,item)=>
-
-sum + (item.price * item.qty)
-
-,0);
+sum + (item.price * item.qty),0);
 
 let cash = parseFloat(
 document.getElementById("cash").value
@@ -801,6 +795,43 @@ if(isNaN(cash) || cash < total){
 alert("Insufficient cash!");
 
 return;
+
+}
+
+for(const item of cart){
+
+const snapshot = await getDocs(
+collection(db,"products")
+);
+
+snapshot.forEach(async(product)=>{
+
+const data = product.data();
+
+if(data.name === item.name){
+
+let newQty =
+data.quantity - item.qty;
+
+if(newQty < 0){
+
+newQty = 0;
+
+}
+
+await updateDoc(
+
+doc(db,"products",product.id),
+
+{
+quantity:newQty
+}
+
+);
+
+}
+
+});
 
 }
 
@@ -854,6 +885,8 @@ price:item.price
 });
 
 alert("Order Saved!");
+
+await loadProducts();
 
 }catch(error){
 
