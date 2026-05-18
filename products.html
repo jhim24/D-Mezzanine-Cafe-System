@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Products Management</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#0f172a;
+color:white;
+padding:20px;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+}
+
+.topbar h1{
+font-size:30px;
+}
+
+.form-box,
+.table-box{
+background:#1e293b;
+padding:20px;
+border-radius:20px;
+margin-bottom:20px;
+}
+
+.inputs{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+margin-top:15px;
+}
+
+input{
+padding:14px;
+border:none;
+border-radius:12px;
+background:#0f172a;
+color:white;
+}
+
+button{
+border:none;
+padding:14px;
+border-radius:12px;
+background:#facc15;
+color:black;
+font-weight:600;
+cursor:pointer;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th{
+background:#111827;
+padding:15px;
+text-align:left;
+color:#facc15;
+}
+
+td{
+padding:15px;
+border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+img{
+width:60px;
+height:60px;
+object-fit:cover;
+border-radius:10px;
+}
+
+.delete-btn{
+background:#ef4444;
+color:white;
+padding:10px 14px;
+}
+
+.back-btn{
+display:inline-block;
+margin-bottom:20px;
+text-decoration:none;
+background:#facc15;
+color:black;
+padding:12px 18px;
+border-radius:12px;
+font-weight:600;
+}
+
+</style>
+</head>
+<body>
+
+<a href="index.html" class="back-btn">
+<i class="fa-solid fa-arrow-left"></i>
+Dashboard
+</a>
+
+<div class="topbar">
+<h1>Products Management ☕</h1>
+</div>
+
+<div class="form-box">
+<h2>Add Product</h2>
+
+<div class="inputs">
+<input type="text" id="name" placeholder="Product Name">
+<input type="number" id="price" placeholder="Price">
+<input type="text" id="image" placeholder="Image URL">
+<button onclick="addProduct()">SAVE PRODUCT</button>
+</div>
+</div>
+
+<div class="table-box">
+<table>
+<thead>
+<tr>
+<th>Image</th>
+<th>Product</th>
+<th>Price</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody id="productTable"></tbody>
+</table>
+</div>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+
+import {
+getFirestore,
+collection,
+addDoc,
+getDocs,
+deleteDoc,
+doc
+}
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyCYjuZlpgE-Lci33e53014F7fRIid6u7Dg",
+
+authDomain: "family-web-10cb8.firebaseapp.com",
+
+projectId: "family-web-10cb8",
+
+storageBucket: "family-web-10cb8.firebasestorage.app",
+
+messagingSenderId: "152048365178",
+
+appId: "1:152048365178:web:3e42c20e03a7c563d915c3",
+
+measurementId: "G-1X8L2KQDYF"
+
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+async function loadProducts(){
+
+const table = document.getElementById("productTable");
+
+table.innerHTML = "";
+
+const snapshot = await getDocs(collection(db,"products"));
+
+snapshot.forEach((product)=>{
+
+const data = product.data();
+
+table.innerHTML += `
+<tr>
+<td>
+<img src="${data.image}">
+</td>
+<td>${data.name}</td>
+<td>₱${data.price}</td>
+<td>
+<button class="delete-btn"
+onclick="deleteProduct('${product.id}')">
+DELETE
+</button>
+</td>
+</tr>
+`;
+
+});
+
+}
+
+window.addProduct = async function(){
+
+const name = document.getElementById("name").value;
+const price = document.getElementById("price").value;
+const image = document.getElementById("image").value;
+
+if(!name || !price || !image){
+alert("Complete all fields");
+return;
+}
+
+await addDoc(collection(db,"products"),{
+name,
+price:Number(price),
+image
+});
+
+alert("Product Added!");
+
+name.value = "";
+price.value = "";
+image.value = "";
+
+loadProducts();
+
+}
+
+window.deleteProduct = async function(id){
+
+await deleteDoc(doc(db,"products",id));
+
+loadProducts();
+
+}
+
+loadProducts();
+
+</script>
+
+</body>
+</html>
