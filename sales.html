@@ -383,8 +383,38 @@ Print Report
 
 </button>
 
+<button class="filter-btn"
+onclick="filterToday()">
+
+Today
+
+</button>
+
+<button class="filter-btn"
+onclick="filterWeek()">
+
+This Week
+
+</button>
+
+<button class="filter-btn"
+onclick="filterMonth()">
+
+This Month
+
+</button>
+  
 </div>
 
+<canvas id="salesChart"
+style="
+background:#1e293b;
+padding:20px;
+border-radius:20px;
+margin-bottom:25px;
+max-height:400px;
+"></canvas>
+  
 <!-- TABLE -->
 
 <div class="table-box">
@@ -450,6 +480,8 @@ onclick="closeModal()">
 
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
 <script type="module">
 
 import { initializeApp }
@@ -492,7 +524,7 @@ initializeApp(firebaseConfig);
 
 const db =
 getFirestore(app);
-
+let salesChart;
 /* DATE */
 
 document.getElementById("todayDate")
@@ -629,7 +661,7 @@ let gcashSales = 0;
 let cardSales = 0;
 
 let productCounter = {};
-
+let dailySales = {};
 let today =
 new Date().toLocaleDateString();
 
@@ -710,6 +742,23 @@ return;
 
 totalOrders++;
 
+if(!isNaN(saleDateObject)){
+
+let chartDate =
+saleDateObject
+.toLocaleDateString();
+
+if(!dailySales[chartDate]){
+
+dailySales[chartDate] = 0;
+
+}
+
+dailySales[chartDate] +=
+Number(sale.total || 0);
+
+}
+  
 if(
 !isNaN(saleDateObject) &&
 saleDateObject.toLocaleDateString()
@@ -923,6 +972,76 @@ document.getElementById("topProduct")
 .innerText =
 topProduct;
 
+const labels =
+Object.keys(dailySales);
+
+const values =
+Object.values(dailySales);
+
+const ctx =
+document.getElementById("salesChart");
+
+if(salesChart){
+
+salesChart.destroy();
+
+}
+
+salesChart =
+new Chart(ctx,{
+
+type:"bar",
+
+data:{
+
+labels:labels,
+
+datasets:[{
+
+label:"Daily Sales",
+
+data:values,
+
+borderWidth:1
+
+}]
+
+},
+
+options:{
+
+responsive:true,
+
+plugins:{
+
+legend:{
+labels:{
+color:"white"
+}
+}
+
+},
+
+scales:{
+
+x:{
+ticks:{
+color:"white"
+}
+},
+
+y:{
+ticks:{
+color:"white"
+}
+}
+
+}
+
+}
+
+});
+  
 }catch(error){
 
 console.error(error);
@@ -946,7 +1065,84 @@ Failed to load Firebase sales
 }
 
 }
+/* TODAY FILTER */
 
+window.filterToday =
+function(){
+
+let today =
+new Date()
+.toISOString()
+.split("T")[0];
+
+document.getElementById("startDate")
+.value = today;
+
+document.getElementById("endDate")
+.value = today;
+
+loadSales();
+
+}
+
+/* WEEK FILTER */
+
+window.filterWeek =
+function(){
+
+let today =
+new Date();
+
+let firstDay =
+new Date(
+today.setDate(
+today.getDate() - 7
+));
+
+document.getElementById("startDate")
+.value =
+firstDay.toISOString()
+.split("T")[0];
+
+document.getElementById("endDate")
+.value =
+new Date()
+.toISOString()
+.split("T")[0];
+
+loadSales();
+
+}
+
+/* MONTH FILTER */
+
+window.filterMonth =
+function(){
+
+let today =
+new Date();
+
+let firstDay =
+new Date(
+today.getFullYear(),
+today.getMonth(),
+1
+);
+
+document.getElementById("startDate")
+.value =
+firstDay.toISOString()
+.split("T")[0];
+
+document.getElementById("endDate")
+.value =
+new Date()
+.toISOString()
+.split("T")[0];
+
+loadSales();
+
+}
 /* LOAD */
 
 loadSales();
