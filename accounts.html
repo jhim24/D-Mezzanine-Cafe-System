@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Accounts Management - Journal Voucher</title>
+
+<title>Accounts Management</title>
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -50,6 +52,8 @@ justify-content:space-between;
 align-items:center;
 color:#001f5c;
 font-weight:bold;
+flex-wrap:wrap;
+gap:10px;
 }
 
 .header-left{
@@ -62,6 +66,29 @@ gap:10px;
 font-size:34px;
 font-family:Georgia;
 color:#003399;
+}
+
+.tabs{
+display:flex;
+gap:10px;
+padding:10px;
+background:#ececec;
+border-bottom:1px solid #999;
+flex-wrap:wrap;
+}
+
+.tab-btn{
+border:none;
+padding:12px 18px;
+border-radius:10px;
+background:#1e40af;
+color:white;
+font-weight:600;
+cursor:pointer;
+}
+
+.tab-btn:hover{
+background:#2563eb;
 }
 
 .toolbar{
@@ -83,10 +110,6 @@ font-size:13px;
 border-radius:4px;
 }
 
-.toolbar button:hover{
-background:#d9edf7;
-}
-
 .form-section{
 padding:15px;
 border-bottom:2px solid #8aa8c5;
@@ -95,18 +118,19 @@ background:#f9f9f9;
 
 .form-grid{
 display:grid;
-grid-template-columns:120px 1fr 200px;
-gap:10px;
-align-items:start;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+margin-top:15px;
 }
 
 .form-grid input,
 .form-grid textarea,
 .form-grid select{
 width:100%;
-padding:8px;
+padding:10px;
 border:1px solid #999;
 background:white;
+border-radius:8px;
 }
 
 .form-grid textarea{
@@ -114,10 +138,20 @@ height:80px;
 resize:none;
 }
 
+.save-btn{
+background:#22c55e !important;
+color:white;
+border:none;
+padding:12px 18px;
+border-radius:8px;
+cursor:pointer;
+margin-top:15px;
+font-weight:600;
+}
+
 .table-container{
 padding:10px;
 overflow:auto;
-height:400px;
 background:#b5b5b5;
 }
 
@@ -130,14 +164,14 @@ background:white;
 table th{
 background:#4a82d1;
 color:white;
-padding:8px;
+padding:10px;
 font-size:13px;
 border:1px solid #999;
 }
 
 table td{
 border:1px solid #999;
-padding:6px;
+padding:8px;
 font-size:13px;
 }
 
@@ -161,11 +195,6 @@ gap:15px;
 border-top:2px solid #999;
 }
 
-.footer-box{
-display:flex;
-gap:20px;
-}
-
 .total-box{
 background:#ffff99;
 padding:10px 20px;
@@ -183,25 +212,16 @@ font-weight:bold;
 font-size:14px;
 }
 
-.save-btn{
-background:#22c55e !important;
-color:white;
-}
-
 .delete-btn{
-background:#ef4444 !important;
+background:#ef4444;
 color:white;
-}
-
-.add-row-btn{
-background:#facc15 !important;
+border:none;
+padding:6px 10px;
+border-radius:6px;
+cursor:pointer;
 }
 
 @media(max-width:900px){
-
-.form-grid{
-grid-template-columns:1fr;
-}
 
 .footer{
 flex-direction:column;
@@ -217,8 +237,11 @@ align-items:flex-start;
 <body>
 
 <a href="index.html" class="back-btn">
+
 <i class="fa-solid fa-arrow-left"></i>
+
 Dashboard
+
 </a>
 
 <div class="window">
@@ -231,9 +254,9 @@ Dashboard
 
 <div>
 
-<h1>Journal Voucher</h1>
+<h1>Accounts Management</h1>
 
-<div>Accounts Management</div>
+<div>ERP Accounting System</div>
 
 </div>
 
@@ -241,13 +264,43 @@ Dashboard
 
 <div>
 
-<div>(Not Saved)</div>
-
 <div id="currentDate"></div>
 
 </div>
 
 </div>
+
+<div class="tabs">
+
+<button class="tab-btn"
+onclick="showSection('journalSection')">
+
+<i class="fa-solid fa-book"></i>
+Journal Voucher
+
+</button>
+
+<button class="tab-btn"
+onclick="showSection('chartSection')">
+
+<i class="fa-solid fa-sitemap"></i>
+Chart of Accounts
+
+</button>
+
+<button class="tab-btn"
+onclick="showSection('customerSection')">
+
+<i class="fa-solid fa-users"></i>
+Customers / Suppliers
+
+</button>
+
+</div>
+
+<!-- JOURNAL SECTION -->
+
+<div id="journalSection">
 
 <div class="toolbar">
 
@@ -255,12 +308,11 @@ Dashboard
 onclick="saveVoucher()">
 
 <i class="fa-solid fa-floppy-disk"></i>
-Save
+Save Voucher
 
 </button>
 
-<button class="add-row-btn"
-onclick="addRow()">
+<button onclick="addRow()">
 
 <i class="fa-solid fa-plus"></i>
 Add Row
@@ -274,60 +326,26 @@ Print
 
 </button>
 
-<button onclick="loadVouchers()">
-
-<i class="fa-solid fa-rotate-right"></i>
-Refresh
-
-</button>
-
-<button class="delete-btn"
-onclick="clearVoucher()">
-
-<i class="fa-solid fa-trash"></i>
-Clear
-
-</button>
-
 </div>
 
 <div class="form-section">
 
 <div class="form-grid">
 
-<div>
-
-<label>Ref No</label>
-
 <input type="text"
 id="refNo"
 placeholder="Reference No">
-
-</div>
-
-<div>
-
-<label>Remarks</label>
-
-<textarea id="remarks"
-placeholder="Enter remarks..."></textarea>
-
-</div>
-
-<div>
-
-<label>Voucher Type</label>
 
 <select id="voucherType">
 
 <option>General Journal</option>
 <option>Cash Receipt</option>
 <option>Cash Payment</option>
-<option>Adjustment</option>
 
 </select>
 
-</div>
+<textarea id="remarks"
+placeholder="Remarks"></textarea>
 
 </div>
 
@@ -335,21 +353,17 @@ placeholder="Enter remarks..."></textarea>
 
 <div class="table-container">
 
-<table id="voucherTable">
+<table>
 
 <thead>
 
 <tr>
 
-<th>SNo</th>
 <th>D/C</th>
-<th>Acc.Code</th>
+<th>Account Code</th>
 <th>Account Name</th>
-<th>Sub.Code</th>
-<th>Narration</th>
 <th>Debit</th>
 <th>Credit</th>
-<th>Sub.Name</th>
 <th>Action</th>
 
 </tr>
@@ -359,8 +373,6 @@ placeholder="Enter remarks..."></textarea>
 <tbody id="voucherBody">
 
 <tr>
-
-<td>1</td>
 
 <td>
 
@@ -372,54 +384,34 @@ placeholder="Enter remarks..."></textarea>
 </td>
 
 <td>
-<input type="text"
-placeholder="1001">
+<input type="text">
 </td>
 
 <td>
-<input type="text"
-placeholder="Cash Account">
+<input type="text">
 </td>
 
 <td>
-<input type="text"
-placeholder="001">
-</td>
-
-<td>
-<input type="text"
-placeholder="Narration">
-</td>
-
-<td>
-
 <input type="number"
 class="debit"
 value="0"
 oninput="computeTotals()">
-
 </td>
 
 <td>
-
 <input type="number"
 class="credit"
 value="0"
 oninput="computeTotals()">
-
 </td>
 
 <td>
 
-<input type="text"
-placeholder="Sub Name">
+<button class="delete-btn"
+onclick="deleteRow(this)">
 
-</td>
-
-<td>
-
-<button onclick="deleteRow(this)">
 Delete
+
 </button>
 
 </td>
@@ -434,42 +426,24 @@ Delete
 
 <div class="footer">
 
-<div class="footer-box">
-
-<div>
-
-<h4>Total Debit</h4>
-
 <div class="total-box"
 id="totalDebit">
 
-₱0
+Debit: ₱0
 
 </div>
-
-</div>
-
-<div>
-
-<h4>Total Credit</h4>
 
 <div class="total-box"
 id="totalCredit">
 
-₱0
+Credit: ₱0
 
 </div>
-
-</div>
-
-<div>
-
-<h4>Difference</h4>
 
 <div class="total-box"
 id="difference">
 
-₱0
+Difference: ₱0
 
 </div>
 
@@ -477,13 +451,98 @@ id="difference">
 
 </div>
 
-<div>
+<!-- CHART OF ACCOUNTS -->
 
-Search by Doc#
+<div id="chartSection"
+style="display:none;">
+
+<div class="form-section">
+
+<h2>Chart of Accounts</h2>
+
+<div class="form-grid">
 
 <input type="text"
-placeholder="Search..."
-style="padding:8px;border:1px solid #999;">
+id="accountCode"
+placeholder="Account Code">
+
+<input type="text"
+id="accountName"
+placeholder="Account Name">
+
+<select id="accountType">
+
+<option>Assets</option>
+<option>Liabilities</option>
+<option>Equity</option>
+<option>Income</option>
+<option>Expenses</option>
+
+</select>
+
+<input type="number"
+id="openingBalance"
+placeholder="Opening Balance">
+
+</div>
+
+<button class="save-btn"
+onclick="saveAccount()">
+
+Save Account
+
+</button>
+
+</div>
+
+</div>
+
+<!-- CUSTOMER SECTION -->
+
+<div id="customerSection"
+style="display:none;">
+
+<div class="form-section">
+
+<h2>Customers / Suppliers</h2>
+
+<div class="form-grid">
+
+<select id="partyType">
+
+<option>Customer</option>
+<option>Supplier</option>
+
+</select>
+
+<input type="text"
+id="companyName"
+placeholder="Company Name">
+
+<input type="text"
+id="contactPerson"
+placeholder="Contact Person">
+
+<input type="text"
+id="mobileNumber"
+placeholder="Mobile Number">
+
+<input type="text"
+id="emailAddress"
+placeholder="Email Address">
+
+<input type="text"
+id="address"
+placeholder="Address">
+
+</div>
+
+<button class="save-btn"
+onclick="saveCustomerSupplier()">
+
+Save Details
+
+</button>
 
 </div>
 
@@ -491,7 +550,7 @@ style="padding:8px;border:1px solid #999;">
 
 <div class="bottom-bar">
 
-F4-Save | F3-Delete | F11-Preview | F12-Print | Esc-Exit | NextDocNo : 2507929
+ERP Accounting System Ready
 
 </div>
 
@@ -505,8 +564,7 @@ from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 import {
 getFirestore,
 collection,
-addDoc,
-getDocs
+addDoc
 }
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
@@ -530,19 +588,30 @@ const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
 
+window.showSection = function(sectionId){
+
+document.getElementById("journalSection")
+.style.display = "none";
+
+document.getElementById("chartSection")
+.style.display = "none";
+
+document.getElementById("customerSection")
+.style.display = "none";
+
+document.getElementById(sectionId)
+.style.display = "block";
+
+}
+
 window.addRow = function(){
 
 const tbody =
 document.getElementById("voucherBody");
 
-const rowCount =
-tbody.rows.length + 1;
-
-const row = `
+tbody.innerHTML += `
 
 <tr>
-
-<td>${rowCount}</td>
 
 <td>
 
@@ -553,35 +622,35 @@ const row = `
 
 </td>
 
-<td><input type="text"></td>
-<td><input type="text"></td>
-<td><input type="text"></td>
-<td><input type="text"></td>
+<td>
+<input type="text">
+</td>
 
 <td>
+<input type="text">
+</td>
 
+<td>
 <input type="number"
 class="debit"
 value="0"
 oninput="computeTotals()">
-
 </td>
 
 <td>
-
 <input type="number"
 class="credit"
 value="0"
 oninput="computeTotals()">
-
 </td>
-
-<td><input type="text"></td>
 
 <td>
 
-<button onclick="deleteRow(this)">
+<button class="delete-btn"
+onclick="deleteRow(this)">
+
 Delete
+
 </button>
 
 </td>
@@ -589,8 +658,6 @@ Delete
 </tr>
 
 `;
-
-tbody.innerHTML += row;
 
 }
 
@@ -625,96 +692,125 @@ const diff = debit - credit;
 
 document.getElementById("totalDebit")
 .innerText =
-"₱" + debit.toLocaleString();
+"Debit: ₱" + debit.toLocaleString();
 
 document.getElementById("totalCredit")
 .innerText =
-"₱" + credit.toLocaleString();
+"Credit: ₱" + credit.toLocaleString();
 
 document.getElementById("difference")
 .innerText =
-"₱" + diff.toLocaleString();
-
-}
-
-window.clearVoucher = function(){
-
-location.reload();
+"Difference: ₱" + diff.toLocaleString();
 
 }
 
 window.saveVoucher = async function(){
-
-const refNo =
-document.getElementById("refNo").value;
-
-const remarks =
-document.getElementById("remarks").value;
-
-const voucherType =
-document.getElementById("voucherType").value;
-
-const rows =
-document.querySelectorAll("#voucherBody tr");
-
-let entries = [];
-
-rows.forEach(row=>{
-
-const inputs =
-row.querySelectorAll("input,select");
-
-entries.push({
-
-dc: inputs[0].value,
-accCode: inputs[1].value,
-accName: inputs[2].value,
-subCode: inputs[3].value,
-narration: inputs[4].value,
-debit: inputs[5].value,
-credit: inputs[6].value,
-subName: inputs[7].value
-
-});
-
-});
 
 try{
 
 await addDoc(
 collection(db,"journalVouchers"),
 {
+createdAt:new Date().toISOString()
+}
+);
 
-refNo,
-remarks,
-voucherType,
-entries,
+alert("Voucher Saved!");
+
+}catch(error){
+
+console.log(error);
+
+}
+
+}
+
+window.saveAccount = async function(){
+
+const accountCode =
+document.getElementById("accountCode").value;
+
+const accountName =
+document.getElementById("accountName").value;
+
+const accountType =
+document.getElementById("accountType").value;
+
+const openingBalance =
+document.getElementById("openingBalance").value;
+
+try{
+
+await addDoc(
+collection(db,"chartOfAccounts"),
+{
+
+accountCode,
+accountName,
+accountType,
+openingBalance,
 createdAt:new Date().toISOString()
 
 }
 
 );
 
-alert("Voucher Saved Successfully!");
+alert("Account Saved!");
 
 }catch(error){
 
 console.log(error);
 
-alert("Save Failed");
-
 }
 
 }
 
-window.loadVouchers = async function(){
+window.saveCustomerSupplier =
+async function(){
 
-const snapshot =
-await getDocs(collection(db,"journalVouchers"));
+const partyType =
+document.getElementById("partyType").value;
 
-console.log(
-snapshot.size + " vouchers loaded"
+const companyName =
+document.getElementById("companyName").value;
+
+const contactPerson =
+document.getElementById("contactPerson").value;
+
+const mobileNumber =
+document.getElementById("mobileNumber").value;
+
+const emailAddress =
+document.getElementById("emailAddress").value;
+
+const address =
+document.getElementById("address").value;
+
+try{
+
+await addDoc(
+collection(db,"customersSuppliers"),
+{
+
+partyType,
+companyName,
+contactPerson,
+mobileNumber,
+emailAddress,
+address,
+createdAt:new Date().toISOString()
+
+}
+
 );
+
+alert("Details Saved!");
+
+}catch(error){
+
+console.log(error);
+
+}
 
 }
 
