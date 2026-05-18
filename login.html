@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ERP Login</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+height:100vh;
+background:
+linear-gradient(rgba(15,23,42,.92),
+rgba(15,23,42,.92)),
+url('https://images.unsplash.com/photo-1556740749-887f6717d7e4?q=80&w=1600');
+background-size:cover;
+background-position:center;
+display:flex;
+justify-content:center;
+align-items:center;
+overflow:hidden;
+}
+
+.login-container{
+width:100%;
+max-width:420px;
+padding:20px;
+}
+
+.login-card{
+background:rgba(17,24,39,.92);
+border:1px solid rgba(255,255,255,.08);
+backdrop-filter:blur(15px);
+padding:35px;
+border-radius:24px;
+box-shadow:0 0 30px rgba(0,0,0,.35);
+}
+
+.logo{
+text-align:center;
+margin-bottom:30px;
+}
+
+.logo i{
+font-size:55px;
+color:#facc15;
+margin-bottom:10px;
+}
+
+.logo h1{
+font-size:32px;
+font-weight:700;
+color:white;
+}
+
+.logo p{
+color:#94a3b8;
+margin-top:5px;
+font-size:14px;
+}
+
+.input-group{
+margin-bottom:18px;
+position:relative;
+}
+
+.input-group label{
+display:block;
+margin-bottom:8px;
+font-size:14px;
+color:#cbd5e1;
+}
+
+.input-group input{
+width:100%;
+padding:14px 14px 14px 45px;
+border:none;
+border-radius:14px;
+background:#0f172a;
+color:white;
+font-size:15px;
+outline:none;
+border:1px solid transparent;
+transition:.3s;
+}
+
+.input-group input:focus{
+border-color:#facc15;
+}
+
+.input-group i{
+position:absolute;
+left:15px;
+top:43px;
+color:#94a3b8;
+}
+
+.options{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+font-size:13px;
+color:#cbd5e1;
+}
+
+.options input{
+margin-right:5px;
+}
+
+.login-btn{
+width:100%;
+padding:15px;
+border:none;
+border-radius:14px;
+background:#facc15;
+color:black;
+font-size:16px;
+font-weight:700;
+cursor:pointer;
+transition:.3s;
+}
+
+.login-btn:hover{
+background:#eab308;
+}
+
+.footer-text{
+text-align:center;
+margin-top:20px;
+font-size:13px;
+color:#94a3b8;
+}
+
+.error-box{
+background:#7f1d1d;
+padding:12px;
+border-radius:10px;
+margin-bottom:15px;
+font-size:13px;
+display:none;
+}
+
+.version{
+position:fixed;
+bottom:15px;
+right:15px;
+color:#94a3b8;
+font-size:12px;
+}
+
+@media(max-width:500px){
+
+.login-card{
+padding:25px;
+}
+
+.logo h1{
+font-size:26px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="login-container">
+
+<div class="login-card">
+
+<div class="logo">
+
+<i class="fa-solid fa-building-columns"></i>
+
+<h1>ERP System</h1>
+
+<p>D' Mezzanine Accounting & POS</p>
+
+</div>
+
+<div class="error-box"
+id="errorBox">
+
+Invalid Username or Password
+
+</div>
+
+<div class="input-group">
+
+<label>Username</label>
+
+<i class="fa-solid fa-user"></i>
+
+<input type="text"
+id="username"
+placeholder="Enter Username">
+
+</div>
+
+<div class="input-group">
+
+<label>Password</label>
+
+<i class="fa-solid fa-lock"></i>
+
+<input type="password"
+id="password"
+placeholder="Enter Password">
+
+</div>
+
+<div class="options">
+
+<label>
+
+<input type="checkbox">
+
+Remember me
+
+</label>
+
+<span>ERP Secure Login</span>
+
+</div>
+
+<button class="login-btn"
+onclick="login()">
+
+LOGIN SYSTEM
+
+</button>
+
+<div class="footer-text">
+
+© 2026 ERP Accounting System
+
+</div>
+
+</div>
+
+</div>
+
+<div class="version">
+
+Version 1.0 ERP
+
+</div>
+
+<script>
+
+function login(){
+
+const username =
+document.getElementById("username").value;
+
+const password =
+document.getElementById("password").value;
+
+const errorBox =
+document.getElementById("errorBox");
+
+if(
+username === "admin" &&
+password === "admin123"
+){
+
+localStorage.setItem(
+"isLoggedIn",
+"true"
+);
+
+localStorage.setItem(
+"erpUser",
+username
+);
+
+window.location.href =
+"index.html";
+
+}else{
+
+errorBox.style.display = "block";
+
+}
+
+}
+
+if(
+localStorage.getItem("isLoggedIn")
+=== "true"
+){
+
+window.location.href =
+"index.html";
+
+}
+
+</script>
+
+</body>
+</html>
