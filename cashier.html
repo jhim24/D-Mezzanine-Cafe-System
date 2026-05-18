@@ -57,10 +57,27 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 margin-bottom:25px;
+gap:10px;
 }
 
 .topbar h1{
 font-size:30px;
+}
+
+.time{
+color:#facc15;
+font-size:18px;
+}
+
+.refresh-btn{
+border:none;
+width:42px;
+height:42px;
+border-radius:12px;
+background:#facc15;
+color:black;
+cursor:pointer;
+font-size:16px;
 }
 
 .categories{
@@ -78,12 +95,12 @@ border-radius:14px;
 background:#1e293b;
 color:white;
 cursor:pointer;
+white-space:nowrap;
 font-weight:600;
-transition:.3s;
 }
 
-.category-btn:hover,
-.category-btn.active{
+.category-btn.active,
+.category-btn:hover{
 background:#facc15;
 color:black;
 }
@@ -138,6 +155,7 @@ margin-bottom:10px;
 .cart-items{
 flex:1;
 overflow-y:auto;
+max-height:300px;
 }
 
 .cart-item{
@@ -170,6 +188,21 @@ font-weight:bold;
 margin-top:20px;
 }
 
+.payment{
+margin-top:15px;
+}
+
+.payment input,
+.payment select{
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+background:#1e293b;
+color:white;
+margin-top:10px;
+}
+
 .checkout{
 width:100%;
 margin-top:20px;
@@ -192,6 +225,64 @@ border-radius:12px;
 background:#ef4444;
 color:white;
 cursor:pointer;
+}
+
+.overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.7);
+display:none;
+z-index:999;
+}
+
+.receipt{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+width:320px;
+background:white;
+color:black;
+padding:20px;
+border-radius:10px;
+display:none;
+z-index:9999;
+}
+
+.receipt-items p,
+.receipt-summary p{
+display:flex;
+justify-content:space-between;
+margin-bottom:6px;
+}
+
+.receipt-buttons{
+display:flex;
+gap:10px;
+margin-top:15px;
+}
+
+.print-btn,
+.close-btn{
+flex:1;
+border:none;
+padding:12px;
+border-radius:8px;
+cursor:pointer;
+font-weight:600;
+}
+
+.print-btn{
+background:#111827;
+color:white;
+}
+
+.close-btn{
+background:#ef4444;
+color:white;
 }
 
 @media(max-width:950px){
@@ -221,16 +312,25 @@ width:100%;
 
 <h1>Cashier POS ☕</h1>
 
+<div style="display:flex;align-items:center;gap:10px;">
+
+<div class="time" id="time"></div>
+
+<button class="refresh-btn"
+onclick="refreshProducts()">
+
+<i class="fa-solid fa-rotate-right"></i>
+
+</button>
+
 </div>
 
-<!-- AUTO CATEGORY BUTTONS -->
+</div>
 
 <div class="categories"
 id="categoryButtons">
 
 </div>
-
-<!-- PRODUCTS -->
 
 <div class="products"
 id="productsContainer">
@@ -238,8 +338,6 @@ id="productsContainer">
 </div>
 
 </div>
-
-<!-- RIGHT -->
 
 <div class="right">
 
@@ -257,6 +355,32 @@ Total:
 ₱ <span id="total">0</span>
 </h2>
 
+<div class="payment">
+
+<label>Payment Method</label>
+
+<select id="paymentMethod"
+onchange="toggleReferenceField()">
+
+<option value="Cash">Cash</option>
+<option value="GCash">GCash</option>
+<option value="Maya">Maya</option>
+<option value="Card">Card</option>
+<option value="Bank Transfer">Bank Transfer</option>
+
+</select>
+
+<input type="number"
+id="cash"
+placeholder="Enter payment amount">
+
+<input type="text"
+id="referenceNumber"
+placeholder="Reference Number"
+style="display:none;">
+
+</div>
+
 <button class="checkout"
 onclick="checkout()">
 
@@ -272,6 +396,71 @@ CLEAR CART
 </button>
 
 </div>
+
+</div>
+
+</div>
+
+<div class="overlay"
+id="overlay"></div>
+
+<div class="receipt"
+id="receipt">
+
+<h2>D' Mezzanine Cafe</h2>
+
+<p id="receiptDate"></p>
+
+<hr>
+
+<div class="receipt-items"
+id="receiptItems"></div>
+
+<hr>
+
+<div class="receipt-summary">
+
+<p>
+<span>Total</span>
+<span>₱ <span id="receiptTotal"></span></span>
+</p>
+
+<p>
+<span id="paymentLabel"></span>
+<span>₱ <span id="receiptCash"></span></span>
+</p>
+
+<p id="referenceRow"
+style="display:none;">
+
+<span>Reference</span>
+
+<span id="receiptReference"></span>
+
+</p>
+
+<p>
+<span>Change</span>
+<span>₱ <span id="receiptChange"></span></span>
+</p>
+
+</div>
+
+<div class="receipt-buttons">
+
+<button class="print-btn"
+onclick="window.print()">
+
+PRINT
+
+</button>
+
+<button class="close-btn"
+onclick="closeReceipt()">
+
+CLOSE
+
+</button>
 
 </div>
 
@@ -317,6 +506,26 @@ const db =
 getFirestore(app);
 
 let cart = [];
+
+window.toggleReferenceField = function(){
+
+const paymentMethod =
+document.getElementById("paymentMethod").value;
+
+const referenceField =
+document.getElementById("referenceNumber");
+
+if(paymentMethod === "Cash"){
+
+referenceField.style.display = "none";
+
+}else{
+
+referenceField.style.display = "block";
+
+}
+
+}
 
 async function loadCategoryButtons(){
 
@@ -371,7 +580,9 @@ btn.classList.remove("active");
 
 });
 
+if(event){
 event.target.classList.add("active");
+}
 
 const snapshot =
 await getDocs(
@@ -394,7 +605,7 @@ data.category === category
 
 let stockBadge = "";
 
-if(data.stock <= 5){
+if(data.quantity <= 5){
 
 stockBadge =
 `<div class="low-stock">
@@ -413,11 +624,11 @@ ${stockBadge}
 
 <h3>${data.name}</h3>
 
-<small>${data.category}</small>
+<p>${data.category}</p>
 
 <p>₱${data.price}</p>
 
-<p>Stock: ${data.stock}</p>
+<p>Stock: ${data.quantity}</p>
 
 <button onclick="addItem(
 '${doc.id}',
@@ -436,6 +647,15 @@ Add
 }
 
 });
+
+}
+
+window.refreshProducts =
+async function(){
+
+await filterCategory("all");
+
+alert("Products Refreshed!");
 
 }
 
@@ -564,11 +784,43 @@ return;
 
 }
 
+const paymentMethod =
+document.getElementById("paymentMethod").value;
+
+const cash =
+parseFloat(
+document.getElementById("cash").value
+);
+
+const reference =
+document.getElementById("referenceNumber").value;
+
 let total = 0;
 
-for(const item of cart){
+cart.forEach(item=>{
 
 total += item.price * item.qty;
+
+});
+
+if(cash < total){
+
+alert("Insufficient Payment");
+
+return;
+
+}
+
+if(paymentMethod !== "Cash" &&
+reference === ""){
+
+alert("Reference Required");
+
+return;
+
+}
+
+for(const item of cart){
 
 const snapshot =
 await getDocs(
@@ -581,12 +833,12 @@ const data = product.data();
 
 if(data.name === item.name){
 
-let newStock =
-data.stock - item.qty;
+let newQty =
+data.quantity - item.qty;
 
-if(newStock < 0){
+if(newQty < 0){
 
-newStock = 0;
+newQty = 0;
 
 }
 
@@ -595,7 +847,7 @@ await updateDoc(
 doc(db,"products",product.id),
 
 {
-stock:newStock
+quantity:newQty
 }
 
 );
@@ -611,28 +863,98 @@ collection(db,"sales"),
 {
 items:cart,
 total:total,
+paymentMethod,
+reference,
 createdAt:
 new Date().toISOString()
 }
 );
 
-alert("Order Complete!");
+let change = cash - total;
+
+document.getElementById("overlay")
+.style.display = "block";
+
+document.getElementById("receipt")
+.style.display = "block";
+
+document.getElementById("receiptDate")
+.innerText =
+new Date().toLocaleString();
+
+document.getElementById("receiptItems")
+.innerHTML =
+
+cart.map(item =>
+
+`<p>
+<span>${item.qty}x ${item.name}</span>
+<span>₱${item.price * item.qty}</span>
+</p>`
+
+).join("");
+
+document.getElementById("receiptTotal")
+.innerText = total;
+
+document.getElementById("paymentLabel")
+.innerText = paymentMethod;
+
+document.getElementById("receiptCash")
+.innerText = cash;
+
+document.getElementById("receiptChange")
+.innerText = change;
+
+if(paymentMethod !== "Cash"){
+
+document.getElementById("referenceRow")
+.style.display = "flex";
+
+document.getElementById("receiptReference")
+.innerText = reference;
+
+}else{
+
+document.getElementById("referenceRow")
+.style.display = "none";
+
+}
 
 cart = [];
 
 renderCart();
 
-filterCategory("all",{
-target:document.querySelector(".category-btn")
-});
+await filterCategory("all");
 
 }
 
+window.closeReceipt =
+function(){
+
+document.getElementById("receipt")
+.style.display = "none";
+
+document.getElementById("overlay")
+.style.display = "none";
+
+}
+
+function updateTime(){
+
+document.getElementById("time")
+.innerText =
+new Date().toLocaleString();
+
+}
+
+setInterval(updateTime,1000);
+
+updateTime();
+
 loadCategoryButtons();
 
-filterCategory("all",{
-target:document.querySelector(".category-btn")
-});
+filterCategory("all");
 
 </script>
 
