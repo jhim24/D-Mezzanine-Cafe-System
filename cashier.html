@@ -177,6 +177,8 @@ margin-bottom:20px;
 .cart-items{
 flex:1;
 overflow-y:auto;
+max-height:280px;
+padding-right:4px;
 }
 
 .cart-item{
@@ -184,20 +186,30 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 background:#1e293b;
-padding:12px;
-border-radius:12px;
-margin-bottom:12px;
+padding:8px 10px;
+border-radius:10px;
+margin-bottom:8px;
+min-height:58px;
+}
+.cart-item h4{
+font-size:12px;
+margin-bottom:2px;
 }
 
+.cart-item p{
+font-size:11px;
+color:#facc15;
+}
 .qty{
 display:flex;
 align-items:center;
-gap:8px;
+gap:5px;
+font-size:12px;
 }
-
 .qty button{
-width:28px;
-height:28px;
+width:24px;
+height:24px;
+font-size:12px;
 border:none;
 border-radius:8px;
 background:#facc15;
