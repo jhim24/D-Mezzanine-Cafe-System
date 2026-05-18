@@ -133,6 +133,7 @@ padding:8px;
 border-radius:14px;
 margin-bottom:10px;
 }
+
 .product h3{
 margin-bottom:5px;
 }
@@ -280,85 +281,6 @@ color:white;
 cursor:pointer;
 }
 
-.overlay{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.7);
-display:none;
-z-index:999;
-}
-
-.receipt{
-position:fixed;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-width:320px;
-background:white;
-color:black;
-padding:20px;
-border-radius:10px;
-display:none;
-z-index:9999;
-}
-
-.receipt-header{
-text-align:center;
-border-bottom:1px dashed #000;
-padding-bottom:10px;
-margin-bottom:10px;
-}
-
-.receipt-items p,
-.receipt-summary p{
-display:flex;
-justify-content:space-between;
-margin-bottom:6px;
-}
-
-.receipt-summary{
-border-top:1px dashed #000;
-padding-top:10px;
-margin-top:10px;
-}
-
-.receipt-footer{
-text-align:center;
-margin-top:15px;
-border-top:1px dashed #000;
-padding-top:10px;
-font-size:13px;
-}
-
-.receipt-buttons{
-display:flex;
-gap:10px;
-margin-top:15px;
-}
-
-.print-btn,
-.close-btn{
-flex:1;
-border:none;
-padding:12px;
-border-radius:8px;
-cursor:pointer;
-font-weight:600;
-}
-
-.print-btn{
-background:#111827;
-color:white;
-}
-
-.close-btn{
-background:#ef4444;
-color:white;
-}
-
 @media(max-width:950px){
 
 .container{
@@ -405,17 +327,11 @@ onclick="refreshProducts()">
 
 </div>
 
-<!-- AUTO CATEGORY -->
-
 <div class="categories"
-id="categoryButtons">
-
-</div>
+id="categoryButtons"></div>
 
 <div class="products"
-id="productsContainer">
-
-</div>
+id="productsContainer"></div>
 
 </div>
 
@@ -490,85 +406,6 @@ CLEAR CART
 
 </div>
 
-<div class="overlay"
-id="overlay"></div>
-
-<div class="receipt"
-id="receipt">
-
-<div class="receipt-header">
-<img src="https://YOURUSERNAME.github.io/YOURREPO/logo.png"
-style="
-width:80px;
-height:80px;
-object-fit:contain;
-margin-bottom:10px;
-">
-<h2>D' Mezzanine Cafe</h2>
-
-<p>Cafe & Restaurant</p>
-
-<small id="receiptDate"></small>
-
-</div>
-
-<div class="receipt-items"
-id="receiptItems"></div>
-
-<div class="receipt-summary">
-
-<p>
-<span>Total</span>
-<span>₱ <span id="receiptTotal"></span></span>
-</p>
-
-<p>
-<span id="paymentLabel">Cash</span>
-<span>₱ <span id="receiptCash"></span></span>
-</p>
-
-<p id="referenceRow"
-style="display:none;">
-
-<span>Reference</span>
-
-<span id="receiptReference"></span>
-
-</p>
-
-<p>
-<span>Change</span>
-<span>₱ <span id="receiptChange"></span></span>
-</p>
-
-</div>
-
-<div class="receipt-footer">
-
-Thank you for your order ☕
-
-</div>
-
-<div class="receipt-buttons">
-
-<button class="print-btn"
-onclick="printReceiptOnly()">
-
-PRINT
-
-</button>
-
-<button class="close-btn"
-onclick="closeReceipt()">
-
-CLOSE
-
-</button>
-
-</div>
-
-</div>
-
 <script type="module">
 
 import { initializeApp }
@@ -628,7 +465,7 @@ referenceField.style.display = "block";
 
 }
 
-// AUTO CATEGORY BUTTONS
+/* CATEGORY */
 
 async function loadCategoryButtons(){
 
@@ -670,9 +507,10 @@ ${data.name}
 
 }
 
-// FILTER PRODUCTS
+/* FILTER */
 
-window.filterProducts = function(category,event){
+window.filterProducts =
+function(category,event){
 
 const allProducts =
 document.querySelectorAll(".product");
@@ -715,7 +553,7 @@ product.style.display = "none";
 
 }
 
-// LOAD PRODUCTS
+/* LOAD PRODUCTS */
 
 async function loadProducts(){
 
@@ -733,17 +571,22 @@ snapshot.forEach((product)=>{
 
 const data = product.data();
 
+let stock =
+data.quantity || data.stock || 0;
+
 let stockStatus = "";
 
-if((data.quantity || data.stock || 0) <= 5){
+if(stock <= 5){
 
-stockStatus =
+stockStatus = `
 
-`<div class="low-stock">
+<div class="low-stock">
 
 LOW STOCK
 
-</div>`;
+</div>
+
+`;
 
 }
 
@@ -763,7 +606,7 @@ ${stockStatus}
 
 <p>₱${data.price}</p>
 
-<p>Stock: ${data.quantity || data.stock || 0}</p>
+<p>Stock: ${stock}</p>
 
 <button onclick="addItem(
 '${data.name}',
@@ -782,7 +625,10 @@ Add
 
 }
 
-window.refreshProducts = async function(){
+/* REFRESH */
+
+window.refreshProducts =
+async function(){
 
 await loadProducts();
 
@@ -790,12 +636,15 @@ alert("Products Refreshed!");
 
 }
 
-// CART
+/* CART */
 
-window.addItem = function(name,price){
+window.addItem =
+function(name,price){
 
 let existing =
-cart.find(item => item.name === name);
+cart.find(item =>
+item.name === name
+);
 
 if(existing){
 
@@ -825,7 +674,6 @@ document.getElementById("cartItems");
 cartItems.innerHTML = "";
 
 let total = 0;
-
 let count = 0;
 
 cart.forEach((item,index)=>{
@@ -878,7 +726,8 @@ document.getElementById("itemCount")
 
 }
 
-window.increaseQty = function(index){
+window.increaseQty =
+function(index){
 
 cart[index].qty++;
 
@@ -886,7 +735,8 @@ renderCart();
 
 }
 
-window.decreaseQty = function(index){
+window.decreaseQty =
+function(index){
 
 if(cart[index].qty > 1){
 
@@ -902,7 +752,8 @@ renderCart();
 
 }
 
-window.clearCart = function(){
+window.clearCart =
+function(){
 
 cart = [];
 
@@ -910,9 +761,187 @@ renderCart();
 
 }
 
-// CHECKOUT
+/* PRINT RECEIPT */
 
-window.checkout = async function(){
+window.printReceipt =
+function(sale){
+
+let itemsHTML = "";
+
+if(sale.items){
+
+sale.items.forEach((item)=>{
+
+itemsHTML += `
+
+<tr>
+
+<td>${item.name}</td>
+
+<td>${item.qty}</td>
+
+<td>
+₱${(
+(item.price || 0)
+*
+(item.qty || 0)
+).toLocaleString()}
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+let receiptWindow =
+window.open("","","width=400,height=700");
+
+receiptWindow.document.write(`
+
+<html>
+
+<head>
+
+<title>Receipt</title>
+
+<style>
+
+body{
+font-family:Arial;
+padding:20px;
+text-align:center;
+}
+
+.logo{
+width:80px;
+height:80px;
+object-fit:contain;
+margin-bottom:10px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:15px;
+}
+
+table th,
+table td{
+border-bottom:1px dashed #999;
+padding:8px;
+font-size:13px;
+text-align:left;
+}
+
+.total{
+font-size:18px;
+font-weight:bold;
+margin-top:15px;
+}
+
+.footer{
+margin-top:25px;
+font-size:13px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<img src="./logo.png"
+class="logo">
+
+<h2>D' Mezzanine Cafe</h2>
+
+<p>Official Receipt</p>
+
+<hr>
+
+<p>
+Date:
+${new Date().toLocaleString()}
+</p>
+
+<p>
+Payment:
+${sale.paymentMethod || "Cash"}
+</p>
+
+<p>
+Reference:
+${sale.referenceNumber || "-"}
+</p>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Item</th>
+<th>Qty</th>
+<th>Total</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+${itemsHTML}
+
+</tbody>
+
+</table>
+
+<div class="total">
+
+TOTAL:
+₱${Number(
+sale.total || 0
+).toLocaleString()}
+
+</div>
+
+<div class="footer">
+
+Thank you for dining with us ☕
+
+<br><br>
+
+Please come again.
+
+</div>
+
+<script>
+
+window.onload = function(){
+
+window.print();
+
+}
+
+<\/script>
+
+</body>
+
+</html>
+
+`);
+
+receiptWindow.document.close();
+
+}
+
+/* CHECKOUT */
+
+window.checkout =
+async function(){
 
 if(cart.length === 0){
 
@@ -926,11 +955,13 @@ let total =
 cart.reduce((sum,item)=>
 sum + (item.price * item.qty),0);
 
+const paymentMethod =
+document.getElementById("paymentMethod").value;
+
 let cash = parseFloat(
 document.getElementById("cash").value
 );
-const paymentMethod =
-document.getElementById("paymentMethod").value;
+
 if(paymentMethod === "Cash"){
 
 if(isNaN(cash) || cash < total){
@@ -940,6 +971,10 @@ alert("Insufficient payment!");
 return;
 
 }
+
+}else{
+
+cash = total;
 
 }
 
@@ -955,23 +990,7 @@ return;
 
 }
 
-document.getElementById("paymentLabel")
-.innerText = paymentMethod;
-
-if(paymentMethod !== "Cash"){
-
-document.getElementById("referenceRow")
-.style.display = "flex";
-
-document.getElementById("receiptReference")
-.innerText = referenceNumber;
-
-}else{
-
-document.getElementById("referenceRow")
-.style.display = "none";
-
-}
+/* UPDATE STOCK */
 
 for(const item of cart){
 
@@ -1014,47 +1033,6 @@ quantity:newQty
 
 }
 
-let change =
-paymentMethod === "Cash"
-? cash - total
-: 0;
-
-document.getElementById("overlay")
-.style.display = "block";
-
-document.getElementById("receipt")
-.style.display = "block";
-
-document.getElementById("receiptDate")
-.innerText =
-new Date().toLocaleString();
-
-document.getElementById("receiptItems")
-.innerHTML =
-
-cart.map(item =>
-
-`<p>
-
-<span>${item.qty}x ${item.name}</span>
-
-<span>
-₱${item.price * item.qty}
-</span>
-
-</p>`
-
-).join("");
-
-document.getElementById("receiptTotal")
-.innerText = total;
-
-document.getElementById("receiptCash")
-.innerText = cash;
-
-document.getElementById("receiptChange")
-.innerText = change;
-
 try{
 
 await addDoc(collection(db,"sales"),{
@@ -1077,6 +1055,23 @@ qty:item.qty,
 price:item.price
 
 }))
+
+});
+
+/* PRINT */
+
+printReceipt({
+
+items: cart,
+
+paymentMethod: paymentMethod,
+
+referenceNumber:
+paymentMethod === "Cash"
+? "-"
+: referenceNumber,
+
+total: total
 
 });
 
@@ -1107,114 +1102,8 @@ document.getElementById("referenceNumber").value =
 "";
 
 }
-/* PRINT RECEIPT ONLY */
 
-window.printReceiptOnly = function(){
-
-const receiptContent =
-document.getElementById("receipt").innerHTML;
-
-const printWindow =
-window.open("","","width=400,height=700");
-
-printWindow.document.write(`
-
-<html>
-
-<head>
-
-<title>Print Receipt</title>
-
-<style>
-
-body{
-font-family:Arial;
-padding:20px;
-text-align:center;
-}
-
-.logo{
-width:80px;
-height:80px;
-object-fit:contain;
-display:block;
-margin:auto;
-margin-bottom:10px;
-}
-
-.receipt-header{
-border-bottom:1px dashed #000;
-padding-bottom:10px;
-margin-bottom:10px;
-}
-
-.receipt-summary{
-border-top:1px dashed #000;
-padding-top:10px;
-margin-top:10px;
-}
-
-.receipt-footer{
-margin-top:15px;
-border-top:1px dashed #000;
-padding-top:10px;
-font-size:13px;
-}
-
-.receipt-items p,
-.receipt-summary p{
-display:flex;
-justify-content:space-between;
-margin-bottom:6px;
-}
-
-.receipt-buttons{
-display:none;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<img src="https://YOURUSERNAME.github.io/YOURREPO/logo.png"
-class="logo">
-
-${receiptContent}
-
-<script>
-
-window.onload = function(){
-
-window.print();
-
-}
-
-<\/script>
-
-</body>
-
-</html>
-
-`);
-
-printWindow.document.close();
-
-}
-// RECEIPT
-
-window.closeReceipt = function(){
-
-document.getElementById("receipt")
-.style.display = "none";
-
-document.getElementById("overlay")
-.style.display = "none";
-
-}
-
-// TIME
+/* TIME */
 
 function updateTime(){
 
