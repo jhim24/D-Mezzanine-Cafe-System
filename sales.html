@@ -721,6 +721,24 @@ querySnapshot.forEach((firebaseDoc)=>{
 
 });
 
+/* SORT NEWEST FIRST */
+
+salesData.sort((a,b)=>
+
+    new Date(
+        b.date || b.createdAt
+    )
+
+    -
+
+    new Date(
+        a.date || a.createdAt
+    )
+
+);
+
+/* LOOP SALES */
+
 /* SORT BY LATEST DATE */
 
 salesData.sort((a,b)=>{
@@ -915,7 +933,7 @@ Receipt
 </button>
 
 <button class="delete-btn"
-onclick="deleteSale('${sale.id}')"
+onclick="deleteSale('${sale.id}')">
 
 Delete
 
@@ -963,7 +981,7 @@ View
 </button>
 
 <button class="delete-btn"
-onclick="deleteSale('${firebaseDoc.id}')">
+onclick="deleteSale('${sale.id}')"
 
 Delete
 
