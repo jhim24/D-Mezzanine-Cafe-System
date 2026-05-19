@@ -693,6 +693,7 @@ document.getElementById("salesTable");
 salesTable.innerHTML = "";
 
 let totalToday = 0;
+let overallSales = 0;
 let totalOrders = 0;
 
 let cashSales = 0;
@@ -819,7 +820,9 @@ return;
 }
 
 totalOrders++;
-
+overallSales =
+overallSales +
+Number(sale.total || 0);
 if(!isNaN(saleDateObject)){
 
 let chartDate =
@@ -1011,7 +1014,10 @@ document.getElementById("todaySales")
 .innerText =
 "₱" +
 totalToday.toLocaleString();
-
+document.getElementById("overallSales")
+.innerText =
+"₱" +
+overallSales.toLocaleString();
 document.getElementById("totalOrders")
 .innerText =
 totalOrders;
