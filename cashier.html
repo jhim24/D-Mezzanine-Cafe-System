@@ -1086,20 +1086,6 @@ ${sale.referenceNumber || "-"}
 </p>
 
 <p>
-Senior Discount:
-₱${Number(
-sale.seniorDiscount || 0
-).toLocaleString()}
-</p>
-
-<p>
-PWD Discount:
-₱${Number(
-sale.pwdDiscount || 0
-).toLocaleString()}
-</p>
-
-<p>
 Subtotal:
 ₱${Number(
 sale.subtotal || 0
@@ -1127,6 +1113,35 @@ ${itemsHTML}
 </tbody>
 
 </table>
+
+<div style="
+margin-top:15px;
+text-align:right;
+font-size:14px;
+">
+
+<p>
+Subtotal:
+₱${Number(
+sale.subtotal || 0
+).toLocaleString()}
+</p>
+
+<p>
+Senior Discount:
+₱${Number(
+sale.seniorDiscount || 0
+).toLocaleString()}
+</p>
+
+<p>
+PWD Discount:
+₱${Number(
+sale.pwdDiscount || 0
+).toLocaleString()}
+</p>
+
+</div>
 
 <div class="total">
 
