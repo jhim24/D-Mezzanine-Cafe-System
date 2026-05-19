@@ -737,6 +737,19 @@ const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
 
+/* AUTH CHECK */
+
+if(
+localStorage.getItem(
+"isLoggedIn"
+) !== "true"
+){
+
+window.location.href =
+"index.html";
+
+}
+
 /* DATE TIME */
 
 function updateDateTime(){
@@ -961,7 +974,8 @@ function logout(){
 
 localStorage.clear();
 
-window.location.replace("/");
+window.location.href =
+"index.html";
 
 }
 /* GLOBAL */
