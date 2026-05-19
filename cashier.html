@@ -1067,7 +1067,9 @@ class="logo">
 
 <p>
 Date:
-${new Date().toLocaleString()}
+${new Date(
+sale.date || new Date()
+).toLocaleString()}
 </p>
 
 <p>
@@ -1352,7 +1354,6 @@ paymentMethod === "Cash"
 total: total
 
 });
-
 localStorage.setItem(
 "salesUpdated",
 Date.now()
@@ -1381,6 +1382,9 @@ renderCart();
 document.getElementById("cash").value = "";
 
 document.getElementById("referenceNumber").value = "";
+document.getElementById("seniorDiscount").value = 0;
+
+document.getElementById("pwdDiscount").value = 0;
 
 }
 /* ORDER HISTORY */
