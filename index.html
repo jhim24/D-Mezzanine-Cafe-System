@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Redirecting...</title>
+
+<script>
+
+/* CHECK LOGIN */
+
+const isLoggedIn =
+localStorage.getItem(
+"isLoggedIn"
+);
+
+const role =
+localStorage.getItem(
+"erpRole"
+);
+
+/* NOT LOGGED IN */
+
+if(!isLoggedIn){
+
+window.location.href =
+"login.html";
+
+}
+
+/* CASHIER */
+
+else if(role === "cashier"){
+
+window.location.href =
+"pages/pos.html";
+
+}
+
+/* ADMIN / MANAGER */
+
+else{
+
+window.location.href =
+"dashboard.html";
+
+}
+
+</script>
+
+</head>
+
+<body>
+
+</body>
+</html>
