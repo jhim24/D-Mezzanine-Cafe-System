@@ -720,7 +720,11 @@ window.totalOrders = 0;
 window.cashSales = 0;
 window.gcashSales = 0;
 window.cardSales = 0;
+  
+window.totalSeniorDiscount = 0;
 
+window.totalPwdDiscount = 0;
+  
 let productCounter = {};
 let dailySales = {};
 let today =
@@ -844,6 +848,15 @@ totalOrders++;
 overallSales =
 overallSales +
 Number(sale.total || 0);
+totalSeniorDiscount +=
+Number(
+sale.seniorDiscount || 0
+);
+
+totalPwdDiscount +=
+Number(
+sale.pwdDiscount || 0
+);
 if(!isNaN(saleDateObject)){
 
 let chartDate =
@@ -1504,32 +1517,9 @@ let grossSales =
 overallSales;
 
 let totalDiscounts =
-0;
 
-const rows =
-document.querySelectorAll("#salesTable tr");
-
-rows.forEach((row)=>{
-
-const cells = row.querySelectorAll("td");
-
-if(cells.length >= 7){
-
-let senior =
-cells[4].innerText
-.replace("₱","")
-.replace(/,/g,"");
-
-let pwd =
-cells[5].innerText
-.replace("₱","")
-.replace(/,/g,"");
-
-totalDiscounts +=
-Number(senior || 0);
-
-totalDiscounts +=
-Number(pwd || 0);
+totalSeniorDiscount +
+totalPwdDiscount;
 
 }
 
