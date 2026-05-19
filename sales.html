@@ -1428,9 +1428,38 @@ ${itemsHTML}
 
 </table>
 
+<div style="
+margin-top:15px;
+text-align:right;
+font-size:14px;
+">
+
+<p>
+Gross Sales:
+₱${Number(
+sale.subtotal || 0
+).toLocaleString()}
+</p>
+
+<p>
+Senior Discount:
+₱${Number(
+sale.seniorDiscount || 0
+).toLocaleString()}
+</p>
+
+<p>
+PWD Discount:
+₱${Number(
+sale.pwdDiscount || 0
+).toLocaleString()}
+</p>
+
+</div>
+
 <div class="total">
 
-TOTAL:
+NET SALES:
 ₱${Number(
 sale.total || 0
 ).toLocaleString()}
@@ -1471,11 +1500,49 @@ receiptWindow.document.close();
 window.closeShift =
 function(){
 
+let grossSales =
+overallSales;
+
+let totalDiscounts =
+0;
+
+const rows =
+document.querySelectorAll("#salesTable tr");
+
+rows.forEach((row)=>{
+
+const cells = row.querySelectorAll("td");
+
+if(cells.length >= 7){
+
+let senior =
+cells[4].innerText
+.replace("₱","")
+.replace(/,/g,"");
+
+let pwd =
+cells[5].innerText
+.replace("₱","")
+.replace(/,/g,"");
+
+totalDiscounts +=
+Number(senior || 0);
+
+totalDiscounts +=
+Number(pwd || 0);
+
+}
+
+});
+
+let netSales =
+grossSales - totalDiscounts;
+
 let report = `
 
 D' MEZZANINE CAFE
 
-END OF DAY REPORT
+Z READING REPORT
 
 Date:
 ${new Date().toLocaleDateString()}
@@ -1485,22 +1552,39 @@ ${new Date().toLocaleTimeString()}
 
 --------------------------------
 
-Total Orders:
+TOTAL ORDERS:
 ${totalOrders}
 
-Cash Sales:
+--------------------------------
+
+GROSS SALES:
+₱${grossSales.toLocaleString()}
+
+SENIOR DISCOUNT:
+₱${totalDiscounts.toLocaleString()}
+
+PWD DISCOUNT:
+Included Above
+
+--------------------------------
+
+NET SALES:
+₱${netSales.toLocaleString()}
+
+--------------------------------
+
+CASH SALES:
 ₱${cashSales.toLocaleString()}
 
-GCash Sales:
+GCASH SALES:
 ₱${gcashSales.toLocaleString()}
 
-Card Sales:
+CARD SALES:
 ₱${cardSales.toLocaleString()}
 
 --------------------------------
 
-TOTAL SALES:
-₱${overallSales.toLocaleString()}
+END OF REPORT
 
 `;
 
@@ -1517,24 +1601,18 @@ printWindow.document.write(`
 
 <head>
 
-<title>Closing Report</title>
+<title>Z Reading</title>
 
 <style>
 
 body{
-
 font-family:Arial;
-
 padding:20px;
-
 font-size:16px;
-
 }
 
 pre{
-
 white-space:pre-wrap;
-
 }
 
 </style>
