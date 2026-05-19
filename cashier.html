@@ -438,6 +438,16 @@ id="referenceNumber"
 placeholder="Reference Number"
 style="display:none;">
 
+<input type="number"
+id="seniorDiscount"
+placeholder="Senior Discount"
+value="0">
+
+<input type="number"
+id="pwdDiscount"
+placeholder="PWD Discount"
+value="0">
+  
 </div>
 
 <button class="checkout"
@@ -1075,6 +1085,20 @@ Reference:
 ${sale.referenceNumber || "-"}
 </p>
 
+<p>
+Senior Discount:
+₱${Number(
+sale.seniorDiscount || 0
+).toLocaleString()}
+</p>
+
+<p>
+PWD Discount:
+₱${Number(
+sale.pwdDiscount || 0
+).toLocaleString()}
+</p>
+
 <table>
 
 <thead>
@@ -1146,9 +1170,34 @@ return;
 
 }
 
-let total =
+let subtotal =
 cart.reduce((sum,item)=>
 sum + (item.price * item.qty),0);
+
+const seniorDiscount =
+parseFloat(
+document.getElementById(
+"seniorDiscount"
+).value
+) || 0;
+
+const pwdDiscount =
+parseFloat(
+document.getElementById(
+"pwdDiscount"
+).value
+) || 0;
+
+let total =
+subtotal -
+seniorDiscount -
+pwdDiscount;
+
+if(total < 0){
+
+total = 0;
+
+}
 
 const paymentMethod =
 document.getElementById("paymentMethod").value;
@@ -1265,6 +1314,10 @@ receiptNumber: receiptNumber,
 
 items: cart,
 
+seniorDiscount: seniorDiscount,
+
+pwdDiscount: pwdDiscount,
+  
 paymentMethod: paymentMethod,
 
 referenceNumber:
