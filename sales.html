@@ -707,6 +707,30 @@ await getDocs(
 collection(db,"sales")
 );
 
+let salesData = [];
+
+querySnapshot.forEach((firebaseDoc)=>{
+
+    salesData.push({
+
+        id: firebaseDoc.id,
+
+        ...firebaseDoc.data()
+
+    });
+
+});
+
+/* SORT BY LATEST DATE */
+
+salesData.sort((a,b)=>{
+
+    return new Date(b.date || b.createdAt)
+    -
+    new Date(a.date || a.createdAt);
+
+});
+
 if(querySnapshot.empty){
 
 salesTable.innerHTML = `
@@ -728,10 +752,7 @@ return;
 
 }
 
-querySnapshot.forEach((firebaseDoc)=>{
-
-const sale =
-firebaseDoc.data();
+salesData.forEach((sale)=>{
 
 let rawDate =
 sale.date ||
@@ -894,7 +915,7 @@ Receipt
 </button>
 
 <button class="delete-btn"
-onclick="deleteSale('${firebaseDoc.id}')">
+onclick="deleteSale('${sale.id}')"
 
 Delete
 
