@@ -1230,7 +1230,12 @@ try{
 const receiptNumber =
 "OR-" + Date.now();
 
+const receiptNumber =
+"OR-" + Date.now();
+
 await addDoc(collection(db,"sales"),{
+
+receiptNumber:receiptNumber,
 
 receiptNumber:receiptNumber,
 
@@ -1280,6 +1285,144 @@ Date.now()
 alert("Order Saved!");
 
 await loadProducts();
+
+  /* OPEN HISTORY */
+
+window.openHistory =
+async function(){
+
+document.getElementById("historyModal")
+.style.display = "block";
+
+await loadOrderHistory();
+
+}
+
+/* CLOSE HISTORY */
+
+window.closeHistory =
+function(){
+
+document.getElementById("historyModal")
+.style.display = "none";
+
+}
+
+/* LOAD HISTORY */
+
+async function loadOrderHistory(){
+
+const snapshot =
+await getDocs(
+collection(db,"sales")
+);
+
+const historyTable =
+document.getElementById("historyTable");
+
+historyTable.innerHTML = "";
+
+if(snapshot.empty){
+
+historyTable.innerHTML = `
+
+<tr>
+
+<td colspan="5"
+style="padding:20px;text-align:center;">
+
+No Orders Found
+
+</td>
+
+</tr>
+
+`;
+
+return;
+
+}
+
+snapshot.forEach((firebaseDoc)=>{
+
+const sale = firebaseDoc.data();
+
+const saleData =
+encodeURIComponent(
+JSON.stringify(sale)
+);
+
+historyTable.innerHTML += `
+
+<tr>
+
+<td style="padding:12px;">
+
+${sale.receiptNumber || "-"}
+
+</td>
+
+<td style="padding:12px;">
+
+${new Date(sale.date)
+.toLocaleString()}
+
+</td>
+
+<td style="padding:12px;">
+
+${sale.paymentMethod || "Cash"}
+
+</td>
+
+<td style="padding:12px;">
+
+₱${Number(sale.total || 0)
+.toLocaleString()}
+
+</td>
+
+<td style="padding:12px;">
+
+<button
+onclick="reprintSale('${saleData}')"
+style="
+border:none;
+padding:8px 12px;
+border-radius:8px;
+background:#22c55e;
+color:white;
+cursor:pointer;
+">
+
+Reprint
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+/* REPRINT */
+
+window.reprintSale =
+function(encodedSale){
+
+const sale =
+JSON.parse(
+decodeURIComponent(encodedSale)
+);
+
+printReceipt(sale);
+
+}
+  
 /* ORDER HISTORY */
 
 window.openHistory =
