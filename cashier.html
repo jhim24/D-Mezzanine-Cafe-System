@@ -1099,6 +1099,13 @@ sale.pwdDiscount || 0
 ).toLocaleString()}
 </p>
 
+<p>
+Subtotal:
+₱${Number(
+sale.subtotal || 0
+).toLocaleString()}
+</p>
+
 <table>
 
 <thead>
@@ -1285,7 +1292,14 @@ const receiptNumber =
 await addDoc(collection(db,"sales"),{
 
 receiptNumber:receiptNumber,
+
 date:new Date().toISOString(),
+
+subtotal:subtotal,
+
+seniorDiscount:seniorDiscount,
+
+pwdDiscount:pwdDiscount,
 
 total:total,
 
