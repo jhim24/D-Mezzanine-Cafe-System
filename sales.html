@@ -402,6 +402,15 @@ Print Report
 
 </button>
 
+<button class="print-btn"
+onclick="closeShift()">
+
+<i class="fa-solid fa-cash-register"></i>
+
+Close Shift
+
+</button>
+  
 <button class="filter-btn"
 onclick="filterToday()">
 
@@ -693,12 +702,12 @@ document.getElementById("salesTable");
 salesTable.innerHTML = "";
 
 let totalToday = 0;
-let overallSales = 0;
-let totalOrders = 0;
+window.overallSales = 0;
+window.totalOrders = 0;
 
-let cashSales = 0;
-let gcashSales = 0;
-let cardSales = 0;
+window.cashSales = 0;
+window.gcashSales = 0;
+window.cardSales = 0;
 
 let productCounter = {};
 let dailySales = {};
@@ -1417,6 +1426,108 @@ window.print();
 `);
 
 receiptWindow.document.close();
+
+}
+  /* CLOSE SHIFT */
+
+window.closeShift =
+function(){
+
+let report = `
+
+D' MEZZANINE CAFE
+
+END OF DAY REPORT
+
+Date:
+${new Date().toLocaleDateString()}
+
+Time:
+${new Date().toLocaleTimeString()}
+
+--------------------------------
+
+Total Orders:
+${totalOrders}
+
+Cash Sales:
+₱${cashSales.toLocaleString()}
+
+GCash Sales:
+₱${gcashSales.toLocaleString()}
+
+Card Sales:
+₱${cardSales.toLocaleString()}
+
+--------------------------------
+
+TOTAL SALES:
+₱${overallSales.toLocaleString()}
+
+`;
+
+let printWindow =
+window.open(
+"",
+"",
+"width=400,height=700"
+);
+
+printWindow.document.write(`
+
+<html>
+
+<head>
+
+<title>Closing Report</title>
+
+<style>
+
+body{
+
+font-family:Arial;
+
+padding:20px;
+
+font-size:16px;
+
+}
+
+pre{
+
+white-space:pre-wrap;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<pre>
+
+${report}
+
+</pre>
+
+<script>
+
+window.onload=function(){
+
+window.print();
+
+}
+
+<\/script>
+
+</body>
+
+</html>
+
+`);
+
+printWindow.document.close();
 
 }
 /* LOAD */
