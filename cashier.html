@@ -1085,13 +1085,6 @@ Reference:
 ${sale.referenceNumber || "-"}
 </p>
 
-<p>
-Subtotal:
-₱${Number(
-sale.subtotal || 0
-).toLocaleString()}
-</p>
-
 <table>
 
 <thead>
@@ -1342,6 +1335,8 @@ printReceipt({
 receiptNumber: receiptNumber,
 
 items: cart,
+
+subtotal: subtotal,
 
 seniorDiscount: seniorDiscount,
 
