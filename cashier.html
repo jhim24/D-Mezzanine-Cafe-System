@@ -314,6 +314,23 @@ height:50vh;
 
 <div style="display:flex;align-items:center;gap:10px;">
 
+<button id="logoutBtn"
+style="
+border:none;
+padding:10px 16px;
+border-radius:12px;
+background:#ef4444;
+color:white;
+cursor:pointer;
+font-weight:600;
+">
+
+<i class="fa-solid fa-right-from-bracket"></i>
+
+Logout
+
+</button>
+
 <div class="time" id="time"></div>
 
 <button class="refresh-btn"
@@ -631,6 +648,30 @@ window.refreshProducts =
 async function(){
 
 await loadProducts();
+/* LOGOUT */
+
+function logout(){
+
+localStorage.clear();
+
+window.location.href =
+"index.html";
+
+}
+
+/* LOGOUT BUTTON */
+
+document
+.getElementById("logoutBtn")
+
+.addEventListener(
+"click",
+function(){
+
+logout();
+
+}
+);
 
 alert("Products Refreshed!");
 
