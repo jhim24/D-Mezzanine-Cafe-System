@@ -819,6 +819,12 @@ itemsHTML += `
 
 <td>${item.name}</td>
 
+<td>
+₱${Number(
+item.price || 0
+).toLocaleString()}
+</td>
+
 <td>${item.qty}</td>
 
 <td>
@@ -830,7 +836,6 @@ itemsHTML += `
 </td>
 
 </tr>
-
 `;
 
 });
@@ -925,11 +930,11 @@ ${sale.referenceNumber || "-"}
 <tr>
 
 <th>Item</th>
+<th>Price</th>
 <th>Qty</th>
 <th>Total</th>
 
 </tr>
-
 </thead>
 
 <tbody>
