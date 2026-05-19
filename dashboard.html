@@ -968,7 +968,7 @@ localStorage.removeItem(
 /* REDIRECT */
 
 window.location.href =
-"login.html";
+"index.html";
 
 }
 /* GLOBAL */
@@ -978,7 +978,20 @@ refreshDashboard;
 
 window.logout =
 logout;
+  
+document
+.getElementById("logoutBtn")
 
+.addEventListener(
+"click",
+function(e){
+
+e.preventDefault();
+
+logout();
+
+}
+);
   /* LOGOUT BUTTON */
 
 document
