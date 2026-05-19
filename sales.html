@@ -454,11 +454,23 @@ max-height:400px;
 <tr>
 
 <th>Order Date</th>
+
 <th>Product</th>
-<th>Quantity</th>
+
+<th>Qty</th>
+
+<th>Gross Sales</th>
+
+<th>Senior Disc.</th>
+
+<th>PWD Disc.</th>
+
+<th>Net Sales</th>
+
 <th>Payment</th>
-<th>Reference No.</th>
-<th>Total Amount</th>
+
+<th>Reference</th>
+
 <th>Action</th>
 
 </tr>
@@ -922,18 +934,38 @@ salesTable.innerHTML += `
 
 <td>${item.qty || 0}</td>
 
-<td>${sale.paymentMethod || "Cash"}</td>
+<td>
+₱${Number(
+sale.subtotal || 0
+).toLocaleString()}
+</td>
 
-<td>${sale.referenceNumber || "-"}</td>
+<td>
+₱${Number(
+sale.seniorDiscount || 0
+).toLocaleString()}
+</td>
+
+<td>
+₱${Number(
+sale.pwdDiscount || 0
+).toLocaleString()}
+</td>
 
 <td class="total-row">
 
-₱${(
-(item.price || 0)
-*
-(item.qty || 0)
+₱${Number(
+sale.total || 0
 ).toLocaleString()}
 
+</td>
+
+<td>
+${sale.paymentMethod || "Cash"}
+</td>
+
+<td>
+${sale.referenceNumber || "-"}
 </td>
 
 <td>
@@ -1151,7 +1183,7 @@ document.getElementById("salesTable")
 
 <tr>
 
-<td colspan="7"
+<td colspan="10"
 class="loading">
 
 Failed to load Firebase sales
