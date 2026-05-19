@@ -447,7 +447,7 @@ onerror="this.src='https://via.placeholder.com/70'">
 
 <div class="menu">
 
-<a href="index.html"
+<a href="dashboard.html"
 class="active">
 
 <i class="fa-solid fa-chart-line"></i>
@@ -951,24 +951,9 @@ loadLowStock();
 
 function logout(){
 
-/* CLEAR SESSION */
+localStorage.clear();
 
-localStorage.removeItem(
-"isLoggedIn"
-);
-
-localStorage.removeItem(
-"erpUser"
-);
-
-localStorage.removeItem(
-"erpRole"
-);
-
-/* REDIRECT */
-
-window.location.href =
-"/";
+window.location.replace("/");
 
 }
 /* GLOBAL */
@@ -979,19 +964,6 @@ refreshDashboard;
 window.logout =
 logout;
   
-document
-.getElementById("logoutBtn")
-
-.addEventListener(
-"click",
-function(e){
-
-e.preventDefault();
-
-logout();
-
-}
-);
   /* LOGOUT BUTTON */
 
 document
