@@ -951,13 +951,26 @@ loadLowStock();
 
 function logout(){
 
-localStorage.removeItem("isLoggedIn");
+/* CLEAR SESSION */
+
+localStorage.removeItem(
+"isLoggedIn"
+);
+
+localStorage.removeItem(
+"erpUser"
+);
+
+localStorage.removeItem(
+"erpRole"
+);
+
+/* REDIRECT */
 
 window.location.href =
 "login.html";
 
 }
-
 /* GLOBAL */
 
 window.refreshDashboard =
