@@ -249,36 +249,6 @@ color:#94a3b8;
 font-size:12px;
 }
 
-.role-badge{
-
-display:inline-block;
-
-padding:5px 10px;
-
-border-radius:20px;
-
-font-size:12px;
-
-font-weight:600;
-
-margin-top:10px;
-}
-
-.admin-role{
-background:#dc2626;
-color:white;
-}
-
-.cashier-role{
-background:#16a34a;
-color:white;
-}
-
-.manager-role{
-background:#2563eb;
-color:white;
-}
-
 .demo-accounts{
 
 margin-top:25px;
@@ -512,10 +482,19 @@ localStorage.setItem(
 user.role
 );
 
-/* REDIRECT */
+/* REDIRECT BASED ON ROLE */
+
+if(user.role === "cashier"){
+
+window.location.href =
+"pages/pos.html";
+
+}else{
 
 window.location.href =
 "index.html";
+
+}
 
 }else{
 
@@ -534,8 +513,24 @@ localStorage.getItem(
 ) === "true"
 ){
 
+const role =
+localStorage.getItem(
+"erpRole"
+);
+
+/* AUTO REDIRECT */
+
+if(role === "cashier"){
+
+window.location.href =
+"pages/pos.html";
+
+}else{
+
 window.location.href =
 "index.html";
+
+}
 
 }
 
