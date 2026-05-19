@@ -312,8 +312,25 @@ height:50vh;
 
 <h1>Cashier POS ☕</h1>
 
-<div style="display:flex;align-items:center;gap:10px;">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
 
+<button
+onclick="openHistory()"
+style="
+border:none;
+padding:10px 14px;
+border-radius:12px;
+background:#2563eb;
+color:white;
+font-weight:600;
+cursor:pointer;
+">
+
+<i class="fa-solid fa-clock-rotate-left"></i>
+
+History
+
+</button>
 <a href="cash-drawer.html"
 style="
 text-decoration:none;
@@ -993,6 +1010,116 @@ window.print();
 
 <\/script>
 
+<!-- ORDER HISTORY MODAL -->
+
+<div id="historyModal"
+style="
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.7);
+z-index:99999;
+padding:20px;
+overflow:auto;
+">
+
+<div
+style="
+background:#1e293b;
+padding:20px;
+border-radius:20px;
+max-width:1000px;
+margin:auto;
+">
+
+<div style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+">
+
+<h2>Order History</h2>
+
+<button
+onclick="closeHistory()"
+style="
+border:none;
+background:#ef4444;
+color:white;
+padding:10px 15px;
+border-radius:10px;
+cursor:pointer;
+">
+
+Close
+
+</button>
+
+</div>
+
+<div style="overflow:auto;">
+
+<table
+style="
+width:100%;
+border-collapse:collapse;
+">
+
+<thead>
+
+<tr>
+
+<th style="padding:12px;background:#111827;color:#facc15;">
+OR #
+</th>
+
+<th style="padding:12px;background:#111827;color:#facc15;">
+Date
+</th>
+
+<th style="padding:12px;background:#111827;color:#facc15;">
+Payment
+</th>
+
+<th style="padding:12px;background:#111827;color:#facc15;">
+Total
+</th>
+
+<th style="padding:12px;background:#111827;color:#facc15;">
+Action
+</th>
+
+</tr>
+
+</thead>
+
+<tbody id="historyTable">
+
+<tr>
+
+<td colspan="5"
+style="padding:20px;text-align:center;">
+
+Loading...
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
 </body>
 
 </html>
@@ -1100,7 +1227,12 @@ quantity:newQty
 
 try{
 
+const receiptNumber =
+"OR-" + Date.now();
+
 await addDoc(collection(db,"sales"),{
+
+receiptNumber:receiptNumber,
 
 date:new Date().toISOString(),
 
@@ -1148,7 +1280,114 @@ Date.now()
 alert("Order Saved!");
 
 await loadProducts();
+/* ORDER HISTORY */
 
+window.openHistory =
+async function(){
+
+document.getElementById("historyModal")
+.style.display = "block";
+
+await loadOrderHistory();
+
+}
+
+window.closeHistory =
+function(){
+
+document.getElementById("historyModal")
+.style.display = "none";
+
+}
+
+async function loadOrderHistory(){
+
+const snapshot =
+await getDocs(
+collection(db,"sales")
+);
+
+const historyTable =
+document.getElementById("historyTable");
+
+historyTable.innerHTML = "";
+
+if(snapshot.empty){
+
+historyTable.innerHTML = `
+
+<tr>
+
+<td colspan="5"
+style="padding:20px;text-align:center;">
+
+No Orders Found
+
+</td>
+
+</tr>
+
+`;
+
+return;
+
+}
+
+snapshot.forEach((doc)=>{
+
+const sale = doc.data();
+
+historyTable.innerHTML += `
+
+<tr>
+
+<td style="padding:12px;">
+${sale.receiptNumber || "-"}
+</td>
+
+<td style="padding:12px;">
+${new Date(sale.date)
+.toLocaleString()}
+</td>
+
+<td style="padding:12px;">
+${sale.paymentMethod || "Cash"}
+</td>
+
+<td style="padding:12px;">
+₱${Number(sale.total || 0)
+.toLocaleString()}
+</td>
+
+<td style="padding:12px;">
+
+<button
+onclick='printReceipt(
+${JSON.stringify(sale)}
+)'
+style="
+border:none;
+padding:8px 12px;
+border-radius:8px;
+background:#22c55e;
+color:white;
+cursor:pointer;
+">
+
+Reprint
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+  
 }catch(error){
 
 console.log(error);
