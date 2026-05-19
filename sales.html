@@ -1514,19 +1514,17 @@ window.closeShift =
 function(){
 
 let grossSales =
-overallSales;
+overallSales +
+totalSeniorDiscount +
+totalPwdDiscount;
 
 let totalDiscounts =
 
 totalSeniorDiscount +
 totalPwdDiscount;
 
-}
-
-});
-
 let netSales =
-grossSales - totalDiscounts;
+overallSales;
 
 let report = `
 
@@ -1551,10 +1549,10 @@ GROSS SALES:
 ₱${grossSales.toLocaleString()}
 
 SENIOR DISCOUNT:
-₱${totalDiscounts.toLocaleString()}
+₱${totalSeniorDiscount.toLocaleString()}
 
 PWD DISCOUNT:
-Included Above
+₱${totalPwdDiscount.toLocaleString()}
 
 --------------------------------
 
