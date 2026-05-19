@@ -1290,9 +1290,11 @@ console.log(error);
 
 alert("Firebase save failed");
 
-}
+return;
 
 }
+
+/* CLEAR CART */
 
 cart = [];
 
@@ -1300,8 +1302,7 @@ renderCart();
 
 document.getElementById("cash").value = "";
 
-document.getElementById("referenceNumber").value =
-"";
+document.getElementById("referenceNumber").value = "";
 
 }
 /* ORDER HISTORY */
