@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Cash Drawer</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#0f172a;
+color:white;
+padding:20px;
+}
+
+.container{
+max-width:1000px;
+margin:auto;
+}
+
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+}
+
+.header h1{
+font-size:32px;
+}
+
+.time{
+color:#facc15;
+font-size:16px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:20px;
+margin-bottom:25px;
+}
+
+.card{
+background:#1e293b;
+padding:25px;
+border-radius:20px;
+}
+
+.card h2{
+margin-bottom:20px;
+font-size:22px;
+}
+
+.input-group{
+margin-bottom:18px;
+}
+
+.input-group label{
+display:block;
+margin-bottom:8px;
+font-size:14px;
+}
+
+.input-group input{
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+background:#0f172a;
+color:white;
+font-size:15px;
+}
+
+.open-btn,
+.close-btn{
+width:100%;
+padding:15px;
+border:none;
+border-radius:14px;
+font-size:16px;
+font-weight:700;
+cursor:pointer;
+margin-top:10px;
+}
+
+.open-btn{
+background:#22c55e;
+color:white;
+}
+
+.close-btn{
+background:#ef4444;
+color:white;
+}
+
+.summary{
+background:#111827;
+padding:25px;
+border-radius:20px;
+margin-top:20px;
+}
+
+.summary h2{
+margin-bottom:20px;
+}
+
+.summary div{
+display:flex;
+justify-content:space-between;
+margin-bottom:15px;
+font-size:17px;
+}
+
+.total{
+font-size:24px;
+font-weight:700;
+color:#facc15;
+}
+
+.print-btn{
+width:100%;
+padding:15px;
+border:none;
+border-radius:14px;
+background:#facc15;
+color:black;
+font-size:16px;
+font-weight:700;
+cursor:pointer;
+margin-top:20px;
+}
+
+.status{
+margin-top:15px;
+padding:12px;
+border-radius:12px;
+background:#22c55e;
+display:none;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+
+<h1>
+<i class="fa-solid fa-cash-register"></i>
+Cash Drawer
+</h1>
+
+<div class="time" id="time"></div>
+
+</div>
+
+<div class="grid">
+
+<!-- OPEN SHIFT -->
+
+<div class="card">
+
+<h2>Open Shift</h2>
+
+<div class="input-group">
+
+<label>Cashier Name</label>
+
+<input type="text"
+id="cashierName"
+placeholder="Enter cashier name">
+
+</div>
+
+<div class="input-group">
+
+<label>Opening Cash</label>
+
+<input type="number"
+id="openingCash"
+placeholder="Enter opening cash">
+
+</div>
+
+<button class="open-btn"
+onclick="openDrawer()">
+
+OPEN DRAWER
+
+</button>
+
+<div class="status"
+id="openStatus">
+
+Drawer Opened Successfully
+
+</div>
+
+</div>
+
+<!-- CLOSE SHIFT -->
+
+<div class="card">
+
+<h2>Close Shift</h2>
+
+<div class="input-group">
+
+<label>Actual Cash Count</label>
+
+<input type="number"
+id="actualCash"
+placeholder="Enter actual cash counted">
+
+</div>
+
+<button class="close-btn"
+onclick="closeDrawer()">
+
+CLOSE DRAWER
+
+</button>
+
+<div class="status"
+id="closeStatus"
+style="background:#ef4444;">
+
+Drawer Closed Successfully
+
+</div>
+
+</div>
+
+</div>
+
+<!-- SUMMARY -->
+
+<div class="summary">
+
+<h2>Shift Summary</h2>
+
+<div>
+
+<span>Opening Cash</span>
+
+<span id="summaryOpening">
+₱0
+</span>
+
+</div>
+
+<div>
+
+<span>Cash Sales</span>
+
+<span id="summarySales">
+₱0
+</span>
+
+</div>
+
+<div class="total">
+
+<span>Expected Cash</span>
+
+<span id="expectedCash">
+₱0
+</span>
+
+</div>
+
+<div>
+
+<span>Actual Cash</span>
+
+<span id="summaryActual">
+₱0
+</span>
+
+</div>
+
+<div>
+
+<span>Variance</span>
+
+<span id="variance">
+₱0
+</span>
+
+</div>
+
+<button class="print-btn"
+onclick="printDrawerReport()">
+
+PRINT Z REPORT
+
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+/* SAMPLE SALES */
+
+let cashSales = 8500;
+
+/* TIME */
+
+function updateTime(){
+
+document.getElementById("time")
+.innerText =
+new Date().toLocaleString();
+
+}
+
+setInterval(updateTime,1000);
+
+updateTime();
+
+/* OPEN DRAWER */
+
+function openDrawer(){
+
+const cashier =
+document.getElementById("cashierName").value;
+
+const openingCash =
+parseFloat(
+document.getElementById("openingCash").value
+);
+
+if(!cashier || isNaN(openingCash)){
+
+alert("Complete all fields");
+
+return;
+
+}
+
+localStorage.setItem(
+"drawerCashier",
+cashier
+);
+
+localStorage.setItem(
+"openingCash",
+openingCash
+);
+
+localStorage.setItem(
+"drawerOpened",
+"true"
+);
+
+document.getElementById("summaryOpening")
+.innerText =
+"₱" +
+openingCash.toLocaleString();
+
+document.getElementById("summarySales")
+.innerText =
+"₱" +
+cashSales.toLocaleString();
+
+document.getElementById("expectedCash")
+.innerText =
+"₱" +
+(openingCash + cashSales)
+.toLocaleString();
+
+document.getElementById("openStatus")
+.style.display = "block";
+
+}
+
+/* CLOSE DRAWER */
+
+function closeDrawer(){
+
+const openingCash =
+Number(
+localStorage.getItem(
+"openingCash"
+) || 0
+);
+
+const actualCash =
+parseFloat(
+document.getElementById("actualCash").value
+);
+
+if(isNaN(actualCash)){
+
+alert("Enter actual cash");
+
+return;
+
+}
+
+const expected =
+openingCash + cashSales;
+
+const variance =
+actualCash - expected;
+
+document.getElementById("summaryActual")
+.innerText =
+"₱" +
+actualCash.toLocaleString();
+
+document.getElementById("variance")
+.innerText =
+"₱" +
+variance.toLocaleString();
+
+document.getElementById("closeStatus")
+.style.display = "block";
+
+}
+
+/* PRINT */
+
+function printDrawerReport(){
+
+const cashier =
+localStorage.getItem(
+"drawerCashier"
+) || "-";
+
+const openingCash =
+localStorage.getItem(
+"openingCash"
+) || 0;
+
+const expected =
+document.getElementById(
+"expectedCash"
+).innerText;
+
+const actual =
+document.getElementById(
+"summaryActual"
+).innerText;
+
+const variance =
+document.getElementById(
+"variance"
+).innerText;
+
+let printWindow =
+window.open("","","width=400,height=700");
+
+printWindow.document.write(`
+
+<html>
+
+<head>
+
+<title>Z Report</title>
+
+<style>
+
+body{
+font-family:Arial;
+padding:20px;
+text-align:center;
+}
+
+h2{
+margin-bottom:20px;
+}
+
+.report{
+text-align:left;
+margin-top:20px;
+}
+
+.report p{
+margin-bottom:12px;
+font-size:15px;
+}
+
+.total{
+font-size:20px;
+font-weight:bold;
+margin-top:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>D' Mezzanine Cafe</h2>
+
+<p>Z Reading Report</p>
+
+<hr>
+
+<div class="report">
+
+<p>
+Cashier:
+${cashier}
+</p>
+
+<p>
+Opening Cash:
+₱${Number(openingCash).toLocaleString()}
+</p>
+
+<p>
+Cash Sales:
+₱${cashSales.toLocaleString()}
+</p>
+
+<p>
+Expected Cash:
+${expected}
+</p>
+
+<p>
+Actual Cash:
+${actual}
+</p>
+
+<p>
+Variance:
+${variance}
+</p>
+
+<p>
+Date:
+${new Date().toLocaleString()}
+</p>
+
+</div>
+
+<div class="total">
+
+END OF SHIFT
+
+</div>
+
+<script>
+
+window.onload = function(){
+
+window.print();
+
+}
+
+<\/script>
+
+</body>
+
+</html>
+
+`);
+
+printWindow.document.close();
+
+}
+
+</script>
+
+</body>
+</html>
