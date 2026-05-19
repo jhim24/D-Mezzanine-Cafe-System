@@ -435,19 +435,21 @@ role:"manager"
 
 ];
 
-/* LOGIN */
+/* LOGIN FUNCTION */
 
 function login(){
 
 const username =
 document
 .getElementById("username")
-.value;
+.value
+.trim();
 
 const password =
 document
 .getElementById("password")
-.value;
+.value
+.trim();
 
 const errorBox =
 document
@@ -456,16 +458,18 @@ document
 /* FIND USER */
 
 const user =
-users.find(u=>
+users.find(u =>
 
 u.username === username &&
 u.password === password
 
 );
 
-/* LOGIN SUCCESS */
+/* SUCCESS LOGIN */
 
 if(user){
+
+/* SAVE SESSION */
 
 localStorage.setItem(
 "isLoggedIn",
@@ -482,55 +486,32 @@ localStorage.setItem(
 user.role
 );
 
-/* REDIRECT BASED ON ROLE */
+/* CASHIER */
 
 if(user.role === "cashier"){
 
 window.location.href =
 "cashier.html";
 
-}else{
-
-window.location.href =
-"index.html";
-
 }
 
-}else{
+/* ADMIN OR MANAGER */
 
-errorBox.style.display =
-"block";
-
-}
-
-}
-
-/* AUTO LOGIN */
-
-if(
-localStorage.getItem(
-"isLoggedIn"
-) === "true"
-){
-
-const role =
-localStorage.getItem(
-"erpRole"
-);
-
-/* AUTO REDIRECT */
-
-if(role === "cashier"){
-
-window.location.href =
-"cashier.html";
-
-}else{
+else{
 
 window.location.href =
 "dashboard.html";
 
 }
+
+}
+
+/* WRONG LOGIN */
+
+else{
+
+errorBox.style.display =
+"block";
 
 }
 
