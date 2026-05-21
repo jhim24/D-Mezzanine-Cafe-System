@@ -1297,18 +1297,48 @@ ${sale.referenceNumber || "-"}
 <th>Qty</th>  
 <th>Total</th>  </tr>  </thead>  <tbody>  ${itemsHTML}
 
-</tbody>  </table>  <div class="total">  TOTAL:
+</tbody>  </table>  
+<div style="
+margin-top:15px;
+text-align:right;
+font-size:14px;
+">
+
+<p>
+Cash Received:
+₱${Number(
+sale.cashReceived || sale.cash || sale.total || 0
+).toLocaleString()}
+</p>
+
+<p>
+Change:
+₱${Number(
+sale.change || 0
+).toLocaleString()}
+</p>
+
+</div>
+
+<div class="total">
+
+TOTAL:
 ₱${Number(
 sale.total || 0
 ).toLocaleString()}
 
-</div>  <div class="footer">  Thank you for dining with us ☕
+</div>
+
+<div class="footer">
+
+Thank you for dining with us ☕
 
 <br><br>
 
 Please come again.
 
-</div>  <script>  
+</div>
+<script>  
   
 window.onload = function(){  
   
