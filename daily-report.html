@@ -28,7 +28,10 @@ body{
 background:#0f172a;
 padding:20px;
 color:white;
+overflow-x:hidden;
 }
+
+/* HEADER */
 
 .header{
 display:flex;
@@ -55,6 +58,11 @@ padding:12px 18px;
 border-radius:12px;
 font-weight:600;
 cursor:pointer;
+transition:.3s;
+}
+
+.btn:hover{
+transform:translateY(-2px);
 }
 
 .save-btn{
@@ -72,17 +80,40 @@ background:#ef4444;
 color:white;
 }
 
+/* REPORT */
+
 .report-box{
 background:#1e293b;
 padding:20px;
 border-radius:20px;
-overflow:auto;
+overflow-x:auto;
+margin-bottom:25px;
+}
+
+/* CUSTOM SCROLLBAR */
+
+.report-box::-webkit-scrollbar,
+.saved-box::-webkit-scrollbar{
+height:12px;
+width:10px;
+}
+
+.report-box::-webkit-scrollbar-track,
+.saved-box::-webkit-scrollbar-track{
+background:#0f172a;
+border-radius:10px;
+}
+
+.report-box::-webkit-scrollbar-thumb,
+.saved-box::-webkit-scrollbar-thumb{
+background:#facc15;
+border-radius:10px;
 }
 
 table{
 width:100%;
 border-collapse:collapse;
-min-width:1400px;
+min-width:1800px;
 }
 
 table th{
@@ -92,12 +123,14 @@ padding:14px;
 font-size:13px;
 border:1px solid #334155;
 text-align:center;
+white-space:nowrap;
 }
 
 table td{
 padding:10px;
 border:1px solid #334155;
 background:#0f172a;
+white-space:nowrap;
 }
 
 table input{
@@ -110,14 +143,16 @@ background:#111827;
 color:white;
 text-align:right;
 font-size:14px;
+min-width:120px;
 }
 
+/* SAVED REPORTS */
+
 .saved-box{
-margin-top:25px;
 background:#1e293b;
 padding:20px;
 border-radius:20px;
-overflow:auto;
+overflow-x:auto;
 }
 
 .saved-title{
@@ -127,7 +162,7 @@ color:#facc15;
 }
 
 .saved-table{
-min-width:1600px;
+min-width:2200px;
 }
 
 .saved-table td{
@@ -144,11 +179,67 @@ border-radius:8px;
 cursor:pointer;
 }
 
+/* MOBILE */
+
 @media(max-width:900px){
 
 .header{
 flex-direction:column;
 align-items:flex-start;
+}
+
+.header h1{
+font-size:24px;
+}
+
+}
+
+/* PRINT */
+
+@media print{
+
+body{
+background:white;
+padding:0;
+}
+
+.header,
+.report-box{
+display:none !important;
+}
+
+.saved-box{
+background:white !important;
+padding:0;
+overflow:visible !important;
+}
+
+.saved-title{
+color:black;
+margin-bottom:10px;
+}
+
+.saved-table{
+min-width:100% !important;
+}
+
+.saved-table th{
+background:#ddd !important;
+color:black !important;
+font-size:10px;
+padding:6px;
+}
+
+.saved-table td{
+background:white !important;
+color:black !important;
+font-size:10px;
+padding:6px;
+border:1px solid #ccc;
+}
+
+.delete-btn{
+display:none !important;
 }
 
 }
@@ -174,10 +265,10 @@ Save
 </button>
 
 <button class="btn print-btn"
-onclick="printReportOnly()">
+onclick="printSavedReports()">
 
 <i class="fa-solid fa-print"></i>
-Print
+Print Reports
 
 </button>
 
@@ -193,6 +284,8 @@ PDF
 
 </div>
 
+<!-- INPUT REPORT -->
+
 <div class="report-box">
 
 <table>
@@ -202,35 +295,20 @@ PDF
 <tr>
 
 <th>DATE</th>
-
 <th>GROSS SALES</th>
-
 <th>LESS: SR DISCOUNT</th>
-
 <th>LESS: PWD DISCOUNT</th>
-
 <th>LESS: EMPLOYEE DISCOUNT</th>
-
 <th>LESS: ITEM DISCOUNT</th>
-
 <th>LESS: SALES REFUND</th>
-
 <th>NET SALES</th>
-
 <th>CREDIT / DEBIT CARD</th>
-
 <th>GCASH</th>
-
 <th>MAYA</th>
-
 <th>FOODPANDA / GRAB</th>
-
 <th>EMPLOYEE CHARGES</th>
-
 <th>CASH SALES</th>
-
 <th>LESS: CASH ON HAND</th>
-
 <th>SHORT / OVER</th>
 
 </tr>
@@ -270,7 +348,7 @@ PDF
 </td>
 
 <td>
-<input type="number" id="netSales" value="0">
+<input type="number" id="netSales" value="0" readonly>
 </td>
 
 <td>
@@ -294,7 +372,7 @@ PDF
 </td>
 
 <td>
-<input type="number" id="cashSales" value="0">
+<input type="number" id="cashSales" value="0" readonly>
 </td>
 
 <td>
@@ -302,7 +380,7 @@ PDF
 </td>
 
 <td>
-<input type="number" id="shortOver" value="0">
+<input type="number" id="shortOver" value="0" readonly>
 </td>
 
 </tr>
@@ -313,13 +391,15 @@ PDF
 
 </div>
 
+<!-- SAVED REPORTS -->
+
 <div class="saved-box">
 
 <h2 class="saved-title">
-Saved Reports
-</h2>
 
-<div style="overflow:auto;">
+Saved Reports
+
+</h2>
 
 <table class="saved-table">
 
@@ -328,37 +408,21 @@ Saved Reports
 <tr>
 
 <th>DATE</th>
-
 <th>GROSS SALES</th>
-
 <th>SR DISC.</th>
-
 <th>PWD DISC.</th>
-
 <th>EMPLOYEE DISC.</th>
-
 <th>ITEM DISC.</th>
-
 <th>REFUND</th>
-
 <th>NET SALES</th>
-
 <th>CARD</th>
-
 <th>GCASH</th>
-
 <th>MAYA</th>
-
 <th>FOODPANDA</th>
-
 <th>EMPLOYEE CHARGES</th>
-
 <th>CASH SALES</th>
-
 <th>CASH ON HAND</th>
-
 <th>SHORT / OVER</th>
-
 <th>ACTION</th>
 
 </tr>
@@ -373,9 +437,9 @@ Saved Reports
 
 </div>
 
-</div>
-
 <script>
+
+/* AUTO COMPUTE */
 
 function getValue(id){
 
@@ -423,7 +487,9 @@ getValue("employeeCharges");
 const cashOnHand =
 getValue("cashOnHand");
 
-const totalLess =
+/* NET SALES */
+
+const totalDiscount =
 
 srDiscount +
 pwdDiscount +
@@ -432,10 +498,12 @@ itemDiscount +
 salesRefund;
 
 const netSales =
-grossSales - totalLess;
+grossSales - totalDiscount;
 
 document.getElementById("netSales")
 .value = netSales;
+
+/* CASH SALES */
 
 const cashSales =
 
@@ -450,6 +518,8 @@ employeeCharges;
 document.getElementById("cashSales")
 .value = cashSales;
 
+/* SHORT / OVER */
+
 const shortOver =
 cashSales - cashOnHand;
 
@@ -457,6 +527,8 @@ document.getElementById("shortOver")
 .value = shortOver;
 
 }
+
+/* AUTO INPUT */
 
 document.querySelectorAll("input")
 .forEach(input=>{
@@ -467,6 +539,8 @@ autoCompute
 );
 
 });
+
+/* SAVE */
 
 function saveReport(){
 
@@ -542,6 +616,8 @@ clearInputs();
 
 }
 
+/* CLEAR */
+
 function clearInputs(){
 
 document.querySelectorAll("input")
@@ -560,6 +636,8 @@ input.value = 0;
 });
 
 }
+
+/* LOAD REPORTS */
 
 function loadSavedReports(){
 
@@ -654,6 +732,8 @@ Delete
 
 }
 
+/* DELETE */
+
 function deleteReport(index){
 
 let reports =
@@ -672,104 +752,27 @@ loadSavedReports();
 
 }
 
-function printReportOnly(){
+/* PRINT SAVED REPORTS */
 
-const reportContent =
-document.querySelector(".report-box").innerHTML;
-
-const printWindow = window.open(
-"",
-"",
-"width=1400,height=900"
-);
-
-printWindow.document.write(`
-
-<html>
-
-<head>
-
-<title>Daily Report</title>
-
-<style>
-
-body{
-font-family:Arial;
-padding:20px;
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-}
-
-table th{
-background:#facc15;
-color:black;
-padding:12px;
-border:1px solid #ccc;
-font-size:12px;
-}
-
-table td{
-padding:10px;
-border:1px solid #ccc;
-font-size:12px;
-}
-
-input{
-border:none;
-width:100%;
-font-size:12px;
-}
-
-h2{
-margin-bottom:20px;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<h2>
-D' MEZZANINE CAFE DAILY REPORT
-</h2>
-
-${reportContent}
-
-<script>
-
-window.onload = function(){
+function printSavedReports(){
 
 window.print();
 
 }
 
-<\/script>
-
-</body>
-
-</html>
-
-`);
-
-printWindow.document.close();
-
-}
+/* PDF */
 
 function downloadPDF(){
 
 const reportContent =
-document.querySelector(".report-box");
+document.querySelector(".saved-box");
 
 const options = {
 
 margin:0.3,
 
 filename:
-"Daily-Cash-Report.pdf",
+"Daily-Cash-Reports.pdf",
 
 image:{
 type:'jpeg',
@@ -794,6 +797,8 @@ html2pdf()
 .save();
 
 }
+
+/* LOAD */
 
 loadSavedReports();
 
