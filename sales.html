@@ -650,7 +650,11 @@ let pwdDiscount =
 Number(sale.pwdDiscount || 0);
 
 let totalDiscount =
+let employeeDiscount = 0;
 
+let refund = 0;
+
+let shortOver = 0;
 seniorDiscount + pwdDiscount;
 
 let netSales =
@@ -729,7 +733,25 @@ Sr. & PWD Disc.
 ₱${totalDiscount.toLocaleString()}
 </td>
 </tr>
+<tr>
+<td style="padding:12px;padding-left:30px;border:1px solid rgba(255,255,255,0.1);">
+Employee Disc.
+</td>
 
+<td style="padding:12px;text-align:right;border:1px solid rgba(255,255,255,0.1);">
+₱${employeeDiscount.toLocaleString()}
+</td>
+</tr>
+
+<tr>
+<td style="padding:12px;padding-left:30px;border:1px solid rgba(255,255,255,0.1);">
+Sales Refund
+</td>
+
+<td style="padding:12px;text-align:right;border:1px solid rgba(255,255,255,0.1);">
+₱${refund.toLocaleString()}
+</td>
+</tr>
 <tr>
 <td style="padding:12px;font-weight:bold;color:#4ade80;border:1px solid rgba(255,255,255,0.1);">
 NET SALES
@@ -771,7 +793,15 @@ GCASH
 <td style="padding:12px;font-weight:bold;color:#facc15;border:1px solid rgba(255,255,255,0.1);">
 CASH SALES
 </td>
+<tr>
+<td style="padding:12px;font-weight:bold;color:#ef4444;border:1px solid rgba(255,255,255,0.1);">
+SHORT / OVER
+</td>
 
+<td style="padding:12px;text-align:right;font-weight:bold;border:1px solid rgba(255,255,255,0.1);">
+₱${shortOver.toLocaleString()}
+</td>
+</tr>
 <td style="padding:12px;text-align:right;font-weight:bold;border:1px solid rgba(255,255,255,0.1);">
 ₱${cashSales.toLocaleString()}
 </td>
