@@ -1518,128 +1518,9 @@ window.print();
 receiptWindow.document.close();
 
 }
-  /* CLOSE SHIFT */
+ /* CLOSE SHIFT */
 
 window.closeShift =
-function(){
-
-let grossSales =
-overallSales +
-totalSeniorDiscount +
-totalPwdDiscount;
-
-let totalDiscounts =
-
-totalSeniorDiscount +
-totalPwdDiscount;
-
-let netSales =
-overallSales;
-
-let report = `
-
-D' MEZZANINE CAFE
-
-Z READING REPORT
-
-Date:
-${new Date().toLocaleDateString()}
-
-Time:
-${new Date().toLocaleTimeString()}
-
---------------------------------
-
-TOTAL ORDERS:
-${totalOrders}
-
---------------------------------
-
-GROSS SALES:
-₱${grossSales.toLocaleString()}
-
-SENIOR DISCOUNT:
-₱${totalSeniorDiscount.toLocaleString()}
-
-PWD DISCOUNT:
-₱${totalPwdDiscount.toLocaleString()}
-
---------------------------------
-
-NET SALES:
-₱${netSales.toLocaleString()}
-
---------------------------------
-
-CASH SALES:
-₱${cashSales.toLocaleString()}
-
-GCASH SALES:
-₱${gcashSales.toLocaleString()}
-
-CARD SALES:
-₱${cardSales.toLocaleString()}
-
---------------------------------
-
-END OF REPORT
-
-`;
-
-let printWindow =
-window.open(
-"",
-"",
-"width=400,height=700"
-);
-
-printWindow.document.write(`
-
-<html>
-
-<head>
-
-<title>Z Reading</title>
-
-<style>
-
-body{
-font-family:Arial;
-padding:20px;
-font-size:16px;
-}
-
-pre{
-white-space:pre-wrap;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<pre>
-
-${report}
-
-</pre>
-
-<script>
-
-window.onload=function(){
-
-window.print();
-
-}
-
-<\/script>
-
-</body>
-
-</html>
-
-`);window.closeShift =
 function(){
 
 let grossSales =
@@ -1697,6 +1578,8 @@ ${new Date().toLocaleTimeString()}
 
 GROSS SALES
 ₱${grossSales.toLocaleString()}
+
+--------------------------------
 
 Less: Disc. & Refund
 
@@ -1817,10 +1700,6 @@ window.print();
 </html>
 
 `);
-
-printWindow.document.close();
-
-}
 
 printWindow.document.close();
 
