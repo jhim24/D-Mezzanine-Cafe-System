@@ -3,8 +3,7 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Sales Report</title>
 
@@ -80,8 +79,7 @@ color:white;
 
 .cards{
 display:grid;
-grid-template-columns:
-repeat(auto-fit,minmax(220px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
 gap:20px;
 margin-bottom:25px;
 }
@@ -210,17 +208,16 @@ width:100%;
 height:100%;
 background:rgba(0,0,0,0.7);
 padding:20px;
-overflow:auto;
 }
 
 .modal-content{
 background:#1e293b;
 padding:25px;
 border-radius:20px;
-max-width:1000px;
+max-width:900px;
 width:95%;
 margin:auto;
-margin-top:40px;
+margin-top:50px;
 color:white;
 position:relative;
 }
@@ -234,6 +231,58 @@ cursor:pointer;
 color:#facc15;
 }
 
+/* PRINT */
+
+@media print{
+
+body{
+background:white;
+color:black;
+padding:0;
+}
+
+#salesChart{
+display:none !important;
+}
+
+.back-btn,
+.filters,
+.delete-btn,
+.view-btn,
+.no-print,
+th:last-child,
+td:last-child{
+display:none !important;
+}
+
+.card{
+background:white;
+border:1px solid #ccc;
+color:black;
+}
+
+.card h3,
+.card h2{
+color:black;
+}
+
+.table-box{
+background:white;
+padding:0;
+}
+
+table th{
+background:#ddd;
+color:black;
+}
+
+table td{
+color:black;
+border-bottom:1px solid #ccc;
+}
+
+}
+
 /* MOBILE */
 
 @media(max-width:700px){
@@ -244,10 +293,6 @@ font-size:12px;
 
 .card h2{
 font-size:24px;
-}
-
-.modal-content{
-padding:15px;
 }
 
 }
@@ -317,13 +362,10 @@ Dashboard
 
 <!-- FILTERS -->
 
-<div class="filters">
+<div class="filters no-print">
 
-<input type="date"
-id="startDate">
-
-<input type="date"
-id="endDate">
+<input type="date" id="startDate">
+<input type="date" id="endDate">
 
 <button class="filter-btn"
 onclick="loadSales()">
@@ -349,7 +391,37 @@ Close Shift
 
 </button>
 
+<button class="filter-btn"
+onclick="filterToday()">
+
+Today
+
+</button>
+
+<button class="filter-btn"
+onclick="filterWeek()">
+
+This Week
+
+</button>
+
+<button class="filter-btn"
+onclick="filterMonth()">
+
+This Month
+
+</button>
+
 </div>
+
+<canvas id="salesChart"
+style="
+background:#1e293b;
+padding:20px;
+border-radius:20px;
+margin-bottom:25px;
+max-height:400px;
+"></canvas>
 
 <!-- TABLE -->
 
@@ -361,13 +433,13 @@ Close Shift
 
 <tr>
 
-<th>Date</th>
+<th>Order Date</th>
 <th>Product</th>
 <th>Qty</th>
-<th>Gross</th>
-<th>Senior</th>
-<th>PWD</th>
-<th>Net</th>
+<th>Gross Sales</th>
+<th>Senior Disc.</th>
+<th>PWD Disc.</th>
+<th>Net Sales</th>
 <th>Payment</th>
 <th>Reference</th>
 <th>Action</th>
@@ -409,11 +481,17 @@ onclick="closeModal()">
 
 </span>
 
+<h2>Sale Details</h2>
+
+<br>
+
 <div id="saleDetails"></div>
 
 </div>
 
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script type="module">
 
@@ -421,15 +499,12 @@ import { initializeApp }
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 
 import {
-
 getFirestore,
 collection,
 getDocs,
 deleteDoc,
 doc
-
 }
-
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
 /* FIREBASE */
@@ -437,48 +512,52 @@ from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 const firebaseConfig = {
 
 apiKey: "AIzaSyCYjuZlpgE-Lci33e53014F7fRIid6u7Dg",
-
 authDomain: "family-web-10cb8.firebaseapp.com",
-
 projectId: "family-web-10cb8",
-
 storageBucket: "family-web-10cb8.firebasestorage.app",
-
 messagingSenderId: "152048365178",
-
 appId: "1:152048365178:web:3e42c20e03a7c563d915c3",
-
 measurementId: "G-1X8L2KQDYF"
 
 };
 
-const app =
-initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-const db =
-getFirestore(app);
+const adminPassword = "admin123";
 
-window.overallSales = 0;
-window.totalOrders = 0;
-window.cashSales = 0;
-window.gcashSales = 0;
-window.cardSales = 0;
+let salesChart;
 
 document.getElementById("todayDate")
 .innerText =
 new Date().toLocaleDateString();
 
-/* CLOSE MODAL */
+/* DELETE */
 
-window.closeModal =
-function(){
+window.deleteSale =
+async function(id){
 
-document.getElementById("viewModal")
-.style.display = "none";
+let password =
+prompt("Enter Admin Password");
+
+if(password !== adminPassword){
+
+alert("Wrong Password");
+return;
 
 }
 
-/* VIEW SALE */
+if(!confirm("Delete this sale?")) return;
+
+await deleteDoc(doc(db,"sales",id));
+
+alert("Sale Deleted");
+
+loadSales();
+
+}
+
+/* VIEW */
 
 window.viewSale =
 function(sale){
@@ -492,189 +571,63 @@ Number(sale.seniorDiscount || 0);
 let pwdDiscount =
 Number(sale.pwdDiscount || 0);
 
+let totalDiscount =
+seniorDiscount + pwdDiscount;
+
 let netSales =
 Number(sale.total || 0);
-
-let cashSales =
-sale.paymentMethod === "Cash"
-? netSales
-: 0;
-
-let gcashSales =
-sale.paymentMethod === "GCash"
-? netSales
-: 0;
-
-let cardSales =
-sale.paymentMethod === "Card"
-? netSales
-: 0;
-
-let itemsHTML = "";
-
-if(sale.items){
-
-sale.items.forEach((item)=>{
-
-itemsHTML += `
-
-<tr>
-
-<td style="
-padding:12px;
-border:1px solid rgba(255,255,255,0.08);
-">
-
-${item.name}
-
-</td>
-
-<td style="
-padding:12px;
-text-align:center;
-border:1px solid rgba(255,255,255,0.08);
-">
-
-${item.qty}
-
-</td>
-
-<td style="
-padding:12px;
-text-align:right;
-border:1px solid rgba(255,255,255,0.08);
-">
-
-₱${Number(item.price || 0).toLocaleString()}
-
-</td>
-
-<td style="
-padding:12px;
-text-align:right;
-border:1px solid rgba(255,255,255,0.08);
-">
-
-₱${(
-(item.price || 0)
-*
-(item.qty || 0)
-).toLocaleString()}
-
-</td>
-
-</tr>
-
-`;
-
-});
-
-}
 
 document.getElementById("saleDetails")
 .innerHTML = `
 
-<h2 style="
-text-align:center;
-margin-bottom:20px;
-color:#facc15;
+<div style="
+background:#111827;
+padding:20px;
+border-radius:16px;
+overflow:auto;
 ">
-
-DAILY SALES REPORT
-
-</h2>
 
 <table style="
 width:100%;
 border-collapse:collapse;
-background:#0f172a;
-margin-bottom:25px;
-">
-
-<thead>
-
-<tr>
-
-<th style="padding:12px;">Item</th>
-<th style="padding:12px;">Qty</th>
-<th style="padding:12px;">Price</th>
-<th style="padding:12px;">Total</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-${itemsHTML}
-
-</tbody>
-
-</table>
-
-<table style="
-width:100%;
-border-collapse:collapse;
-background:#0f172a;
 ">
 
 <tr>
-
-<td style="padding:12px;">
+<td style="padding:12px;border:1px solid rgba(255,255,255,0.1);font-weight:bold;">
 Gross Sales
 </td>
 
-<td style="
-padding:12px;
-text-align:right;
-">
-
+<td style="padding:12px;border:1px solid rgba(255,255,255,0.1);text-align:right;">
 ₱${grossSales.toLocaleString()}
-
 </td>
-
 </tr>
 
 <tr>
-
-<td style="padding:12px;">
+<td style="padding:12px;border:1px solid rgba(255,255,255,0.1);">
 Senior Discount
 </td>
 
-<td style="
-padding:12px;
-text-align:right;
-">
-
+<td style="padding:12px;border:1px solid rgba(255,255,255,0.1);text-align:right;">
 ₱${seniorDiscount.toLocaleString()}
-
 </td>
-
 </tr>
 
 <tr>
-
-<td style="padding:12px;">
+<td style="padding:12px;border:1px solid rgba(255,255,255,0.1);">
 PWD Discount
 </td>
 
-<td style="
-padding:12px;
-text-align:right;
-">
-
+<td style="padding:12px;border:1px solid rgba(255,255,255,0.1);text-align:right;">
 ₱${pwdDiscount.toLocaleString()}
-
 </td>
-
 </tr>
 
 <tr>
-
 <td style="
 padding:12px;
-color:#4ade80;
+border:1px solid rgba(255,255,255,0.1);
 font-weight:bold;
+color:#4ade80;
 ">
 
 Net Sales
@@ -683,18 +636,40 @@ Net Sales
 
 <td style="
 padding:12px;
+border:1px solid rgba(255,255,255,0.1);
 text-align:right;
-color:#4ade80;
 font-weight:bold;
+color:#4ade80;
 ">
 
 ₱${netSales.toLocaleString()}
 
 </td>
+</tr>
 
+<tr>
+<td style="padding:12px;border:1px solid rgba(255,255,255,0.1);">
+Payment Method
+</td>
+
+<td style="padding:12px;border:1px solid rgba(255,255,255,0.1);text-align:right;">
+${sale.paymentMethod || "Cash"}
+</td>
+</tr>
+
+<tr>
+<td style="padding:12px;border:1px solid rgba(255,255,255,0.1);">
+Reference
+</td>
+
+<td style="padding:12px;border:1px solid rgba(255,255,255,0.1);text-align:right;">
+${sale.referenceNumber || "-"}
+</td>
 </tr>
 
 </table>
+
+</div>
 
 `;
 
@@ -703,229 +678,13 @@ document.getElementById("viewModal")
 
 }
 
-/* DELETE */
-
-window.deleteSale =
-async function(id){
-
-let confirmDelete =
-confirm("Delete this sale?");
-
-if(!confirmDelete) return;
-
-await deleteDoc(
-doc(db,"sales",id)
-);
-
-alert("Sale Deleted");
-
-loadSales();
-
-}
-
-/* LOAD SALES */
-
-window.loadSales =
-async function(){
-
-const salesTable =
-document.getElementById("salesTable");
-
-salesTable.innerHTML = "";
-
-overallSales = 0;
-totalOrders = 0;
-cashSales = 0;
-gcashSales = 0;
-cardSales = 0;
-
-const querySnapshot =
-await getDocs(
-collection(db,"sales")
-);
-
-let salesData = [];
-
-querySnapshot.forEach((firebaseDoc)=>{
-
-salesData.push({
-
-id: firebaseDoc.id,
-...firebaseDoc.data()
-
-});
-
-});
-
-salesData.sort((a,b)=>
-
-new Date(
-b.date || b.createdAt
-)
-
--
-
-new Date(
-a.date || a.createdAt
-)
-
-);
-
-salesData.forEach((sale)=>{
-
-let saleDate =
-new Date(
-sale.date || sale.createdAt
-).toLocaleString();
-
-overallSales +=
-Number(sale.total || 0);
-
-totalOrders++;
-
-if(sale.paymentMethod === "Cash"){
-
-cashSales +=
-Number(sale.total || 0);
-
-}
-
-if(sale.paymentMethod === "GCash"){
-
-gcashSales +=
-Number(sale.total || 0);
-
-}
-
-if(sale.paymentMethod === "Card"){
-
-cardSales +=
-Number(sale.total || 0);
-
-}
-
-salesTable.innerHTML += `
-
-<tr>
-
-<td>${saleDate}</td>
-
-<td>
-${sale.items?.[0]?.name || "-"}
-</td>
-
-<td>
-${sale.items?.[0]?.qty || 0}
-</td>
-
-<td>
-₱${Number(
-sale.subtotal || 0
-).toLocaleString()}
-</td>
-
-<td>
-₱${Number(
-sale.seniorDiscount || 0
-).toLocaleString()}
-</td>
-
-<td>
-₱${Number(
-sale.pwdDiscount || 0
-).toLocaleString()}
-</td>
-
-<td class="total-row">
-
-₱${Number(
-sale.total || 0
-).toLocaleString()}
-
-</td>
-
-<td>
-${sale.paymentMethod || "Cash"}
-</td>
-
-<td>
-${sale.referenceNumber || "-"}
-</td>
-
-<td>
-
-<button class="view-btn"
-onclick='viewSale(${JSON.stringify(sale)})'>
-
-View
-
-</button>
-
-<button class="print-btn">
-
-Receipt
-
-</button>
-
-<button class="delete-btn"
-onclick="deleteSale('${sale.id}')">
-
-Delete
-
-</button>
-
-</td>
-
-</tr>
-
-`;
-
-});
-
-document.getElementById("overallSales")
-.innerText =
-"₱" +
-overallSales.toLocaleString();
-
-document.getElementById("cashSales")
-.innerText =
-"₱" +
-cashSales.toLocaleString();
-
-document.getElementById("gcashSales")
-.innerText =
-"₱" +
-gcashSales.toLocaleString();
-
-document.getElementById("cardSales")
-.innerText =
-"₱" +
-cardSales.toLocaleString();
-
-document.getElementById("totalOrders")
-.innerText =
-totalOrders;
-
-}
-
-/* CLOSE SHIFT */
-
-window.closeShift =
+window.closeModal =
 function(){
 
-alert(
-
-"NET SALES: ₱" +
-
-overallSales.toLocaleString()
-
-);
+document.getElementById("viewModal")
+.style.display = "none";
 
 }
-
-/* LOAD */
-
-loadSales();
 
 </script>
 
