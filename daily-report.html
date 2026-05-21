@@ -7,7 +7,7 @@
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>Daily Report</title>
+<title>Daily Cash Report</title>
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -89,12 +89,13 @@ background:#111827;
 padding:20px;
 border-radius:20px;
 overflow:auto;
+margin-bottom:25px;
 }
 
 table{
 width:100%;
 border-collapse:collapse;
-min-width:1700px;
+min-width:1800px;
 }
 
 table th{
@@ -233,6 +234,8 @@ Save Report
 </div>
 
 </div>
+
+<!-- INPUT TABLE -->
 
 <div class="report-box">
 
@@ -386,9 +389,76 @@ readonly>
 
 </div>
 
+<!-- SAVED REPORTS -->
+
+<div class="report-box">
+
+<h2 style="
+margin-bottom:20px;
+color:#facc15;
+">
+
+Saved Daily Reports
+
+</h2>
+
+<div style="overflow:auto;">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>DATE</th>
+
+<th>GROSS</th>
+
+<th>SR DISC</th>
+
+<th>PWD DISC</th>
+
+<th>EMP DISC</th>
+
+<th>ITEM DISC</th>
+
+<th>REFUND</th>
+
+<th>NET</th>
+
+<th>CARD</th>
+
+<th>GCASH</th>
+
+<th>MAYA</th>
+
+<th>DELIVERY</th>
+
+<th>EMP CHARGE</th>
+
+<th>CASH SALES</th>
+
+<th>CASH ON HAND</th>
+
+<th>SHORT/OVER</th>
+
+</tr>
+
+</thead>
+
+<tbody id="savedReports">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
 <script>
 
-/* AUTO TODAY DATE */
+/* AUTO DATE */
 
 document.getElementById("reportDate").value =
 new Date().toISOString().split("T")[0];
@@ -446,7 +516,7 @@ salesRefund;
 document.getElementById("netSales")
 .value = netSales.toFixed(2);
 
-/* SHORT / OVER */
+/* SHORT OVER */
 
 let cashSales =
 parseFloat(
@@ -466,7 +536,7 @@ document.getElementById("shortOver")
 
 }
 
-/* AUTO LISTENER */
+/* LISTENER */
 
 document.querySelectorAll("input")
 .forEach(input=>{
@@ -478,13 +548,16 @@ computeReport
 
 });
 
-/* INITIAL COMPUTE */
-
 computeReport();
 
-/* SAVE */
+/* SAVE REPORT */
 
 function saveReport(){
+
+let reports =
+JSON.parse(
+localStorage.getItem("dailyReports")
+) || [];
 
 const report = {
 
@@ -538,14 +611,104 @@ document.getElementById("shortOver").value
 
 };
 
+reports.push(report);
+
 localStorage.setItem(
-"dailyCashReport",
-JSON.stringify(report)
+"dailyReports",
+JSON.stringify(reports)
 );
 
 alert("Daily Report Saved!");
 
+loadSavedReports();
+
 }
+
+/* LOAD SAVED REPORTS */
+
+function loadSavedReports(){
+
+let reports =
+JSON.parse(
+localStorage.getItem("dailyReports")
+) || [];
+
+const table =
+document.getElementById("savedReports");
+
+table.innerHTML = "";
+
+if(reports.length === 0){
+
+table.innerHTML = `
+
+<tr>
+
+<td colspan="16"
+style="
+padding:20px;
+text-align:center;
+">
+No Saved Reports
+</td>
+
+</tr>
+
+`;
+
+return;
+
+}
+
+reports.reverse().forEach(report=>{
+
+table.innerHTML += `
+
+<tr>
+
+<td>${report.date}</td>
+
+<td>₱${report.grossSales}</td>
+
+<td>₱${report.srDiscount}</td>
+
+<td>₱${report.pwdDiscount}</td>
+
+<td>₱${report.employeeDiscount}</td>
+
+<td>₱${report.itemDiscount}</td>
+
+<td>₱${report.salesRefund}</td>
+
+<td>₱${report.netSales}</td>
+
+<td>₱${report.cardSales}</td>
+
+<td>₱${report.gcashSales}</td>
+
+<td>₱${report.mayaSales}</td>
+
+<td>₱${report.deliverySales}</td>
+
+<td>₱${report.employeeCharges}</td>
+
+<td>₱${report.cashSales}</td>
+
+<td>₱${report.cashOnHand}</td>
+
+<td>₱${report.shortOver}</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+/* INITIAL LOAD */
+
+loadSavedReports();
 
 </script>
 
