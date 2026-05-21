@@ -1284,8 +1284,12 @@ font-size:13px;
 class="logo">
 
 <h2>D' Mezzanine Cafe</h2>  <p>Official Receipt</p>  <hr>  <p>  
-Date:  
-${new Date().toLocaleString()}  
+<p>
+Date:
+${new Date(
+sale.date || new Date()
+).toLocaleString()}
+</p>
 </p>  <p>  
 Payment:  
 ${sale.paymentMethod || "Cash"}  
