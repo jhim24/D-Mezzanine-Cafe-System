@@ -1138,9 +1138,31 @@ sale.pwdDiscount || 0
 
 </div>
 
+<div style="
+margin-top:15px;
+text-align:right;
+font-size:14px;
+">
+
+<p>
+Cash Received:
+₱${Number(
+sale.cashReceived || sale.cash || sale.total || 0
+).toLocaleString()}
+</p>
+
+<p>
+Change:
+₱${Number(
+sale.change || 0
+).toLocaleString()}
+</p>
+
+</div>
+
 <div class="total">
 
-TOTAL:
+NET SALES:
 ₱${Number(
 sale.total || 0
 ).toLocaleString()}
