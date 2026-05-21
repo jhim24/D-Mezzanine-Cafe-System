@@ -1,1 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
 
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Daily Report</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#0f172a;
+color:white;
+padding:20px;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+flex-wrap:wrap;
+gap:10px;
+}
+
+.back-btn{
+text-decoration:none;
+background:#facc15;
+color:black;
+padding:12px 18px;
+border-radius:12px;
+font-weight:600;
+display:inline-flex;
+align-items:center;
+gap:8px;
+}
+
+.print-btn{
+border:none;
+padding:12px 18px;
+border-radius:12px;
+background:#22c55e;
+color:white;
+font-weight:600;
+cursor:pointer;
+}
+
+.report-box{
+background:#111827;
+padding:25px;
+border-radius:20px;
+overflow:auto;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+table th{
+background:#0f172a;
+color:#facc15;
+padding:15px;
+border:1px solid rgba(255,255,255,0.1);
+}
+
+table td{
+padding:15px;
+border:1px solid rgba(255,255,255,0.1);
+}
+
+input{
+width:100%;
+padding:12px;
+border:none;
+border-radius:10px;
+background:#1e293b;
+color:white;
+font-size:15px;
+}
+
+.green{
+background:#14532d;
+font-weight:bold;
+}
+
+.red{
+background:#7f1d1d;
+font-weight:bold;
+}
+
+@media(max-width:700px){
+
+table{
+font-size:12px;
+}
+
+}
+
+@media print{
+
+body{
+background:white;
+color:black;
+}
+
+.back-btn,
+.print-btn{
+display:none;
+}
+
+.report-box{
+background:white;
+}
+
+table th{
+background:#ddd;
+color:black;
+}
+
+table td{
+color:black;
+border:1px solid #ccc;
+}
+
+input{
+border:none;
+background:white;
+color:black;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="topbar">
+
+<a href="sales-report.html"
+class="back-btn">
+
+<i class="fa-solid fa-arrow-left"></i>
+
+Back
+
+</a>
+
+<h1>Daily Report</h1>
+
+<button class="print-btn"
+onclick="window.print()">
+
+<i class="fa-solid fa-print"></i>
+
+Print
+
+</button>
+
+</div>
+
+<div class="report-box">
+
+<table>
+
+<tr>
+
+<th>DESCRIPTION</th>
+<th>AMOUNT</th>
+
+</tr>
+
+<tr>
+
+<td>GROSS SALES</td>
+
+<td>
+<input type="number"
+id="grossSales">
+</td>
+
+</tr>
+
+<tr>
+
+<td>LESS: SR DISCOUNT</td>
+
+<td>
+<input type="number"
+id="srDiscount">
+</td>
+
+</tr>
+
+<tr>
+
+<td>LESS: PWD DISCOUNT</td>
+
+<td>
+<input type="number"
+id="pwdDiscount">
+</td>
+
+</tr>
+
+<tr>
+
+<td>LESS: EMPLOYEE DISCOUNT</td>
+
+<td>
+<input type="number"
+id="employeeDiscount">
+</td>
+
+</tr>
+
+<tr>
+
+<td>LESS: ITEM DISCOUNT</td>
+
+<td>
+<input type="number"
+id="itemDiscount">
+</td>
+
+</tr>
+
+<tr>
+
+<td>LESS: SALES REFUND</td>
+
+<td>
+<input type="number"
+id="salesRefund">
+</td>
+
+</tr>
+
+<tr class="green">
+
+<td>NET SALES</td>
+
+<td>
+<input type="number"
+id="netSales"
+readonly>
+</td>
+
+</tr>
+
+<tr>
+
+<td>CREDIT / DEBIT CARD</td>
+
+<td>
+<input type="number"
+id="cardSales">
+</td>
+
+</tr>
+
+<tr>
+
+<td>GCASH</td>
+
+<td>
+<input type="number"
+id="gcashSales">
+</td>
+
+</tr>
+
+<tr>
+
+<td>MAYA</td>
+
+<td>
+<input type="number"
+id="mayaSales">
+</td>
+
+</tr>
+
+<tr>
+
+<td>FOODPANDA / GRAB</td>
+
+<td>
+<input type="number"
+id="deliverySales">
+</td>
+
+</tr>
+
+<tr>
+
+<td>EMPLOYEE CHARGES</td>
+
+<td>
+<input type="number"
+id="employeeCharges">
+</td>
+
+</tr>
+
+<tr>
+
+<td>CASH SALES</td>
+
+<td>
+<input type="number"
+id="cashSales">
+</td>
+
+</tr>
+
+<tr>
+
+<td>LESS: CASH ON HAND</td>
+
+<td>
+<input type="number"
+id="cashOnHand">
+</td>
+
+</tr>
+
+<tr class="red">
+
+<td>SHORT / OVER</td>
+
+<td>
+<input type="number"
+id="shortOver"
+readonly>
+</td>
+
+</tr>
+
+</table>
+
+</div>
+
+<script>
+
+/* AUTO COMPUTE */
+
+function computeReport(){
+
+let gross =
+parseFloat(
+document.getElementById("grossSales").value
+) || 0;
+
+let sr =
+parseFloat(
+document.getElementById("srDiscount").value
+) || 0;
+
+let pwd =
+parseFloat(
+document.getElementById("pwdDiscount").value
+) || 0;
+
+let employee =
+parseFloat(
+document.getElementById("employeeDiscount").value
+) || 0;
+
+let item =
+parseFloat(
+document.getElementById("itemDiscount").value
+) || 0;
+
+let refund =
+parseFloat(
+document.getElementById("salesRefund").value
+) || 0;
+
+/* NET SALES */
+
+let netSales =
+gross -
+sr -
+pwd -
+employee -
+item -
+refund;
+
+document.getElementById("netSales")
+.value = netSales;
+
+/* SHORT OVER */
+
+let cashSales =
+parseFloat(
+document.getElementById("cashSales").value
+) || 0;
+
+let cashOnHand =
+parseFloat(
+document.getElementById("cashOnHand").value
+) || 0;
+
+let shortOver =
+cashOnHand - cashSales;
+
+document.getElementById("shortOver")
+.value = shortOver;
+
+}
+
+/* LISTENER */
+
+document.querySelectorAll("input")
+.forEach(input=>{
+
+input.addEventListener(
+"input",
+computeReport
+);
+
+});
+
+</script>
+
+</body>
+</html>
