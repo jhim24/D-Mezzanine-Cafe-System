@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Premium Sales Report</title>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Sales Report</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
 
 <style>
 
@@ -23,140 +29,96 @@ color:white;
 padding:20px;
 }
 
-/* HEADER */
+/* TOPBAR */
 
-.header{
+.topbar{
 display:flex;
 justify-content:space-between;
 align-items:center;
+margin-bottom:25px;
 flex-wrap:wrap;
 gap:15px;
-margin-bottom:25px;
 }
 
-.title-box h1{
+.topbar h1{
 font-size:32px;
-font-weight:700;
 }
 
-.title-box p{
-color:#94a3b8;
-margin-top:5px;
-}
+/* BUTTONS */
 
-.header-actions{
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-}
-
-.btn{
-border:none;
-padding:12px 18px;
-border-radius:14px;
-font-weight:600;
-cursor:pointer;
-transition:0.3s;
-font-size:14px;
-}
-
-.btn:hover{
-transform:translateY(-2px);
-}
-
-.btn-dashboard{
+.back-btn{
+display:inline-block;
+margin-bottom:20px;
+text-decoration:none;
 background:#facc15;
 color:black;
-text-decoration:none;
-display:flex;
-align-items:center;
-gap:8px;
+padding:12px 18px;
+border-radius:12px;
+font-weight:600;
 }
 
-.btn-print{
+.filter-btn,
+.print-btn{
+border:none;
+padding:12px 18px;
+border-radius:10px;
+font-weight:600;
+cursor:pointer;
+}
+
+.filter-btn{
+background:#facc15;
+color:black;
+}
+
+.print-btn{
 background:#22c55e;
 color:white;
 }
 
-.btn-shift{
-background:#3b82f6;
-color:white;
-}
-
-.btn-filter{
-background:#f97316;
-color:white;
-}
-
-/* DASHBOARD CARDS */
+/* CARDS */
 
 .cards{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
 gap:20px;
 margin-bottom:25px;
 }
 
 .card{
-background:linear-gradient(145deg,#1e293b,#111827);
-padding:24px;
-border-radius:22px;
-box-shadow:0 10px 30px rgba(0,0,0,0.25);
-position:relative;
-overflow:hidden;
-border:1px solid rgba(255,255,255,0.05);
-}
-
-.card::before{
-content:'';
-position:absolute;
-right:-20px;
-top:-20px;
-width:100px;
-height:100px;
-background:rgba(255,255,255,0.03);
-border-radius:50%;
-}
-
-.card .icon{
-font-size:28px;
-margin-bottom:12px;
-color:#facc15;
+background:#1e293b;
+padding:25px;
+border-radius:20px;
+box-shadow:0 5px 20px rgba(0,0,0,0.25);
 }
 
 .card h3{
-font-size:14px;
-font-weight:500;
 color:#cbd5e1;
 margin-bottom:10px;
+font-size:15px;
 }
 
 .card h2{
+color:#facc15;
 font-size:30px;
-font-weight:700;
 }
 
-/* FILTERS */
+/* FILTER */
 
 .filters{
-background:#1e293b;
-padding:20px;
-border-radius:20px;
 display:flex;
+gap:10px;
 flex-wrap:wrap;
-gap:15px;
-align-items:center;
-margin-bottom:25px;
+margin-bottom:20px;
 }
 
-.filters input,
-.filters select{
-padding:12px 15px;
+.filters input{
+padding:12px;
+border:none;
+border-radius:10px;
 background:#111827;
-border:1px solid rgba(255,255,255,0.08);
-border-radius:12px;
 color:white;
-outline:none;
 }
 
 /* TABLE */
@@ -164,9 +126,8 @@ outline:none;
 .table-box{
 background:#1e293b;
 padding:20px;
-border-radius:22px;
+border-radius:20px;
 overflow-x:auto;
-box-shadow:0 10px 30px rgba(0,0,0,0.2);
 }
 
 table{
@@ -177,22 +138,15 @@ border-collapse:collapse;
 table th{
 background:#111827;
 color:#facc15;
-padding:16px;
-font-size:14px;
-font-weight:600;
+padding:15px;
 text-align:left;
 white-space:nowrap;
 }
 
 table td{
-padding:16px;
-border-bottom:1px solid rgba(255,255,255,0.06);
+padding:15px;
+border-bottom:1px solid rgba(255,255,255,0.08);
 font-size:14px;
-white-space:nowrap;
-}
-
-tr:hover{
-background:rgba(255,255,255,0.03);
 }
 
 .total-row{
@@ -200,56 +154,48 @@ color:#4ade80;
 font-weight:700;
 }
 
-/* BADGES */
-
-.badge{
-padding:6px 12px;
-border-radius:50px;
-font-size:12px;
-font-weight:600;
-}
-
-.cash{
-background:rgba(34,197,94,0.15);
-color:#4ade80;
-}
-
-.gcash{
-background:rgba(59,130,246,0.15);
-color:#60a5fa;
-}
-
-.cardpay{
-background:rgba(168,85,247,0.15);
-color:#c084fc;
+.loading{
+text-align:center;
+padding:30px;
+color:#cbd5e1;
 }
 
 /* ACTION BUTTONS */
 
-.action-btn{
-border:none;
-padding:8px 12px;
-border-radius:10px;
-font-size:13px;
-font-weight:600;
-cursor:pointer;
-margin-right:5px;
-margin-bottom:5px;
-}
-
 .view-btn{
 background:#2563eb;
+border:none;
 color:white;
+padding:8px 12px;
+border-radius:8px;
+cursor:pointer;
+margin-right:5px;
+font-weight:600;
 }
 
-.receipt-btn{
+.print-btn{
 background:#22c55e;
+border:none;
 color:white;
+padding:8px 12px;
+border-radius:8px;
+cursor:pointer;
+font-weight:600;
+margin-right:5px;
 }
 
 .delete-btn{
 background:#ef4444;
+border:none;
 color:white;
+padding:8px 12px;
+border-radius:8px;
+cursor:pointer;
+font-weight:600;
+}
+
+.delete-btn:hover{
+background:#dc2626;
 }
 
 /* MODAL */
@@ -262,150 +208,107 @@ left:0;
 top:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,0.75);
+background:rgba(0,0,0,0.7);
 padding:20px;
 overflow:auto;
 }
 
 .modal-content{
 background:#1e293b;
-max-width:1000px;
-width:100%;
-margin:auto;
 padding:25px;
-border-radius:22px;
+border-radius:20px;
+max-width:1000px;
+width:95%;
+margin:auto;
+margin-top:40px;
+color:white;
 position:relative;
-margin-top:30px;
 }
 
 .close-btn{
 position:absolute;
 right:20px;
-top:15px;
-font-size:28px;
+top:10px;
+font-size:30px;
 cursor:pointer;
 color:#facc15;
 }
 
-/* RESPONSIVE */
+/* MOBILE */
 
-@media(max-width:768px){
+@media(max-width:700px){
 
-.header{
-flex-direction:column;
-align-items:flex-start;
-}
-
-.title-box h1{
-font-size:24px;
+table{
+font-size:12px;
 }
 
 .card h2{
 font-size:24px;
 }
 
-.filters{
-flex-direction:column;
-align-items:stretch;
-}
-
-.filters input,
-.filters select,
-.filters button{
-width:100%;
-}
-
-}
-
-@media print{
-
-body{
-background:white;
-color:black;
-}
-
-.header-actions,
-.filters,
-.action-btn,
-.close-btn{
-display:none;
-}
-
-.table-box,
-.card,
 .modal-content{
-box-shadow:none;
-border:1px solid #ccc;
+padding:15px;
 }
 
 }
 
 </style>
+
 </head>
+
 <body>
 
-<div class="header">
+<a href="index.html"
+class="back-btn">
 
-<div class="title-box">
-<h1>Sales Report Dashboard 📊</h1>
-<p id="todayDate"></p>
-</div>
-
-<div class="header-actions">
-<a href="index.html" class="btn btn-dashboard">
 <i class="fa-solid fa-arrow-left"></i>
 Dashboard
+
 </a>
 
-<button class="btn btn-print" onclick="window.print()">
-<i class="fa-solid fa-print"></i>
-Print Report
-</button>
+<div class="topbar">
 
-<button class="btn btn-shift" onclick="closeShift()">
-<i class="fa-solid fa-cash-register"></i>
-Close Shift
-</button>
-</div>
+<h1>Sales Report 📊</h1>
+
+<h2 id="todayDate"></h2>
 
 </div>
 
-<!-- DASHBOARD CARDS -->
+<!-- CARDS -->
 
 <div class="cards">
 
 <div class="card">
-<div class="icon"><i class="fa-solid fa-money-bill-wave"></i></div>
+<h3>Today's Sales</h3>
+<h2 id="todaySales">₱0</h2>
+</div>
+
+<div class="card">
 <h3>Total Sales</h3>
 <h2 id="overallSales">₱0</h2>
 </div>
 
 <div class="card">
-<div class="icon"><i class="fa-solid fa-cart-shopping"></i></div>
 <h3>Total Orders</h3>
 <h2 id="totalOrders">0</h2>
 </div>
 
 <div class="card">
-<div class="icon"><i class="fa-solid fa-cash-register"></i></div>
 <h3>Cash Sales</h3>
 <h2 id="cashSales">₱0</h2>
 </div>
 
 <div class="card">
-<div class="icon"><i class="fa-solid fa-wallet"></i></div>
 <h3>GCash Sales</h3>
 <h2 id="gcashSales">₱0</h2>
 </div>
 
 <div class="card">
-<div class="icon"><i class="fa-solid fa-credit-card"></i></div>
 <h3>Card Sales</h3>
 <h2 id="cardSales">₱0</h2>
 </div>
 
 <div class="card">
-<div class="icon"><i class="fa-solid fa-star"></i></div>
 <h3>Top Product</h3>
 <h2 id="topProduct">-</h2>
 </div>
@@ -416,19 +319,34 @@ Close Shift
 
 <div class="filters">
 
-<input type="date" id="startDate">
-<input type="date" id="endDate">
+<input type="date"
+id="startDate">
 
-<select id="paymentFilter">
-<option value="All">All Payments</option>
-<option value="Cash">Cash</option>
-<option value="GCash">GCash</option>
-<option value="Card">Card</option>
-</select>
+<input type="date"
+id="endDate">
 
-<button class="btn btn-filter" onclick="loadSales()">
+<button class="filter-btn"
+onclick="loadSales()">
+
 <i class="fa-solid fa-filter"></i>
-Filter Sales
+Filter
+
+</button>
+
+<button class="print-btn"
+onclick="window.print()">
+
+<i class="fa-solid fa-print"></i>
+Print Report
+
+</button>
+
+<button class="print-btn"
+onclick="closeShift()">
+
+<i class="fa-solid fa-cash-register"></i>
+Close Shift
+
 </button>
 
 </div>
@@ -436,39 +354,65 @@ Filter Sales
 <!-- TABLE -->
 
 <div class="table-box">
+
 <table>
+
 <thead>
+
 <tr>
+
 <th>Date</th>
 <th>Product</th>
 <th>Qty</th>
 <th>Gross</th>
-<th>Discount</th>
+<th>Senior</th>
+<th>PWD</th>
 <th>Net</th>
 <th>Payment</th>
 <th>Reference</th>
 <th>Action</th>
+
 </tr>
+
 </thead>
 
 <tbody id="salesTable">
+
 <tr>
-<td colspan="9" style="text-align:center;padding:30px;">
-Loading Sales...
+
+<td colspan="10"
+class="loading">
+
+Loading sales...
+
 </td>
+
 </tr>
+
 </tbody>
 
 </table>
+
 </div>
 
 <!-- MODAL -->
 
-<div class="modal" id="viewModal">
+<div id="viewModal"
+class="modal">
+
 <div class="modal-content">
-<span class="close-btn" onclick="closeModal()">&times;</span>
+
+<span class="close-btn"
+onclick="closeModal()">
+
+&times;
+
+</span>
+
 <div id="saleDetails"></div>
+
 </div>
+
 </div>
 
 <script type="module">
@@ -477,44 +421,316 @@ import { initializeApp }
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 
 import {
+
 getFirestore,
 collection,
 getDocs,
 deleteDoc,
 doc
+
 }
+
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
+/* FIREBASE */
+
 const firebaseConfig = {
-apiKey: "YOUR_API_KEY",
-authDomain: "YOUR_AUTH_DOMAIN",
-projectId: "YOUR_PROJECT_ID",
-storageBucket: "YOUR_STORAGE_BUCKET",
-messagingSenderId: "YOUR_SENDER_ID",
-appId: "YOUR_APP_ID"
+
+apiKey: "AIzaSyCYjuZlpgE-Lci33e53014F7fRIid6u7Dg",
+
+authDomain: "family-web-10cb8.firebaseapp.com",
+
+projectId: "family-web-10cb8",
+
+storageBucket: "family-web-10cb8.firebasestorage.app",
+
+messagingSenderId: "152048365178",
+
+appId: "1:152048365178:web:3e42c20e03a7c563d915c3",
+
+measurementId: "G-1X8L2KQDYF"
+
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const app =
+initializeApp(firebaseConfig);
 
-let overallSales = 0;
-let totalOrders = 0;
-let cashSales = 0;
-let gcashSales = 0;
-let cardSales = 0;
+const db =
+getFirestore(app);
 
-const productCounter = {};
+window.overallSales = 0;
+window.totalOrders = 0;
+window.cashSales = 0;
+window.gcashSales = 0;
+window.cardSales = 0;
 
-document.getElementById("todayDate").innerText =
-new Date().toLocaleString();
+document.getElementById("todayDate")
+.innerText =
+new Date().toLocaleDateString();
 
-window.closeModal = function(){
-document.getElementById("viewModal").style.display = "none";
+/* CLOSE MODAL */
+
+window.closeModal =
+function(){
+
+document.getElementById("viewModal")
+.style.display = "none";
+
 }
 
-window.loadSales = async function(){
+/* VIEW SALE */
 
-const salesTable = document.getElementById("salesTable");
+window.viewSale =
+function(sale){
+
+let grossSales =
+Number(sale.subtotal || 0);
+
+let seniorDiscount =
+Number(sale.seniorDiscount || 0);
+
+let pwdDiscount =
+Number(sale.pwdDiscount || 0);
+
+let netSales =
+Number(sale.total || 0);
+
+let cashSales =
+sale.paymentMethod === "Cash"
+? netSales
+: 0;
+
+let gcashSales =
+sale.paymentMethod === "GCash"
+? netSales
+: 0;
+
+let cardSales =
+sale.paymentMethod === "Card"
+? netSales
+: 0;
+
+let itemsHTML = "";
+
+if(sale.items){
+
+sale.items.forEach((item)=>{
+
+itemsHTML += `
+
+<tr>
+
+<td style="
+padding:12px;
+border:1px solid rgba(255,255,255,0.08);
+">
+
+${item.name}
+
+</td>
+
+<td style="
+padding:12px;
+text-align:center;
+border:1px solid rgba(255,255,255,0.08);
+">
+
+${item.qty}
+
+</td>
+
+<td style="
+padding:12px;
+text-align:right;
+border:1px solid rgba(255,255,255,0.08);
+">
+
+₱${Number(item.price || 0).toLocaleString()}
+
+</td>
+
+<td style="
+padding:12px;
+text-align:right;
+border:1px solid rgba(255,255,255,0.08);
+">
+
+₱${(
+(item.price || 0)
+*
+(item.qty || 0)
+).toLocaleString()}
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+document.getElementById("saleDetails")
+.innerHTML = `
+
+<h2 style="
+text-align:center;
+margin-bottom:20px;
+color:#facc15;
+">
+
+DAILY SALES REPORT
+
+</h2>
+
+<table style="
+width:100%;
+border-collapse:collapse;
+background:#0f172a;
+margin-bottom:25px;
+">
+
+<thead>
+
+<tr>
+
+<th style="padding:12px;">Item</th>
+<th style="padding:12px;">Qty</th>
+<th style="padding:12px;">Price</th>
+<th style="padding:12px;">Total</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+${itemsHTML}
+
+</tbody>
+
+</table>
+
+<table style="
+width:100%;
+border-collapse:collapse;
+background:#0f172a;
+">
+
+<tr>
+
+<td style="padding:12px;">
+Gross Sales
+</td>
+
+<td style="
+padding:12px;
+text-align:right;
+">
+
+₱${grossSales.toLocaleString()}
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="padding:12px;">
+Senior Discount
+</td>
+
+<td style="
+padding:12px;
+text-align:right;
+">
+
+₱${seniorDiscount.toLocaleString()}
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="padding:12px;">
+PWD Discount
+</td>
+
+<td style="
+padding:12px;
+text-align:right;
+">
+
+₱${pwdDiscount.toLocaleString()}
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="
+padding:12px;
+color:#4ade80;
+font-weight:bold;
+">
+
+Net Sales
+
+</td>
+
+<td style="
+padding:12px;
+text-align:right;
+color:#4ade80;
+font-weight:bold;
+">
+
+₱${netSales.toLocaleString()}
+
+</td>
+
+</tr>
+
+</table>
+
+`;
+
+document.getElementById("viewModal")
+.style.display = "block";
+
+}
+
+/* DELETE */
+
+window.deleteSale =
+async function(id){
+
+let confirmDelete =
+confirm("Delete this sale?");
+
+if(!confirmDelete) return;
+
+await deleteDoc(
+doc(db,"sales",id)
+);
+
+alert("Sale Deleted");
+
+loadSales();
+
+}
+
+/* LOAD SALES */
+
+window.loadSales =
+async function(){
+
+const salesTable =
+document.getElementById("salesTable");
+
 salesTable.innerHTML = "";
 
 overallSales = 0;
@@ -523,308 +739,195 @@ cashSales = 0;
 gcashSales = 0;
 cardSales = 0;
 
-const paymentFilter = document.getElementById("paymentFilter").value;
-const startDate = document.getElementById("startDate").value;
-const endDate = document.getElementById("endDate").value;
-
-const querySnapshot = await getDocs(collection(db,"sales"));
+const querySnapshot =
+await getDocs(
+collection(db,"sales")
+);
 
 let salesData = [];
 
 querySnapshot.forEach((firebaseDoc)=>{
 
 salesData.push({
+
 id: firebaseDoc.id,
 ...firebaseDoc.data()
+
 });
 
 });
 
 salesData.sort((a,b)=>
-new Date(b.date || b.createdAt)
+
+new Date(
+b.date || b.createdAt
+)
+
 -
-new Date(a.date || a.createdAt)
+
+new Date(
+a.date || a.createdAt
+)
+
 );
 
 salesData.forEach((sale)=>{
 
-const saleDateRaw = new Date(sale.date || sale.createdAt);
-const saleDate = saleDateRaw.toLocaleString();
+let saleDate =
+new Date(
+sale.date || sale.createdAt
+).toLocaleString();
 
-if(startDate){
-if(saleDateRaw < new Date(startDate)) return;
-}
+overallSales +=
+Number(sale.total || 0);
 
-if(endDate){
-if(saleDateRaw > new Date(endDate + 'T23:59:59')) return;
-}
-
-if(paymentFilter !== 'All' && sale.paymentMethod !== paymentFilter){
-return;
-}
-
-overallSales += Number(sale.total || 0);
 totalOrders++;
 
-if(sale.paymentMethod === 'Cash'){
-cashSales += Number(sale.total || 0);
-}
+if(sale.paymentMethod === "Cash"){
 
-if(sale.paymentMethod === 'GCash'){
-gcashSales += Number(sale.total || 0);
-}
-
-if(sale.paymentMethod === 'Card'){
-cardSales += Number(sale.total || 0);
-}
-
-if(sale.items){
-
-sale.items.forEach((item)=>{
-
-if(!productCounter[item.name]){
-productCounter[item.name] = 0;
-}
-
-productCounter[item.name] += Number(item.qty || 0);
-
-});
+cashSales +=
+Number(sale.total || 0);
 
 }
 
-let paymentClass = 'cash';
+if(sale.paymentMethod === "GCash"){
 
-if(sale.paymentMethod === 'GCash'){
-paymentClass = 'gcash';
+gcashSales +=
+Number(sale.total || 0);
+
 }
 
-if(sale.paymentMethod === 'Card'){
-paymentClass = 'cardpay';
-}
+if(sale.paymentMethod === "Card"){
 
-const totalDiscount =
-Number(sale.seniorDiscount || 0)
-+
-Number(sale.pwdDiscount || 0);
+cardSales +=
+Number(sale.total || 0);
+
+}
 
 salesTable.innerHTML += `
+
 <tr>
+
 <td>${saleDate}</td>
-<td>${sale.items?.[0]?.name || '-'}</td>
-<td>${sale.items?.[0]?.qty || 0}</td>
-<td>₱${Number(sale.subtotal || 0).toLocaleString()}</td>
-<td>₱${totalDiscount.toLocaleString()}</td>
-<td class="total-row">₱${Number(sale.total || 0).toLocaleString()}</td>
+
 <td>
-<span class="badge ${paymentClass}">
-${sale.paymentMethod || 'Cash'}
-</span>
+${sale.items?.[0]?.name || "-"}
 </td>
-<td>${sale.referenceNumber || '-'}</td>
+
 <td>
-<button class="action-btn view-btn"
+${sale.items?.[0]?.qty || 0}
+</td>
+
+<td>
+₱${Number(
+sale.subtotal || 0
+).toLocaleString()}
+</td>
+
+<td>
+₱${Number(
+sale.seniorDiscount || 0
+).toLocaleString()}
+</td>
+
+<td>
+₱${Number(
+sale.pwdDiscount || 0
+).toLocaleString()}
+</td>
+
+<td class="total-row">
+
+₱${Number(
+sale.total || 0
+).toLocaleString()}
+
+</td>
+
+<td>
+${sale.paymentMethod || "Cash"}
+</td>
+
+<td>
+${sale.referenceNumber || "-"}
+</td>
+
+<td>
+
+<button class="view-btn"
 onclick='viewSale(${JSON.stringify(sale)})'>
+
 View
+
 </button>
 
-<button class="action-btn receipt-btn"
-onclick='printReceipt(${JSON.stringify(sale)})'>
+<button class="print-btn">
+
 Receipt
+
 </button>
 
-<button class="action-btn delete-btn"
+<button class="delete-btn"
 onclick="deleteSale('${sale.id}')">
+
 Delete
+
 </button>
+
 </td>
+
 </tr>
+
 `;
 
 });
 
-let topProduct = '-';
-let highestQty = 0;
+document.getElementById("overallSales")
+.innerText =
+"₱" +
+overallSales.toLocaleString();
 
-for(const product in productCounter){
+document.getElementById("cashSales")
+.innerText =
+"₱" +
+cashSales.toLocaleString();
 
-if(productCounter[product] > highestQty){
-highestQty = productCounter[product];
-topProduct = product;
-}
+document.getElementById("gcashSales")
+.innerText =
+"₱" +
+gcashSales.toLocaleString();
 
-}
+document.getElementById("cardSales")
+.innerText =
+"₱" +
+cardSales.toLocaleString();
 
-if(salesTable.innerHTML === ''){
-
-salesTable.innerHTML = `
-<tr>
-<td colspan="9" style="text-align:center;padding:30px;">
-No sales found.
-</td>
-</tr>
-`;
-
-}
-
-
-document.getElementById('overallSales').innerText =
-'₱' + overallSales.toLocaleString();
-
-
-document.getElementById('cashSales').innerText =
-'₱' + cashSales.toLocaleString();
-
-
-document.getElementById('gcashSales').innerText =
-'₱' + gcashSales.toLocaleString();
-
-
-document.getElementById('cardSales').innerText =
-'₱' + cardSales.toLocaleString();
-
-
-document.getElementById('totalOrders').innerText =
+document.getElementById("totalOrders")
+.innerText =
 totalOrders;
 
-
-document.getElementById('topProduct').innerText =
-topProduct;
-
 }
 
-window.viewSale = function(sale){
+/* CLOSE SHIFT */
 
-let itemsHTML = '';
-
-sale.items?.forEach((item)=>{
-
-itemsHTML += `
-<tr>
-<td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.08);">
-${item.name}
-</td>
-<td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.08);">
-${item.qty}
-</td>
-<td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.08);">
-₱${Number(item.price || 0).toLocaleString()}
-</td>
-<td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.08);">
-₱${Number((item.price || 0)*(item.qty || 0)).toLocaleString()}
-</td>
-</tr>
-`;
-
-});
-
-const totalDiscount =
-Number(sale.seniorDiscount || 0)
-+
-Number(sale.pwdDiscount || 0);
-
-
-document.getElementById('saleDetails').innerHTML = `
-
-<h2 style="margin-bottom:20px;color:#facc15;">
-Sale Details
-</h2>
-
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;margin-bottom:20px;">
-
-<div style="background:#111827;padding:15px;border-radius:14px;">
-<b>Date</b><br>
-${sale.date || '-'}
-</div>
-
-<div style="background:#111827;padding:15px;border-radius:14px;">
-<b>Payment</b><br>
-${sale.paymentMethod || 'Cash'}
-</div>
-
-<div style="background:#111827;padding:15px;border-radius:14px;">
-<b>Reference</b><br>
-${sale.referenceNumber || '-'}
-</div>
-
-<div style="background:#111827;padding:15px;border-radius:14px;">
-<b>Net Sales</b><br>
-₱${Number(sale.total || 0).toLocaleString()}
-</div>
-
-</div>
-
-<table style="width:100%;border-collapse:collapse;background:#0f172a;border-radius:15px;overflow:hidden;">
-<thead>
-<tr>
-<th style="padding:12px;text-align:left;">Item</th>
-<th style="padding:12px;text-align:left;">Qty</th>
-<th style="padding:12px;text-align:left;">Price</th>
-<th style="padding:12px;text-align:left;">Total</th>
-</tr>
-</thead>
-<tbody>
-${itemsHTML}
-</tbody>
-</table>
-
-<div style="margin-top:25px;background:#111827;padding:20px;border-radius:16px;">
-
-<p style="margin-bottom:10px;">
-Gross Sales: ₱${Number(sale.subtotal || 0).toLocaleString()}
-</p>
-
-<p style="margin-bottom:10px;">
-Discount: ₱${totalDiscount.toLocaleString()}
-</p>
-
-<h2 style="color:#4ade80;">
-Net Sales: ₱${Number(sale.total || 0).toLocaleString()}
-</h2>
-
-</div>
-
-`;
-
-
-document.getElementById('viewModal').style.display = 'block';
-
-}
-
-window.printReceipt = function(sale){
-window.print();
-}
-
-window.deleteSale = async function(id){
-
-const confirmDelete = confirm('Delete this sale?');
-
-if(!confirmDelete) return;
-
-await deleteDoc(doc(db,'sales',id));
-
-alert('Sale Deleted Successfully');
-
-loadSales();
-
-}
-
-window.closeShift = function(){
-
-const expectedCash = overallSales - (gcashSales + cardSales);
+window.closeShift =
+function(){
 
 alert(
-'SHIFT CLOSED' +
-'\n\nTOTAL SALES: ₱' + overallSales.toLocaleString() +
-'\nCASH SALES: ₱' + cashSales.toLocaleString() +
-'\nGCASH SALES: ₱' + gcashSales.toLocaleString() +
-'\nCARD SALES: ₱' + cardSales.toLocaleString() +
-'\nEXPECTED CASH: ₱' + expectedCash.toLocaleString()
+
+"NET SALES: ₱" +
+
+overallSales.toLocaleString()
+
 );
 
 }
 
+/* LOAD */
+
 loadSales();
 
 </script>
+
 </body>
 </html>
