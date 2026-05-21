@@ -393,7 +393,17 @@ onclick="loadSales()">
 Filter
 
 </button>
-
+<input type="number"
+id="actualCashInput"
+placeholder="Enter Actual Cash On Hand"
+style="
+padding:12px;
+border:none;
+border-radius:10px;
+background:#111827;
+color:white;
+width:250px;
+">
 <button class="print-btn"
 onclick="window.print()">
 
@@ -1629,7 +1639,188 @@ window.print();
 
 </html>
 
+`);window.closeShift =
+function(){
+
+let grossSales =
+
+overallSales +
+totalSeniorDiscount +
+totalPwdDiscount;
+
+let employeeDiscount = 0;
+
+let refund = 0;
+
+let netSales =
+grossSales -
+totalSeniorDiscount -
+totalPwdDiscount -
+employeeDiscount -
+refund;
+
+let actualCash =
+Number(
+document.getElementById(
+"actualCashInput"
+).value || 0
+);
+
+let nonCashSales =
+
+gcashSales +
+cardSales;
+
+let expectedCash =
+
+netSales -
+nonCashSales;
+
+let shortOver =
+
+actualCash -
+expectedCash;
+
+let report = `
+
+DAILY SALES REPORT
+
+================================
+
+DATE:
+${new Date().toLocaleDateString()}
+
+TIME:
+${new Date().toLocaleTimeString()}
+
+================================
+
+GROSS SALES
+₱${grossSales.toLocaleString()}
+
+Less: Disc. & Refund
+
+Sr. & PWD Disc.
+₱${(
+totalSeniorDiscount +
+totalPwdDiscount
+).toLocaleString()}
+
+Employee Disc.
+₱${employeeDiscount.toLocaleString()}
+
+Sales Refund
+₱${refund.toLocaleString()}
+
+--------------------------------
+
+NET SALES
+₱${netSales.toLocaleString()}
+
+================================
+
+Less: Non-Cash Sales
+
+Credit/Debit Cards
+₱${cardSales.toLocaleString()}
+
+GCASH
+₱${gcashSales.toLocaleString()}
+
+Food Panda/GrabFood
+₱0
+
+Gift Check/eGift
+₱0
+
+Employee Charges
+₱0
+
+--------------------------------
+
+CASH SALES
+₱${expectedCash.toLocaleString()}
+
+================================
+
+Less: Cash On-Hand
+₱${actualCash.toLocaleString()}
+
+--------------------------------
+
+SHORT / OVER
+₱${shortOver.toLocaleString()}
+
+================================
+
+Prepared By:
+____________________
+
+Checked By:
+____________________
+
+`;
+
+let printWindow =
+window.open(
+"",
+"",
+"width=420,height=900"
+);
+
+printWindow.document.write(`
+
+<html>
+
+<head>
+
+<title>Daily Sales Report</title>
+
+<style>
+
+body{
+font-family:Arial;
+padding:25px;
+font-size:16px;
+}
+
+pre{
+white-space:pre-wrap;
+line-height:1.7;
+font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<pre>
+
+${report}
+
+</pre>
+
+<script>
+
+window.onload=function(){
+
+window.print();
+
+}
+
+<\/script>
+
+</body>
+
+</html>
+
 `);
+
+printWindow.document.close();
+
+}
 
 printWindow.document.close();
 
