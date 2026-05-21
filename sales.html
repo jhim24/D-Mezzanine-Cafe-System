@@ -478,46 +478,140 @@ x ${item.qty}
   
 }  
   
-document.getElementById("saleDetails")  
-.innerHTML = `  
-  
-<p>  
-<b>Date:</b>  
-${sale.date || "-"}  
-</p>  
-  
-<br>  
-  
-<p>  
-<b>Payment:</b>  
-${sale.paymentMethod || "Cash"}  
-</p>  
-  
-<br>  
-  
-<p>  
-<b>Reference:</b>  
-${sale.referenceNumber || "-"}  
-</p>  
-  
-<br>  
-  
-<p>  
-<b>Total:</b>  
-₱${sale.total || 0}  
-</p>  
-  
-<br>  
-  
-<b>Products:</b>  
-  
-<ul>  
-  
-${itemsHTML}  
-  
-</ul>  
-  
-`;  
+document.getElementById("saleDetails")
+.innerHTML = `
+
+<div style="
+background:#111827;
+padding:20px;
+border-radius:16px;
+overflow:auto;
+">
+
+<h2 style="
+text-align:center;
+margin-bottom:20px;
+color:#facc15;
+">
+DAILY SALES REPORT
+</h2>
+
+<table style="
+width:100%;
+border-collapse:collapse;
+background:#0f172a;
+">
+
+<tr>
+<td style="padding:12px;border:1px solid rgba(255,255,255,0.1);font-weight:bold;">
+Date
+</td>
+
+<td style="padding:12px;border:1px solid rgba(255,255,255,0.1);text-align:right;">
+${sale.date || "-"}
+</td>
+</tr>
+
+<tr>
+<td style="padding:12px;border:1px solid rgba(255,255,255,0.1);font-weight:bold;">
+Payment
+</td>
+
+<td style="padding:12px;border:1px solid rgba(255,255,255,0.1);text-align:right;">
+${sale.paymentMethod || "Cash"}
+</td>
+</tr>
+
+<tr>
+<td style="padding:12px;border:1px solid rgba(255,255,255,0.1);font-weight:bold;">
+Reference
+</td>
+
+<td style="padding:12px;border:1px solid rgba(255,255,255,0.1);text-align:right;">
+${sale.referenceNumber || "-"}
+</td>
+</tr>
+
+<tr>
+<td style="padding:12px;border:1px solid rgba(255,255,255,0.1);font-weight:bold;">
+Cash Received
+</td>
+
+<td style="padding:12px;border:1px solid rgba(255,255,255,0.1);text-align:right;">
+₱${Number(
+sale.cashReceived || sale.cash || sale.total || 0
+).toLocaleString()}
+</td>
+</tr>
+
+<tr>
+<td style="padding:12px;border:1px solid rgba(255,255,255,0.1);font-weight:bold;">
+Change
+</td>
+
+<td style="padding:12px;border:1px solid rgba(255,255,255,0.1);text-align:right;">
+₱${Number(
+sale.change || 0
+).toLocaleString()}
+</td>
+</tr>
+
+<tr>
+<td style="padding:12px;border:1px solid rgba(255,255,255,0.1);font-weight:bold;color:#4ade80;">
+Net Sales
+</td>
+
+<td style="padding:12px;border:1px solid rgba(255,255,255,0.1);text-align:right;font-weight:bold;color:#4ade80;">
+₱${Number(
+sale.total || 0
+).toLocaleString()}
+</td>
+</tr>
+
+</table>
+
+<br>
+
+<h3 style="
+margin-bottom:10px;
+color:#facc15;
+">
+Products
+</h3>
+
+<table style="
+width:100%;
+border-collapse:collapse;
+background:#0f172a;
+">
+
+<tr>
+<th style="padding:12px;border:1px solid rgba(255,255,255,0.1);">
+Item
+</th>
+
+<th style="padding:12px;border:1px solid rgba(255,255,255,0.1);">
+Qty
+</th>
+</tr>
+
+${sale.items?.map(item => `
+<tr>
+<td style="padding:12px;border:1px solid rgba(255,255,255,0.1);">
+${item.name}
+</td>
+
+<td style="padding:12px;border:1px solid rgba(255,255,255,0.1);text-align:center;">
+${item.qty}
+</td>
+</tr>
+`).join("") || ""}
+
+</table>
+
+</div>
+
+`;
   
 document.getElementById("viewModal")  
 .style.display = "block";  
