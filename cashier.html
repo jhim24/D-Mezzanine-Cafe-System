@@ -1336,6 +1336,10 @@ total:Number(total || 0),
 
 paymentMethod:paymentMethod,
 
+cashReceived:Number(cash || 0),
+
+change:Number(cash - total || 0),
+
 referenceNumber:
 paymentMethod === "Cash"
 ? ""
@@ -1372,7 +1376,10 @@ paymentMethod === "Cash"
 ? "-"
 : referenceNumber,
 
-total: total
+total: total,
+
+cashReceived: cash,
+change: cash - total
 
 });
 localStorage.setItem(
