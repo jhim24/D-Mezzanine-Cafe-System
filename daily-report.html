@@ -3,9 +3,7 @@
 <head>
 
 <meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Daily Cash Report</title>
 
@@ -28,55 +26,35 @@ font-family:'Poppins',sans-serif;
 
 body{
 background:#0f172a;
-color:white;
 padding:20px;
-overflow-x:auto;
+color:white;
 }
 
-/* TOPBAR */
-
-.topbar{
+.header{
 display:flex;
 justify-content:space-between;
 align-items:center;
-margin-bottom:25px;
+margin-bottom:20px;
 flex-wrap:wrap;
 gap:10px;
 }
 
-.topbar h1{
-font-size:30px;
+.header h1{
+font-size:32px;
 }
 
-/* BUTTONS */
-
-.back-btn{
-text-decoration:none;
-background:#facc15;
-color:black;
-padding:12px 18px;
-border-radius:12px;
-font-weight:600;
-display:inline-flex;
-align-items:center;
-gap:8px;
+.top-buttons{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
 }
 
-.print-btn,
-.save-btn{
+.btn{
 border:none;
 padding:12px 18px;
 border-radius:12px;
 font-weight:600;
 cursor:pointer;
-display:inline-flex;
-align-items:center;
-gap:8px;
-}
-
-.print-btn{
-background:#2563eb;
-color:white;
 }
 
 .save-btn{
@@ -84,111 +62,93 @@ background:#22c55e;
 color:white;
 }
 
-/* TABLE */
+.print-btn{
+background:#3b82f6;
+color:white;
+}
+
+.pdf-btn{
+background:#ef4444;
+color:white;
+}
 
 .report-box{
-background:#111827;
+background:#1e293b;
 padding:20px;
 border-radius:20px;
 overflow:auto;
-margin-bottom:25px;
 }
 
 table{
 width:100%;
 border-collapse:collapse;
-min-width:1800px;
+min-width:1400px;
 }
 
 table th{
-background:linear-gradient(135deg,#facc15,#eab308);
+background:#facc15;
 color:black;
 padding:14px;
-border:1px solid rgba(255,255,255,0.1);
-white-space:nowrap;
-font-weight:700;
-text-transform:uppercase;
 font-size:13px;
+border:1px solid #334155;
+text-align:center;
 }
 
 table td{
 padding:10px;
-border:1px solid rgba(255,255,255,0.08);
+border:1px solid #334155;
+background:#0f172a;
 }
 
-input{
+table input{
 width:100%;
-padding:12px;
+padding:10px;
 border:none;
-border-radius:10px;
-background:#1e293b;
+outline:none;
+border-radius:8px;
+background:#111827;
 color:white;
+text-align:right;
 font-size:14px;
 }
 
-input[readonly]{
-background:#14532d;
-font-weight:bold;
+.saved-box{
+margin-top:25px;
+background:#1e293b;
+padding:20px;
+border-radius:20px;
+overflow:auto;
 }
 
-.short-over{
-background:#7f1d1d !important;
+.saved-title{
+margin-bottom:15px;
+font-size:22px;
+color:#facc15;
 }
 
-/* MOBILE */
-
-@media(max-width:700px){
-
-.topbar h1{
-font-size:24px;
+.saved-table{
+min-width:1600px;
 }
 
-table{
-font-size:12px;
+.saved-table td{
+font-size:13px;
+text-align:center;
 }
 
-input{
-font-size:12px;
-padding:10px;
-}
-
-}
-
-/* PRINT */
-
-@media print{
-
-body{
-background:white;
-color:black;
-padding:0;
-}
-
-.back-btn,
-.print-btn,
-.save-btn{
-display:none;
-}
-
-.report-box{
-background:white;
-padding:0;
-}
-
-table th{
-background:#ddd !important;
-color:black !important;
-}
-
-table td{
-border:1px solid #ccc;
-color:black;
-}
-
-input{
-background:white !important;
-color:black !important;
+.delete-btn{
+background:#ef4444;
+color:white;
 border:none;
+padding:8px 12px;
+border-radius:8px;
+cursor:pointer;
+}
+
+@media(max-width:900px){
+
+.header{
+flex-direction:column;
+align-items:flex-start;
 }
 
 }
@@ -199,58 +159,39 @@ border:none;
 
 <body>
 
-<div class="topbar">
+<div class="header">
 
-<a href="sales-report.html"
-class="back-btn">
+<h1>Daily Cash Report 📊</h1>
 
-<i class="fa-solid fa-arrow-left"></i>
+<div class="top-buttons">
 
-Back
+<button class="btn save-btn"
+onclick="saveReport()">
 
-</a>
+<i class="fa-solid fa-floppy-disk"></i>
+Save
 
-<h1>Daily Cash Report</h1>
+</button>
 
-<div style="
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-">
-
-<button class="print-btn"
-onclick="window.print()">
+<button class="btn print-btn"
+onclick="printReportOnly()">
 
 <i class="fa-solid fa-print"></i>
-
 Print
 
 </button>
 
-<button class="print-btn"
-onclick="downloadPDF()"
-style="background:#dc2626;">
+<button class="btn pdf-btn"
+onclick="downloadPDF()">
 
 <i class="fa-solid fa-file-pdf"></i>
-
 PDF
 
 </button>
 
-<button class="save-btn"
-onclick="saveReport()">
-
-<i class="fa-solid fa-floppy-disk"></i>
-
-Save Report
-
-</button>
-
 </div>
 
 </div>
-
-<!-- INPUT TABLE -->
 
 <div class="report-box">
 
@@ -264,19 +205,19 @@ Save Report
 
 <th>GROSS SALES</th>
 
-<th>SR DISC</th>
+<th>LESS: SR DISCOUNT</th>
 
-<th>PWD DISC</th>
+<th>LESS: PWD DISCOUNT</th>
 
-<th>EMPLOYEE DISC</th>
+<th>LESS: EMPLOYEE DISCOUNT</th>
 
-<th>ITEM DISC</th>
+<th>LESS: ITEM DISCOUNT</th>
 
-<th>SALES REFUND</th>
+<th>LESS: SALES REFUND</th>
 
 <th>NET SALES</th>
 
-<th>CARD</th>
+<th>CREDIT / DEBIT CARD</th>
 
 <th>GCASH</th>
 
@@ -288,7 +229,7 @@ Save Report
 
 <th>CASH SALES</th>
 
-<th>CASH ON HAND</th>
+<th>LESS: CASH ON HAND</th>
 
 <th>SHORT / OVER</th>
 
@@ -301,99 +242,67 @@ Save Report
 <tr>
 
 <td>
-<input type="date"
-id="reportDate">
+<input type="date" id="date">
 </td>
 
 <td>
-<input type="number"
-id="grossSales"
-value="0">
+<input type="number" id="grossSales" value="0">
 </td>
 
 <td>
-<input type="number"
-id="srDiscount"
-value="0">
+<input type="number" id="srDiscount" value="0">
 </td>
 
 <td>
-<input type="number"
-id="pwdDiscount"
-value="0">
+<input type="number" id="pwdDiscount" value="0">
 </td>
 
 <td>
-<input type="number"
-id="employeeDiscount"
-value="0">
+<input type="number" id="employeeDiscount" value="0">
 </td>
 
 <td>
-<input type="number"
-id="itemDiscount"
-value="0">
+<input type="number" id="itemDiscount" value="0">
 </td>
 
 <td>
-<input type="number"
-id="salesRefund"
-value="0">
+<input type="number" id="salesRefund" value="0">
 </td>
 
 <td>
-<input type="number"
-id="netSales"
-readonly>
+<input type="number" id="netSales" value="0">
 </td>
 
 <td>
-<input type="number"
-id="cardSales"
-value="0">
+<input type="number" id="cardSales" value="0">
 </td>
 
 <td>
-<input type="number"
-id="gcashSales"
-value="0">
+<input type="number" id="gcashSales" value="0">
 </td>
 
 <td>
-<input type="number"
-id="mayaSales"
-value="0">
+<input type="number" id="mayaSales" value="0">
 </td>
 
 <td>
-<input type="number"
-id="deliverySales"
-value="0">
+<input type="number" id="foodpandaSales" value="0">
 </td>
 
 <td>
-<input type="number"
-id="employeeCharges"
-value="0">
+<input type="number" id="employeeCharges" value="0">
 </td>
 
 <td>
-<input type="number"
-id="cashSales"
-value="0">
+<input type="number" id="cashSales" value="0">
 </td>
 
 <td>
-<input type="number"
-id="cashOnHand"
-value="0">
+<input type="number" id="cashOnHand" value="0">
 </td>
 
 <td>
-<input type="number"
-id="shortOver"
-class="short-over"
-readonly>
+<input type="number" id="shortOver" value="0">
 </td>
 
 </tr>
@@ -404,22 +313,15 @@ readonly>
 
 </div>
 
-<!-- SAVED REPORTS -->
+<div class="saved-box">
 
-<div class="report-box">
-
-<h2 style="
-margin-bottom:20px;
-color:#facc15;
-">
-
-Saved Daily Reports
-
+<h2 class="saved-title">
+Saved Reports
 </h2>
 
 <div style="overflow:auto;">
 
-<table>
+<table class="saved-table">
 
 <thead>
 
@@ -427,19 +329,19 @@ Saved Daily Reports
 
 <th>DATE</th>
 
-<th>GROSS</th>
+<th>GROSS SALES</th>
 
-<th>SR DISC</th>
+<th>SR DISC.</th>
 
-<th>PWD DISC</th>
+<th>PWD DISC.</th>
 
-<th>EMP DISC</th>
+<th>EMPLOYEE DISC.</th>
 
-<th>ITEM DISC</th>
+<th>ITEM DISC.</th>
 
 <th>REFUND</th>
 
-<th>NET</th>
+<th>NET SALES</th>
 
 <th>CARD</th>
 
@@ -447,21 +349,23 @@ Saved Daily Reports
 
 <th>MAYA</th>
 
-<th>DELIVERY</th>
+<th>FOODPANDA</th>
 
-<th>EMP CHARGE</th>
+<th>EMPLOYEE CHARGES</th>
 
 <th>CASH SALES</th>
 
 <th>CASH ON HAND</th>
 
-<th>SHORT/OVER</th>
+<th>SHORT / OVER</th>
+
+<th>ACTION</th>
 
 </tr>
 
 </thead>
 
-<tbody id="savedReports">
+<tbody id="savedReportsTable">
 
 </tbody>
 
@@ -473,203 +377,201 @@ Saved Daily Reports
 
 <script>
 
-/* AUTO DATE */
+function getValue(id){
 
-document.getElementById("reportDate").value =
-new Date().toISOString().split("T")[0];
-
-/* COMPUTE */
-
-function computeReport(){
-
-let grossSales =
-parseFloat(
-document.getElementById("grossSales").value
-) || 0;
-
-let srDiscount =
-parseFloat(
-document.getElementById("srDiscount").value
-) || 0;
-
-let pwdDiscount =
-parseFloat(
-document.getElementById("pwdDiscount").value
-) || 0;
-
-let employeeDiscount =
-parseFloat(
-document.getElementById("employeeDiscount").value
-) || 0;
-
-let itemDiscount =
-parseFloat(
-document.getElementById("itemDiscount").value
-) || 0;
-
-let salesRefund =
-parseFloat(
-document.getElementById("salesRefund").value
-) || 0;
-
-/* NET SALES */
-
-let netSales =
-
-grossSales
--
-srDiscount
--
-pwdDiscount
--
-employeeDiscount
--
-itemDiscount
--
-salesRefund;
-
-document.getElementById("netSales")
-.value = netSales.toFixed(2);
-
-/* SHORT / OVER */
-
-let cashSales =
-parseFloat(
-document.getElementById("cashSales").value
-) || 0;
-
-let cashOnHand =
-parseFloat(
-document.getElementById("cashOnHand").value
-) || 0;
-
-let shortOver =
-cashOnHand - cashSales;
-
-document.getElementById("shortOver")
-.value = shortOver.toFixed(2);
+return Number(
+document.getElementById(id).value || 0
+);
 
 }
 
-/* LISTENER */
+function autoCompute(){
+
+const grossSales =
+getValue("grossSales");
+
+const srDiscount =
+getValue("srDiscount");
+
+const pwdDiscount =
+getValue("pwdDiscount");
+
+const employeeDiscount =
+getValue("employeeDiscount");
+
+const itemDiscount =
+getValue("itemDiscount");
+
+const salesRefund =
+getValue("salesRefund");
+
+const cardSales =
+getValue("cardSales");
+
+const gcashSales =
+getValue("gcashSales");
+
+const mayaSales =
+getValue("mayaSales");
+
+const foodpandaSales =
+getValue("foodpandaSales");
+
+const employeeCharges =
+getValue("employeeCharges");
+
+const cashOnHand =
+getValue("cashOnHand");
+
+const totalLess =
+
+srDiscount +
+pwdDiscount +
+employeeDiscount +
+itemDiscount +
+salesRefund;
+
+const netSales =
+grossSales - totalLess;
+
+document.getElementById("netSales")
+.value = netSales;
+
+const cashSales =
+
+netSales -
+
+cardSales -
+gcashSales -
+mayaSales -
+foodpandaSales -
+employeeCharges;
+
+document.getElementById("cashSales")
+.value = cashSales;
+
+const shortOver =
+cashSales - cashOnHand;
+
+document.getElementById("shortOver")
+.value = shortOver;
+
+}
 
 document.querySelectorAll("input")
 .forEach(input=>{
 
 input.addEventListener(
 "input",
-computeReport
+autoCompute
 );
 
 });
 
-computeReport();
-
-/* SAVE REPORT */
-
 function saveReport(){
+
+const report = {
+
+date:
+document.getElementById("date").value,
+
+grossSales:
+getValue("grossSales"),
+
+srDiscount:
+getValue("srDiscount"),
+
+pwdDiscount:
+getValue("pwdDiscount"),
+
+employeeDiscount:
+getValue("employeeDiscount"),
+
+itemDiscount:
+getValue("itemDiscount"),
+
+salesRefund:
+getValue("salesRefund"),
+
+netSales:
+getValue("netSales"),
+
+cardSales:
+getValue("cardSales"),
+
+gcashSales:
+getValue("gcashSales"),
+
+mayaSales:
+getValue("mayaSales"),
+
+foodpandaSales:
+getValue("foodpandaSales"),
+
+employeeCharges:
+getValue("employeeCharges"),
+
+cashSales:
+getValue("cashSales"),
+
+cashOnHand:
+getValue("cashOnHand"),
+
+shortOver:
+getValue("shortOver")
+
+};
 
 let reports =
 JSON.parse(
 localStorage.getItem("dailyReports")
 ) || [];
 
-const report = {
-
-date:
-document.getElementById("reportDate").value,
-
-grossSales:
-document.getElementById("grossSales").value,
-
-srDiscount:
-document.getElementById("srDiscount").value,
-
-pwdDiscount:
-document.getElementById("pwdDiscount").value,
-
-employeeDiscount:
-document.getElementById("employeeDiscount").value,
-
-itemDiscount:
-document.getElementById("itemDiscount").value,
-
-salesRefund:
-document.getElementById("salesRefund").value,
-
-netSales:
-document.getElementById("netSales").value,
-
-cardSales:
-document.getElementById("cardSales").value,
-
-gcashSales:
-document.getElementById("gcashSales").value,
-
-mayaSales:
-document.getElementById("mayaSales").value,
-
-deliverySales:
-document.getElementById("deliverySales").value,
-
-employeeCharges:
-document.getElementById("employeeCharges").value,
-
-cashSales:
-document.getElementById("cashSales").value,
-
-cashOnHand:
-document.getElementById("cashOnHand").value,
-
-shortOver:
-document.getElementById("shortOver").value
-
-};
-
-reports.push(report);
+reports.unshift(report);
 
 localStorage.setItem(
 "dailyReports",
 JSON.stringify(reports)
 );
 
-alert("Daily Report Saved!");
-
-/* AUTO CLEAR */
-
-document.getElementById("grossSales").value = 0;
-document.getElementById("srDiscount").value = 0;
-document.getElementById("pwdDiscount").value = 0;
-document.getElementById("employeeDiscount").value = 0;
-document.getElementById("itemDiscount").value = 0;
-document.getElementById("salesRefund").value = 0;
-document.getElementById("cardSales").value = 0;
-document.getElementById("gcashSales").value = 0;
-document.getElementById("mayaSales").value = 0;
-document.getElementById("deliverySales").value = 0;
-document.getElementById("employeeCharges").value = 0;
-document.getElementById("cashSales").value = 0;
-document.getElementById("cashOnHand").value = 0;
-
-computeReport();
+alert("Report Saved!");
 
 loadSavedReports();
 
+clearInputs();
+
 }
 
-/* LOAD SAVED REPORTS */
+function clearInputs(){
+
+document.querySelectorAll("input")
+.forEach(input=>{
+
+if(input.type === "date"){
+
+input.value = "";
+
+}else{
+
+input.value = 0;
+
+}
+
+});
+
+}
 
 function loadSavedReports(){
+
+const table =
+document.getElementById("savedReportsTable");
+
+table.innerHTML = "";
 
 let reports =
 JSON.parse(
 localStorage.getItem("dailyReports")
 ) || [];
-
-const table =
-document.getElementById("savedReports");
-
-table.innerHTML = "";
 
 if(reports.length === 0){
 
@@ -677,12 +579,14 @@ table.innerHTML = `
 
 <tr>
 
-<td colspan="16"
+<td colspan="17"
 style="
 padding:20px;
 text-align:center;
 ">
-No Saved Reports
+
+No saved reports
+
 </td>
 
 </tr>
@@ -693,7 +597,7 @@ return;
 
 }
 
-reports.reverse().forEach(report=>{
+reports.forEach((report,index)=>{
 
 table.innerHTML += `
 
@@ -701,35 +605,46 @@ table.innerHTML += `
 
 <td>${report.date}</td>
 
-<td>₱${report.grossSales}</td>
+<td>₱${report.grossSales.toLocaleString()}</td>
 
-<td>₱${report.srDiscount}</td>
+<td>₱${report.srDiscount.toLocaleString()}</td>
 
-<td>₱${report.pwdDiscount}</td>
+<td>₱${report.pwdDiscount.toLocaleString()}</td>
 
-<td>₱${report.employeeDiscount}</td>
+<td>₱${report.employeeDiscount.toLocaleString()}</td>
 
-<td>₱${report.itemDiscount}</td>
+<td>₱${report.itemDiscount.toLocaleString()}</td>
 
-<td>₱${report.salesRefund}</td>
+<td>₱${report.salesRefund.toLocaleString()}</td>
 
-<td>₱${report.netSales}</td>
+<td>₱${report.netSales.toLocaleString()}</td>
 
-<td>₱${report.cardSales}</td>
+<td>₱${report.cardSales.toLocaleString()}</td>
 
-<td>₱${report.gcashSales}</td>
+<td>₱${report.gcashSales.toLocaleString()}</td>
 
-<td>₱${report.mayaSales}</td>
+<td>₱${report.mayaSales.toLocaleString()}</td>
 
-<td>₱${report.deliverySales}</td>
+<td>₱${report.foodpandaSales.toLocaleString()}</td>
 
-<td>₱${report.employeeCharges}</td>
+<td>₱${report.employeeCharges.toLocaleString()}</td>
 
-<td>₱${report.cashSales}</td>
+<td>₱${report.cashSales.toLocaleString()}</td>
 
-<td>₱${report.cashOnHand}</td>
+<td>₱${report.cashOnHand.toLocaleString()}</td>
 
-<td>₱${report.shortOver}</td>
+<td>₱${report.shortOver.toLocaleString()}</td>
+
+<td>
+
+<button class="delete-btn"
+onclick="deleteReport(${index})">
+
+Delete
+
+</button>
+
+</td>
 
 </tr>
 
@@ -739,12 +654,115 @@ table.innerHTML += `
 
 }
 
-/* PDF */
+function deleteReport(index){
+
+let reports =
+JSON.parse(
+localStorage.getItem("dailyReports")
+) || [];
+
+reports.splice(index,1);
+
+localStorage.setItem(
+"dailyReports",
+JSON.stringify(reports)
+);
+
+loadSavedReports();
+
+}
+
+function printReportOnly(){
+
+const reportContent =
+document.querySelector(".report-box").innerHTML;
+
+const printWindow = window.open(
+"",
+"",
+"width=1400,height=900"
+);
+
+printWindow.document.write(`
+
+<html>
+
+<head>
+
+<title>Daily Report</title>
+
+<style>
+
+body{
+font-family:Arial;
+padding:20px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+table th{
+background:#facc15;
+color:black;
+padding:12px;
+border:1px solid #ccc;
+font-size:12px;
+}
+
+table td{
+padding:10px;
+border:1px solid #ccc;
+font-size:12px;
+}
+
+input{
+border:none;
+width:100%;
+font-size:12px;
+}
+
+h2{
+margin-bottom:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>
+D' MEZZANINE CAFE DAILY REPORT
+</h2>
+
+${reportContent}
+
+<script>
+
+window.onload = function(){
+
+window.print();
+
+}
+
+<\/script>
+
+</body>
+
+</html>
+
+`);
+
+printWindow.document.close();
+
+}
 
 function downloadPDF(){
 
-const element =
-document.body;
+const reportContent =
+document.querySelector(".report-box");
 
 const options = {
 
@@ -772,12 +790,10 @@ orientation:'landscape'
 
 html2pdf()
 .set(options)
-.from(element)
+.from(reportContent)
 .save();
 
 }
-
-/* INITIAL LOAD */
 
 loadSavedReports();
 
