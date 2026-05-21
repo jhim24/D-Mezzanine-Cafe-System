@@ -3,7 +3,9 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <title>Daily Report</title>
 
@@ -26,7 +28,10 @@ body{
 background:#0f172a;
 color:white;
 padding:20px;
+overflow-x:auto;
 }
+
+/* TOPBAR */
 
 .topbar{
 display:flex;
@@ -36,6 +41,12 @@ margin-bottom:25px;
 flex-wrap:wrap;
 gap:10px;
 }
+
+.topbar h1{
+font-size:30px;
+}
+
+/* BUTTONS */
 
 .back-btn{
 text-decoration:none;
@@ -49,19 +60,33 @@ align-items:center;
 gap:8px;
 }
 
-.print-btn{
+.print-btn,
+.save-btn{
 border:none;
 padding:12px 18px;
 border-radius:12px;
-background:#22c55e;
-color:white;
 font-weight:600;
 cursor:pointer;
+display:inline-flex;
+align-items:center;
+gap:8px;
 }
+
+.print-btn{
+background:#2563eb;
+color:white;
+}
+
+.save-btn{
+background:#22c55e;
+color:white;
+}
+
+/* TABLE */
 
 .report-box{
 background:#111827;
-padding:25px;
+padding:20px;
 border-radius:20px;
 overflow:auto;
 }
@@ -69,18 +94,20 @@ overflow:auto;
 table{
 width:100%;
 border-collapse:collapse;
+min-width:1700px;
 }
 
 table th{
 background:#0f172a;
 color:#facc15;
-padding:15px;
+padding:14px;
 border:1px solid rgba(255,255,255,0.1);
+white-space:nowrap;
 }
 
 table td{
-padding:15px;
-border:1px solid rgba(255,255,255,0.1);
+padding:10px;
+border:1px solid rgba(255,255,255,0.08);
 }
 
 input{
@@ -90,41 +117,56 @@ border:none;
 border-radius:10px;
 background:#1e293b;
 color:white;
-font-size:15px;
+font-size:14px;
 }
 
-.green{
+input[readonly]{
 background:#14532d;
 font-weight:bold;
 }
 
-.red{
-background:#7f1d1d;
-font-weight:bold;
+.short-over{
+background:#7f1d1d !important;
 }
 
+/* MOBILE */
+
 @media(max-width:700px){
+
+.topbar h1{
+font-size:24px;
+}
 
 table{
 font-size:12px;
 }
 
+input{
+font-size:12px;
+padding:10px;
 }
+
+}
+
+/* PRINT */
 
 @media print{
 
 body{
 background:white;
 color:black;
+padding:0;
 }
 
 .back-btn,
-.print-btn{
+.print-btn,
+.save-btn{
 display:none;
 }
 
 .report-box{
 background:white;
+padding:0;
 }
 
 table th{
@@ -133,14 +175,14 @@ color:black;
 }
 
 table td{
-color:black;
 border:1px solid #ccc;
+color:black;
 }
 
 input{
+background:white !important;
+color:black !important;
 border:none;
-background:white;
-color:black;
 }
 
 }
@@ -162,7 +204,13 @@ Back
 
 </a>
 
-<h1>Daily Report</h1>
+<h1>Daily Cash Report</h1>
+
+<div style="
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+">
 
 <button class="print-btn"
 onclick="window.print()">
@@ -173,88 +221,107 @@ Print
 
 </button>
 
+<button class="save-btn"
+onclick="saveReport()">
+
+<i class="fa-solid fa-floppy-disk"></i>
+
+Save Report
+
+</button>
+
+</div>
+
 </div>
 
 <div class="report-box">
 
 <table>
 
+<thead>
+
 <tr>
 
-<th>DESCRIPTION</th>
-<th>AMOUNT</th>
+<th>DATE</th>
+
+<th>GROSS SALES</th>
+
+<th>SR DISC</th>
+
+<th>PWD DISC</th>
+
+<th>EMPLOYEE DISC</th>
+
+<th>ITEM DISC</th>
+
+<th>SALES REFUND</th>
+
+<th>NET SALES</th>
+
+<th>CARD</th>
+
+<th>GCASH</th>
+
+<th>MAYA</th>
+
+<th>FOODPANDA / GRAB</th>
+
+<th>EMPLOYEE CHARGES</th>
+
+<th>CASH SALES</th>
+
+<th>CASH ON HAND</th>
+
+<th>SHORT / OVER</th>
 
 </tr>
 
+</thead>
+
+<tbody>
+
 <tr>
 
-<td>GROSS SALES</td>
+<td>
+<input type="date"
+id="reportDate">
+</td>
 
 <td>
 <input type="number"
-id="grossSales">
+id="grossSales"
+value="0">
 </td>
-
-</tr>
-
-<tr>
-
-<td>LESS: SR DISCOUNT</td>
 
 <td>
 <input type="number"
-id="srDiscount">
+id="srDiscount"
+value="0">
 </td>
-
-</tr>
-
-<tr>
-
-<td>LESS: PWD DISCOUNT</td>
 
 <td>
 <input type="number"
-id="pwdDiscount">
+id="pwdDiscount"
+value="0">
 </td>
-
-</tr>
-
-<tr>
-
-<td>LESS: EMPLOYEE DISCOUNT</td>
 
 <td>
 <input type="number"
-id="employeeDiscount">
+id="employeeDiscount"
+value="0">
 </td>
-
-</tr>
-
-<tr>
-
-<td>LESS: ITEM DISCOUNT</td>
 
 <td>
 <input type="number"
-id="itemDiscount">
+id="itemDiscount"
+value="0">
 </td>
-
-</tr>
-
-<tr>
-
-<td>LESS: SALES REFUND</td>
 
 <td>
 <input type="number"
-id="salesRefund">
+id="salesRefund"
+value="0">
 </td>
-
-</tr>
-
-<tr class="green">
-
-<td>NET SALES</td>
 
 <td>
 <input type="number"
@@ -262,96 +329,58 @@ id="netSales"
 readonly>
 </td>
 
-</tr>
-
-<tr>
-
-<td>CREDIT / DEBIT CARD</td>
+<td>
+<input type="number"
+id="cardSales"
+value="0">
+</td>
 
 <td>
 <input type="number"
-id="cardSales">
+id="gcashSales"
+value="0">
 </td>
-
-</tr>
-
-<tr>
-
-<td>GCASH</td>
 
 <td>
 <input type="number"
-id="gcashSales">
+id="mayaSales"
+value="0">
 </td>
-
-</tr>
-
-<tr>
-
-<td>MAYA</td>
 
 <td>
 <input type="number"
-id="mayaSales">
+id="deliverySales"
+value="0">
 </td>
-
-</tr>
-
-<tr>
-
-<td>FOODPANDA / GRAB</td>
 
 <td>
 <input type="number"
-id="deliverySales">
+id="employeeCharges"
+value="0">
 </td>
-
-</tr>
-
-<tr>
-
-<td>EMPLOYEE CHARGES</td>
 
 <td>
 <input type="number"
-id="employeeCharges">
+id="cashSales"
+value="0">
 </td>
-
-</tr>
-
-<tr>
-
-<td>CASH SALES</td>
 
 <td>
 <input type="number"
-id="cashSales">
+id="cashOnHand"
+value="0">
 </td>
-
-</tr>
-
-<tr>
-
-<td>LESS: CASH ON HAND</td>
-
-<td>
-<input type="number"
-id="cashOnHand">
-</td>
-
-</tr>
-
-<tr class="red">
-
-<td>SHORT / OVER</td>
 
 <td>
 <input type="number"
 id="shortOver"
+class="short-over"
 readonly>
 </td>
 
 </tr>
+
+</tbody>
 
 </table>
 
@@ -359,36 +388,41 @@ readonly>
 
 <script>
 
-/* AUTO COMPUTE */
+/* AUTO TODAY DATE */
+
+document.getElementById("reportDate").value =
+new Date().toISOString().split("T")[0];
+
+/* COMPUTE */
 
 function computeReport(){
 
-let gross =
+let grossSales =
 parseFloat(
 document.getElementById("grossSales").value
 ) || 0;
 
-let sr =
+let srDiscount =
 parseFloat(
 document.getElementById("srDiscount").value
 ) || 0;
 
-let pwd =
+let pwdDiscount =
 parseFloat(
 document.getElementById("pwdDiscount").value
 ) || 0;
 
-let employee =
+let employeeDiscount =
 parseFloat(
 document.getElementById("employeeDiscount").value
 ) || 0;
 
-let item =
+let itemDiscount =
 parseFloat(
 document.getElementById("itemDiscount").value
 ) || 0;
 
-let refund =
+let salesRefund =
 parseFloat(
 document.getElementById("salesRefund").value
 ) || 0;
@@ -396,17 +430,23 @@ document.getElementById("salesRefund").value
 /* NET SALES */
 
 let netSales =
-gross -
-sr -
-pwd -
-employee -
-item -
-refund;
+
+grossSales
+-
+srDiscount
+-
+pwdDiscount
+-
+employeeDiscount
+-
+itemDiscount
+-
+salesRefund;
 
 document.getElementById("netSales")
-.value = netSales;
+.value = netSales.toFixed(2);
 
-/* SHORT OVER */
+/* SHORT / OVER */
 
 let cashSales =
 parseFloat(
@@ -422,11 +462,11 @@ let shortOver =
 cashOnHand - cashSales;
 
 document.getElementById("shortOver")
-.value = shortOver;
+.value = shortOver.toFixed(2);
 
 }
 
-/* LISTENER */
+/* AUTO LISTENER */
 
 document.querySelectorAll("input")
 .forEach(input=>{
@@ -437,6 +477,75 @@ computeReport
 );
 
 });
+
+/* INITIAL COMPUTE */
+
+computeReport();
+
+/* SAVE */
+
+function saveReport(){
+
+const report = {
+
+date:
+document.getElementById("reportDate").value,
+
+grossSales:
+document.getElementById("grossSales").value,
+
+srDiscount:
+document.getElementById("srDiscount").value,
+
+pwdDiscount:
+document.getElementById("pwdDiscount").value,
+
+employeeDiscount:
+document.getElementById("employeeDiscount").value,
+
+itemDiscount:
+document.getElementById("itemDiscount").value,
+
+salesRefund:
+document.getElementById("salesRefund").value,
+
+netSales:
+document.getElementById("netSales").value,
+
+cardSales:
+document.getElementById("cardSales").value,
+
+gcashSales:
+document.getElementById("gcashSales").value,
+
+mayaSales:
+document.getElementById("mayaSales").value,
+
+deliverySales:
+document.getElementById("deliverySales").value,
+
+employeeCharges:
+document.getElementById("employeeCharges").value,
+
+cashSales:
+document.getElementById("cashSales").value,
+
+cashOnHand:
+document.getElementById("cashOnHand").value,
+
+shortOver:
+document.getElementById("shortOver").value
+
+};
+
+localStorage.setItem(
+"dailyCashReport",
+JSON.stringify(report)
+);
+
+alert("Daily Report Saved!");
+
+}
 
 </script>
 
