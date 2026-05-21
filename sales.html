@@ -397,9 +397,11 @@ const db =
 getFirestore(app);  
 /* ADMIN PASSWORD */  
   
-const adminPassword =  
-"admin123";  
-let salesChart;  
+const adminPassword =
+"admin123";
+
+let salesChart;
+let salesData = [];  
 /* DATE */  
   
 document.getElementById("todayDate")  
@@ -662,7 +664,7 @@ await getDocs(
 collection(db,"sales")  
 );  
   
-let salesData = [];  
+salesData = [];
   
 querySnapshot.forEach((firebaseDoc)=>{  
   
@@ -1397,38 +1399,79 @@ receiptWindow.document.close();
 window.closeShift =  
 function(){  
   
-let report = `  
-  
-D' MEZZANINE CAFE  
-  
-END OF DAY REPORT  
-  
-Date:  
-${new Date().toLocaleDateString()}  
-  
-Time:  
-${new Date().toLocaleTimeString()}  
-  
---------------------------------  
-  
-Total Orders:  
-${totalOrders}  
-  
-Cash Sales:  
-₱${cashSales.toLocaleString()}  
-  
-GCash Sales:  
-₱${gcashSales.toLocaleString()}  
-  
-Card Sales:  
-₱${cardSales.toLocaleString()}  
-  
---------------------------------  
-  
-TOTAL SALES:  
-₱${overallSales.toLocaleString()}  
-  
-`;  
+let totalSeniorDiscount = 0;
+let totalPwdDiscount = 0;
+let totalCashReceived = 0;
+let totalChange = 0;
+
+salesData.forEach((sale)=>{
+
+totalSeniorDiscount += Number(
+sale.seniorDiscount || 0
+);
+
+totalPwdDiscount += Number(
+sale.pwdDiscount || 0
+);
+
+totalCashReceived += Number(
+sale.cashReceived || 0
+);
+
+totalChange += Number(
+sale.change || 0
+);
+
+});
+
+let report = `
+
+D' MEZZANINE CAFE
+
+END OF DAY REPORT
+
+Date:
+${new Date().toLocaleDateString()}
+
+Time:
+${new Date().toLocaleTimeString()}
+
+--------------------------------
+
+Total Orders:
+${totalOrders}
+
+Cash Sales:
+₱${cashSales.toLocaleString()}
+
+GCash Sales:
+₱${gcashSales.toLocaleString()}
+
+Card Sales:
+₱${cardSales.toLocaleString()}
+
+--------------------------------
+
+Senior Discount:
+₱${totalSeniorDiscount.toLocaleString()}
+
+PWD Discount:
+₱${totalPwdDiscount.toLocaleString()}
+
+--------------------------------
+
+Cash Received:
+₱${totalCashReceived.toLocaleString()}
+
+Change:
+₱${totalChange.toLocaleString()}
+
+--------------------------------
+
+NET SALES:
+₱${overallSales.toLocaleString()}
+
+`;
   
 let printWindow =  
 window.open(  
