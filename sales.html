@@ -214,7 +214,7 @@ padding:20px;
 background:#1e293b;
 padding:25px;
 border-radius:20px;
-max-width:900px;
+max-width:700px;
 width:95%;
 margin:auto;
 margin-top:50px;
@@ -414,15 +414,6 @@ This Month
 
 </div>
 
-<canvas id="salesChart"
-style="
-background:#1e293b;
-padding:20px;
-border-radius:20px;
-margin-bottom:25px;
-max-height:400px;
-"></canvas>
-
 <!-- TABLE -->
 
 <div class="table-box">
@@ -491,8 +482,6 @@ onclick="closeModal()">
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <script type="module">
 
 import { initializeApp }
@@ -526,66 +515,23 @@ const db = getFirestore(app);
 
 const adminPassword = "admin123";
 
-let salesChart;
-
 document.getElementById("todayDate")
 .innerText =
 new Date().toLocaleDateString();
 
-/* DELETE */
+window.closeModal =
+function(){
 
-window.deleteSale =
-async function(id){
-
-let password =
-prompt("Enter Admin Password");
-
-if(password !== adminPassword){
-
-alert("Wrong Password");
-return;
+document.getElementById("viewModal")
+.style.display = "none";
 
 }
-
-if(!confirm("Delete this sale?")) return;
-
-await deleteDoc(doc(db,"sales",id));
-
-alert("Sale Deleted");
-
-loadSales();
-
-}
-
-/* VIEW */
 
 window.viewSale =
 function(sale){
 
-let grossSales =
-Number(sale.subtotal || 0);
-
-let seniorDiscount =
-Number(sale.seniorDiscount || 0);
-
-let pwdDiscount =
-Number(sale.pwdDiscount || 0);
-
-let totalDiscount =
-seniorDiscount + pwdDiscount;
-
-let netSales =
-Number(sale.total || 0);
-
 document.getElementById("saleDetails")
 .innerHTML = `
-
-<div style="
-background:#111827;
-padding:20px;
-border-radius:16px;
-overflow:auto;
-">
 
 <table style="
 width:100%;
@@ -593,12 +539,12 @@ border-collapse:collapse;
 ">
 
 <tr>
-<td style="padding:12px;border:1px solid rgba(255,255,255,0.1);font-weight:bold;">
+<td style="padding:12px;border:1px solid rgba(255,255,255,0.1);">
 Gross Sales
 </td>
 
 <td style="padding:12px;border:1px solid rgba(255,255,255,0.1);text-align:right;">
-₱${grossSales.toLocaleString()}
+₱${Number(sale.subtotal || 0).toLocaleString()}
 </td>
 </tr>
 
@@ -608,7 +554,7 @@ Senior Discount
 </td>
 
 <td style="padding:12px;border:1px solid rgba(255,255,255,0.1);text-align:right;">
-₱${seniorDiscount.toLocaleString()}
+₱${Number(sale.seniorDiscount || 0).toLocaleString()}
 </td>
 </tr>
 
@@ -618,71 +564,26 @@ PWD Discount
 </td>
 
 <td style="padding:12px;border:1px solid rgba(255,255,255,0.1);text-align:right;">
-₱${pwdDiscount.toLocaleString()}
+₱${Number(sale.pwdDiscount || 0).toLocaleString()}
 </td>
 </tr>
 
 <tr>
-<td style="
-padding:12px;
-border:1px solid rgba(255,255,255,0.1);
-font-weight:bold;
-color:#4ade80;
-">
-
+<td style="padding:12px;font-weight:bold;color:#4ade80;border:1px solid rgba(255,255,255,0.1);">
 Net Sales
-
 </td>
 
-<td style="
-padding:12px;
-border:1px solid rgba(255,255,255,0.1);
-text-align:right;
-font-weight:bold;
-color:#4ade80;
-">
-
-₱${netSales.toLocaleString()}
-
-</td>
-</tr>
-
-<tr>
-<td style="padding:12px;border:1px solid rgba(255,255,255,0.1);">
-Payment Method
-</td>
-
-<td style="padding:12px;border:1px solid rgba(255,255,255,0.1);text-align:right;">
-${sale.paymentMethod || "Cash"}
-</td>
-</tr>
-
-<tr>
-<td style="padding:12px;border:1px solid rgba(255,255,255,0.1);">
-Reference
-</td>
-
-<td style="padding:12px;border:1px solid rgba(255,255,255,0.1);text-align:right;">
-${sale.referenceNumber || "-"}
+<td style="padding:12px;text-align:right;font-weight:bold;color:#4ade80;border:1px solid rgba(255,255,255,0.1);">
+₱${Number(sale.total || 0).toLocaleString()}
 </td>
 </tr>
 
 </table>
 
-</div>
-
 `;
 
 document.getElementById("viewModal")
 .style.display = "block";
-
-}
-
-window.closeModal =
-function(){
-
-document.getElementById("viewModal")
-.style.display = "none";
 
 }
 
