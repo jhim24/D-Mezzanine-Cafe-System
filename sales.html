@@ -1283,14 +1283,15 @@ font-size:13px;
 </style>  </head>  <body>  <img src="./logo.png"  
 class="logo">
 
-<h2>D' Mezzanine Cafe</h2>  <p>Official Receipt</p>  <hr>  <p>  
+<h2>D' Mezzanine Cafe</h2>  <p>Official Receipt</p>  <hr> 
+
 <p>
 Date:
 ${new Date(
 sale.date || new Date()
 ).toLocaleString()}
-</p>
-</p>  <p>  
+</p>>  
+
 Payment:  
 ${sale.paymentMethod || "Cash"}  
 </p>  <p>  
@@ -1301,7 +1302,38 @@ ${sale.referenceNumber || "-"}
 <th>Qty</th>  
 <th>Total</th>  </tr>  </thead>  <tbody>  ${itemsHTML}
 
-</tbody>  </table>  
+</tbody>
+</table>
+
+<div style="
+margin-top:15px;
+text-align:right;
+font-size:14px;
+">
+
+<p>
+Subtotal:
+₱${Number(
+sale.subtotal || 0
+).toLocaleString()}
+</p>
+
+<p>
+Senior Discount:
+₱${Number(
+sale.seniorDiscount || 0
+).toLocaleString()}
+</p>
+
+<p>
+PWD Discount:
+₱${Number(
+sale.pwdDiscount || 0
+).toLocaleString()}
+</p>
+
+</div>
+
 <div style="
 margin-top:15px;
 text-align:right;
@@ -1323,7 +1355,6 @@ sale.change || 0
 </p>
 
 </div>
-
 <div class="total">
 
 TOTAL:
