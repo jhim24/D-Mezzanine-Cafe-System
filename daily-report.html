@@ -225,48 +225,89 @@ font-size:24px;
 @media print{
 
 body{
-background:white;
-padding:0;
+background:#ffffff !important;
+padding:15px;
+font-family:'Poppins',sans-serif;
 }
+
+/* HIDE INPUT AREA */
 
 .header,
 .report-box{
 display:none !important;
 }
 
+/* SHOW ONLY SAVED REPORT */
+
 .saved-box{
-background:white !important;
-padding:0;
+display:block !important;
+background:#1e293b !important;
+padding:20px !important;
+border-radius:20px !important;
+overflow:visible !important;
+box-shadow:none !important;
+}
+
+/* TITLE */
+
+.saved-title{
+color:#facc15 !important;
+font-size:24px !important;
+margin-bottom:20px !important;
+font-weight:700;
+}
+
+/* TABLE */
+
+.saved-table{
+width:100% !important;
+min-width:100% !important;
+border-collapse:collapse !important;
+table-layout:auto !important;
+}
+
+/* HEADER */
+
+.saved-table th{
+background:#facc15 !important;
+color:black !important;
+padding:10px !important;
+font-size:10px !important;
+border:2px solid #334155 !important;
+text-align:center !important;
+white-space:nowrap;
+}
+
+/* DATA */
+
+.saved-table td{
+background:#0f172a !important;
+color:white !important;
+padding:8px !important;
+font-size:10px !important;
+border:1px solid #334155 !important;
+text-align:center !important;
+white-space:nowrap;
+}
+
+/* HIDE BUTTONS */
+
+.saved-table button{
+display:none !important;
+}
+
+/* REMOVE SCROLL */
+
+.saved-box,
+.saved-table{
 overflow:visible !important;
 }
 
-.saved-title{
-color:black;
-margin-bottom:10px;
-}
+/* PAGE */
 
-.saved-table{
-min-width:100% !important;
-}
-
-.saved-table th{
-background:#ddd !important;
-color:black !important;
-font-size:10px;
-padding:6px;
-}
-
-.saved-table td{
-background:white !important;
-color:black !important;
-font-size:10px;
-padding:6px;
-border:1px solid #ccc;
-}
-
-.delete-btn,
-.edit-btn{
-display:none !important;
+@page{
+size:landscape;
+margin:10mm;
 }
 
 }
