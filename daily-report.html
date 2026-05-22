@@ -523,15 +523,14 @@ document.getElementById("cashSales")
 const shortOver =
 cashOnHand - cashSales;
 
-if(shortOver >= 0){
-
 document.getElementById("shortOver")
-.value = "+" + shortOver;
+.value =
 
-}else{
+(shortOver > 0 ? "+" : "")
 
-document.getElementById("shortOver")
-.value = shortOver;
++
+
+shortOver.toFixed(2);
 
 }
 
