@@ -934,64 +934,85 @@ function downloadPDF(){
 const reportContent =
 document.querySelector(".saved-box");
 
-/* TEMP PRINT STYLE */
+/* CLONE REPORT */
 
-reportContent.style.background = "white";
-reportContent.style.color = "black";
-reportContent.style.padding = "10px";
+const cloned =
+reportContent.cloneNode(true);
+
+/* CREATE TEMP CONTAINER */
+
+const tempDiv =
+document.createElement("div");
+
+tempDiv.style.width = "2200px";
+tempDiv.style.padding = "20px";
+tempDiv.style.background = "white";
+tempDiv.style.color = "black";
+
+/* TITLE */
 
 const title =
-reportContent.querySelector(".saved-title");
+cloned.querySelector(".saved-title");
 
 title.style.color = "black";
+title.style.fontSize = "28px";
+title.style.marginBottom = "15px";
+
+/* TABLE */
 
 const table =
-reportContent.querySelector(".saved-table");
+cloned.querySelector(".saved-table");
 
 table.style.width = "100%";
-table.style.minWidth = "100%";
+table.style.minWidth = "2200px";
 table.style.borderCollapse = "collapse";
+table.style.tableLayout = "auto";
 
-const ths =
-table.querySelectorAll("th");
+/* TH */
 
-ths.forEach(th=>{
+table.querySelectorAll("th")
+.forEach(th=>{
 
 th.style.background = "#f2f2f2";
 th.style.color = "black";
 th.style.border = "1px solid black";
-th.style.padding = "6px";
-th.style.fontSize = "10px";
+th.style.padding = "8px";
+th.style.fontSize = "11px";
+th.style.whiteSpace = "nowrap";
 
 });
 
-const tds =
-table.querySelectorAll("td");
+/* TD */
 
-tds.forEach(td=>{
+table.querySelectorAll("td")
+.forEach(td=>{
 
 td.style.background = "white";
 td.style.color = "black";
 td.style.border = "1px solid black";
-td.style.padding = "6px";
-td.style.fontSize = "10px";
+td.style.padding = "8px";
+td.style.fontSize = "11px";
+td.style.whiteSpace = "nowrap";
 
 });
 
 /* HIDE BUTTONS */
 
-const buttons =
-table.querySelectorAll("button");
-
-buttons.forEach(btn=>{
+table.querySelectorAll("button")
+.forEach(btn=>{
 
 btn.style.display = "none";
 
 });
 
-/* PDF SETTINGS */
+tempDiv.appendChild(cloned);
 
-const options = {
+document.body.appendChild(tempDiv);
+
+/* PDF */
+
+html2pdf()
+.set({
 
 margin:0.2,
 
@@ -1004,16 +1025,30 @@ quality:1
 },
 
 html2canvas:{
-scale:2
+scale:2,
+scrollX:0,
+scrollY:0
 },
 
 jsPDF:{
-unit:'in',
-format:'a4',
+unit:'px',
+format:[2300,1400],
 orientation:'landscape'
 }
 
-};
+})
+
+.from(tempDiv)
+
+.save()
+
+.then(()=>{
+
+document.body.removeChild(tempDiv);
+
+});
+
+}
 
 html2pdf()
 .set(options)
