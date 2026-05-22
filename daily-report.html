@@ -936,7 +936,7 @@ document.querySelector(".saved-box");
 
 const options = {
 
-margin:0.3,
+margin:0.2,
 
 filename:
 "Daily-Cash-Reports.pdf",
@@ -947,13 +947,18 @@ quality:1
 },
 
 html2canvas:{
-scale:2
+scale:3,
+useCORS:true
 },
 
 jsPDF:{
 unit:'in',
 format:'a4',
 orientation:'landscape'
+},
+
+pagebreak:{
+mode:['avoid-all']
 }
 
 };
@@ -964,7 +969,6 @@ html2pdf()
 .save();
 
 }
-
 /* LOAD */
 
 autoCompute();
