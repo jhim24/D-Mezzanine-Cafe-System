@@ -164,7 +164,7 @@ color:#facc15;
 
 .saved-table{
 width:100%;
-min-width:100%;
+min-width:1800px;
 }
 
 .saved-table td{
@@ -228,82 +228,53 @@ font-size:24px;
 body{
 background:white !important;
 padding:10px;
-font-family:Arial,sans-serif;
 color:black !important;
+font-family:Arial,sans-serif;
 }
-
-/* HIDE INPUT SECTION */
 
 .header,
 .report-box{
 display:none !important;
 }
 
-/* REPORT AREA */
-
 .saved-box{
 background:white !important;
 padding:0 !important;
-border-radius:0 !important;
 overflow:visible !important;
-box-shadow:none !important;
+border-radius:0 !important;
 }
-
-/* TITLE */
 
 .saved-title{
 color:black !important;
-font-size:20px !important;
-margin-bottom:10px !important;
-font-weight:bold;
-text-align:left;
+font-size:20px;
+margin-bottom:10px;
 }
-
-/* TABLE */
 
 .saved-table{
 width:100% !important;
 min-width:100% !important;
-border-collapse:collapse !important;
-table-layout:auto !important;
+border-collapse:collapse;
 }
-
-/* TABLE HEADER */
 
 .saved-table th{
 background:#f2f2f2 !important;
 color:black !important;
-font-size:10px !important;
-padding:6px !important;
-border:1px solid #000 !important;
-text-align:center !important;
+font-size:10px;
+padding:6px;
+border:1px solid black;
 }
-
-/* TABLE DATA */
 
 .saved-table td{
 background:white !important;
 color:black !important;
-font-size:10px !important;
-padding:6px !important;
-border:1px solid #000 !important;
-text-align:center !important;
+font-size:10px;
+padding:6px;
+border:1px solid black;
 }
-
-/* REMOVE BUTTONS */
 
 .saved-table button{
 display:none !important;
 }
-
-/* REMOVE SCROLL */
-
-.saved-box,
-.saved-table{
-overflow:visible !important;
-}
-
-/* PAGE */
 
 @page{
 size:landscape;
@@ -336,7 +307,7 @@ Save
 onclick="printSavedReports()">
 
 <i class="fa-solid fa-print"></i>
-Print Reports
+Print
 
 </button>
 
@@ -352,7 +323,7 @@ PDF
 
 </div>
 
-<!-- INPUT REPORT -->
+<!-- INPUT -->
 
 <div class="report-box">
 
@@ -364,19 +335,19 @@ PDF
 
 <th>DATE</th>
 <th>GROSS SALES</th>
-<th>LESS: SR DISCOUNT</th>
-<th>LESS: PWD DISCOUNT</th>
-<th>LESS: EMPLOYEE DISCOUNT</th>
-<th>LESS: ITEM DISCOUNT</th>
-<th>LESS: SALES REFUND</th>
+<th>SR DISC.</th>
+<th>PWD DISC.</th>
+<th>EMPLOYEE DISC.</th>
+<th>ITEM DISC.</th>
+<th>REFUND</th>
 <th>NET SALES</th>
-<th>CREDIT / DEBIT CARD</th>
+<th>CARD</th>
 <th>GCASH</th>
 <th>MAYA</th>
-<th>FOODPANDA / GRAB</th>
+<th>FOODPANDA</th>
 <th>EMPLOYEE CHARGES</th>
 <th>CASH SALES</th>
-<th>LESS: CASH ON HAND</th>
+<th>CASH ON HAND</th>
 <th>SHORT / OVER</th>
 
 </tr>
@@ -416,7 +387,7 @@ PDF
 </td>
 
 <td>
-<input type="number" id="netSales" value="0" readonly>
+<input type="number" id="netSales" readonly>
 </td>
 
 <td>
@@ -440,7 +411,7 @@ PDF
 </td>
 
 <td>
-<input type="number" id="cashSales" value="0" readonly>
+<input type="number" id="cashSales" readonly>
 </td>
 
 <td>
@@ -448,7 +419,7 @@ PDF
 </td>
 
 <td>
-<input type="text" id="shortOver" value="0.00" readonly>
+<input type="text" id="shortOver" readonly>
 </td>
 
 </tr>
@@ -459,7 +430,7 @@ PDF
 
 </div>
 
-<!-- SAVED REPORTS -->
+<!-- SAVED -->
 
 <div class="saved-box">
 
@@ -505,8 +476,6 @@ Saved Reports
 
 <script>
 
-/* GET VALUE */
-
 function getValue(id){
 
 return parseFloat(
@@ -519,43 +488,22 @@ document.getElementById(id).value
 
 function autoCompute(){
 
-const grossSales =
-getValue("grossSales");
+const grossSales = getValue("grossSales");
+const srDiscount = getValue("srDiscount");
+const pwdDiscount = getValue("pwdDiscount");
+const employeeDiscount = getValue("employeeDiscount");
+const itemDiscount = getValue("itemDiscount");
+const salesRefund = getValue("salesRefund");
 
-const srDiscount =
-getValue("srDiscount");
+const cardSales = getValue("cardSales");
+const gcashSales = getValue("gcashSales");
+const mayaSales = getValue("mayaSales");
+const foodpandaSales = getValue("foodpandaSales");
+const employeeCharges = getValue("employeeCharges");
 
-const pwdDiscount =
-getValue("pwdDiscount");
+const cashOnHand = getValue("cashOnHand");
 
-const employeeDiscount =
-getValue("employeeDiscount");
-
-const itemDiscount =
-getValue("itemDiscount");
-
-const salesRefund =
-getValue("salesRefund");
-
-const cardSales =
-getValue("cardSales");
-
-const gcashSales =
-getValue("gcashSales");
-
-const mayaSales =
-getValue("mayaSales");
-
-const foodpandaSales =
-getValue("foodpandaSales");
-
-const employeeCharges =
-getValue("employeeCharges");
-
-const cashOnHand =
-getValue("cashOnHand");
-
-/* TOTAL DISCOUNT */
+/* NET SALES */
 
 const totalDiscount =
 
@@ -564,8 +512,6 @@ pwdDiscount +
 employeeDiscount +
 itemDiscount +
 salesRefund;
-
-/* NET SALES */
 
 const netSales =
 grossSales - totalDiscount;
@@ -578,7 +524,6 @@ document.getElementById("netSales")
 const cashSales =
 
 netSales -
-
 cardSales -
 gcashSales -
 mayaSales -
@@ -641,50 +586,23 @@ const report = {
 date:
 document.getElementById("date").value,
 
-grossSales:
-getValue("grossSales"),
+grossSales:getValue("grossSales"),
+srDiscount:getValue("srDiscount"),
+pwdDiscount:getValue("pwdDiscount"),
+employeeDiscount:getValue("employeeDiscount"),
+itemDiscount:getValue("itemDiscount"),
+salesRefund:getValue("salesRefund"),
+netSales:getValue("netSales"),
 
-srDiscount:
-getValue("srDiscount"),
+cardSales:getValue("cardSales"),
+gcashSales:getValue("gcashSales"),
+mayaSales:getValue("mayaSales"),
+foodpandaSales:getValue("foodpandaSales"),
+employeeCharges:getValue("employeeCharges"),
 
-pwdDiscount:
-getValue("pwdDiscount"),
-
-employeeDiscount:
-getValue("employeeDiscount"),
-
-itemDiscount:
-getValue("itemDiscount"),
-
-salesRefund:
-getValue("salesRefund"),
-
-netSales:
-getValue("netSales"),
-
-cardSales:
-getValue("cardSales"),
-
-gcashSales:
-getValue("gcashSales"),
-
-mayaSales:
-getValue("mayaSales"),
-
-foodpandaSales:
-getValue("foodpandaSales"),
-
-employeeCharges:
-getValue("employeeCharges"),
-
-cashSales:
-getValue("cashSales"),
-
-cashOnHand:
-getValue("cashOnHand"),
-
-shortOver:
-getValue("shortOver")
+cashSales:getValue("cashSales"),
+cashOnHand:getValue("cashOnHand"),
+shortOver:getValue("shortOver")
 
 };
 
@@ -752,10 +670,7 @@ table.innerHTML = `
 <tr>
 
 <td colspan="17"
-style="
-padding:20px;
-text-align:center;
-">
+style="padding:20px;">
 
 No saved reports
 
@@ -809,10 +724,12 @@ table.innerHTML += `
 font-weight:700;
 color:${Number(report.shortOver) >= 0 ? '#22c55e' : '#ef4444'};
 ">
+
 ₱${Number(report.shortOver).toLocaleString()}
+
 </td>
 
-<td style="white-space:nowrap;">
+<td>
 
 <button class="edit-btn"
 onclick="editReport(${index})">
@@ -847,46 +764,22 @@ JSON.parse(
 localStorage.getItem("dailyReports")
 ) || [];
 
-const report = reports[index];
+const report =
+reports[index];
 
-document.getElementById("date").value =
-report.date;
-
-document.getElementById("grossSales").value =
-report.grossSales;
-
-document.getElementById("srDiscount").value =
-report.srDiscount;
-
-document.getElementById("pwdDiscount").value =
-report.pwdDiscount;
-
-document.getElementById("employeeDiscount").value =
-report.employeeDiscount;
-
-document.getElementById("itemDiscount").value =
-report.itemDiscount;
-
-document.getElementById("salesRefund").value =
-report.salesRefund;
-
-document.getElementById("cardSales").value =
-report.cardSales;
-
-document.getElementById("gcashSales").value =
-report.gcashSales;
-
-document.getElementById("mayaSales").value =
-report.mayaSales;
-
-document.getElementById("foodpandaSales").value =
-report.foodpandaSales;
-
-document.getElementById("employeeCharges").value =
-report.employeeCharges;
-
-document.getElementById("cashOnHand").value =
-report.cashOnHand;
+document.getElementById("date").value = report.date;
+document.getElementById("grossSales").value = report.grossSales;
+document.getElementById("srDiscount").value = report.srDiscount;
+document.getElementById("pwdDiscount").value = report.pwdDiscount;
+document.getElementById("employeeDiscount").value = report.employeeDiscount;
+document.getElementById("itemDiscount").value = report.itemDiscount;
+document.getElementById("salesRefund").value = report.salesRefund;
+document.getElementById("cardSales").value = report.cardSales;
+document.getElementById("gcashSales").value = report.gcashSales;
+document.getElementById("mayaSales").value = report.mayaSales;
+document.getElementById("foodpandaSales").value = report.foodpandaSales;
+document.getElementById("employeeCharges").value = report.employeeCharges;
+document.getElementById("cashOnHand").value = report.cashOnHand;
 
 autoCompute();
 
@@ -934,82 +827,27 @@ function downloadPDF(){
 const reportContent =
 document.querySelector(".saved-box");
 
-/* CLONE REPORT */
-
 const cloned =
 reportContent.cloneNode(true);
 
-/* CREATE TEMP CONTAINER */
+cloned.querySelectorAll("button")
+.forEach(btn=>{
+
+btn.remove();
+
+});
 
 const tempDiv =
 document.createElement("div");
 
-tempDiv.style.width = "2200px";
-tempDiv.style.padding = "20px";
+tempDiv.style.width = "2400px";
 tempDiv.style.background = "white";
+tempDiv.style.padding = "20px";
 tempDiv.style.color = "black";
-
-/* TITLE */
-
-const title =
-cloned.querySelector(".saved-title");
-
-title.style.color = "black";
-title.style.fontSize = "28px";
-title.style.marginBottom = "15px";
-
-/* TABLE */
-
-const table =
-cloned.querySelector(".saved-table");
-
-table.style.width = "100%";
-table.style.minWidth = "2200px";
-table.style.borderCollapse = "collapse";
-table.style.tableLayout = "auto";
-
-/* TH */
-
-table.querySelectorAll("th")
-.forEach(th=>{
-
-th.style.background = "#f2f2f2";
-th.style.color = "black";
-th.style.border = "1px solid black";
-th.style.padding = "8px";
-th.style.fontSize = "11px";
-th.style.whiteSpace = "nowrap";
-
-});
-
-/* TD */
-
-table.querySelectorAll("td")
-.forEach(td=>{
-
-td.style.background = "white";
-td.style.color = "black";
-td.style.border = "1px solid black";
-td.style.padding = "8px";
-td.style.fontSize = "11px";
-td.style.whiteSpace = "nowrap";
-
-});
-
-/* HIDE BUTTONS */
-
-table.querySelectorAll("button")
-.forEach(btn=>{
-
-btn.style.display = "none";
-
-});
 
 tempDiv.appendChild(cloned);
 
 document.body.appendChild(tempDiv);
-
-/* PDF */
 
 html2pdf()
 .set({
@@ -1025,14 +863,12 @@ quality:1
 },
 
 html2canvas:{
-scale:2,
-scrollX:0,
-scrollY:0
+scale:2
 },
 
 jsPDF:{
 unit:'px',
-format:[2300,1400],
+format:[2400,1400],
 orientation:'landscape'
 }
 
@@ -1050,41 +886,6 @@ document.body.removeChild(tempDiv);
 
 }
 
-html2pdf()
-.set(options)
-.from(reportContent)
-.save()
-.then(()=>{
-
-/* RESTORE */
-
-reportContent.removeAttribute("style");
-
-title.removeAttribute("style");
-
-table.removeAttribute("style");
-
-ths.forEach(th=>{
-
-th.removeAttribute("style");
-
-});
-
-tds.forEach(td=>{
-
-td.removeAttribute("style");
-
-});
-
-buttons.forEach(btn=>{
-
-btn.removeAttribute("style");
-
-});
-
-});
-
-}
 /* LOAD */
 
 autoCompute();
