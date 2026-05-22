@@ -934,6 +934,63 @@ function downloadPDF(){
 const reportContent =
 document.querySelector(".saved-box");
 
+/* TEMP PRINT STYLE */
+
+reportContent.style.background = "white";
+reportContent.style.color = "black";
+reportContent.style.padding = "10px";
+
+const title =
+reportContent.querySelector(".saved-title");
+
+title.style.color = "black";
+
+const table =
+reportContent.querySelector(".saved-table");
+
+table.style.width = "100%";
+table.style.minWidth = "100%";
+table.style.borderCollapse = "collapse";
+
+const ths =
+table.querySelectorAll("th");
+
+ths.forEach(th=>{
+
+th.style.background = "#f2f2f2";
+th.style.color = "black";
+th.style.border = "1px solid black";
+th.style.padding = "6px";
+th.style.fontSize = "10px";
+
+});
+
+const tds =
+table.querySelectorAll("td");
+
+tds.forEach(td=>{
+
+td.style.background = "white";
+td.style.color = "black";
+td.style.border = "1px solid black";
+td.style.padding = "6px";
+td.style.fontSize = "10px";
+
+});
+
+/* HIDE BUTTONS */
+
+const buttons =
+table.querySelectorAll("button");
+
+buttons.forEach(btn=>{
+
+btn.style.display = "none";
+
+});
+
+/* PDF SETTINGS */
+
 const options = {
 
 margin:0.2,
@@ -947,18 +1004,13 @@ quality:1
 },
 
 html2canvas:{
-scale:3,
-useCORS:true
+scale:2
 },
 
 jsPDF:{
 unit:'in',
 format:'a4',
 orientation:'landscape'
-},
-
-pagebreak:{
-mode:['avoid-all']
 }
 
 };
@@ -966,7 +1018,36 @@ mode:['avoid-all']
 html2pdf()
 .set(options)
 .from(reportContent)
-.save();
+.save()
+.then(()=>{
+
+/* RESTORE */
+
+reportContent.removeAttribute("style");
+
+title.removeAttribute("style");
+
+table.removeAttribute("style");
+
+ths.forEach(th=>{
+
+th.removeAttribute("style");
+
+});
+
+tds.forEach(td=>{
+
+td.removeAttribute("style");
+
+});
+
+buttons.forEach(btn=>{
+
+btn.removeAttribute("style");
+
+});
+
+});
 
 }
 /* LOAD */
