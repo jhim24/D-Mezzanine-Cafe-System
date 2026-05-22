@@ -720,8 +720,6 @@ table.innerHTML += `
 
 <td>₱${report.shortOver.toLocaleString()}</td>
 
-<td>
-
 <td style="white-space:nowrap;">
 
 <button
@@ -749,7 +747,6 @@ Delete
 </button>
 
 </td>
-
 </tr>
 
 `;
@@ -757,7 +754,66 @@ Delete
 });
 
 }
+/* EDIT */
 
+function editReport(index){
+
+let reports =
+JSON.parse(
+localStorage.getItem("dailyReports")
+) || [];
+
+const report = reports[index];
+
+document.getElementById("date")
+.value = report.date;
+
+document.getElementById("grossSales")
+.value = report.grossSales;
+
+document.getElementById("srDiscount")
+.value = report.srDiscount;
+
+document.getElementById("pwdDiscount")
+.value = report.pwdDiscount;
+
+document.getElementById("employeeDiscount")
+.value = report.employeeDiscount;
+
+document.getElementById("itemDiscount")
+.value = report.itemDiscount;
+
+document.getElementById("salesRefund")
+.value = report.salesRefund;
+
+document.getElementById("cardSales")
+.value = report.cardSales;
+
+document.getElementById("gcashSales")
+.value = report.gcashSales;
+
+document.getElementById("mayaSales")
+.value = report.mayaSales;
+
+document.getElementById("foodpandaSales")
+.value = report.foodpandaSales;
+
+document.getElementById("employeeCharges")
+.value = report.employeeCharges;
+
+document.getElementById("cashOnHand")
+.value = report.cashOnHand;
+
+autoCompute();
+
+deleteReport(index);
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+}
 /* DELETE */
 
 function deleteReport(index){
