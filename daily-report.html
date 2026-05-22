@@ -521,13 +521,19 @@ document.getElementById("cashSales")
 /* SHORT / OVER */
 
 const shortOver =
-cashSales - cashOnHand;
+cashOnHand - cashSales;
+
+if(shortOver >= 0){
+
+document.getElementById("shortOver")
+.value = "+" + shortOver;
+
+}else{
 
 document.getElementById("shortOver")
 .value = shortOver;
 
 }
-
 /* AUTO INPUT */
 
 document.querySelectorAll("input")
