@@ -824,11 +824,15 @@ window.print();
 
 function downloadPDF(){
 
-const reportContent =
+const originalContent =
 document.querySelector(".saved-box");
 
+/* CLONE */
+
 const cloned =
-reportContent.cloneNode(true);
+originalContent.cloneNode(true);
+
+/* REMOVE BUTTONS */
 
 cloned.querySelectorAll("button")
 .forEach(btn=>{
@@ -837,17 +841,78 @@ btn.remove();
 
 });
 
+/* FORCE PRINT STYLE */
+
+cloned.style.background = "white";
+cloned.style.color = "black";
+cloned.style.padding = "0";
+cloned.style.borderRadius = "0";
+cloned.style.boxShadow = "none";
+cloned.style.width = "100%";
+
+/* TITLE */
+
+const title =
+cloned.querySelector(".saved-title");
+
+title.style.color = "black";
+title.style.fontSize = "20px";
+title.style.fontWeight = "bold";
+title.style.marginBottom = "10px";
+
+/* TABLE */
+
+const table =
+cloned.querySelector(".saved-table");
+
+table.style.width = "100%";
+table.style.minWidth = "100%";
+table.style.borderCollapse = "collapse";
+table.style.tableLayout = "auto";
+
+/* TH */
+
+table.querySelectorAll("th")
+.forEach(th=>{
+
+th.style.background = "#f2f2f2";
+th.style.color = "black";
+th.style.border = "1px solid black";
+th.style.padding = "6px";
+th.style.fontSize = "10px";
+th.style.textAlign = "center";
+th.style.whiteSpace = "nowrap";
+
+});
+
+/* TD */
+
+table.querySelectorAll("td")
+.forEach(td=>{
+
+td.style.background = "white";
+td.style.color = "black";
+td.style.border = "1px solid black";
+td.style.padding = "6px";
+td.style.fontSize = "10px";
+td.style.textAlign = "center";
+td.style.whiteSpace = "nowrap";
+
+});
+
+/* TEMP DIV */
+
 const tempDiv =
 document.createElement("div");
 
-tempDiv.style.width = "2400px";
 tempDiv.style.background = "white";
-tempDiv.style.padding = "20px";
-tempDiv.style.color = "black";
+tempDiv.style.padding = "10px";
 
 tempDiv.appendChild(cloned);
 
 document.body.appendChild(tempDiv);
+
+/* PDF */
 
 html2pdf()
 .set({
@@ -867,8 +932,8 @@ scale:2
 },
 
 jsPDF:{
-unit:'px',
-format:[2400,1400],
+unit:'in',
+format:'legal',
 orientation:'landscape'
 }
 
@@ -885,7 +950,6 @@ document.body.removeChild(tempDiv);
 });
 
 }
-
 /* LOAD */
 
 autoCompute();
