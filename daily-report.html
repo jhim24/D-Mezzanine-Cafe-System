@@ -90,7 +90,7 @@ overflow-x:auto;
 margin-bottom:25px;
 }
 
-/* CUSTOM SCROLLBAR */
+/* SCROLLBAR */
 
 .report-box::-webkit-scrollbar,
 .saved-box::-webkit-scrollbar{
@@ -131,6 +131,7 @@ padding:10px;
 border:1px solid #334155;
 background:#0f172a;
 white-space:nowrap;
+text-align:center;
 }
 
 table input{
@@ -167,8 +168,9 @@ min-width:2200px;
 
 .saved-table td{
 font-size:13px;
-text-align:center;
 }
+
+/* BUTTONS */
 
 .delete-btn{
 background:#ef4444;
@@ -178,6 +180,29 @@ padding:8px 12px;
 border-radius:8px;
 cursor:pointer;
 font-weight:600;
+}
+
+.edit-btn{
+background:#3b82f6;
+color:white;
+border:none;
+padding:8px 12px;
+border-radius:8px;
+cursor:pointer;
+font-weight:600;
+margin-right:5px;
+}
+
+/* SHORT OVER COLORS */
+
+.short-positive{
+color:#22c55e !important;
+font-weight:700;
+}
+
+.short-negative{
+color:#ef4444 !important;
+font-weight:700;
 }
 
 /* MOBILE */
@@ -239,7 +264,8 @@ padding:6px;
 border:1px solid #ccc;
 }
 
-.delete-btn{
+.delete-btn,
+.edit-btn{
 display:none !important;
 }
 
@@ -381,7 +407,7 @@ PDF
 </td>
 
 <td>
-<input type="number" id="shortOver" value="0" readonly>
+<input type="text" id="shortOver" value="0.00" readonly>
 </td>
 
 </tr>
@@ -397,9 +423,7 @@ PDF
 <div class="saved-box">
 
 <h2 class="saved-title">
-
 Saved Reports
-
 </h2>
 
 <table class="saved-table">
@@ -440,15 +464,17 @@ Saved Reports
 
 <script>
 
-/* AUTO COMPUTE */
+/* GET VALUE */
 
 function getValue(id){
 
-return Number(
-document.getElementById(id).value || 0
-);
+return parseFloat(
+document.getElementById(id).value
+) || 0;
 
 }
+
+/* AUTO COMPUTE */
 
 function autoCompute(){
 
@@ -488,7 +514,7 @@ getValue("employeeCharges");
 const cashOnHand =
 getValue("cashOnHand");
 
-/* NET SALES */
+/* TOTAL DISCOUNT */
 
 const totalDiscount =
 
@@ -498,11 +524,13 @@ employeeDiscount +
 itemDiscount +
 salesRefund;
 
+/* NET SALES */
+
 const netSales =
 grossSales - totalDiscount;
 
 document.getElementById("netSales")
-.value = netSales;
+.value = netSales.toFixed(2);
 
 /* CASH SALES */
 
@@ -517,21 +545,37 @@ foodpandaSales -
 employeeCharges;
 
 document.getElementById("cashSales")
-.value = cashSales;
+.value = cashSales.toFixed(2);
 
 /* SHORT / OVER */
 
 const shortOver =
 cashOnHand - cashSales;
 
-document.getElementById("shortOver")
-.value =
+const shortOverInput =
+document.getElementById("shortOver");
 
-(shortOver > 0 ? "+" : "")
-
-+
-
+shortOverInput.value =
 shortOver.toFixed(2);
+
+shortOverInput.classList.remove(
+"short-positive",
+"short-negative"
+);
+
+if(shortOver >= 0){
+
+shortOverInput.classList.add(
+"short-positive"
+);
+
+}else{
+
+shortOverInput.classList.add(
+"short-negative"
+);
+
+}
 
 }
 
@@ -642,6 +686,8 @@ input.value = 0;
 
 });
 
+autoCompute();
+
 }
 
 /* LOAD REPORTS */
@@ -690,49 +736,44 @@ table.innerHTML += `
 
 <td>${report.date}</td>
 
-<td>₱${report.grossSales.toLocaleString()}</td>
+<td>₱${Number(report.grossSales).toLocaleString()}</td>
 
-<td>₱${report.srDiscount.toLocaleString()}</td>
+<td>₱${Number(report.srDiscount).toLocaleString()}</td>
 
-<td>₱${report.pwdDiscount.toLocaleString()}</td>
+<td>₱${Number(report.pwdDiscount).toLocaleString()}</td>
 
-<td>₱${report.employeeDiscount.toLocaleString()}</td>
+<td>₱${Number(report.employeeDiscount).toLocaleString()}</td>
 
-<td>₱${report.itemDiscount.toLocaleString()}</td>
+<td>₱${Number(report.itemDiscount).toLocaleString()}</td>
 
-<td>₱${report.salesRefund.toLocaleString()}</td>
+<td>₱${Number(report.salesRefund).toLocaleString()}</td>
 
-<td>₱${report.netSales.toLocaleString()}</td>
+<td>₱${Number(report.netSales).toLocaleString()}</td>
 
-<td>₱${report.cardSales.toLocaleString()}</td>
+<td>₱${Number(report.cardSales).toLocaleString()}</td>
 
-<td>₱${report.gcashSales.toLocaleString()}</td>
+<td>₱${Number(report.gcashSales).toLocaleString()}</td>
 
-<td>₱${report.mayaSales.toLocaleString()}</td>
+<td>₱${Number(report.mayaSales).toLocaleString()}</td>
 
-<td>₱${report.foodpandaSales.toLocaleString()}</td>
+<td>₱${Number(report.foodpandaSales).toLocaleString()}</td>
 
-<td>₱${report.employeeCharges.toLocaleString()}</td>
+<td>₱${Number(report.employeeCharges).toLocaleString()}</td>
 
-<td>₱${report.cashSales.toLocaleString()}</td>
+<td>₱${Number(report.cashSales).toLocaleString()}</td>
 
-<td>₱${report.cashOnHand.toLocaleString()}</td>
+<td>₱${Number(report.cashOnHand).toLocaleString()}</td>
 
-<td>₱${report.shortOver.toLocaleString()}</td>
+<td style="
+font-weight:700;
+color:${Number(report.shortOver) >= 0 ? '#22c55e' : '#ef4444'};
+">
+₱${Number(report.shortOver).toLocaleString()}
+</td>
 
 <td style="white-space:nowrap;">
 
-<button
-style="
-background:#3b82f6;
-color:white;
-border:none;
-padding:8px 12px;
-border-radius:8px;
-cursor:pointer;
-margin-right:5px;
-font-weight:600;
-"
+<button class="edit-btn"
 onclick="editReport(${index})">
 
 Edit
@@ -747,6 +788,7 @@ Delete
 </button>
 
 </td>
+
 </tr>
 
 `;
@@ -754,6 +796,7 @@ Delete
 });
 
 }
+
 /* EDIT */
 
 function editReport(index){
@@ -765,44 +808,44 @@ localStorage.getItem("dailyReports")
 
 const report = reports[index];
 
-document.getElementById("date")
-.value = report.date;
+document.getElementById("date").value =
+report.date;
 
-document.getElementById("grossSales")
-.value = report.grossSales;
+document.getElementById("grossSales").value =
+report.grossSales;
 
-document.getElementById("srDiscount")
-.value = report.srDiscount;
+document.getElementById("srDiscount").value =
+report.srDiscount;
 
-document.getElementById("pwdDiscount")
-.value = report.pwdDiscount;
+document.getElementById("pwdDiscount").value =
+report.pwdDiscount;
 
-document.getElementById("employeeDiscount")
-.value = report.employeeDiscount;
+document.getElementById("employeeDiscount").value =
+report.employeeDiscount;
 
-document.getElementById("itemDiscount")
-.value = report.itemDiscount;
+document.getElementById("itemDiscount").value =
+report.itemDiscount;
 
-document.getElementById("salesRefund")
-.value = report.salesRefund;
+document.getElementById("salesRefund").value =
+report.salesRefund;
 
-document.getElementById("cardSales")
-.value = report.cardSales;
+document.getElementById("cardSales").value =
+report.cardSales;
 
-document.getElementById("gcashSales")
-.value = report.gcashSales;
+document.getElementById("gcashSales").value =
+report.gcashSales;
 
-document.getElementById("mayaSales")
-.value = report.mayaSales;
+document.getElementById("mayaSales").value =
+report.mayaSales;
 
-document.getElementById("foodpandaSales")
-.value = report.foodpandaSales;
+document.getElementById("foodpandaSales").value =
+report.foodpandaSales;
 
-document.getElementById("employeeCharges")
-.value = report.employeeCharges;
+document.getElementById("employeeCharges").value =
+report.employeeCharges;
 
-document.getElementById("cashOnHand")
-.value = report.cashOnHand;
+document.getElementById("cashOnHand").value =
+report.cashOnHand;
 
 autoCompute();
 
@@ -814,6 +857,7 @@ behavior:"smooth"
 });
 
 }
+
 /* DELETE */
 
 function deleteReport(index){
@@ -834,7 +878,7 @@ loadSavedReports();
 
 }
 
-/* PRINT SAVED REPORTS */
+/* PRINT */
 
 function printSavedReports(){
 
@@ -882,6 +926,7 @@ html2pdf()
 
 /* LOAD */
 
+autoCompute();
 loadSavedReports();
 
 </script>
