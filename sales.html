@@ -301,9 +301,7 @@ onclick="loadSales()">
 <i class="fa-solid fa-filter"></i>
 Filter
 
-</button>  <button class="print-btn"  
-onclick="window.print()">
-
+</button> 
 <a href="daily-report.html"
 class="print-btn"
 style="
@@ -314,15 +312,19 @@ gap:8px;
 ">
 
 <i class="fa-solid fa-file-lines"></i>
-
 Daily Report
 
 </a>
-  
+
+<button class="print-btn"
+onclick="window.print()">
+
 <i class="fa-solid fa-print"></i>
 Print Report
 
-</button>  <button class="print-btn"  
+</button>
+  
+<button class="print-btn"  
 onclick="closeShift()">
 
 <i class="fa-solid fa-cash-register"></i>
@@ -1309,9 +1311,10 @@ sale.date || new Date()
 ).toLocaleString()}
 </p>>  
 
-Payment:  
-${sale.paymentMethod || "Cash"}  
-</p>  <p>  
+<p>
+Payment:
+${sale.paymentMethod || "Cash"}
+</p>
 Reference:  
 ${sale.referenceNumber || "-"}  
 </p>  <table>  <thead>  <tr>  <th>Item</th>  
