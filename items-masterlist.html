@@ -503,10 +503,9 @@ placeholder="Item Name">
 Select Category
 </option>
 
-<option>Raw Materials</option>
-<option>Packaging</option>
-<option>Supplies</option>
-<option>Beverages</option>
+<option value="">
+Select Category
+</option>
 
 </select>
 
@@ -1087,7 +1086,45 @@ alert("Item Deleted");
 }
 
 /* LOAD */
+/* LOAD CATEGORIES */
 
+async function loadCategories(){
+
+const categorySelect =
+document.getElementById("category");
+
+categorySelect.innerHTML = `
+
+<option value="">
+Select Category
+</option>
+
+`;
+
+const snapshot =
+await getDocs(
+collection(db,"inventoryCategories")
+);
+
+snapshot.forEach((firebaseDoc)=>{
+
+const data =
+firebaseDoc.data();
+
+categorySelect.innerHTML += `
+
+<option value="${data.categoryName}">
+
+${data.categoryName}
+
+</option>
+
+`;
+
+});
+
+}
+loadCategories();
 loadItems();
 
 </script>
