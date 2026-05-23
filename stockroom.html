@@ -25,8 +25,30 @@ font-family:'Poppins',sans-serif;
 }
 
 body{
-background:#f3f4f6;
+
+background:
+linear-gradient(
+rgba(0,0,0,0.75),
+rgba(0,0,0,0.85)
+),
+url('./cafe-bg.jpg')
+center/cover no-repeat fixed;
+
+color:white;
 overflow:hidden;
+
+}
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar{
+width:8px;
+height:8px;
+}
+
+::-webkit-scrollbar-thumb{
+background:#facc15;
+border-radius:10px;
 }
 
 /* LAYOUT */
@@ -39,8 +61,9 @@ height:100vh;
 /* SIDEBAR */
 
 .sidebar{
-width:290px;
-background:#050505;
+width:300px;
+background:rgba(0,0,0,0.82);
+backdrop-filter:blur(14px);
 padding:20px;
 overflow-y:auto;
 border-right:1px solid rgba(255,255,255,0.08);
@@ -50,17 +73,15 @@ border-right:1px solid rgba(255,255,255,0.08);
 display:flex;
 align-items:center;
 gap:14px;
-padding-bottom:25px;
-margin-bottom:25px;
-border-bottom:1px solid rgba(255,255,255,0.08);
+margin-bottom:30px;
 }
 
 .logo-box img{
-width:60px;
-height:60px;
+width:65px;
+height:65px;
 border-radius:50%;
 background:white;
-padding:4px;
+padding:5px;
 border:3px solid #facc15;
 object-fit:contain;
 }
@@ -68,178 +89,199 @@ object-fit:contain;
 .logo-text h2{
 font-size:20px;
 font-weight:700;
-color:white;
 }
 
 .logo-text p{
 font-size:13px;
 color:#d1d5db;
-margin-top:4px;
 }
 
 .menu{
 display:flex;
 flex-direction:column;
-gap:8px;
+gap:12px;
 }
 
 .menu-title{
-color:#facc15;
 font-size:13px;
+color:#facc15;
 font-weight:700;
-margin-top:18px;
-margin-bottom:8px;
-padding-left:10px;
+margin-top:10px;
+margin-bottom:5px;
+padding-left:5px;
 }
 
 .menu a{
 display:flex;
 align-items:center;
 gap:14px;
-padding:14px 16px;
-border-radius:14px;
+padding:15px;
+border-radius:18px;
 text-decoration:none;
 color:white;
 font-size:15px;
+font-weight:500;
 transition:.3s;
+background:rgba(255,255,255,0.03);
 }
 
 .menu a i{
-width:20px;
+width:22px;
+font-size:16px;
 }
 
 .menu a:hover,
 .menu a.active{
 background:#facc15;
 color:black;
-font-weight:600;
+transform:translateX(4px);
 }
 
 /* MAIN */
 
 .main{
 flex:1;
-overflow-y:auto;
 padding:25px;
+overflow-y:auto;
 }
 
 /* HEADER */
 
-.header{
-background:#0f172a;
-color:white;
-padding:25px;
-border-radius:20px;
+.header-box{
+background:rgba(30,41,59,0.65);
+backdrop-filter:blur(16px);
+padding:30px;
+border-radius:28px;
 margin-bottom:25px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+border:1px solid rgba(255,255,255,0.08);
 }
 
-.header h1{
-font-size:34px;
-margin-bottom:8px;
+.header-box h1{
+font-size:40px;
+margin-bottom:5px;
 }
 
-/* FLOW */
+.header-box p{
+color:#d1d5db;
+font-size:14px;
+}
 
-.flow-grid{
+/* CARDS */
+
+.cards{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:18px;
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+gap:20px;
 margin-bottom:25px;
 }
 
-.flow-card{
-background:white;
-padding:25px;
-border-radius:18px;
-border:1px solid #d1d5db;
-text-align:center;
+.card{
+background:rgba(30,41,59,0.65);
+backdrop-filter:blur(16px);
+padding:28px;
+border-radius:24px;
+position:relative;
+overflow:hidden;
+border:1px solid rgba(255,255,255,0.08);
 }
 
-.flow-card h3{
-font-size:20px;
+.card i{
+position:absolute;
+right:20px;
+top:20px;
+font-size:40px;
+color:rgba(250,204,21,0.25);
+}
+
+.card h4{
+font-size:15px;
+margin-bottom:15px;
+color:#e5e7eb;
+}
+
+.card h2{
+font-size:42px;
 margin-bottom:10px;
 }
 
-.flow-card p{
+.card p{
+color:#4ade80;
 font-size:14px;
-color:#4b5563;
-line-height:1.6;
 }
 
 /* TABLE */
 
 .table-box{
-background:white;
-padding:20px;
-border-radius:20px;
-overflow:auto;
-margin-bottom:25px;
+background:rgba(30,41,59,0.65);
+backdrop-filter:blur(16px);
+padding:25px;
+border-radius:28px;
+border:1px solid rgba(255,255,255,0.08);
+overflow-x:auto;
 }
 
 .table-title{
-font-size:24px;
+font-size:22px;
 margin-bottom:20px;
-font-weight:700;
+color:#facc15;
 }
 
 table{
 width:100%;
 border-collapse:collapse;
-min-width:1200px;
+min-width:900px;
 }
 
 table th{
-background:#0f172a;
-color:white;
-padding:14px;
+background:#111827;
+padding:15px;
+color:#facc15;
 font-size:14px;
-border:1px solid #d1d5db;
+text-align:left;
 }
 
 table td{
-padding:14px;
-border:1px solid #d1d5db;
-text-align:center;
+padding:15px;
+border-bottom:1px solid rgba(255,255,255,0.08);
+background:rgba(255,255,255,0.02);
 font-size:14px;
 }
 
-table input{
-width:100%;
-padding:10px;
-border:1px solid #d1d5db;
-border-radius:10px;
-text-align:center;
+.low{
+color:#ef4444;
+font-weight:700;
 }
 
-/* SUMMARY */
-
-.summary-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
+.normal{
+color:#22c55e;
+font-weight:700;
 }
 
-.summary-card{
-background:white;
-padding:25px;
+/* BUTTON */
+
+.refresh-btn{
+margin-top:20px;
+background:#facc15;
+color:black;
+border:none;
+padding:15px 28px;
 border-radius:18px;
-text-align:center;
-border:1px solid #d1d5db;
+font-size:16px;
+font-weight:700;
+cursor:pointer;
+transition:.3s;
 }
 
-.summary-card h2{
-font-size:36px;
-margin-top:10px;
-}
-
-.summary-card p{
-color:#6b7280;
-margin-top:5px;
+.refresh-btn:hover{
+transform:translateY(-3px);
 }
 
 /* MOBILE */
 
-@media(max-width:900px){
+@media(max-width:950px){
 
 .container{
 flex-direction:column;
@@ -247,10 +289,26 @@ flex-direction:column;
 
 .sidebar{
 width:100%;
+display:flex;
+overflow:auto;
 }
 
-.main{
-padding:15px;
+.menu{
+flex-direction:row;
+}
+
+.menu a{
+min-width:180px;
+}
+
+.header-box{
+flex-direction:column;
+align-items:flex-start;
+gap:15px;
+}
+
+.header-box h1{
+font-size:30px;
 }
 
 }
@@ -269,13 +327,14 @@ padding:15px;
 
 <div class="logo-box">
 
-<img src="./logo.png">
+<img src="./logo.png"
+alt="Logo">
 
 <div class="logo-text">
 
 <h2>D'Mezzanine</h2>
 
-<p>Stock Room System</p>
+<p>Stockroom System</p>
 
 </div>
 
@@ -284,10 +343,57 @@ padding:15px;
 <div class="menu">
 
 <p class="menu-title">
-INVENTORY
+MAIN MENU
 </p>
 
-<a href="#">
+<a href="./index.html">
+
+<i class="fa-solid fa-house"></i>
+
+Main Dashboard
+
+</a>
+
+<a href="cashier.html">
+
+<i class="fa-solid fa-cash-register"></i>
+
+Cashier POS
+
+</a>
+
+<a href="products.html">
+
+<i class="fa-solid fa-mug-hot"></i>
+
+Products
+
+</a>
+
+<a href="sales.html">
+
+<i class="fa-solid fa-chart-column"></i>
+
+Sales Report
+
+</a>
+
+<p class="menu-title">
+
+STOCKROOM INVENTORY
+
+</p>
+
+<a href="stockroom.html"
+class="active">
+
+<i class="fa-solid fa-chart-line"></i>
+
+Stockroom Dashboard
+
+</a>
+
+<a href="items.html">
 
 <i class="fa-solid fa-boxes-stacked"></i>
 
@@ -295,7 +401,7 @@ Items
 
 </a>
 
-<a href="#">
+<a href="stock-in.html">
 
 <i class="fa-solid fa-truck"></i>
 
@@ -303,7 +409,7 @@ Stock In
 
 </a>
 
-<a href="#">
+<a href="stock-out.html">
 
 <i class="fa-solid fa-arrow-right-arrow-left"></i>
 
@@ -311,7 +417,7 @@ Stock Out
 
 </a>
 
-<a href="#">
+<a href="waste.html">
 
 <i class="fa-solid fa-trash"></i>
 
@@ -319,8 +425,7 @@ Waste
 
 </a>
 
-<a href="#"
-class="active">
+<a href="daily-inventory.html">
 
 <i class="fa-solid fa-clipboard-list"></i>
 
@@ -328,23 +433,52 @@ Daily Inventory
 
 </a>
 
-<p class="menu-title">
-REPORTS
-</p>
+<a href="stock-history.html">
 
-<a href="#">
+<i class="fa-solid fa-clock-rotate-left"></i>
 
-<i class="fa-solid fa-file-lines"></i>
-
-Inventory Report
+Stock History
 
 </a>
 
-<a href="index.html">
+<a href="suppliers.html">
 
-<i class="fa-solid fa-arrow-left"></i>
+<i class="fa-solid fa-user-group"></i>
 
-Back To Dashboard
+Suppliers
+
+</a>
+
+<a href="purchase-orders.html">
+
+<i class="fa-solid fa-file-circle-plus"></i>
+
+Purchase Orders
+
+</a>
+
+<a href="stock-adjustment.html">
+
+<i class="fa-solid fa-sliders"></i>
+
+Stock Adjustment
+
+</a>
+
+<a href="expiry-monitor.html">
+
+<i class="fa-solid fa-triangle-exclamation"></i>
+
+Expiry Monitor
+
+</a>
+
+<a href="#"
+id="logoutBtn">
+
+<i class="fa-solid fa-right-from-bracket"></i>
+
+Logout
 
 </a>
 
@@ -358,88 +492,82 @@ Back To Dashboard
 
 <!-- HEADER -->
 
-<div class="header">
+<div class="header-box">
 
-<h1>Daily Inventory Structure</h1>
+<div>
 
-<p>
-Rolling Inventory System
-</p>
+<h1>Stockroom Dashboard 📦</h1>
 
-</div>
-
-<!-- FLOW -->
-
-<div class="flow-grid">
-
-<div class="flow-card">
-
-<h3>1. Beginning Inventory</h3>
-
-<p>
-Start of day inventory from yesterday ending.
-</p>
-
-</div>
-
-<div class="flow-card">
-
-<h3>2. Stock In</h3>
-
-<p>
-Items received from supplier delivery.
-</p>
-
-</div>
-
-<div class="flow-card">
-
-<h3>3. Stock Out</h3>
-
-<p>
-Used items from POS, Kitchen & Bar.
-</p>
-
-</div>
-
-<div class="flow-card">
-
-<h3>4. Waste</h3>
-
-<p>
-Expired, damaged or spoiled items.
-</p>
-
-</div>
-
-<div class="flow-card">
-
-<h3>5. Ending Inventory</h3>
-
-<p>
-Actual remaining stock at end of day.
-</p>
-
-</div>
-
-<div class="flow-card">
-
-<h3>6. Auto Carry Over</h3>
-
-<p>
-Ending today becomes beginning tomorrow.
+<p id="dateTime">
+Realtime Inventory Monitoring
 </p>
 
 </div>
 
 </div>
 
-<!-- DAILY TABLE -->
+<!-- CARDS -->
+
+<div class="cards">
+
+<div class="card">
+
+<i class="fa-solid fa-boxes-stacked"></i>
+
+<h4>Total Items</h4>
+
+<h2 id="totalItems">0</h2>
+
+<p>Inventory Products</p>
+
+</div>
+
+<div class="card">
+
+<i class="fa-solid fa-arrow-down"></i>
+
+<h4>Stock In Today</h4>
+
+<h2 id="stockInToday">0</h2>
+
+<p>Incoming Stocks</p>
+
+</div>
+
+<div class="card">
+
+<i class="fa-solid fa-arrow-up"></i>
+
+<h4>Stock Out Today</h4>
+
+<h2 id="stockOutToday">0</h2>
+
+<p>Released Stocks</p>
+
+</div>
+
+<div class="card">
+
+<i class="fa-solid fa-trash"></i>
+
+<h4>Waste Today</h4>
+
+<h2 id="wasteToday">0</h2>
+
+<p>Damaged / Expired</p>
+
+</div>
+
+</div>
+
+<!-- LOW STOCK -->
 
 <div class="table-box">
 
 <h2 class="table-title">
-Daily Inventory
+
+Low Stock Inventory
+
 </h2>
 
 <table>
@@ -448,112 +576,23 @@ Daily Inventory
 
 <tr>
 
-<th>ITEM</th>
-<th>UNIT</th>
-<th>BEGINNING</th>
-<th>STOCK IN</th>
-<th>STOCK OUT</th>
-<th>WASTE</th>
-<th>ENDING</th>
+<th>Item</th>
+<th>Category</th>
+<th>Current Stock</th>
+<th>Status</th>
 
 </tr>
 
 </thead>
 
-<tbody>
+<tbody id="lowStockTable">
 
 <tr>
 
-<td>Milk</td>
+<td colspan="4">
 
-<td>Liter</td>
+Loading inventory...
 
-<td>
-<input type="number"
-value="20">
-</td>
-
-<td>
-<input type="number"
-value="10">
-</td>
-
-<td>
-<input type="number"
-value="15">
-</td>
-
-<td>
-<input type="number"
-value="1">
-</td>
-
-<td>
-14
-</td>
-
-</tr>
-
-<tr>
-
-<td>Coffee Beans</td>
-
-<td>KG</td>
-
-<td>
-<input type="number"
-value="10">
-</td>
-
-<td>
-<input type="number"
-value="5">
-</td>
-
-<td>
-<input type="number"
-value="6">
-</td>
-
-<td>
-<input type="number"
-value="0">
-</td>
-
-<td>
-9
-</td>
-
-</tr>
-
-<tr>
-
-<td>Vanilla Syrup</td>
-
-<td>Bottle</td>
-
-<td>
-<input type="number"
-value="5">
-</td>
-
-<td>
-<input type="number"
-value="2">
-</td>
-
-<td>
-<input type="number"
-value="3">
-</td>
-
-<td>
-<input type="number"
-value="0">
-</td>
-
-<td>
-4
 </td>
 
 </tr>
@@ -562,49 +601,14 @@ value="0">
 
 </table>
 
-</div>
+<button class="refresh-btn"
+onclick="refreshDashboard()">
 
-<!-- SUMMARY -->
+<i class="fa-solid fa-rotate-right"></i>
 
-<div class="summary-grid">
+Refresh Dashboard
 
-<div class="summary-card">
-
-<h3>Total Stock In</h3>
-
-<h2>17</h2>
-
-<p>All Items</p>
-
-</div>
-
-<div class="summary-card">
-
-<h3>Total Used</h3>
-
-<h2>30</h2>
-
-<p>POS / Kitchen</p>
-
-</div>
-
-<div class="summary-card">
-
-<h3>Total Waste</h3>
-
-<h2>2</h2>
-
-<p>Damaged Items</p>
-
-</div>
-
-<div class="summary-card">
-
-<h3>Ending Inventory</h3>
-
-<h2>₱2,450</h2>
-
-<p>Total Value</p>
+</button>
 
 </div>
 
@@ -612,7 +616,131 @@ value="0">
 
 </div>
 
-</div>
+<script>
+
+/* DATE TIME */
+
+function updateDateTime(){
+
+document.getElementById("dateTime")
+.innerText =
+new Date().toLocaleString();
+
+}
+
+setInterval(updateDateTime,1000);
+
+updateDateTime();
+
+/* SAMPLE DASHBOARD */
+
+function loadDashboard(){
+
+/* SAMPLE VALUES */
+
+document.getElementById("totalItems")
+.innerText = 120;
+
+document.getElementById("stockInToday")
+.innerText = 35;
+
+document.getElementById("stockOutToday")
+.innerText = 22;
+
+document.getElementById("wasteToday")
+.innerText = 4;
+
+/* SAMPLE LOW STOCK */
+
+const table =
+document.getElementById("lowStockTable");
+
+table.innerHTML = `
+
+<tr>
+
+<td>Coffee Beans</td>
+
+<td>Ingredients</td>
+
+<td class="low">
+3
+</td>
+
+<td class="low">
+LOW STOCK
+</td>
+
+</tr>
+
+<tr>
+
+<td>Milk</td>
+
+<td>Dairy</td>
+
+<td class="low">
+2
+</td>
+
+<td class="low">
+LOW STOCK
+</td>
+
+</tr>
+
+<tr>
+
+<td>Chocolate Syrup</td>
+
+<td>Syrup</td>
+
+<td class="normal">
+15
+</td>
+
+<td class="normal">
+NORMAL
+</td>
+
+</tr>
+
+`;
+
+}
+
+/* REFRESH */
+
+function refreshDashboard(){
+
+loadDashboard();
+
+}
+
+/* LOGOUT */
+
+document
+.getElementById("logoutBtn")
+
+.addEventListener(
+"click",
+function(e){
+
+e.preventDefault();
+
+localStorage.clear();
+
+window.location.href =
+"login.html";
+
+}
+);
+
+/* LOAD */
+
+loadDashboard();
+
+</script>
 
 </body>
 </html>
