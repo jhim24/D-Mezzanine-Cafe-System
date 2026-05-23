@@ -107,7 +107,7 @@ overflow:auto;
 table{
 width:100%;
 border-collapse:collapse;
-min-width:1800px;
+min-width:2200px;
 }
 
 th{
@@ -115,11 +115,13 @@ background:#111827;
 color:#facc15;
 padding:15px;
 text-align:left;
+font-size:14px;
 }
 
 td{
 padding:14px;
 border-bottom:1px solid rgba(255,255,255,0.08);
+font-size:14px;
 }
 
 /* INPUT */
@@ -272,6 +274,7 @@ Daily Inventory
 <button class="refresh-btn"
 onclick="loadDailyInventory()">
 
+<i class="fa-solid fa-rotate-right"></i>
 Refresh Inventory
 
 </button>
@@ -290,6 +293,7 @@ Refresh Inventory
 <th>Item</th>
 <th>Beginning</th>
 <th>Stock In</th>
+<th>Sold</th>
 <th>Stock Out</th>
 <th>Waste</th>
 <th>System Ending</th>
@@ -306,7 +310,7 @@ Refresh Inventory
 
 <tr>
 
-<td colspan="11">
+<td colspan="12">
 
 Loading...
 
@@ -379,33 +383,34 @@ table.innerHTML = "";
 const today =
 new Date().toISOString().split("T")[0];
 
-/* MASTERLIST */
+/* COLLECTIONS */
 
 const itemsSnapshot =
 await getDocs(
 collection(db,"inventoryMasterlist")
 );
 
-/* STOCK IN */
-
 const stockInSnapshot =
 await getDocs(
 collection(db,"stockIn")
 );
-
-/* STOCK OUT */
 
 const stockOutSnapshot =
 await getDocs(
 collection(db,"stockOut")
 );
 
-/* WASTE */
-
 const wasteSnapshot =
 await getDocs(
 collection(db,"waste")
 );
+
+const salesSnapshot =
+await getDocs(
+collection(db,"sales")
+);
+
+/* LOOP ITEMS */
 
 for(const firebaseDoc of itemsSnapshot.docs){
 
@@ -426,10 +431,14 @@ Number(item.stock || 0);
 let stockIn = 0;
 let stockOut = 0;
 let waste = 0;
+let sold = 0;
+
+/* STOCK IN */
 
 stockInSnapshot.forEach((doc)=>{
 
-const data = doc.data();
+const data =
+doc.data();
 
 if(data.itemId === itemId){
 
@@ -440,9 +449,12 @@ Number(data.quantity || 0);
 
 });
 
+/* STOCK OUT */
+
 stockOutSnapshot.forEach((doc)=>{
 
-const data = doc.data();
+const data =
+doc.data();
 
 if(data.itemId === itemId){
 
@@ -453,14 +465,46 @@ Number(data.quantity || 0);
 
 });
 
+/* WASTE */
+
 wasteSnapshot.forEach((doc)=>{
 
-const data = doc.data();
+const data =
+doc.data();
 
 if(data.itemId === itemId){
 
 waste +=
 Number(data.quantity || 0);
+
+}
+
+});
+
+/* SALES */
+
+salesSnapshot.forEach((doc)=>{
+
+const sale =
+doc.data();
+
+if(
+sale.items &&
+Array.isArray(sale.items)
+){
+
+sale.items.forEach((saleItem)=>{
+
+if(
+saleItem.itemId === itemId
+){
+
+sold +=
+Number(saleItem.qty || 0);
+
+}
+
+});
 
 }
 
@@ -474,6 +518,8 @@ currentStock
 -
 stockIn
 +
+sold
++
 stockOut
 +
 waste;
@@ -485,6 +531,8 @@ const systemEnding =
 beginning
 +
 stockIn
+-
+sold
 -
 stockOut
 -
@@ -501,6 +549,8 @@ table.innerHTML += `
 <td>${beginning}</td>
 
 <td>${stockIn}</td>
+
+<td>${sold}</td>
 
 <td>${stockOut}</td>
 
@@ -535,6 +585,7 @@ onclick="saveDailyInventory(
 '${itemName}',
 ${beginning},
 ${stockIn},
+${sold},
 ${stockOut},
 ${waste},
 ${systemEnding}
@@ -562,6 +613,7 @@ itemId,
 itemName,
 beginning,
 stockIn,
+sold,
 stockOut,
 waste,
 systemEnding
@@ -627,6 +679,8 @@ itemName,
 beginning,
 
 stockIn,
+
+sold,
 
 stockOut,
 
