@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<meta http-equiv="Cache-Control"
+content="no-cache, no-store, must-revalidate">
+
+<meta http-equiv="Pragma"
+content="no-cache">
+
+<meta http-equiv="Expires"
+content="0">
+
+<title>D'Mezzanine Categories</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#d8ecec;
+color:#111827;
+overflow:hidden;
+}
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar{
+width:8px;
+height:8px;
+}
+
+::-webkit-scrollbar-thumb{
+background:#0f766e;
+border-radius:10px;
+}
+
+/* LAYOUT */
+
+.container{
+display:flex;
+height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+width:280px;
+background:#0f172a;
+padding:20px;
+overflow-y:auto;
+border-right:3px solid #134e4a;
+}
+
+.logo-box{
+display:flex;
+align-items:center;
+gap:14px;
+margin-bottom:30px;
+}
+
+.logo-box img{
+width:70px;
+height:70px;
+border-radius:50%;
+background:white;
+padding:5px;
+border:3px solid #facc15;
+object-fit:contain;
+}
+
+.logo-text h2{
+font-size:24px;
+font-weight:700;
+color:white;
+}
+
+.logo-text p{
+font-size:13px;
+color:#cbd5e1;
+margin-top:3px;
+}
+
+.menu{
+display:flex;
+flex-direction:column;
+gap:12px;
+}
+
+.menu-title{
+font-size:13px;
+font-weight:700;
+color:#facc15;
+margin-top:18px;
+margin-bottom:5px;
+padding-left:5px;
+}
+
+.menu a{
+display:flex;
+align-items:center;
+gap:14px;
+padding:16px;
+border-radius:14px;
+text-decoration:none;
+color:white;
+font-size:15px;
+font-weight:500;
+transition:.3s;
+background:#1e293b;
+}
+
+.menu a:hover,
+.menu a.active{
+background:#facc15;
+color:black;
+transform:translateX(4px);
+}
+
+/* MAIN */
+
+.main{
+flex:1;
+padding:20px;
+overflow-y:auto;
+}
+
+/* HEADER */
+
+.header-box{
+background:#b8dede;
+padding:20px;
+border:2px solid #6b9e9e;
+margin-bottom:18px;
+}
+
+.header-box h1{
+font-size:32px;
+font-weight:700;
+}
+
+.header-box p{
+margin-top:5px;
+font-size:14px;
+}
+
+/* CARDS */
+
+.cards{
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+margin-bottom:20px;
+}
+
+.card{
+background:#c7e4e4;
+border:2px solid #7aa6a6;
+padding:20px;
+position:relative;
+}
+
+.card i{
+position:absolute;
+top:15px;
+right:15px;
+font-size:34px;
+color:#134e4a;
+}
+
+.card h3{
+font-size:15px;
+margin-bottom:10px;
+}
+
+.card h2{
+font-size:38px;
+color:#0f172a;
+}
+
+/* FORM */
+
+.form-box{
+background:#c7e4e4;
+border:2px solid #7aa6a6;
+padding:20px;
+margin-bottom:18px;
+
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(250px,1fr));
+
+gap:12px;
+}
+
+.form-box input{
+padding:12px;
+border:1px solid #7aa6a6;
+background:white;
+font-size:14px;
+}
+
+.form-box input:focus{
+outline:none;
+border:2px solid #0f766e;
+}
+
+/* BUTTONS */
+
+.save-btn{
+background:#0f766e;
+border:none;
+padding:13px;
+color:white;
+font-weight:700;
+cursor:pointer;
+transition:.3s;
+}
+
+.save-btn:hover{
+background:#115e59;
+}
+
+.edit-btn{
+background:#2563eb;
+border:none;
+padding:8px 12px;
+color:white;
+cursor:pointer;
+margin-right:5px;
+font-size:13px;
+}
+
+.delete-btn{
+background:#dc2626;
+border:none;
+padding:8px 12px;
+color:white;
+cursor:pointer;
+font-size:13px;
+}
+
+/* FILTER */
+
+.filters{
+display:flex;
+gap:12px;
+margin-bottom:18px;
+flex-wrap:wrap;
+}
+
+.filters input{
+padding:12px;
+border:1px solid #7aa6a6;
+background:white;
+min-width:250px;
+}
+
+/* TABLE */
+
+.table-box{
+background:#c7e4e4;
+border:2px solid #7aa6a6;
+overflow:auto;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+min-width:1000px;
+background:white;
+}
+
+th{
+background:#374151;
+padding:7px 10px;
+border:1px solid #111827;
+font-size:13px;
+font-weight:700;
+text-align:left;
+color:white;
+}
+
+td{
+padding:5px 10px;
+border:1px solid #4b5563;
+font-size:13px;
+font-weight:700;
+background:#d1d5db;
+color:#000;
+line-height:1.1;
+}
+
+/* MOBILE */
+
+@media(max-width:950px){
+
+.container{
+flex-direction:column;
+}
+
+.sidebar{
+width:100%;
+display:flex;
+overflow:auto;
+}
+
+.menu{
+flex-direction:row;
+}
+
+.menu a{
+min-width:180px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<div class="logo-box">
+
+<img src="./logo.png">
+
+<div class="logo-text">
+
+<h2>D'Mezzanine</h2>
+
+<p>Inventory System</p>
+
+</div>
+
+</div>
+
+<div class="menu">
+
+<div class="menu-title">
+MAIN
+</div>
+
+<a href="index.html">
+
+<i class="fa-solid fa-chart-line"></i>
+Dashboard
+
+</a>
+
+<div class="menu-title">
+INVENTORY
+</div>
+
+<a href="categories.html"
+class="active">
+
+<i class="fa-solid fa-layer-group"></i>
+Categories
+
+</a>
+
+<a href="items-masterlist.html">
+
+<i class="fa-solid fa-box"></i>
+Items Masterlist
+
+</a>
+
+<a href="stock-in.html">
+
+<i class="fa-solid fa-truck"></i>
+Stock In
+
+</a>
+
+<a href="stock-out.html">
+
+<i class="fa-solid fa-arrow-right-arrow-left"></i>
+Stock Out
+
+</a>
+
+<a href="waste.html">
+
+<i class="fa-solid fa-trash"></i>
+Waste
+
+</a>
+
+<a href="daily-inventory.html">
+
+<i class="fa-solid fa-clipboard-list"></i>
+Daily Inventory
+
+</a>
+
+</div>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
+
+<!-- HEADER -->
+
+<div class="header-box">
+
+<h1>Categories Management 🗂️</h1>
+
+<p id="dateTime"></p>
+
+</div>
+
+<!-- CARDS -->
+
+<div class="cards">
+
+<div class="card">
+
+<i class="fa-solid fa-layer-group"></i>
+
+<h3>Total Categories</h3>
+
+<h2 id="totalCategories">0</h2>
+
+</div>
+
+</div>
+
+<!-- FORM -->
+
+<div class="form-box">
+
+<input type="text"
+id="categoryName"
+placeholder="Category Name">
+
+<button class="save-btn"
+onclick="saveCategory()">
+
+<i class="fa-solid fa-floppy-disk"></i>
+Save Category
+
+</button>
+
+</div>
+
+<!-- FILTER -->
+
+<div class="filters">
+
+<input type="text"
+id="searchInput"
+placeholder="Search Category..."
+onkeyup="loadCategories()">
+
+</div>
+
+<!-- TABLE -->
+
+<div class="table-box">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Category Name</th>
+<th>Created At</th>
+<th>Actions</th>
+
+</tr>
+
+</thead>
+
+<tbody id="categoriesTable">
+
+<tr>
+
+<td colspan="3">
+
+Loading...
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+
+import {
+
+getFirestore,
+collection,
+addDoc,
+deleteDoc,
+doc,
+updateDoc,
+getDoc,
+onSnapshot
+
+}
+
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+/* FIREBASE */
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyCYjuZlpgE-Lci33e53014F7fRIid6u7Dg",
+
+authDomain: "family-web-10cb8.firebaseapp.com",
+
+projectId: "family-web-10cb8",
+
+storageBucket: "family-web-10cb8.firebasestorage.app",
+
+messagingSenderId: "152048365178",
+
+appId: "1:152048365178:web:3e42c20e03a7c563d915c3"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
+
+let editId = null;
+
+/* DATE TIME */
+
+function updateDateTime(){
+
+document.getElementById("dateTime")
+.innerText =
+new Date().toLocaleString();
+
+}
+
+setInterval(updateDateTime,1000);
+
+updateDateTime();
+
+/* SAVE */
+
+window.saveCategory =
+async function(){
+
+try{
+
+const categoryName =
+document.getElementById("categoryName")
+.value
+.trim();
+
+if(!categoryName){
+
+alert("Enter category name");
+
+return;
+
+}
+
+const categoryData = {
+
+categoryName,
+
+createdAt:
+new Date()
+
+};
+
+if(editId){
+
+await updateDoc(
+doc(db,"inventoryCategories",editId),
+categoryData
+);
+
+alert("Category Updated");
+
+editId = null;
+
+}else{
+
+await addDoc(
+collection(db,"inventoryCategories"),
+categoryData
+);
+
+alert("Category Saved");
+
+}
+
+document.getElementById("categoryName")
+.value = "";
+
+}catch(error){
+
+console.error(error);
+
+alert(error.message);
+
+}
+
+}
+
+/* LOAD */
+
+window.loadCategories =
+function(){
+
+const table =
+document.getElementById("categoriesTable");
+
+const search =
+document.getElementById("searchInput")
+.value
+.toLowerCase();
+
+onSnapshot(
+
+collection(db,"inventoryCategories"),
+
+(snapshot)=>{
+
+table.innerHTML = "";
+
+let totalCategories = 0;
+
+snapshot.forEach((firebaseDoc)=>{
+
+const data =
+firebaseDoc.data();
+
+const docId =
+firebaseDoc.id;
+
+if(
+search &&
+!data.categoryName
+.toLowerCase()
+.includes(search)
+){
+
+return;
+
+}
+
+totalCategories++;
+
+table.innerHTML += `
+
+<tr>
+
+<td>${data.categoryName}</td>
+
+<td>
+
+${new Date(
+data.createdAt.seconds * 1000
+).toLocaleString()}
+
+</td>
+
+<td>
+
+<button class="edit-btn"
+onclick="editCategory('${docId}')">
+
+Edit
+
+</button>
+
+<button class="delete-btn"
+onclick="deleteCategory('${docId}')">
+
+Delete
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+if(totalCategories === 0){
+
+table.innerHTML = `
+
+<tr>
+
+<td colspan="3">
+
+No Categories Found
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+document.getElementById("totalCategories")
+.innerText =
+totalCategories;
+
+}
+
+);
+
+}
+
+/* EDIT */
+
+window.editCategory =
+async function(id){
+
+const categoryRef =
+doc(db,"inventoryCategories",id);
+
+const categorySnap =
+await getDoc(categoryRef);
+
+if(categorySnap.exists()){
+
+const data =
+categorySnap.data();
+
+editId = id;
+
+document.getElementById("categoryName")
+.value =
+data.categoryName || "";
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+}
+
+}
+
+/* DELETE */
+
+window.deleteCategory =
+async function(id){
+
+const confirmDelete =
+confirm("Delete this category?");
+
+if(!confirmDelete){
+
+return;
+
+}
+
+await deleteDoc(
+doc(db,"inventoryCategories",id)
+);
+
+alert("Category Deleted");
+
+}
+
+/* LOAD */
+
+loadCategories();
+
+</script>
+
+</body>
+</html>
