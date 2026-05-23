@@ -7,7 +7,16 @@
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>Stock In</title>
+<meta http-equiv="Cache-Control"
+content="no-cache, no-store, must-revalidate">
+
+<meta http-equiv="Pragma"
+content="no-cache">
+
+<meta http-equiv="Expires"
+content="0">
+
+<title>D'Mezzanine Stock In</title>
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -25,10 +34,24 @@ font-family:'Poppins',sans-serif;
 }
 
 body{
-background:#0f172a;
-color:white;
+background:#d8ecec;
+color:#111827;
 overflow:hidden;
 }
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar{
+width:8px;
+height:8px;
+}
+
+::-webkit-scrollbar-thumb{
+background:#0f766e;
+border-radius:10px;
+}
+
+/* LAYOUT */
 
 .container{
 display:flex;
@@ -39,16 +62,39 @@ height:100vh;
 
 .sidebar{
 width:280px;
-background:#111827;
+background:#0f172a;
 padding:20px;
 overflow-y:auto;
+border-right:3px solid #134e4a;
 }
 
-.logo{
+.logo-box{
+display:flex;
+align-items:center;
+gap:14px;
+margin-bottom:30px;
+}
+
+.logo-box img{
+width:70px;
+height:70px;
+border-radius:50%;
+background:white;
+padding:5px;
+border:3px solid #facc15;
+object-fit:contain;
+}
+
+.logo-text h2{
 font-size:24px;
 font-weight:700;
-margin-bottom:30px;
-color:#facc15;
+color:white;
+}
+
+.logo-text p{
+font-size:13px;
+color:#cbd5e1;
+margin-top:3px;
 }
 
 .menu{
@@ -57,128 +103,210 @@ flex-direction:column;
 gap:12px;
 }
 
+.menu-title{
+font-size:13px;
+font-weight:700;
+color:#facc15;
+margin-top:18px;
+margin-bottom:5px;
+padding-left:5px;
+}
+
 .menu a{
-padding:15px;
+display:flex;
+align-items:center;
+gap:14px;
+padding:16px;
 border-radius:14px;
 text-decoration:none;
 color:white;
-background:#1e293b;
+font-size:15px;
+font-weight:500;
 transition:.3s;
-display:flex;
-align-items:center;
-gap:10px;
+background:#1e293b;
 }
 
 .menu a:hover,
 .menu a.active{
 background:#facc15;
 color:black;
+transform:translateX(4px);
 }
 
 /* MAIN */
 
 .main{
 flex:1;
-padding:25px;
+padding:20px;
 overflow-y:auto;
 }
 
-.header{
-margin-bottom:25px;
+/* HEADER */
+
+.header-box{
+background:#b8dede;
+padding:20px;
+border:2px solid #6b9e9e;
+margin-bottom:18px;
 }
 
-.header h1{
+.header-box h1{
+font-size:32px;
+font-weight:700;
+}
+
+.header-box p{
+margin-top:5px;
+font-size:14px;
+}
+
+/* CARDS */
+
+.cards{
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+margin-bottom:20px;
+}
+
+.card{
+background:#c7e4e4;
+border:2px solid #7aa6a6;
+padding:20px;
+position:relative;
+}
+
+.card i{
+position:absolute;
+top:15px;
+right:15px;
+font-size:34px;
+color:#134e4a;
+}
+
+.card h3{
+font-size:15px;
+margin-bottom:10px;
+}
+
+.card h2{
 font-size:38px;
+color:#0f172a;
 }
 
 /* FORM */
 
 .form-box{
-background:#1e293b;
-padding:25px;
-border-radius:20px;
+background:#c7e4e4;
+border:2px solid #7aa6a6;
+padding:20px;
+margin-bottom:18px;
 
 display:grid;
 grid-template-columns:
-repeat(auto-fit,minmax(250px,1fr));
+repeat(auto-fit,minmax(220px,1fr));
 
-gap:15px;
-
-margin-bottom:25px;
+gap:12px;
 }
 
 .form-box input,
 .form-box select{
-padding:14px;
-border:none;
-border-radius:12px;
-background:#111827;
-color:white;
+padding:12px;
+border:1px solid #7aa6a6;
+background:white;
+font-size:14px;
 }
 
+.form-box input:focus,
+.form-box select:focus{
+outline:none;
+border:2px solid #0f766e;
+}
+
+/* BUTTONS */
+
 .save-btn{
-background:#22c55e;
+background:#0f766e;
 border:none;
-padding:14px;
-border-radius:12px;
+padding:13px;
+color:white;
 font-weight:700;
 cursor:pointer;
+transition:.3s;
+}
+
+.save-btn:hover{
+background:#115e59;
+}
+
+.edit-btn{
+background:#2563eb;
+border:none;
+padding:8px 12px;
 color:white;
+cursor:pointer;
+margin-right:5px;
+font-size:13px;
+}
+
+.delete-btn{
+background:#dc2626;
+border:none;
+padding:8px 12px;
+color:white;
+cursor:pointer;
+font-size:13px;
+}
+
+/* FILTERS */
+
+.filters{
+display:flex;
+gap:12px;
+margin-bottom:18px;
+flex-wrap:wrap;
+}
+
+.filters input{
+padding:12px;
+border:1px solid #7aa6a6;
+background:white;
+min-width:220px;
 }
 
 /* TABLE */
 
 .table-box{
-background:#1e293b;
-padding:20px;
-border-radius:20px;
+background:#c7e4e4;
+border:2px solid #7aa6a6;
 overflow:auto;
 }
 
 table{
 width:100%;
 border-collapse:collapse;
-min-width:1200px;
+min-width:1400px;
 }
 
 th{
-background:#111827;
-color:#facc15;
-padding:15px;
+background:#9ccccc;
+padding:12px;
+border:1px solid #7aa6a6;
+font-size:13px;
 text-align:left;
 }
 
 td{
-padding:14px;
-border-bottom:1px solid rgba(255,255,255,0.08);
-}
-
-/* ACTION BUTTONS */
-
-.edit-btn{
-background:#3b82f6;
-border:none;
-padding:8px 14px;
-border-radius:8px;
-color:white;
-cursor:pointer;
-margin-right:8px;
-font-weight:600;
-}
-
-.delete-btn{
-background:#ef4444;
-border:none;
-padding:8px 14px;
-border-radius:8px;
-color:white;
-cursor:pointer;
-font-weight:600;
+padding:10px;
+border:1px solid #7aa6a6;
+font-size:13px;
+background:#e8f6f6;
 }
 
 /* MOBILE */
 
-@media(max-width:900px){
+@media(max-width:950px){
 
 .container{
 flex-direction:column;
@@ -212,13 +340,25 @@ min-width:180px;
 
 <div class="sidebar">
 
-<div class="logo">
+<div class="logo-box">
 
-D'Mezzanine
+<img src="./logo.png">
+
+<div class="logo-text">
+
+<h2>D'Mezzanine</h2>
+
+<p>Inventory System</p>
+
+</div>
 
 </div>
 
 <div class="menu">
+
+<div class="menu-title">
+MAIN
+</div>
 
 <a href="index.html">
 
@@ -226,6 +366,10 @@ D'Mezzanine
 Dashboard
 
 </a>
+
+<div class="menu-title">
+INVENTORY
+</div>
 
 <a href="items-masterlist.html">
 
@@ -271,9 +415,37 @@ Daily Inventory
 
 <div class="main">
 
-<div class="header">
+<div class="header-box">
 
 <h1>Stock In 📥</h1>
+
+<p id="dateTime"></p>
+
+</div>
+
+<!-- CARDS -->
+
+<div class="cards">
+
+<div class="card">
+
+<i class="fa-solid fa-truck"></i>
+
+<h3>Total Stock In</h3>
+
+<h2 id="totalStockIn">0</h2>
+
+</div>
+
+<div class="card">
+
+<i class="fa-solid fa-boxes-stacked"></i>
+
+<h3>Total Quantity</h3>
+
+<h2 id="totalQuantity">0</h2>
+
+</div>
 
 </div>
 
@@ -311,6 +483,17 @@ onclick="saveStockIn()">
 Save Stock In
 
 </button>
+
+</div>
+
+<!-- FILTER -->
+
+<div class="filters">
+
+<input type="text"
+id="searchInput"
+placeholder="Search Item..."
+onkeyup="loadStockIn()">
 
 </div>
 
@@ -405,6 +588,20 @@ getFirestore(app);
 
 let itemsMap = {};
 
+/* DATE TIME */
+
+function updateDateTime(){
+
+document.getElementById("dateTime")
+.innerText =
+new Date().toLocaleString();
+
+}
+
+setInterval(updateDateTime,1000);
+
+updateDateTime();
+
 /* LOAD ITEMS */
 
 async function loadItems(){
@@ -453,7 +650,7 @@ ${item.itemName}
 
 }
 
-/* SAVE STOCK IN */
+/* SAVE */
 
 window.saveStockIn =
 async function(){
@@ -491,16 +688,6 @@ return;
 
 const selectedItem =
 itemsMap[itemId];
-
-if(!selectedItem){
-
-alert("Item not found");
-
-return;
-
-}
-
-/* SAVE STOCK IN */
 
 await addDoc(
 collection(db,"stockIn"),
@@ -648,18 +835,25 @@ document.getElementById("supplier")
 document.getElementById("invoice")
 .value = invoice;
 
-alert(
-"Edit mode loaded.\nDelete old transaction first then save new changes."
-);
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
 
 }
 
 /* LOAD STOCK IN */
 
-function loadStockIn(){
+window.loadStockIn =
+function(){
 
 const table =
 document.getElementById("stockInTable");
+
+const search =
+document.getElementById("searchInput")
+.value
+.toLowerCase();
 
 onSnapshot(
 
@@ -669,10 +863,29 @@ collection(db,"stockIn"),
 
 table.innerHTML = "";
 
+let totalStockIn = 0;
+let totalQuantity = 0;
+
 snapshot.forEach((firebaseDoc)=>{
 
 const data =
 firebaseDoc.data();
+
+if(
+search &&
+!data.itemName
+.toLowerCase()
+.includes(search)
+){
+
+return;
+
+}
+
+totalStockIn++;
+
+totalQuantity +=
+Number(data.quantity || 0);
 
 table.innerHTML += `
 
@@ -723,7 +936,7 @@ Delete
 
 });
 
-if(snapshot.empty){
+if(totalStockIn === 0){
 
 table.innerHTML = `
 
@@ -740,6 +953,14 @@ No Stock In Records
 `;
 
 }
+
+document.getElementById("totalStockIn")
+.innerText =
+totalStockIn;
+
+document.getElementById("totalQuantity")
+.innerText =
+totalQuantity;
 
 }
 
