@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<meta http-equiv="Cache-Control"
+content="no-cache, no-store, must-revalidate">
+
+<meta http-equiv="Pragma"
+content="no-cache">
+
+<meta http-equiv="Expires"
+content="0">
+
+<title>D'Mezzanine Purchase Orders</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#d8ecec;
+color:#111827;
+overflow:hidden;
+}
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar{
+width:8px;
+height:8px;
+}
+
+::-webkit-scrollbar-thumb{
+background:#0f766e;
+border-radius:10px;
+}
+
+/* LAYOUT */
+
+.container{
+display:flex;
+height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+width:280px;
+background:#0f172a;
+padding:20px;
+overflow-y:auto;
+border-right:3px solid #134e4a;
+}
+
+.logo-box{
+display:flex;
+align-items:center;
+gap:14px;
+margin-bottom:30px;
+}
+
+.logo-box img{
+width:70px;
+height:70px;
+border-radius:50%;
+background:white;
+padding:5px;
+border:3px solid #facc15;
+object-fit:contain;
+}
+
+.logo-text h2{
+font-size:24px;
+font-weight:700;
+color:white;
+}
+
+.logo-text p{
+font-size:13px;
+color:#cbd5e1;
+margin-top:3px;
+}
+
+.menu{
+display:flex;
+flex-direction:column;
+gap:12px;
+}
+
+.menu-title{
+font-size:13px;
+font-weight:700;
+color:#facc15;
+margin-top:18px;
+margin-bottom:5px;
+padding-left:5px;
+}
+
+.menu a{
+display:flex;
+align-items:center;
+gap:14px;
+padding:16px;
+border-radius:14px;
+text-decoration:none;
+color:white;
+font-size:15px;
+font-weight:500;
+transition:.3s;
+background:#1e293b;
+}
+
+.menu a:hover,
+.menu a.active{
+background:#facc15;
+color:black;
+transform:translateX(4px);
+}
+
+/* MAIN */
+
+.main{
+flex:1;
+padding:20px;
+overflow-y:auto;
+}
+
+/* HEADER */
+
+.header-box{
+background:#b8dede;
+padding:20px;
+border:2px solid #6b9e9e;
+margin-bottom:18px;
+}
+
+.header-box h1{
+font-size:32px;
+font-weight:700;
+}
+
+.header-box p{
+margin-top:5px;
+font-size:14px;
+}
+
+/* CARDS */
+
+.cards{
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+margin-bottom:20px;
+}
+
+.card{
+background:#c7e4e4;
+border:2px solid #7aa6a6;
+padding:20px;
+position:relative;
+}
+
+.card i{
+position:absolute;
+top:15px;
+right:15px;
+font-size:34px;
+color:#134e4a;
+}
+
+.card h3{
+font-size:15px;
+margin-bottom:10px;
+}
+
+.card h2{
+font-size:38px;
+color:#0f172a;
+}
+
+/* FORM */
+
+.form-box{
+background:#c7e4e4;
+border:2px solid #7aa6a6;
+padding:20px;
+margin-bottom:18px;
+
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
+
+gap:12px;
+}
+
+.form-box input,
+.form-box select{
+padding:12px;
+border:1px solid #7aa6a6;
+background:white;
+font-size:14px;
+}
+
+.form-box input:focus,
+.form-box select:focus{
+outline:none;
+border:2px solid #0f766e;
+}
+
+/* BUTTONS */
+
+.save-btn{
+background:#0f766e;
+border:none;
+padding:13px;
+color:white;
+font-weight:700;
+cursor:pointer;
+transition:.3s;
+}
+
+.save-btn:hover{
+background:#115e59;
+}
+
+.edit-btn{
+background:#2563eb;
+border:none;
+padding:8px 12px;
+color:white;
+cursor:pointer;
+margin-right:5px;
+font-size:13px;
+}
+
+.delete-btn{
+background:#dc2626;
+border:none;
+padding:8px 12px;
+color:white;
+cursor:pointer;
+font-size:13px;
+}
+
+.receive-btn{
+background:#15803d;
+border:none;
+padding:8px 12px;
+color:white;
+cursor:pointer;
+font-size:13px;
+margin-right:5px;
+}
+
+/* FILTERS */
+
+.filters{
+display:flex;
+gap:12px;
+margin-bottom:18px;
+flex-wrap:wrap;
+}
+
+.filters input,
+.filters select{
+padding:12px;
+border:1px solid #7aa6a6;
+background:white;
+min-width:220px;
+}
+
+/* TABLE */
+
+.table-box{
+background:#c7e4e4;
+border:2px solid #7aa6a6;
+overflow:auto;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+min-width:2200px;
+background:white;
+}
+
+th{
+background:#374151;
+padding:7px 10px;
+border:1px solid #111827;
+font-size:13px;
+font-weight:700;
+text-align:left;
+color:white;
+}
+
+td{
+padding:5px 10px;
+border:1px solid #4b5563;
+font-size:13px;
+font-weight:700;
+background:#d1d5db;
+color:#000;
+line-height:1.1;
+}
+
+/* STATUS */
+
+.pending{
+color:#dc2626;
+font-weight:700;
+}
+
+.received{
+color:#15803d;
+font-weight:700;
+}
+
+/* MOBILE */
+
+@media(max-width:950px){
+
+.container{
+flex-direction:column;
+}
+
+.sidebar{
+width:100%;
+display:flex;
+overflow:auto;
+}
+
+.menu{
+flex-direction:row;
+}
+
+.menu a{
+min-width:180px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<div class="logo-box">
+
+<img src="./logo.png">
+
+<div class="logo-text">
+
+<h2>D'Mezzanine</h2>
+
+<p>Purchase System</p>
+
+</div>
+
+</div>
+
+<div class="menu">
+
+<div class="menu-title">
+MAIN
+</div>
+
+<a href="index.html">
+
+<i class="fa-solid fa-chart-line"></i>
+Dashboard
+
+</a>
+
+<div class="menu-title">
+PURCHASES
+</div>
+
+<a href="suppliers.html">
+
+<i class="fa-solid fa-truck-field"></i>
+Suppliers
+
+</a>
+
+<a href="purchase-orders.html"
+class="active">
+
+<i class="fa-solid fa-file-invoice"></i>
+Purchase Orders
+
+</a>
+
+<div class="menu-title">
+INVENTORY
+</div>
+
+<a href="categories.html">
+
+<i class="fa-solid fa-layer-group"></i>
+Categories
+
+</a>
+
+<a href="items-masterlist.html">
+
+<i class="fa-solid fa-box"></i>
+Items Masterlist
+
+</a>
+
+<a href="stock-in.html">
+
+<i class="fa-solid fa-truck"></i>
+Stock In
+
+</a>
+
+<a href="stock-out.html">
+
+<i class="fa-solid fa-arrow-right-arrow-left"></i>
+Stock Out
+
+</a>
+
+<a href="waste.html">
+
+<i class="fa-solid fa-trash"></i>
+Waste
+
+</a>
+
+<a href="daily-inventory.html">
+
+<i class="fa-solid fa-clipboard-list"></i>
+Daily Inventory
+
+</a>
+
+</div>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
+
+<div class="header-box">
+
+<h1>Purchase Orders 📦</h1>
+
+<p id="dateTime"></p>
+
+</div>
+
+<!-- CARDS -->
+
+<div class="cards">
+
+<div class="card">
+
+<i class="fa-solid fa-file-invoice"></i>
+
+<h3>Total PO</h3>
+
+<h2 id="totalPO">0</h2>
+
+</div>
+
+<div class="card">
+
+<i class="fa-solid fa-money-bill-wave"></i>
+
+<h3>Total Amount</h3>
+
+<h2 id="totalAmount">₱0</h2>
+
+</div>
+
+</div>
+
+<!-- FORM -->
+
+<div class="form-box">
+
+<input type="date"
+id="poDate">
+
+<input type="text"
+id="poNumber"
+placeholder="PO Number">
+
+<select id="supplierSelect">
+
+<option value="">
+Select Supplier
+</option>
+
+</select>
+
+<select id="itemSelect">
+
+<option value="">
+Select Item
+</option>
+
+</select>
+
+<input type="number"
+id="quantity"
+placeholder="Quantity">
+
+<input type="number"
+id="cost"
+placeholder="Unit Cost">
+
+<select id="status">
+
+<option value="Pending">
+Pending
+</option>
+
+<option value="Received">
+Received
+</option>
+
+</select>
+
+<button class="save-btn"
+onclick="savePO()">
+
+<i class="fa-solid fa-floppy-disk"></i>
+Save PO
+
+</button>
+
+</div>
+
+<!-- FILTER -->
+
+<div class="filters">
+
+<input type="text"
+id="searchInput"
+placeholder="Search PO..."
+onkeyup="loadPO()">
+
+<select id="statusFilter"
+onchange="loadPO()">
+
+<option value="">
+All Status
+</option>
+
+<option value="Pending">
+Pending
+</option>
+
+<option value="Received">
+Received
+</option>
+
+</select>
+
+</div>
+
+<!-- TABLE -->
+
+<div class="table-box">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>PO Date</th>
+<th>PO Number</th>
+<th>Supplier</th>
+<th>Item</th>
+<th>Quantity</th>
+<th>Cost</th>
+<th>Total</th>
+<th>Status</th>
+<th>Actions</th>
+
+</tr>
+
+</thead>
+
+<tbody id="poTable">
+
+<tr>
+
+<td colspan="9">
+
+Loading...
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+
+import {
+
+getFirestore,
+collection,
+addDoc,
+deleteDoc,
+doc,
+updateDoc,
+getDoc,
+getDocs,
+onSnapshot
+
+}
+
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+/* FIREBASE */
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyCYjuZlpgE-Lci33e53014F7fRIid6u7Dg",
+
+authDomain: "family-web-10cb8.firebaseapp.com",
+
+projectId: "family-web-10cb8",
+
+storageBucket: "family-web-10cb8.firebasestorage.app",
+
+messagingSenderId: "152048365178",
+
+appId: "1:152048365178:web:3e42c20e03a7c563d915c3"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
+
+let editId = null;
+
+/* DATE TIME */
+
+function updateDateTime(){
+
+document.getElementById("dateTime")
+.innerText =
+new Date().toLocaleString();
+
+}
+
+setInterval(updateDateTime,1000);
+
+updateDateTime();
+
+/* LOAD SUPPLIERS */
+
+async function loadSuppliers(){
+
+const select =
+document.getElementById("supplierSelect");
+
+select.innerHTML = `
+
+<option value="">
+Select Supplier
+</option>
+
+`;
+
+const snapshot =
+await getDocs(
+collection(db,"suppliers")
+);
+
+snapshot.forEach((firebaseDoc)=>{
+
+const supplier =
+firebaseDoc.data();
+
+select.innerHTML += `
+
+<option value="${supplier.supplierName}">
+
+${supplier.supplierName}
+
+</option>
+
+`;
+
+});
+
+}
+
+/* LOAD ITEMS */
+
+async function loadItems(){
+
+const select =
+document.getElementById("itemSelect");
+
+select.innerHTML = `
+
+<option value="">
+Select Item
+</option>
+
+`;
+
+const snapshot =
+await getDocs(
+collection(db,"inventoryMasterlist")
+);
+
+snapshot.forEach((firebaseDoc)=>{
+
+const item =
+firebaseDoc.data();
+
+select.innerHTML += `
+
+<option value="${firebaseDoc.id}"
+data-name="${item.itemName}">
+
+${item.itemName}
+
+</option>
+
+`;
+
+});
+
+}
+
+/* SAVE PO */
+
+window.savePO =
+async function(){
+
+try{
+
+const poDate =
+document.getElementById("poDate").value;
+
+const poNumber =
+document.getElementById("poNumber").value.trim();
+
+const supplier =
+document.getElementById("supplierSelect").value;
+
+const itemSelect =
+document.getElementById("itemSelect");
+
+const itemId =
+itemSelect.value;
+
+const itemName =
+itemSelect.options[
+itemSelect.selectedIndex
+].text;
+
+const quantity =
+Number(
+document.getElementById("quantity").value
+);
+
+const cost =
+Number(
+document.getElementById("cost").value
+);
+
+const status =
+document.getElementById("status").value;
+
+if(
+!poDate ||
+!poNumber ||
+!supplier ||
+!itemId ||
+!quantity ||
+!cost
+){
+
+alert("Complete all fields");
+
+return;
+
+}
+
+const total =
+quantity * cost;
+
+const poData = {
+
+poDate,
+poNumber,
+supplier,
+itemId,
+itemName,
+quantity,
+cost,
+total,
+status,
+
+createdAt:
+new Date()
+
+};
+
+if(editId){
+
+await updateDoc(
+doc(db,"purchaseOrders",editId),
+poData
+);
+
+alert("PO Updated");
+
+editId = null;
+
+}else{
+
+await addDoc(
+collection(db,"purchaseOrders"),
+poData
+);
+
+alert("PO Saved");
+
+}
+
+clearForm();
+
+}catch(error){
+
+console.error(error);
+
+alert(error.message);
+
+}
+
+}
+
+/* CLEAR FORM */
+
+function clearForm(){
+
+document.getElementById("poDate")
+.value = "";
+
+document.getElementById("poNumber")
+.value = "";
+
+document.getElementById("supplierSelect")
+.value = "";
+
+document.getElementById("itemSelect")
+.value = "";
+
+document.getElementById("quantity")
+.value = "";
+
+document.getElementById("cost")
+.value = "";
+
+document.getElementById("status")
+.value = "Pending";
+
+}
+
+/* RECEIVE PO */
+
+window.receivePO =
+async function(id){
+
+const poRef =
+doc(db,"purchaseOrders",id);
+
+const poSnap =
+await getDoc(poRef);
+
+if(!poSnap.exists()){
+
+return;
+
+}
+
+const po =
+poSnap.data();
+
+if(po.status === "Received"){
+
+alert("Already received");
+
+return;
+
+}
+
+/* UPDATE ITEM STOCK */
+
+const itemRef =
+doc(db,"inventoryMasterlist",po.itemId);
+
+const itemSnap =
+await getDoc(itemRef);
+
+if(itemSnap.exists()){
+
+const item =
+itemSnap.data();
+
+const currentStock =
+Number(item.stock || 0);
+
+const newStock =
+currentStock + Number(po.quantity);
+
+await updateDoc(itemRef,{
+
+stock:newStock
+
+});
+
+}
+
+/* UPDATE PO STATUS */
+
+await updateDoc(poRef,{
+
+status:"Received"
+
+});
+
+/* AUTO SAVE STOCK IN */
+
+await addDoc(
+collection(db,"stockIn"),
+{
+
+date:
+new Date().toISOString().split("T")[0],
+
+itemId:po.itemId,
+
+itemName:po.itemName,
+
+quantity:po.quantity,
+
+supplier:po.supplier,
+
+invoice:po.poNumber,
+
+createdAt:
+new Date()
+
+}
+);
+
+alert("PO Received & Stock Updated");
+
+}
+
+/* LOAD PO */
+
+window.loadPO =
+function(){
+
+const table =
+document.getElementById("poTable");
+
+const search =
+document.getElementById("searchInput")
+.value
+.toLowerCase();
+
+const statusFilter =
+document.getElementById("statusFilter")
+.value;
+
+onSnapshot(
+
+collection(db,"purchaseOrders"),
+
+(snapshot)=>{
+
+table.innerHTML = "";
+
+let totalPO = 0;
+let totalAmount = 0;
+
+snapshot.forEach((firebaseDoc)=>{
+
+const po =
+firebaseDoc.data();
+
+const docId =
+firebaseDoc.id;
+
+if(
+search &&
+!po.poNumber
+.toLowerCase()
+.includes(search)
+){
+
+return;
+
+}
+
+if(
+statusFilter &&
+po.status !== statusFilter
+){
+
+return;
+
+}
+
+totalPO++;
+
+totalAmount +=
+Number(po.total || 0);
+
+table.innerHTML += `
+
+<tr>
+
+<td>${po.poDate}</td>
+
+<td>${po.poNumber}</td>
+
+<td>${po.supplier}</td>
+
+<td>${po.itemName}</td>
+
+<td>${po.quantity}</td>
+
+<td>₱${po.cost.toLocaleString()}</td>
+
+<td>₱${po.total.toLocaleString()}</td>
+
+<td class="${
+po.status === "Received"
+?
+"received"
+:
+"pending"
+}">
+
+${po.status}
+
+</td>
+
+<td>
+
+<button class="receive-btn"
+onclick="receivePO('${docId}')">
+
+Receive
+
+</button>
+
+<button class="edit-btn"
+onclick="editPO('${docId}')">
+
+Edit
+
+</button>
+
+<button class="delete-btn"
+onclick="deletePO('${docId}')">
+
+Delete
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+if(totalPO === 0){
+
+table.innerHTML = `
+
+<tr>
+
+<td colspan="9">
+
+No Purchase Orders Found
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+document.getElementById("totalPO")
+.innerText =
+totalPO;
+
+document.getElementById("totalAmount")
+.innerText =
+"₱" +
+totalAmount.toLocaleString();
+
+}
+
+);
+
+}
+
+/* EDIT */
+
+window.editPO =
+async function(id){
+
+const poRef =
+doc(db,"purchaseOrders",id);
+
+const poSnap =
+await getDoc(poRef);
+
+if(poSnap.exists()){
+
+const po =
+poSnap.data();
+
+editId = id;
+
+document.getElementById("poDate")
+.value = po.poDate || "";
+
+document.getElementById("poNumber")
+.value = po.poNumber || "";
+
+document.getElementById("supplierSelect")
+.value = po.supplier || "";
+
+document.getElementById("itemSelect")
+.value = po.itemId || "";
+
+document.getElementById("quantity")
+.value = po.quantity || "";
+
+document.getElementById("cost")
+.value = po.cost || "";
+
+document.getElementById("status")
+.value = po.status || "";
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+}
+
+}
+
+/* DELETE */
+
+window.deletePO =
+async function(id){
+
+const confirmDelete =
+confirm("Delete this PO?");
+
+if(!confirmDelete){
+
+return;
+
+}
+
+await deleteDoc(
+doc(db,"purchaseOrders",id)
+);
+
+alert("PO Deleted");
+
+}
+
+/* LOAD */
+
+loadSuppliers();
+loadItems();
+loadPO();
+
+</script>
+
+</body>
+</html>
