@@ -7,7 +7,7 @@
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>Stockroom Inventory System</title>
+<title>D'Mezzanine Stockroom System</title>
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -29,8 +29,6 @@ background:#0f172a;
 color:white;
 overflow:hidden;
 }
-
-/* LAYOUT */
 
 .container{
 display:flex;
@@ -80,29 +78,22 @@ flex-direction:column;
 gap:12px;
 }
 
-.menu-title{
-font-size:13px;
-font-weight:700;
-color:#facc15;
-margin-top:15px;
-padding-left:5px;
-}
-
-.menu a{
+.menu button{
 display:flex;
 align-items:center;
 gap:14px;
 padding:15px;
 border-radius:16px;
-text-decoration:none;
-color:white;
-transition:.3s;
+border:none;
 background:rgba(255,255,255,0.03);
+color:white;
+cursor:pointer;
 font-size:15px;
+transition:.3s;
 }
 
-.menu a:hover,
-.menu a.active{
+.menu button:hover,
+.menu button.active{
 background:#facc15;
 color:black;
 transform:translateX(4px);
@@ -116,18 +107,11 @@ padding:25px;
 overflow-y:auto;
 }
 
-/* HEADER */
-
 .header-box{
 background:#1e293b;
 padding:25px;
 border-radius:24px;
 margin-bottom:25px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-flex-wrap:wrap;
-gap:15px;
 }
 
 .header-box h1{
@@ -136,49 +120,7 @@ font-size:38px;
 
 .header-box p{
 color:#cbd5e1;
-font-size:14px;
-}
-
-/* CARDS */
-
-.cards{
-display:grid;
-grid-template-columns:
-repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
-margin-bottom:25px;
-}
-
-.card{
-background:#1e293b;
-padding:25px;
-border-radius:24px;
-position:relative;
-overflow:hidden;
-}
-
-.card i{
-position:absolute;
-top:20px;
-right:20px;
-font-size:38px;
-color:rgba(250,204,21,0.25);
-}
-
-.card h4{
-font-size:15px;
-margin-bottom:12px;
-color:#e5e7eb;
-}
-
-.card h2{
-font-size:40px;
-margin-bottom:10px;
-}
-
-.card p{
-color:#22c55e;
-font-size:14px;
+margin-top:8px;
 }
 
 /* FORM */
@@ -188,19 +130,28 @@ background:#1e293b;
 padding:25px;
 border-radius:24px;
 margin-bottom:25px;
+
 display:grid;
 grid-template-columns:
 repeat(auto-fit,minmax(220px,1fr));
+
 gap:15px;
 }
 
 .form-box input,
-.form-box select{
+.form-box select,
+.form-box textarea{
 padding:14px;
 border:none;
 border-radius:12px;
 background:#111827;
 color:white;
+font-size:14px;
+}
+
+textarea{
+resize:none;
+height:52px;
 }
 
 .save-btn{
@@ -225,7 +176,7 @@ overflow:auto;
 table{
 width:100%;
 border-collapse:collapse;
-min-width:1100px;
+min-width:1400px;
 }
 
 th{
@@ -240,26 +191,6 @@ padding:15px;
 border-bottom:1px solid rgba(255,255,255,0.08);
 }
 
-.low{
-color:#ef4444;
-font-weight:700;
-}
-
-.normal{
-color:#22c55e;
-font-weight:700;
-}
-
-.edit-btn{
-background:#3b82f6;
-border:none;
-padding:8px 12px;
-border-radius:8px;
-color:white;
-cursor:pointer;
-margin-right:5px;
-}
-
 .delete-btn{
 background:#ef4444;
 border:none;
@@ -269,7 +200,25 @@ color:white;
 cursor:pointer;
 }
 
-/* MOBILE */
+.section{
+display:none;
+}
+
+.section.active{
+display:block;
+}
+
+/* STATUS */
+
+.good{
+color:#22c55e;
+font-weight:700;
+}
+
+.bad{
+color:#ef4444;
+font-weight:700;
+}
 
 @media(max-width:950px){
 
@@ -287,7 +236,7 @@ overflow:auto;
 flex-direction:row;
 }
 
-.menu a{
+.menu button{
 min-width:180px;
 }
 
@@ -307,14 +256,13 @@ min-width:180px;
 
 <div class="logo-box">
 
-<img src="./logo.png"
-alt="Logo">
+<img src="./logo.png">
 
 <div class="logo-text">
 
 <h2>D'Mezzanine</h2>
 
-<p>Inventory System</p>
+<p>Stockroom System</p>
 
 </div>
 
@@ -322,79 +270,46 @@ alt="Logo">
 
 <div class="menu">
 
-<p class="menu-title">
-MAIN MENU
-</p>
+<button class="active"
+onclick="showSection('itemsSection',this)">
 
-<a href="./index.html">
-
-<i class="fa-solid fa-house"></i>
-
-Dashboard
-
-</a>
-
-<p class="menu-title">
-STOCKROOM INVENTORY
-</p>
-
-<a href="stockroom.html"
-class="active">
-
-<i class="fa-solid fa-chart-line"></i>
-
-Stockroom Dashboard
-
-</a>
-
-<a href="items.html">
-
-<i class="fa-solid fa-boxes-stacked"></i>
+<i class="fa-solid fa-box"></i>
 
 Items
 
-</a>
+</button>
 
-<a href="stock-in.html">
+<button onclick="showSection('stockInSection',this)">
 
 <i class="fa-solid fa-truck"></i>
 
 Stock In
 
-</a>
+</button>
 
-<a href="stock-out.html">
+<button onclick="showSection('stockOutSection',this)">
 
 <i class="fa-solid fa-arrow-right-arrow-left"></i>
 
 Stock Out
 
-</a>
+</button>
 
-<a href="waste.html">
+<button onclick="showSection('wasteSection',this)">
 
 <i class="fa-solid fa-trash"></i>
 
 Waste
 
-</a>
+</button>
 
-<a href="daily-inventory.html">
+<button onclick="showSection('dailySection',this)">
 
 <i class="fa-solid fa-clipboard-list"></i>
 
 Daily Inventory
 
-</a>
-
-<a href="#"
-id="logoutBtn">
-
-<i class="fa-solid fa-right-from-bracket"></i>
-
-Logout
-
-</a>
+</button>
 
 </div>
 
@@ -404,79 +319,18 @@ Logout
 
 <div class="main">
 
-<!-- HEADER -->
-
 <div class="header-box">
-
-<div>
 
 <h1>Stockroom Inventory 📦</h1>
 
-<p id="dateTime">
-
-Realtime Inventory Monitoring
-
-</p>
+<p id="dateTime"></p>
 
 </div>
 
-</div>
+<!-- ITEMS -->
 
-<!-- DASHBOARD CARDS -->
-
-<div class="cards">
-
-<div class="card">
-
-<i class="fa-solid fa-boxes-stacked"></i>
-
-<h4>Total Items</h4>
-
-<h2 id="totalItems">0</h2>
-
-<p>Inventory Products</p>
-
-</div>
-
-<div class="card">
-
-<i class="fa-solid fa-arrow-down"></i>
-
-<h4>Stock In Today</h4>
-
-<h2 id="stockInToday">0</h2>
-
-<p>Incoming Stocks</p>
-
-</div>
-
-<div class="card">
-
-<i class="fa-solid fa-arrow-up"></i>
-
-<h4>Stock Out Today</h4>
-
-<h2 id="stockOutToday">0</h2>
-
-<p>Released Stocks</p>
-
-</div>
-
-<div class="card">
-
-<i class="fa-solid fa-trash"></i>
-
-<h4>Waste</h4>
-
-<h2 id="wasteToday">0</h2>
-
-<p>Damaged Stocks</p>
-
-</div>
-
-</div>
-
-<!-- ADD ITEM -->
+<div id="itemsSection"
+class="section active">
 
 <div class="form-box">
 
@@ -484,45 +338,13 @@ Realtime Inventory Monitoring
 id="itemName"
 placeholder="Item Name">
 
-<select id="category">
-
-<option value="">
-Category
-</option>
-
-<option>
-Coffee
-</option>
-
-<option>
-Milk
-</option>
-
-<option>
-Ingredients
-</option>
-
-<option>
-Packaging
-</option>
-
-<option>
-Supplies
-</option>
-
-</select>
-
-<input type="number"
-id="stock"
-placeholder="Current Stock">
-
-<input type="number"
-id="minimum"
-placeholder="Minimum Stock">
-
 <input type="text"
-id="unit"
-placeholder="Unit (pcs, kg, liters)">
+id="itemCategory"
+placeholder="Category">
+
+<input type="number"
+id="itemStock"
+placeholder="Beginning Stock">
 
 <button class="save-btn"
 onclick="saveItem()">
@@ -532,8 +354,6 @@ Save Item
 </button>
 
 </div>
-
-<!-- INVENTORY TABLE -->
 
 <div class="table-box">
 
@@ -545,19 +365,222 @@ Save Item
 
 <th>Item</th>
 <th>Category</th>
-<th>Stock</th>
-<th>Minimum</th>
-<th>Unit</th>
-<th>Status</th>
-<th>Action</th>
+<th>Current Stock</th>
 
 </tr>
 
 </thead>
 
-<tbody id="itemsTable">
+<tbody id="itemsTable"></tbody>
 
-</tbody>
+</table>
+
+</div>
+
+</div>
+
+<!-- STOCK IN -->
+
+<div id="stockInSection"
+class="section">
+
+<div class="form-box">
+
+<select id="stockInItem"></select>
+
+<input type="number"
+id="stockInQty"
+placeholder="Quantity">
+
+<input type="text"
+id="stockInSupplier"
+placeholder="Supplier">
+
+<input type="date"
+id="stockInDate">
+
+<button class="save-btn"
+onclick="saveStockIn()">
+
+Save Stock In
+
+</button>
+
+</div>
+
+<div class="table-box">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Date</th>
+<th>Item</th>
+<th>Quantity</th>
+<th>Supplier</th>
+
+</tr>
+
+</thead>
+
+<tbody id="stockInTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<!-- STOCK OUT -->
+
+<div id="stockOutSection"
+class="section">
+
+<div class="form-box">
+
+<select id="stockOutItem"></select>
+
+<input type="number"
+id="stockOutQty"
+placeholder="Quantity">
+
+<input type="text"
+id="stockOutReason"
+placeholder="Reason">
+
+<input type="date"
+id="stockOutDate">
+
+<button class="save-btn"
+onclick="saveStockOut()">
+
+Save Stock Out
+
+</button>
+
+</div>
+
+<div class="table-box">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Date</th>
+<th>Item</th>
+<th>Quantity</th>
+<th>Reason</th>
+
+</tr>
+
+</thead>
+
+<tbody id="stockOutTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<!-- WASTE -->
+
+<div id="wasteSection"
+class="section">
+
+<div class="form-box">
+
+<select id="wasteItem"></select>
+
+<input type="number"
+id="wasteQty"
+placeholder="Quantity">
+
+<input type="text"
+id="wasteReason"
+placeholder="Reason">
+
+<input type="date"
+id="wasteDate">
+
+<button class="save-btn"
+onclick="saveWaste()">
+
+Save Waste
+
+</button>
+
+</div>
+
+<div class="table-box">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Date</th>
+<th>Item</th>
+<th>Quantity</th>
+<th>Reason</th>
+
+</tr>
+
+</thead>
+
+<tbody id="wasteTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<!-- DAILY INVENTORY -->
+
+<div id="dailySection"
+class="section">
+
+<div class="form-box">
+
+<input type="date"
+id="dailyDate">
+
+<button class="save-btn"
+onclick="generateDailyInventory()">
+
+Generate Daily Inventory
+
+</button>
+
+</div>
+
+<div class="table-box">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Item</th>
+<th>Current Stock</th>
+<th>Stock In</th>
+<th>Stock Out</th>
+<th>Waste</th>
+<th>Actual Count</th>
+<th>Variance</th>
+
+</tr>
+
+</thead>
+
+<tbody id="dailyTable"></tbody>
 
 </table>
 
@@ -567,11 +590,49 @@ Save Item
 
 </div>
 
-<script>
+</div>
 
-let editIndex = null;
+<script type="module">
 
-/* DATE */
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+
+import {
+
+getFirestore,
+collection,
+addDoc,
+getDocs,
+doc,
+updateDoc,
+increment,
+query,
+where
+
+}
+
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+/* FIREBASE */
+
+const firebaseConfig = {
+
+apiKey:"YOUR_API_KEY",
+authDomain:"YOUR_AUTH_DOMAIN",
+projectId:"YOUR_PROJECT_ID",
+storageBucket:"YOUR_STORAGE_BUCKET",
+messagingSenderId:"YOUR_SENDER_ID",
+appId:"YOUR_APP_ID"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
+
+/* DATE TIME */
 
 function updateDateTime(){
 
@@ -585,63 +646,69 @@ setInterval(updateDateTime,1000);
 
 updateDateTime();
 
+/* SIDEBAR */
+
+window.showSection =
+function(id,btn){
+
+document.querySelectorAll(".section")
+.forEach(sec=>{
+
+sec.classList.remove("active");
+
+});
+
+document.getElementById(id)
+.classList.add("active");
+
+document.querySelectorAll(".menu button")
+.forEach(b=>{
+
+b.classList.remove("active");
+
+});
+
+btn.classList.add("active");
+
+}
+
 /* SAVE ITEM */
 
-function saveItem(){
+window.saveItem =
+async function(){
 
-const item = {
+const name =
+document.getElementById("itemName").value;
 
-name:
-document.getElementById("itemName").value,
+const category =
+document.getElementById("itemCategory").value;
 
-category:
-document.getElementById("category").value,
+const stock =
+Number(
+document.getElementById("itemStock").value
+);
 
-stock:
-document.getElementById("stock").value,
+if(!name || !category){
 
-minimum:
-document.getElementById("minimum").value,
-
-unit:
-document.getElementById("unit").value
-
-};
-
-if(
-!item.name ||
-!item.category
-){
-
-alert("Complete all fields");
+alert("Complete fields");
 
 return;
 
 }
 
-let items =
-JSON.parse(
-localStorage.getItem("inventoryItems")
-) || [];
+await addDoc(
+collection(db,"inventoryItems"),
+{
 
-if(editIndex === null){
-
-items.push(item);
-
-}else{
-
-items[editIndex] = item;
-
-editIndex = null;
+name:name,
+category:category,
+stock:stock,
+createdAt:new Date()
 
 }
-
-localStorage.setItem(
-"inventoryItems",
-JSON.stringify(items)
 );
 
-clearForm();
+alert("Item Saved");
 
 loadItems();
 
@@ -649,96 +716,153 @@ loadItems();
 
 /* LOAD ITEMS */
 
-function loadItems(){
+async function loadItems(){
 
 const table =
 document.getElementById("itemsTable");
 
 table.innerHTML = "";
 
-let items =
-JSON.parse(
-localStorage.getItem("inventoryItems")
-) || [];
+const selects = [
 
-document.getElementById("totalItems")
-.innerText = items.length;
+document.getElementById("stockInItem"),
+document.getElementById("stockOutItem"),
+document.getElementById("wasteItem")
 
-if(items.length === 0){
+];
 
-table.innerHTML = `
+selects.forEach(select=>{
 
-<tr>
+select.innerHTML =
+`<option value="">Select Item</option>`;
 
-<td colspan="7">
+});
 
-No inventory items
+const snapshot =
+await getDocs(
+collection(db,"inventoryItems")
+);
 
-</td>
+snapshot.forEach((firebaseDoc)=>{
 
-</tr>
-
-`;
-
-return;
-
-}
-
-items.forEach((item,index)=>{
+const item =
+firebaseDoc.data();
 
 table.innerHTML += `
 
 <tr>
 
 <td>${item.name}</td>
-
 <td>${item.category}</td>
-
 <td>${item.stock}</td>
 
-<td>${item.minimum}</td>
+</tr>
 
-<td>${item.unit}</td>
+`;
 
-<td class="${
-Number(item.stock)
-<=
-Number(item.minimum)
-?
-'low'
-:
-'normal'
-}">
+selects.forEach(select=>{
 
-${
-Number(item.stock)
-<=
-Number(item.minimum)
-?
-'LOW STOCK'
-:
-'NORMAL'
+select.innerHTML += `
+
+<option value="${firebaseDoc.id}">
+
+${item.name}
+(Current:
+${item.stock})
+
+</option>
+
+`;
+
+});
+
+});
+
 }
 
-</td>
+/* STOCK IN */
 
-<td>
+window.saveStockIn =
+async function(){
 
-<button class="edit-btn"
-onclick="editItem(${index})">
+const itemId =
+document.getElementById("stockInItem").value;
 
-Edit
+const qty =
+Number(
+document.getElementById("stockInQty").value
+);
 
-</button>
+const supplier =
+document.getElementById("stockInSupplier").value;
 
-<button class="delete-btn"
-onclick="deleteItem(${index})">
+const date =
+document.getElementById("stockInDate").value;
 
-Delete
+const itemName =
+document.getElementById("stockInItem")
+.options[
+document.getElementById("stockInItem")
+.selectedIndex
+].text;
 
-</button>
+await addDoc(
+collection(db,"stockIn"),
+{
 
-</td>
+itemId,
+itemName,
+qty,
+supplier,
+date,
+createdAt:new Date()
+
+}
+);
+
+await updateDoc(
+doc(db,"inventoryItems",itemId),
+{
+
+stock:increment(qty)
+
+}
+);
+
+alert("Stock In Saved");
+
+loadItems();
+loadStockIn();
+
+}
+
+/* LOAD STOCK IN */
+
+async function loadStockIn(){
+
+const table =
+document.getElementById("stockInTable");
+
+table.innerHTML = "";
+
+const snapshot =
+await getDocs(
+collection(db,"stockIn")
+);
+
+snapshot.forEach((firebaseDoc)=>{
+
+const data =
+firebaseDoc.data();
+
+table.innerHTML += `
+
+<tr>
+
+<td>${data.date}</td>
+<td>${data.itemName}</td>
+<td>${data.qty}</td>
+<td>${data.supplier}</td>
 
 </tr>
 
@@ -748,101 +872,325 @@ Delete
 
 }
 
-/* EDIT */
+/* STOCK OUT */
 
-function editItem(index){
+window.saveStockOut =
+async function(){
 
-let items =
-JSON.parse(
-localStorage.getItem("inventoryItems")
-) || [];
+const itemId =
+document.getElementById("stockOutItem").value;
 
-const item = items[index];
+const qty =
+Number(
+document.getElementById("stockOutQty").value
+);
 
-document.getElementById("itemName")
-.value = item.name;
+const reason =
+document.getElementById("stockOutReason").value;
 
-document.getElementById("category")
-.value = item.category;
+const date =
+document.getElementById("stockOutDate").value;
 
-document.getElementById("stock")
-.value = item.stock;
+const itemName =
+document.getElementById("stockOutItem")
+.options[
+document.getElementById("stockOutItem")
+.selectedIndex
+].text;
 
-document.getElementById("minimum")
-.value = item.minimum;
+await addDoc(
+collection(db,"stockOut"),
+{
 
-document.getElementById("unit")
-.value = item.unit;
-
-editIndex = index;
+itemId,
+itemName,
+qty,
+reason,
+date,
+createdAt:new Date()
 
 }
-
-/* DELETE */
-
-function deleteItem(index){
-
-let items =
-JSON.parse(
-localStorage.getItem("inventoryItems")
-) || [];
-
-items.splice(index,1);
-
-localStorage.setItem(
-"inventoryItems",
-JSON.stringify(items)
 );
+
+await updateDoc(
+doc(db,"inventoryItems",itemId),
+{
+
+stock:increment(-qty)
+
+}
+);
+
+alert("Stock Out Saved");
 
 loadItems();
+loadStockOut();
 
 }
 
-/* CLEAR */
+/* LOAD STOCK OUT */
 
-function clearForm(){
+async function loadStockOut(){
 
-document.getElementById("itemName")
-.value = "";
+const table =
+document.getElementById("stockOutTable");
 
-document.getElementById("category")
-.value = "";
+table.innerHTML = "";
 
-document.getElementById("stock")
-.value = "";
+const snapshot =
+await getDocs(
+collection(db,"stockOut")
+);
 
-document.getElementById("minimum")
-.value = "";
+snapshot.forEach((firebaseDoc)=>{
 
-document.getElementById("unit")
-.value = "";
+const data =
+firebaseDoc.data();
 
-editIndex = null;
+table.innerHTML += `
+
+<tr>
+
+<td>${data.date}</td>
+<td>${data.itemName}</td>
+<td>${data.qty}</td>
+<td>${data.reason}</td>
+
+</tr>
+
+`;
+
+});
 
 }
 
-/* LOGOUT */
+/* WASTE */
 
-document
-.getElementById("logoutBtn")
+window.saveWaste =
+async function(){
 
-.addEventListener(
-"click",
-function(e){
+const itemId =
+document.getElementById("wasteItem").value;
 
-e.preventDefault();
+const qty =
+Number(
+document.getElementById("wasteQty").value
+);
 
-localStorage.clear();
+const reason =
+document.getElementById("wasteReason").value;
 
-window.location.href =
-"login.html";
+const date =
+document.getElementById("wasteDate").value;
+
+const itemName =
+document.getElementById("wasteItem")
+.options[
+document.getElementById("wasteItem")
+.selectedIndex
+].text;
+
+await addDoc(
+collection(db,"waste"),
+{
+
+itemId,
+itemName,
+qty,
+reason,
+date,
+createdAt:new Date()
 
 }
 );
+
+await updateDoc(
+doc(db,"inventoryItems",itemId),
+{
+
+stock:increment(-qty)
+
+}
+);
+
+alert("Waste Saved");
+
+loadItems();
+loadWaste();
+
+}
+
+/* LOAD WASTE */
+
+async function loadWaste(){
+
+const table =
+document.getElementById("wasteTable");
+
+table.innerHTML = "";
+
+const snapshot =
+await getDocs(
+collection(db,"waste")
+);
+
+snapshot.forEach((firebaseDoc)=>{
+
+const data =
+firebaseDoc.data();
+
+table.innerHTML += `
+
+<tr>
+
+<td>${data.date}</td>
+<td>${data.itemName}</td>
+<td>${data.qty}</td>
+<td>${data.reason}</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+/* DAILY INVENTORY */
+
+window.generateDailyInventory =
+async function(){
+
+const date =
+document.getElementById("dailyDate").value;
+
+const table =
+document.getElementById("dailyTable");
+
+table.innerHTML = "";
+
+const itemsSnapshot =
+await getDocs(
+collection(db,"inventoryItems")
+);
+
+for(const itemDoc of itemsSnapshot.docs){
+
+const item =
+itemDoc.data();
+
+const itemId =
+itemDoc.id;
+
+/* STOCK IN */
+
+const stockInSnapshot =
+await getDocs(
+query(
+collection(db,"stockIn"),
+where("itemId","==",itemId),
+where("date","==",date)
+)
+);
+
+let stockInTotal = 0;
+
+stockInSnapshot.forEach(docu=>{
+
+stockInTotal +=
+Number(docu.data().qty || 0);
+
+});
+
+/* STOCK OUT */
+
+const stockOutSnapshot =
+await getDocs(
+query(
+collection(db,"stockOut"),
+where("itemId","==",itemId),
+where("date","==",date)
+)
+);
+
+let stockOutTotal = 0;
+
+stockOutSnapshot.forEach(docu=>{
+
+stockOutTotal +=
+Number(docu.data().qty || 0);
+
+});
+
+/* WASTE */
+
+const wasteSnapshot =
+await getDocs(
+query(
+collection(db,"waste"),
+where("itemId","==",itemId),
+where("date","==",date)
+)
+);
+
+let wasteTotal = 0;
+
+wasteSnapshot.forEach(docu=>{
+
+wasteTotal +=
+Number(docu.data().qty || 0);
+
+});
+
+table.innerHTML += `
+
+<tr>
+
+<td>${item.name}</td>
+
+<td>${item.stock}</td>
+
+<td>${stockInTotal}</td>
+
+<td>${stockOutTotal}</td>
+
+<td>${wasteTotal}</td>
+
+<td>
+
+<input
+type="number"
+id="actual-${itemId}"
+value="${item.stock}"
+style="
+padding:10px;
+width:100px;
+border:none;
+border-radius:8px;
+background:#111827;
+color:white;
+">
+
+</td>
+
+<td id="variance-${itemId}">
+0
+</td>
+
+</tr>
+
+`;
+
+}
+
+}
 
 /* LOAD */
 
 loadItems();
+loadStockIn();
+loadStockOut();
+loadWaste();
 
 </script>
 
