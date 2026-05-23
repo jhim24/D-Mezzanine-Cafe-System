@@ -695,8 +695,134 @@ updateDateTime();
 
 /* SAVE ITEM */
 
-window.saveItem =
-async function(){
+window.saveItem = async function(){
+
+try{
+
+const itemCode =
+document.getElementById("itemCode").value.trim();
+
+const itemName =
+document.getElementById("itemName").value.trim();
+
+const category =
+document.getElementById("category").value;
+
+const unit =
+document.getElementById("unit").value.trim();
+
+const stock =
+Number(
+document.getElementById("stock").value
+);
+
+const reorderLevel =
+Number(
+document.getElementById("reorderLevel").value
+);
+
+const supplier =
+document.getElementById("supplier").value.trim();
+
+const cost =
+Number(
+document.getElementById("cost").value
+);
+
+const sellingPrice =
+Number(
+document.getElementById("sellingPrice").value
+);
+
+const expiry =
+document.getElementById("expiry").value;
+
+const location =
+document.getElementById("location").value.trim();
+
+/* VALIDATION */
+
+if(
+!itemCode ||
+!itemName ||
+!category ||
+!unit
+){
+
+alert("Please complete required fields");
+
+return;
+
+}
+
+/* SAVE TO FIREBASE */
+
+await addDoc(
+collection(db,"inventoryMasterlist"),
+{
+
+itemCode:itemCode,
+itemName:itemName,
+category:category,
+unit:unit,
+
+stock:stock || 0,
+
+reorderLevel:
+reorderLevel || 0,
+
+supplier:supplier,
+
+cost:cost || 0,
+
+sellingPrice:
+sellingPrice || 0,
+
+expiry:expiry || "",
+
+location:location || "",
+
+status:"Active",
+
+createdAt:new Date()
+
+}
+);
+
+/* SUCCESS */
+
+alert("Item Saved Successfully");
+
+/* CLEAR FORM */
+
+document.getElementById("itemCode").value = "";
+document.getElementById("itemName").value = "";
+document.getElementById("category").value = "";
+document.getElementById("unit").value = "";
+document.getElementById("stock").value = "";
+document.getElementById("reorderLevel").value = "";
+document.getElementById("supplier").value = "";
+document.getElementById("cost").value = "";
+document.getElementById("sellingPrice").value = "";
+document.getElementById("expiry").value = "";
+document.getElementById("location").value = "";
+
+/* RELOAD TABLE */
+
+loadItems();
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Firebase Save Error: " +
+error.message
+);
+
+}
+
+}
 
 const item = {
 
