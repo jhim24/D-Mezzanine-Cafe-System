@@ -140,7 +140,7 @@ overflow:auto;
 table{
 width:100%;
 border-collapse:collapse;
-min-width:1200px;
+min-width:1800px;
 }
 
 table th{
@@ -148,6 +148,7 @@ background:#0f172a;
 color:white;
 padding:14px;
 font-size:14px;
+white-space:nowrap;
 }
 
 table td{
@@ -155,16 +156,46 @@ padding:14px;
 border-bottom:1px solid #e5e7eb;
 font-size:14px;
 text-align:center;
+white-space:nowrap;
 }
 
-.good-stock{
+table input{
+padding:10px;
+border:1px solid #d1d5db;
+border-radius:10px;
+width:120px;
+text-align:center;
+}
+
+/* STATUS */
+
+.good{
 color:#16a34a;
 font-weight:700;
 }
 
-.low-stock{
+.short{
 color:#ef4444;
 font-weight:700;
+}
+
+.over{
+color:#2563eb;
+font-weight:700;
+}
+
+/* BUTTON */
+
+.save-btn{
+margin-top:20px;
+background:#facc15;
+color:black;
+border:none;
+padding:14px 25px;
+border-radius:14px;
+font-size:15px;
+font-weight:700;
+cursor:pointer;
 }
 
 /* MOBILE */
@@ -274,19 +305,15 @@ Daily Inventory
 
 <div class="main">
 
-<!-- HEADER -->
-
 <div class="header">
 
 <h1>Daily Inventory</h1>
 
 <p>
-Realtime Daily Inventory Monitoring
+Closing Inventory Monitoring
 </p>
 
 </div>
-
-<!-- TABLE -->
 
 <div class="table-box">
 
@@ -295,6 +322,8 @@ Realtime Daily Inventory Monitoring
 <thead>
 
 <tr>
+
+<th>DATE</th>
 
 <th>ITEM</th>
 
@@ -306,7 +335,11 @@ Realtime Daily Inventory Monitoring
 
 <th>WASTE</th>
 
-<th>ENDING</th>
+<th>SYSTEM ENDING</th>
+
+<th>ACTUAL COUNT</th>
+
+<th>VARIANCE</th>
 
 <th>STATUS</th>
 
@@ -318,7 +351,7 @@ Realtime Daily Inventory Monitoring
 
 <tr>
 
-<td colspan="7"
+<td colspan="10"
 style="padding:20px;">
 
 Loading Inventory...
@@ -330,6 +363,15 @@ Loading Inventory...
 </tbody>
 
 </table>
+
+<button class="save-btn"
+onclick="saveDailyInventory()">
+
+<i class="fa-solid fa-floppy-disk"></i>
+
+Save Daily Inventory
+
+</button>
 
 </div>
 
@@ -349,7 +391,8 @@ import {
 
 getFirestore,
 collection,
-getDocs
+getDocs,
+addDoc
 
 }
 
@@ -418,30 +461,10 @@ await getDocs(
 collection(db,"waste")
 );
 
-/* EMPTY */
+/* TODAY */
 
-if(itemsSnapshot.empty){
-
-table.innerHTML = `
-
-<tr>
-
-<td colspan="7"
-style="padding:20px;">
-
-No Inventory Items
-
-</td>
-
-</tr>
-
-`;
-
-return;
-
-}
-
-/* LOOP ITEMS */
+const today =
+new Date().toISOString().split("T")[0];
 
 itemsSnapshot.forEach((itemDoc)=>{
 
@@ -510,26 +533,14 @@ Number(data.qty || 0);
 
 });
 
-/* ENDING */
+/* SYSTEM ENDING */
 
-const ending =
+const systemEnding =
 
 beginning +
 stockInTotal -
 stockOutTotal -
 wasteTotal;
-
-/* STATUS */
-
-let status = "GOOD";
-let statusClass = "good-stock";
-
-if(ending <= Number(item.low || 5)){
-
-status = "LOW STOCK";
-statusClass = "low-stock";
-
-}
 
 /* TABLE */
 
@@ -538,31 +549,70 @@ table.innerHTML += `
 <tr>
 
 <td>
+
+${today}
+
+</td>
+
+<td>
+
 ${item.name || "-"}
+
 </td>
 
 <td>
+
 ${beginning}
+
 </td>
 
 <td>
+
 ${stockInTotal}
+
 </td>
 
 <td>
+
 ${stockOutTotal}
+
 </td>
 
 <td>
+
 ${wasteTotal}
+
 </td>
 
-<td class="${statusClass}">
-${ending}
+<td id="system-${itemId}">
+
+${systemEnding}
+
 </td>
 
-<td class="${statusClass}">
-${status}
+<td>
+
+<input type="number"
+id="actual-${itemId}"
+value="${systemEnding}"
+oninput="computeVariance(
+'${itemId}',
+${systemEnding}
+)">
+
+</td>
+
+<td id="variance-${itemId}">
+
+0
+
+</td>
+
+<td id="status-${itemId}"
+class="good">
+
+BALANCED
+
 </td>
 
 </tr>
@@ -570,6 +620,169 @@ ${status}
 `;
 
 });
+
+}
+
+/* COMPUTE VARIANCE */
+
+window.computeVariance =
+function(itemId,systemEnding){
+
+const actual =
+Number(
+document.getElementById(
+`actual-${itemId}`
+).value
+);
+
+const variance =
+actual - systemEnding;
+
+const varianceCell =
+document.getElementById(
+`variance-${itemId}`
+);
+
+const statusCell =
+document.getElementById(
+`status-${itemId}`
+);
+
+/* RESET */
+
+varianceCell.className = "";
+statusCell.className = "";
+
+/* BALANCED */
+
+if(variance === 0){
+
+varianceCell.innerHTML = 0;
+
+statusCell.innerHTML = "BALANCED";
+
+varianceCell.classList.add("good");
+statusCell.classList.add("good");
+
+}
+
+/* SHORT */
+
+else if(variance < 0){
+
+varianceCell.innerHTML = variance;
+
+statusCell.innerHTML = "SHORT";
+
+varianceCell.classList.add("short");
+statusCell.classList.add("short");
+
+}
+
+/* OVER */
+
+else{
+
+varianceCell.innerHTML =
+"+" + variance;
+
+statusCell.innerHTML = "OVER";
+
+varianceCell.classList.add("over");
+statusCell.classList.add("over");
+
+}
+
+}
+
+/* SAVE DAILY INVENTORY */
+
+window.saveDailyInventory =
+async function(){
+
+const rows =
+document.querySelectorAll(
+"#dailyInventoryTable tr"
+);
+
+try{
+
+for(const row of rows){
+
+const cells =
+row.querySelectorAll("td");
+
+if(cells.length === 0) continue;
+
+const date =
+cells[0].innerText;
+
+const item =
+cells[1].innerText;
+
+const beginning =
+Number(cells[2].innerText);
+
+const stockIn =
+Number(cells[3].innerText);
+
+const stockOut =
+Number(cells[4].innerText);
+
+const waste =
+Number(cells[5].innerText);
+
+const systemEnding =
+Number(cells[6].innerText);
+
+const actualCount =
+Number(
+cells[7]
+.querySelector("input")
+.value
+);
+
+const variance =
+cells[8].innerText;
+
+const status =
+cells[9].innerText;
+
+/* SAVE */
+
+await addDoc(
+
+collection(db,"dailyInventory"),
+
+{
+
+date:date,
+item:item,
+beginning:beginning,
+stockIn:stockIn,
+stockOut:stockOut,
+waste:waste,
+systemEnding:systemEnding,
+actualCount:actualCount,
+variance:variance,
+status:status,
+createdAt:new Date()
+
+}
+
+);
+
+}
+
+alert("Daily Inventory Saved!");
+
+}catch(error){
+
+console.error(error);
+
+alert("Failed to save daily inventory");
+
+}
 
 }
 
