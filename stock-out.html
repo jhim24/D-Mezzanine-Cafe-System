@@ -34,8 +34,8 @@ font-family:'Poppins',sans-serif;
 }
 
 body{
-background:#0f172a;
-color:white;
+background:#d8ecec;
+color:#111827;
 overflow:hidden;
 }
 
@@ -47,7 +47,7 @@ height:8px;
 }
 
 ::-webkit-scrollbar-thumb{
-background:#facc15;
+background:#0f766e;
 border-radius:10px;
 }
 
@@ -62,10 +62,10 @@ height:100vh;
 
 .sidebar{
 width:280px;
-background:#111827;
+background:#0f172a;
 padding:20px;
 overflow-y:auto;
-border-right:1px solid rgba(255,255,255,0.08);
+border-right:3px solid #134e4a;
 }
 
 .logo-box{
@@ -76,8 +76,8 @@ margin-bottom:30px;
 }
 
 .logo-box img{
-width:65px;
-height:65px;
+width:70px;
+height:70px;
 border-radius:50%;
 background:white;
 padding:5px;
@@ -86,13 +86,15 @@ object-fit:contain;
 }
 
 .logo-text h2{
-font-size:20px;
+font-size:24px;
 font-weight:700;
+color:white;
 }
 
 .logo-text p{
 font-size:13px;
-color:#d1d5db;
+color:#cbd5e1;
+margin-top:3px;
 }
 
 .menu{
@@ -101,17 +103,27 @@ flex-direction:column;
 gap:12px;
 }
 
+.menu-title{
+font-size:13px;
+font-weight:700;
+color:#facc15;
+margin-top:18px;
+margin-bottom:5px;
+padding-left:5px;
+}
+
 .menu a{
 display:flex;
 align-items:center;
 gap:14px;
 padding:16px;
-border-radius:16px;
+border-radius:14px;
 text-decoration:none;
 color:white;
-background:#1e293b;
-transition:.3s;
 font-size:15px;
+font-weight:500;
+transition:.3s;
+background:#1e293b;
 }
 
 .menu a:hover,
@@ -125,26 +137,27 @@ transform:translateX(4px);
 
 .main{
 flex:1;
-padding:25px;
+padding:20px;
 overflow-y:auto;
 }
 
 /* HEADER */
 
 .header-box{
-background:#1e293b;
-padding:25px;
-border-radius:24px;
-margin-bottom:25px;
+background:#b8dede;
+padding:20px;
+border:2px solid #6b9e9e;
+margin-bottom:18px;
 }
 
 .header-box h1{
-font-size:38px;
-margin-bottom:5px;
+font-size:32px;
+font-weight:700;
 }
 
 .header-box p{
-color:#cbd5e1;
+margin-top:5px;
+font-size:14px;
 }
 
 /* CARDS */
@@ -153,146 +166,155 @@ color:#cbd5e1;
 display:grid;
 grid-template-columns:
 repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
-margin-bottom:25px;
+gap:15px;
+margin-bottom:20px;
 }
 
 .card{
-background:#1e293b;
-padding:25px;
-border-radius:22px;
+background:#c7e4e4;
+border:2px solid #7aa6a6;
+padding:20px;
 position:relative;
-overflow:hidden;
 }
 
 .card i{
 position:absolute;
-top:20px;
-right:20px;
-font-size:38px;
-color:rgba(250,204,21,0.25);
+top:15px;
+right:15px;
+font-size:34px;
+color:#134e4a;
 }
 
 .card h3{
 font-size:15px;
-color:#cbd5e1;
-margin-bottom:12px;
+margin-bottom:10px;
 }
 
 .card h2{
 font-size:38px;
-color:#facc15;
+color:#0f172a;
 }
 
 /* FORM */
 
 .form-box{
-background:#1e293b;
-padding:25px;
-border-radius:24px;
+background:#c7e4e4;
+border:2px solid #7aa6a6;
+padding:20px;
+margin-bottom:18px;
 
 display:grid;
 grid-template-columns:
-repeat(auto-fit,minmax(250px,1fr));
+repeat(auto-fit,minmax(220px,1fr));
 
-gap:15px;
-
-margin-bottom:25px;
+gap:12px;
 }
 
 .form-box input,
 .form-box select{
-padding:14px;
-border:none;
-border-radius:12px;
-background:#111827;
-color:white;
+padding:12px;
+border:1px solid #7aa6a6;
+background:white;
 font-size:14px;
 }
 
 .form-box input:focus,
 .form-box select:focus{
 outline:none;
-border:1px solid #facc15;
-}
-
-.save-btn{
-background:#ef4444;
-border:none;
-padding:14px;
-border-radius:12px;
-font-weight:700;
-cursor:pointer;
-color:white;
-transition:.3s;
-}
-
-.save-btn:hover{
-transform:translateY(-3px);
+border:2px solid #0f766e;
 }
 
 /* STOCK PREVIEW */
 
 .stock-preview{
-background:#111827;
-padding:16px;
-border-radius:12px;
+background:#0f766e;
+padding:12px;
+color:white;
+font-weight:700;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:18px;
+}
+
+/* BUTTONS */
+
+.save-btn{
+background:#dc2626;
+border:none;
+padding:13px;
+color:white;
 font-weight:700;
-color:#facc15;
+cursor:pointer;
+transition:.3s;
+}
+
+.save-btn:hover{
+background:#b91c1c;
+}
+
+.edit-btn{
+background:#2563eb;
+border:none;
+padding:8px 12px;
+color:white;
+cursor:pointer;
+margin-right:5px;
+font-size:13px;
+}
+
+.delete-btn{
+background:#dc2626;
+border:none;
+padding:8px 12px;
+color:white;
+cursor:pointer;
+font-size:13px;
+}
+
+/* FILTER */
+
+.filters{
+display:flex;
+gap:12px;
+margin-bottom:18px;
+flex-wrap:wrap;
+}
+
+.filters input,
+.filters select{
+padding:12px;
+border:1px solid #7aa6a6;
+background:white;
+min-width:220px;
 }
 
 /* TABLE */
 
 .table-box{
-background:#1e293b;
-padding:20px;
-border-radius:24px;
+background:#c7e4e4;
+border:2px solid #7aa6a6;
 overflow:auto;
 }
-/* ACTION BUTTONS */
 
-.edit-btn{
-background:#3b82f6;
-border:none;
-padding:8px 14px;
-border-radius:8px;
-color:white;
-cursor:pointer;
-margin-right:8px;
-font-weight:600;
-}
-
-.delete-btn{
-background:#ef4444;
-border:none;
-padding:8px 14px;
-border-radius:8px;
-color:white;
-cursor:pointer;
-font-weight:600;
-}
 table{
 width:100%;
 border-collapse:collapse;
-min-width:1600px;
+min-width:1800px;
 }
 
 th{
-background:#111827;
-padding:15px;
-color:#facc15;
+background:#9ccccc;
+padding:12px;
+border:1px solid #7aa6a6;
+font-size:13px;
 text-align:left;
-white-space:nowrap;
 }
 
 td{
-padding:14px;
-border-bottom:1px solid rgba(255,255,255,0.08);
-white-space:nowrap;
+padding:10px;
+border:1px solid #7aa6a6;
+font-size:13px;
+background:#e8f6f6;
 }
 
 /* MOBILE */
@@ -347,12 +369,20 @@ min-width:180px;
 
 <div class="menu">
 
+<div class="menu-title">
+MAIN
+</div>
+
 <a href="index.html">
 
 <i class="fa-solid fa-chart-line"></i>
 Dashboard
 
 </a>
+
+<div class="menu-title">
+INVENTORY
+</div>
 
 <a href="items-masterlist.html">
 
@@ -397,8 +427,6 @@ Daily Inventory
 <!-- MAIN -->
 
 <div class="main">
-
-<!-- HEADER -->
 
 <div class="header-box">
 
@@ -463,7 +491,7 @@ placeholder="Quantity">
 <select id="stockOutType">
 
 <option value="">
-Select Stock Out Type
+Select Type
 </option>
 
 <option value="Sales">
@@ -522,6 +550,42 @@ Save Stock Out
 
 </div>
 
+<!-- FILTER -->
+
+<div class="filters">
+
+<input type="text"
+id="searchInput"
+placeholder="Search Item..."
+onkeyup="loadStockOut()">
+
+<select id="typeFilter"
+onchange="loadStockOut()">
+
+<option value="">
+All Types
+</option>
+
+<option value="Sales">
+Sales
+</option>
+
+<option value="Transfer Branch">
+Transfer Branch
+</option>
+
+<option value="Production Use">
+Production Use
+</option>
+
+<option value="Staff Use">
+Staff Use
+</option>
+
+</select>
+
+</div>
+
 <!-- TABLE -->
 
 <div class="table-box">
@@ -534,7 +598,7 @@ Save Stock Out
 
 <th>Date</th>
 <th>Item</th>
-<th>Qty</th>
+<th>Quantity</th>
 <th>Type</th>
 <th>Branch</th>
 <th>Released To</th>
@@ -549,7 +613,7 @@ Save Stock Out
 
 <tr>
 
-<td colspan="7">
+<td colspan="8">
 
 Loading...
 
@@ -613,6 +677,8 @@ initializeApp(firebaseConfig);
 const db =
 getFirestore(app);
 
+let itemsMap = {};
+
 /* DATE TIME */
 
 function updateDateTime(){
@@ -627,9 +693,7 @@ setInterval(updateDateTime,1000);
 
 updateDateTime();
 
-/* ITEMS */
-
-let itemsMap = {};
+/* LOAD ITEMS */
 
 async function loadItems(){
 
@@ -685,8 +749,7 @@ document
 "change",
 function(){
 
-const itemId =
-this.value;
+const itemId = this.value;
 
 if(!itemId){
 
@@ -710,7 +773,7 @@ document.getElementById("currentStock")
 }
 );
 
-/* SAVE STOCK OUT */
+/* SAVE */
 
 window.saveStockOut =
 async function(){
@@ -756,14 +819,6 @@ return;
 const selectedItem =
 itemsMap[itemId];
 
-if(!selectedItem){
-
-alert("Item not found");
-
-return;
-
-}
-
 const currentStock =
 Number(selectedItem.stock || 0);
 
@@ -778,14 +833,11 @@ return;
 const newStock =
 currentStock - quantity;
 
-/* SAVE STOCK OUT */
-
 await addDoc(
 collection(db,"stockOut"),
 {
 
 date,
-
 itemId,
 
 itemName:
@@ -807,8 +859,6 @@ new Date()
 }
 );
 
-/* UPDATE STOCK */
-
 await updateDoc(
 
 doc(
@@ -825,44 +875,7 @@ stock:newStock
 
 );
 
-/* STOCK MOVEMENT */
-
-await addDoc(
-collection(db,"stockMovements"),
-{
-
-date,
-
-itemId,
-
-itemName:
-selectedItem.itemName,
-
-movement:"OUT",
-
-type:stockOutType,
-
-quantity,
-
-beforeStock:
-currentStock,
-
-afterStock:
-newStock,
-
-branch,
-
-remarks,
-
-createdAt:
-new Date()
-
-}
-);
-
 alert("Stock Out Saved");
-
-/* CLEAR */
 
 document.getElementById("quantity")
 .value = "";
@@ -879,13 +892,6 @@ document.getElementById("releasedTo")
 document.getElementById("remarks")
 .value = "";
 
-document.getElementById("currentStock")
-.innerText =
-"Current Stock: " +
-newStock;
-
-/* RELOAD */
-
 loadItems();
 
 }catch(error){
@@ -898,12 +904,114 @@ alert(error.message);
 
 }
 
-/* LOAD STOCK OUT */
+/* DELETE */
 
-function loadStockOut(){
+window.deleteStockOut =
+async function(id,itemId,quantity){
+
+const confirmDelete =
+confirm("Delete this stock out?");
+
+if(!confirmDelete){
+
+return;
+
+}
+
+try{
+
+const itemRef =
+doc(db,"inventoryMasterlist",itemId);
+
+const itemSnap =
+await getDoc(itemRef);
+
+if(itemSnap.exists()){
+
+const itemData =
+itemSnap.data();
+
+const currentStock =
+Number(itemData.stock || 0);
+
+await updateDoc(itemRef,{
+
+stock:
+currentStock + Number(quantity)
+
+});
+
+}
+
+await deleteDoc(
+doc(db,"stockOut",id)
+);
+
+alert("Stock Out Deleted");
+
+}catch(error){
+
+console.error(error);
+
+alert(error.message);
+
+}
+
+}
+
+/* EDIT */
+
+window.editStockOut =
+function(
+date,
+quantity,
+type,
+branch,
+releasedTo,
+remarks
+){
+
+document.getElementById("date")
+.value = date;
+
+document.getElementById("quantity")
+.value = quantity;
+
+document.getElementById("stockOutType")
+.value = type;
+
+document.getElementById("branch")
+.value = branch;
+
+document.getElementById("releasedTo")
+.value = releasedTo;
+
+document.getElementById("remarks")
+.value = remarks;
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+}
+
+/* LOAD */
+
+window.loadStockOut =
+function(){
 
 const table =
 document.getElementById("stockOutTable");
+
+const search =
+document.getElementById("searchInput")
+.value
+.toLowerCase();
+
+const typeFilter =
+document.getElementById("typeFilter")
+.value;
 
 onSnapshot(
 
@@ -920,6 +1028,26 @@ snapshot.forEach((firebaseDoc)=>{
 
 const data =
 firebaseDoc.data();
+
+if(
+search &&
+!data.itemName
+.toLowerCase()
+.includes(search)
+){
+
+return;
+
+}
+
+if(
+typeFilter &&
+data.type !== typeFilter
+){
+
+return;
+
+}
 
 totalOut +=
 Number(data.quantity || 0);
@@ -940,16 +1068,15 @@ table.innerHTML += `
 
 <td>${data.branch || "-"}</td>
 
-<td>${data.releasedTo}</td>
+<td>${data.releasedTo || "-"}</td>
 
-<td>${data.remarks}</td>
+<td>${data.remarks || "-"}</td>
 
 <td>
 
 <button
 class="edit-btn"
 onclick="editStockOut(
-'${firebaseDoc.id}',
 '${data.date}',
 '${data.quantity}',
 '${data.type}',
@@ -988,7 +1115,7 @@ table.innerHTML = `
 
 <tr>
 
-<td colspan="7">
+<td colspan="8">
 
 No Stock Out Records
 
@@ -1013,103 +1140,7 @@ releasedItems;
 );
 
 }
-/* DELETE */
 
-window.deleteStockOut =
-async function(id,itemId,quantity){
-
-const confirmDelete =
-confirm("Delete this stock out?");
-
-if(!confirmDelete){
-
-return;
-
-}
-
-try{
-
-/* GET CURRENT ITEM */
-
-const itemRef =
-doc(db,"inventoryMasterlist",itemId);
-
-const itemSnap =
-await getDoc(itemRef);
-
-if(itemSnap.exists()){
-
-const itemData =
-itemSnap.data();
-
-const currentStock =
-Number(itemData.stock || 0);
-
-/* RETURN STOCK */
-
-await updateDoc(itemRef,{
-
-stock:
-currentStock + Number(quantity)
-
-});
-
-}
-
-/* DELETE RECORD */
-
-await deleteDoc(
-doc(db,"stockOut",id)
-);
-
-alert("Stock Out Deleted");
-
-}catch(error){
-
-console.error(error);
-
-alert(error.message);
-
-}
-
-}
-
-/* EDIT */
-
-window.editStockOut =
-function(
-id,
-date,
-quantity,
-type,
-branch,
-releasedTo,
-remarks
-){
-
-document.getElementById("date")
-.value = date;
-
-document.getElementById("quantity")
-.value = quantity;
-
-document.getElementById("stockOutType")
-.value = type;
-
-document.getElementById("branch")
-.value = branch;
-
-document.getElementById("releasedTo")
-.value = releasedTo;
-
-document.getElementById("remarks")
-.value = remarks;
-
-alert(
-"Edit mode loaded.\nDelete old transaction first then save new changes."
-);
-
-}
 /* LOAD */
 
 loadItems();
