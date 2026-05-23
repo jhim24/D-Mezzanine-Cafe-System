@@ -38,38 +38,17 @@ height:100vh;
 /* SIDEBAR */
 
 .sidebar{
-width:300px;
+width:280px;
 background:#111827;
 padding:20px;
 overflow-y:auto;
-border-right:1px solid rgba(255,255,255,0.08);
 }
 
-.logo-box{
-display:flex;
-align-items:center;
-gap:14px;
-margin-bottom:30px;
-}
-
-.logo-box img{
-width:65px;
-height:65px;
-border-radius:50%;
-background:white;
-padding:5px;
-border:3px solid #facc15;
-object-fit:contain;
-}
-
-.logo-text h2{
-font-size:20px;
+.logo{
+font-size:24px;
 font-weight:700;
-}
-
-.logo-text p{
-font-size:13px;
-color:#d1d5db;
+margin-bottom:30px;
+color:#facc15;
 }
 
 .menu{
@@ -78,32 +57,22 @@ flex-direction:column;
 gap:12px;
 }
 
-.menu-title{
-font-size:13px;
-font-weight:700;
-color:#facc15;
-margin-top:15px;
-padding-left:5px;
-}
-
 .menu a{
-display:flex;
-align-items:center;
-gap:14px;
 padding:15px;
-border-radius:16px;
+border-radius:14px;
 text-decoration:none;
 color:white;
+background:#1e293b;
 transition:.3s;
-background:rgba(255,255,255,0.03);
-font-size:15px;
+display:flex;
+align-items:center;
+gap:10px;
 }
 
 .menu a:hover,
 .menu a.active{
 background:#facc15;
 color:black;
-transform:translateX(4px);
 }
 
 /* MAIN */
@@ -114,22 +83,12 @@ padding:25px;
 overflow-y:auto;
 }
 
-/* HEADER */
-
-.header-box{
-background:#1e293b;
-padding:25px;
-border-radius:24px;
+.header{
 margin-bottom:25px;
 }
 
-.header-box h1{
+.header h1{
 font-size:38px;
-}
-
-.header-box p{
-color:#cbd5e1;
-margin-top:8px;
 }
 
 /* FORM */
@@ -137,14 +96,15 @@ margin-top:8px;
 .form-box{
 background:#1e293b;
 padding:25px;
-border-radius:24px;
-margin-bottom:25px;
+border-radius:20px;
 
 display:grid;
 grid-template-columns:
-repeat(auto-fit,minmax(220px,1fr));
+repeat(auto-fit,minmax(250px,1fr));
 
 gap:15px;
+
+margin-bottom:25px;
 }
 
 .form-box input,
@@ -154,7 +114,6 @@ border:none;
 border-radius:12px;
 background:#111827;
 color:white;
-font-size:14px;
 }
 
 .save-btn{
@@ -172,14 +131,14 @@ color:white;
 .table-box{
 background:#1e293b;
 padding:20px;
-border-radius:24px;
+border-radius:20px;
 overflow:auto;
 }
 
 table{
 width:100%;
 border-collapse:collapse;
-min-width:1200px;
+min-width:1000px;
 }
 
 th{
@@ -190,22 +149,13 @@ text-align:left;
 }
 
 td{
-padding:15px;
+padding:14px;
 border-bottom:1px solid rgba(255,255,255,0.08);
-}
-
-.delete-btn{
-background:#ef4444;
-border:none;
-padding:8px 12px;
-border-radius:8px;
-color:white;
-cursor:pointer;
 }
 
 /* MOBILE */
 
-@media(max-width:950px){
+@media(max-width:900px){
 
 .container{
 flex-direction:column;
@@ -239,39 +189,25 @@ min-width:180px;
 
 <div class="sidebar">
 
-<div class="logo-box">
+<div class="logo">
 
-<img src="./logo.png">
-
-<div class="logo-text">
-
-<h2>D'Mezzanine</h2>
-
-<p>Inventory System</p>
-
-</div>
+D'Mezzanine
 
 </div>
 
 <div class="menu">
 
-<p class="menu-title">
-STOCKROOM
-</p>
-
-<a href="stockroom.html">
+<a href="index.html">
 
 <i class="fa-solid fa-chart-line"></i>
-
 Dashboard
 
 </a>
 
-<a href="items.html">
+<a href="items-masterlist.html">
 
-<i class="fa-solid fa-boxes-stacked"></i>
-
-Items
+<i class="fa-solid fa-box"></i>
+Items Masterlist
 
 </a>
 
@@ -279,7 +215,6 @@ Items
 class="active">
 
 <i class="fa-solid fa-truck"></i>
-
 Stock In
 
 </a>
@@ -287,7 +222,6 @@ Stock In
 <a href="stock-out.html">
 
 <i class="fa-solid fa-arrow-right-arrow-left"></i>
-
 Stock Out
 
 </a>
@@ -295,7 +229,6 @@ Stock Out
 <a href="waste.html">
 
 <i class="fa-solid fa-trash"></i>
-
 Waste
 
 </a>
@@ -303,7 +236,6 @@ Waste
 <a href="daily-inventory.html">
 
 <i class="fa-solid fa-clipboard-list"></i>
-
 Daily Inventory
 
 </a>
@@ -316,11 +248,9 @@ Daily Inventory
 
 <div class="main">
 
-<div class="header-box">
+<div class="header">
 
-<h1>Stock In 📦</h1>
-
-<p id="dateTime"></p>
+<h1>Stock In 📥</h1>
 
 </div>
 
@@ -328,26 +258,33 @@ Daily Inventory
 
 <div class="form-box">
 
-<select id="itemSelect"></select>
+<input type="date"
+id="date">
+
+<select id="itemSelect">
+
+<option value="">
+Select Item
+</option>
+
+</select>
 
 <input type="number"
 id="quantity"
 placeholder="Quantity">
 
-<input type="number"
-id="cost"
-placeholder="Unit Cost">
-
 <input type="text"
 id="supplier"
 placeholder="Supplier">
 
-<input type="date"
-id="date">
+<input type="text"
+id="invoice"
+placeholder="Invoice No">
 
 <button class="save-btn"
 onclick="saveStockIn()">
 
+<i class="fa-solid fa-floppy-disk"></i>
 Save Stock In
 
 </button>
@@ -367,16 +304,24 @@ Save Stock In
 <th>Date</th>
 <th>Item</th>
 <th>Quantity</th>
-<th>Unit Cost</th>
-<th>Total Cost</th>
 <th>Supplier</th>
-<th>Action</th>
+<th>Invoice</th>
 
 </tr>
 
 </thead>
 
 <tbody id="stockInTable">
+
+<tr>
+
+<td colspan="5">
+
+Loading...
+
+</td>
+
+</tr>
 
 </tbody>
 
@@ -391,6 +336,7 @@ Save Stock In
 <script type="module">
 
 import { initializeApp }
+
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 
 import {
@@ -398,12 +344,10 @@ import {
 getFirestore,
 collection,
 addDoc,
-getDocs,
-deleteDoc,
+onSnapshot,
 doc,
 updateDoc,
-increment,
-getDoc
+getDocs
 
 }
 
@@ -413,17 +357,17 @@ from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
 const firebaseConfig = {
 
-apiKey: "YOUR_API_KEY",
+apiKey: "AIzaSyCYjuZlpgE-Lci33e53014F7fRIid6u7Dg",
 
-authDomain: "YOUR_AUTH_DOMAIN",
+authDomain: "family-web-10cb8.firebaseapp.com",
 
-projectId: "YOUR_PROJECT_ID",
+projectId: "family-web-10cb8",
 
-storageBucket: "YOUR_STORAGE_BUCKET",
+storageBucket: "family-web-10cb8.firebasestorage.app",
 
-messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+messagingSenderId: "152048365178",
 
-appId: "YOUR_APP_ID"
+appId: "1:152048365178:web:3e42c20e03a7c563d915c3"
 
 };
 
@@ -432,20 +376,6 @@ initializeApp(firebaseConfig);
 
 const db =
 getFirestore(app);
-
-/* DATE TIME */
-
-function updateDateTime(){
-
-document.getElementById("dateTime")
-.innerText =
-new Date().toLocaleString();
-
-}
-
-setInterval(updateDateTime,1000);
-
-updateDateTime();
 
 /* LOAD ITEMS */
 
@@ -464,7 +394,7 @@ Select Item
 
 const snapshot =
 await getDocs(
-collection(db,"inventoryItems")
+collection(db,"inventoryMasterlist")
 );
 
 snapshot.forEach((firebaseDoc)=>{
@@ -476,9 +406,7 @@ select.innerHTML += `
 
 <option value="${firebaseDoc.id}">
 
-${item.name}
-(Current Stock:
-${Number(item.stock || 0)})
+${item.itemName}
 
 </option>
 
@@ -493,38 +421,29 @@ ${Number(item.stock || 0)})
 window.saveStockIn =
 async function(){
 
+try{
+
+const date =
+document.getElementById("date").value;
+
 const itemId =
 document.getElementById("itemSelect").value;
-
-const itemName =
-document.getElementById("itemSelect")
-.options[
-document.getElementById("itemSelect")
-.selectedIndex
-].text;
 
 const quantity =
 Number(
 document.getElementById("quantity").value
 );
 
-const cost =
-Number(
-document.getElementById("cost").value
-);
-
 const supplier =
 document.getElementById("supplier").value;
 
-const date =
-document.getElementById("date").value;
+const invoice =
+document.getElementById("invoice").value;
 
 if(
+!date ||
 !itemId ||
-!quantity ||
-!cost ||
-!supplier ||
-!date
+!quantity
 ){
 
 alert("Complete all fields");
@@ -533,15 +452,31 @@ return;
 
 }
 
-/* CHECK ITEM */
+/* GET ITEM */
 
-const itemRef =
-doc(db,"inventoryItems",itemId);
+const snapshot =
+await getDocs(
+collection(db,"inventoryMasterlist")
+);
 
-const itemSnap =
-await getDoc(itemRef);
+let selectedItem = null;
 
-if(!itemSnap.exists()){
+snapshot.forEach((firebaseDoc)=>{
+
+if(firebaseDoc.id === itemId){
+
+selectedItem = {
+
+id:firebaseDoc.id,
+...firebaseDoc.data()
+
+};
+
+}
+
+});
+
+if(!selectedItem){
 
 alert("Item not found");
 
@@ -549,38 +484,49 @@ return;
 
 }
 
-/* TOTAL */
-
-const totalCost =
-quantity * cost;
-
 /* SAVE STOCK IN */
 
 await addDoc(
 collection(db,"stockIn"),
 {
 
-itemId:itemId,
-itemName:itemName,
-qty:quantity,
-cost:cost,
-totalCost:totalCost,
-supplier:supplier,
-date:date,
-createdAt:new Date()
+date,
+itemId,
+itemName:
+selectedItem.itemName,
+
+quantity,
+supplier,
+invoice,
+
+createdAt:
+new Date()
 
 }
 );
 
-/* UPDATE INVENTORY */
+/* UPDATE STOCK */
+
+const newStock =
+
+Number(selectedItem.stock || 0)
++
+quantity;
 
 await updateDoc(
-itemRef,
+
+doc(
+db,
+"inventoryMasterlist",
+itemId
+),
+
 {
 
-stock:increment(quantity)
+stock:newStock
 
 }
+
 );
 
 alert("Stock In Saved");
@@ -590,32 +536,36 @@ alert("Stock In Saved");
 document.getElementById("quantity")
 .value = "";
 
-document.getElementById("cost")
-.value = "";
-
 document.getElementById("supplier")
 .value = "";
 
-/* RELOAD */
+document.getElementById("invoice")
+.value = "";
 
-loadItems();
-loadStockIn();
+}catch(error){
+
+console.error(error);
+
+alert(error.message);
+
+}
 
 }
 
 /* LOAD STOCK IN */
 
-async function loadStockIn(){
+function loadStockIn(){
 
 const table =
 document.getElementById("stockInTable");
 
-table.innerHTML = "";
+onSnapshot(
 
-const snapshot =
-await getDocs(
-collection(db,"stockIn")
-);
+collection(db,"stockIn"),
+
+(snapshot)=>{
+
+table.innerHTML = "";
 
 snapshot.forEach((firebaseDoc)=>{
 
@@ -630,29 +580,11 @@ table.innerHTML += `
 
 <td>${data.itemName}</td>
 
-<td>${data.qty}</td>
-
-<td>₱${Number(data.cost).toLocaleString()}</td>
-
-<td>₱${Number(data.totalCost).toLocaleString()}</td>
+<td>${data.quantity}</td>
 
 <td>${data.supplier}</td>
 
-<td>
-
-<button
-class="delete-btn"
-onclick="deleteStockIn(
-'${firebaseDoc.id}',
-'${data.itemId}',
-${data.qty}
-)">
-
-Delete
-
-</button>
-
-</td>
+<td>${data.invoice}</td>
 
 </tr>
 
@@ -662,34 +594,7 @@ Delete
 
 }
 
-/* DELETE */
-
-window.deleteStockIn =
-async function(stockInId,itemId,qty){
-
-if(!confirm("Delete stock in?")) return;
-
-/* DELETE RECORD */
-
-await deleteDoc(
-doc(db,"stockIn",stockInId)
 );
-
-/* RETURN STOCK */
-
-await updateDoc(
-doc(db,"inventoryItems",itemId),
-{
-
-stock:increment(-qty)
-
-}
-);
-
-/* RELOAD */
-
-loadItems();
-loadStockIn();
 
 }
 
