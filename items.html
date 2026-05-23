@@ -7,7 +7,7 @@
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>Inventory Items</title>
+<title>Items Inventory</title>
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -25,7 +25,8 @@ font-family:'Poppins',sans-serif;
 }
 
 body{
-background:#f3f4f6;
+background:#0f172a;
+color:white;
 overflow:hidden;
 }
 
@@ -39,70 +40,72 @@ height:100vh;
 /* SIDEBAR */
 
 .sidebar{
-width:280px;
-background:#050505;
+width:300px;
+background:#111827;
 padding:20px;
 overflow-y:auto;
+border-right:1px solid rgba(255,255,255,0.08);
 }
 
 .logo-box{
 display:flex;
 align-items:center;
-gap:12px;
+gap:14px;
 margin-bottom:30px;
 }
 
 .logo-box img{
-width:60px;
-height:60px;
+width:65px;
+height:65px;
 border-radius:50%;
 background:white;
-padding:4px;
+padding:5px;
 border:3px solid #facc15;
+object-fit:contain;
 }
 
 .logo-text h2{
-color:white;
 font-size:20px;
+font-weight:700;
 }
 
 .logo-text p{
-color:#d1d5db;
 font-size:13px;
+color:#d1d5db;
 }
 
 .menu{
 display:flex;
 flex-direction:column;
-gap:8px;
+gap:12px;
 }
 
 .menu-title{
-color:#facc15;
 font-size:13px;
 font-weight:700;
+color:#facc15;
 margin-top:15px;
-margin-bottom:8px;
-padding-left:10px;
+padding-left:5px;
 }
 
 .menu a{
 display:flex;
 align-items:center;
 gap:14px;
-padding:14px;
-border-radius:14px;
+padding:15px;
+border-radius:16px;
 text-decoration:none;
 color:white;
-font-size:15px;
 transition:.3s;
+background:rgba(255,255,255,0.03);
+font-size:15px;
 }
 
 .menu a:hover,
 .menu a.active{
 background:#facc15;
 color:black;
-font-weight:600;
+transform:translateX(4px);
 }
 
 /* MAIN */
@@ -115,81 +118,63 @@ overflow-y:auto;
 
 /* HEADER */
 
-.header{
-background:#0f172a;
+.header-box{
+background:#1e293b;
 padding:25px;
-border-radius:20px;
-color:white;
+border-radius:24px;
 margin-bottom:25px;
 }
 
-.header h1{
-font-size:34px;
-margin-bottom:8px;
+.header-box h1{
+font-size:38px;
+}
+
+.header-box p{
+color:#cbd5e1;
+margin-top:8px;
 }
 
 /* FORM */
 
 .form-box{
-background:white;
+background:#1e293b;
 padding:25px;
-border-radius:20px;
+border-radius:24px;
 margin-bottom:25px;
-}
 
-.form-title{
-font-size:24px;
-margin-bottom:20px;
-font-weight:700;
-}
-
-.form-grid{
 display:grid;
 grid-template-columns:
 repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
+
+gap:15px;
 }
 
-.input-group{
-display:flex;
-flex-direction:column;
-}
-
-.input-group label{
-margin-bottom:8px;
-font-size:14px;
-font-weight:600;
-}
-
-.input-group input,
-.input-group select{
+.form-box input,
+.form-box select{
 padding:14px;
-border:1px solid #d1d5db;
+border:none;
 border-radius:12px;
+background:#111827;
+color:white;
 font-size:14px;
-outline:none;
 }
-
-/* BUTTON */
 
 .save-btn{
-margin-top:20px;
-background:#facc15;
-color:black;
+background:#22c55e;
 border:none;
-padding:15px 25px;
-border-radius:14px;
-font-size:16px;
+padding:14px;
+border-radius:12px;
 font-weight:700;
 cursor:pointer;
+color:white;
 }
 
 /* TABLE */
 
 .table-box{
-background:white;
+background:#1e293b;
 padding:20px;
-border-radius:20px;
+border-radius:24px;
 overflow:auto;
 }
 
@@ -199,36 +184,30 @@ border-collapse:collapse;
 min-width:1000px;
 }
 
-table th{
-background:#0f172a;
-color:white;
-padding:14px;
-font-size:14px;
+th{
+background:#111827;
+color:#facc15;
+padding:15px;
+text-align:left;
 }
 
-table td{
-padding:14px;
-border-bottom:1px solid #e5e7eb;
-font-size:14px;
-}
-
-.low-stock{
-color:#ef4444;
-font-weight:700;
+td{
+padding:15px;
+border-bottom:1px solid rgba(255,255,255,0.08);
 }
 
 .delete-btn{
 background:#ef4444;
-color:white;
 border:none;
 padding:8px 12px;
 border-radius:8px;
+color:white;
 cursor:pointer;
 }
 
 /* MOBILE */
 
-@media(max-width:900px){
+@media(max-width:950px){
 
 .container{
 flex-direction:column;
@@ -236,10 +215,16 @@ flex-direction:column;
 
 .sidebar{
 width:100%;
+display:flex;
+overflow:auto;
 }
 
-.main{
-padding:15px;
+.menu{
+flex-direction:row;
+}
+
+.menu a{
+min-width:180px;
 }
 
 }
@@ -264,7 +249,7 @@ padding:15px;
 
 <h2>D'Mezzanine</h2>
 
-<p>Stock Room System</p>
+<p>Inventory System</p>
 
 </div>
 
@@ -273,7 +258,7 @@ padding:15px;
 <div class="menu">
 
 <p class="menu-title">
-INVENTORY
+STOCKROOM
 </p>
 
 <a href="stockroom.html">
@@ -333,15 +318,11 @@ Daily Inventory
 
 <div class="main">
 
-<!-- HEADER -->
+<div class="header-box">
 
-<div class="header">
+<h1>Items Inventory 📦</h1>
 
-<h1>Inventory Items</h1>
-
-<p>
-Manage all stockroom items
-</p>
+<p id="dateTime"></p>
 
 </div>
 
@@ -349,79 +330,35 @@ Manage all stockroom items
 
 <div class="form-box">
 
-<h2 class="form-title">
-Add New Item
-</h2>
-
-<div class="form-grid">
-
-<div class="input-group">
-
-<label>Item Name</label>
-
 <input type="text"
 id="itemName"
-placeholder="Enter item name">
+placeholder="Item Name">
 
-</div>
+<select id="category">
 
-<div class="input-group">
+<option value="">
+Select Category
+</option>
 
-<label>Category</label>
-
-<select id="itemCategory">
-
-<option>Beverage</option>
-<option>Kitchen</option>
-<option>Bar</option>
-<option>Supplies</option>
-
-</select>
-
-</div>
-
-<div class="input-group">
-
-<label>Unit</label>
-
-<select id="itemUnit">
-
-<option>KG</option>
-<option>Liter</option>
-<option>Bottle</option>
-<option>Pack</option>
-<option>Piece</option>
+<option>Coffee</option>
+<option>Milk</option>
+<option>Powder</option>
+<option>Syrup</option>
+<option>Food</option>
+<option>Packaging</option>
 
 </select>
 
-</div>
-
-<div class="input-group">
-
-<label>Beginning Stock</label>
-
 <input type="number"
-id="itemStock"
-placeholder="0">
+id="stock"
+placeholder="Beginning Stock">
 
-</div>
-
-<div class="input-group">
-
-<label>Low Stock Alert</label>
-
-<input type="number"
-id="lowStock"
-placeholder="5">
-
-</div>
-
-</div>
+<input type="text"
+id="unit"
+placeholder="Unit (pcs, kg, liters)">
 
 <button class="save-btn"
 onclick="saveItem()">
-
-<i class="fa-solid fa-floppy-disk"></i>
 
 Save Item
 
@@ -439,30 +376,18 @@ Save Item
 
 <tr>
 
-<th>ITEM</th>
-<th>CATEGORY</th>
-<th>UNIT</th>
-<th>STOCK</th>
-<th>LOW ALERT</th>
-<th>STATUS</th>
-<th>ACTION</th>
+<th>Item ID</th>
+<th>Item Name</th>
+<th>Category</th>
+<th>Stock</th>
+<th>Unit</th>
+<th>Action</th>
 
 </tr>
 
 </thead>
 
 <tbody id="itemsTable">
-
-<tr>
-
-<td colspan="7"
-style="text-align:center;padding:20px;">
-
-Loading Items...
-
-</td>
-
-</tr>
 
 </tbody>
 
@@ -474,148 +399,115 @@ Loading Items...
 
 </div>
 
-<script type="module">
+<script>
 
-/* FIREBASE */
+/* DATE TIME */
 
-import { initializeApp }
+function updateDateTime(){
 
-from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
-
-import {
-
-getFirestore,
-collection,
-addDoc,
-getDocs,
-deleteDoc,
-doc
+document.getElementById("dateTime")
+.innerText =
+new Date().toLocaleString();
 
 }
 
-from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+setInterval(updateDateTime,1000);
 
-/* CONFIG */
-
-const firebaseConfig = {
-
-apiKey: "AIzaSyCYjuZlpgE-Lci33e53014F7fRIid6u7Dg",
-
-authDomain: "family-web-10cb8.firebaseapp.com",
-
-projectId: "family-web-10cb8",
-
-storageBucket: "family-web-10cb8.firebasestorage.app",
-
-messagingSenderId: "152048365178",
-
-appId: "1:152048365178:web:3e42c20e03a7c563d915c3"
-
-};
-
-/* INIT */
-
-const app =
-initializeApp(firebaseConfig);
-
-const db =
-getFirestore(app);
+updateDateTime();
 
 /* SAVE ITEM */
 
-window.saveItem =
-async function(){
+function saveItem(){
 
-const name =
+const itemName =
 document.getElementById("itemName").value;
 
 const category =
-document.getElementById("itemCategory").value;
-
-const unit =
-document.getElementById("itemUnit").value;
+document.getElementById("category").value;
 
 const stock =
-Number(
-document.getElementById("itemStock").value
-);
+document.getElementById("stock").value;
 
-const low =
-Number(
-document.getElementById("lowStock").value
-);
+const unit =
+document.getElementById("unit").value;
 
-/* VALIDATION */
+if(
+!itemName ||
+!category ||
+!stock ||
+!unit
+){
 
-if(name === ""){
-
-alert("Enter item name");
+alert("Complete all fields");
 
 return;
 
 }
 
-try{
+let items =
+JSON.parse(
+localStorage.getItem("inventoryItems")
+) || [];
 
-await addDoc(
+/* SAVE WITH ID */
 
-collection(db,"inventoryItems"),
+items.unshift({
 
-{
+id:Date.now().toString(),
 
-name:name,
+name:itemName,
+
 category:category,
-unit:unit,
-stock:stock,
-low:low,
-createdAt:new Date()
 
-}
+stock:Number(stock),
 
+unit:unit
+
+});
+
+localStorage.setItem(
+"inventoryItems",
+JSON.stringify(items)
 );
 
-alert("Item Saved!");
+alert("Item Saved");
 
-clearInputs();
+document.getElementById("itemName")
+.value = "";
+
+document.getElementById("stock")
+.value = "";
+
+document.getElementById("unit")
+.value = "";
 
 loadItems();
-
-}catch(error){
-
-console.error(error);
-
-alert("Failed to save item");
-
-}
 
 }
 
 /* LOAD ITEMS */
 
-async function loadItems(){
+function loadItems(){
 
 const table =
 document.getElementById("itemsTable");
 
 table.innerHTML = "";
 
-try{
+let items =
+JSON.parse(
+localStorage.getItem("inventoryItems")
+) || [];
 
-const snapshot =
-await getDocs(
-collection(db,"inventoryItems")
-);
-
-if(snapshot.empty){
+if(items.length === 0){
 
 table.innerHTML = `
 
 <tr>
 
-<td colspan="7"
-style="text-align:center;padding:20px;">
+<td colspan="6">
 
-No Items Found
+No items found
 
 </td>
 
@@ -627,50 +519,26 @@ return;
 
 }
 
-snapshot.forEach((firebaseDoc)=>{
-
-const item =
-firebaseDoc.data();
-
-const id =
-firebaseDoc.id;
-
-const stock =
-Number(item.stock || 0);
-
-const low =
-Number(item.low || 0);
+items.forEach((item,index)=>{
 
 table.innerHTML += `
 
 <tr>
 
-<td>${item.name || "-"}</td>
+<td>${item.id}</td>
 
-<td>${item.category || "-"}</td>
+<td>${item.name}</td>
 
-<td>${item.unit || "-"}</td>
+<td>${item.category}</td>
 
-<td>${stock}</td>
+<td>${item.stock}</td>
 
-<td>${low}</td>
-
-<td class="${
-stock <= low
-? 'low-stock'
-: ''
-}">
-
-${stock <= low
-? 'LOW STOCK'
-: 'OK'}
-
-</td>
+<td>${item.unit}</td>
 
 <td>
 
 <button class="delete-btn"
-onclick="deleteItem('${id}')">
+onclick="deleteItem(${index})">
 
 Delete
 
@@ -684,66 +552,25 @@ Delete
 
 });
 
-}catch(error){
-
-console.error(error);
-
-table.innerHTML = `
-
-<tr>
-
-<td colspan="7"
-style="text-align:center;padding:20px;">
-
-Failed to load items
-
-</td>
-
-</tr>
-
-`;
-
-}
-
 }
 
 /* DELETE */
 
-window.deleteItem =
-async function(id){
+function deleteItem(index){
 
-const confirmDelete =
-confirm("Delete this item?");
+let items =
+JSON.parse(
+localStorage.getItem("inventoryItems")
+) || [];
 
-if(!confirmDelete) return;
+items.splice(index,1);
 
-try{
-
-await deleteDoc(
-doc(db,"inventoryItems",id)
+localStorage.setItem(
+"inventoryItems",
+JSON.stringify(items)
 );
 
 loadItems();
-
-}catch(error){
-
-console.error(error);
-
-alert("Delete failed");
-
-}
-
-}
-
-/* CLEAR */
-
-function clearInputs(){
-
-document.getElementById("itemName").value = "";
-
-document.getElementById("itemStock").value = "";
-
-document.getElementById("lowStock").value = "";
 
 }
 
