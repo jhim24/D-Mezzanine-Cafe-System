@@ -7,7 +7,7 @@
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>D'Mezzanine Stockroom System</title>
+<title>D'Mezzanine Items Masterlist</title>
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -30,6 +30,20 @@ color:white;
 overflow:hidden;
 }
 
+/* SCROLLBAR */
+
+::-webkit-scrollbar{
+width:8px;
+height:8px;
+}
+
+::-webkit-scrollbar-thumb{
+background:#facc15;
+border-radius:10px;
+}
+
+/* LAYOUT */
+
 .container{
 display:flex;
 height:100vh;
@@ -38,7 +52,7 @@ height:100vh;
 /* SIDEBAR */
 
 .sidebar{
-width:300px;
+width:290px;
 background:#111827;
 padding:20px;
 overflow-y:auto;
@@ -70,6 +84,7 @@ font-weight:700;
 .logo-text p{
 font-size:13px;
 color:#d1d5db;
+margin-top:3px;
 }
 
 .menu{
@@ -78,22 +93,22 @@ flex-direction:column;
 gap:12px;
 }
 
-.menu button{
+.menu a{
 display:flex;
 align-items:center;
 gap:14px;
-padding:15px;
-border-radius:16px;
-border:none;
-background:rgba(255,255,255,0.03);
+padding:16px;
+border-radius:18px;
+text-decoration:none;
 color:white;
-cursor:pointer;
 font-size:15px;
+font-weight:500;
 transition:.3s;
+background:rgba(255,255,255,0.03);
 }
 
-.menu button:hover,
-.menu button.active{
+.menu a:hover,
+.menu a.active{
 background:#facc15;
 color:black;
 transform:translateX(4px);
@@ -107,11 +122,18 @@ padding:25px;
 overflow-y:auto;
 }
 
+/* HEADER */
+
 .header-box{
 background:#1e293b;
-padding:25px;
+padding:28px;
 border-radius:24px;
 margin-bottom:25px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+gap:15px;
 }
 
 .header-box h1{
@@ -120,7 +142,44 @@ font-size:38px;
 
 .header-box p{
 color:#cbd5e1;
-margin-top:8px;
+margin-top:5px;
+}
+
+/* CARDS */
+
+.cards{
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+margin-bottom:25px;
+}
+
+.card{
+background:#1e293b;
+padding:25px;
+border-radius:22px;
+position:relative;
+overflow:hidden;
+}
+
+.card i{
+position:absolute;
+top:20px;
+right:20px;
+font-size:38px;
+color:rgba(250,204,21,0.25);
+}
+
+.card h3{
+font-size:15px;
+color:#cbd5e1;
+margin-bottom:12px;
+}
+
+.card h2{
+font-size:38px;
+color:#facc15;
 }
 
 /* FORM */
@@ -139,8 +198,7 @@ gap:15px;
 }
 
 .form-box input,
-.form-box select,
-.form-box textarea{
+.form-box select{
 padding:14px;
 border:none;
 border-radius:12px;
@@ -149,10 +207,13 @@ color:white;
 font-size:14px;
 }
 
-textarea{
-resize:none;
-height:52px;
+.form-box input:focus,
+.form-box select:focus{
+outline:none;
+border:1px solid #facc15;
 }
+
+/* BUTTON */
 
 .save-btn{
 background:#22c55e;
@@ -162,6 +223,30 @@ border-radius:12px;
 font-weight:700;
 cursor:pointer;
 color:white;
+transition:.3s;
+}
+
+.save-btn:hover{
+transform:translateY(-3px);
+}
+
+/* FILTERS */
+
+.filters{
+display:flex;
+gap:15px;
+margin-bottom:20px;
+flex-wrap:wrap;
+}
+
+.filters input,
+.filters select{
+padding:14px;
+border:none;
+border-radius:12px;
+background:#1e293b;
+color:white;
+min-width:220px;
 }
 
 /* TABLE */
@@ -176,19 +261,47 @@ overflow:auto;
 table{
 width:100%;
 border-collapse:collapse;
-min-width:1400px;
+min-width:1700px;
 }
 
 th{
 background:#111827;
 color:#facc15;
 padding:15px;
+font-size:14px;
 text-align:left;
+white-space:nowrap;
 }
 
 td{
-padding:15px;
+padding:14px;
 border-bottom:1px solid rgba(255,255,255,0.08);
+font-size:14px;
+white-space:nowrap;
+}
+
+/* STATUS */
+
+.low-stock{
+color:#ef4444;
+font-weight:700;
+}
+
+.good-stock{
+color:#22c55e;
+font-weight:700;
+}
+
+/* ACTION */
+
+.edit-btn{
+background:#3b82f6;
+border:none;
+padding:8px 12px;
+border-radius:8px;
+color:white;
+cursor:pointer;
+margin-right:5px;
 }
 
 .delete-btn{
@@ -200,25 +313,7 @@ color:white;
 cursor:pointer;
 }
 
-.section{
-display:none;
-}
-
-.section.active{
-display:block;
-}
-
-/* STATUS */
-
-.good{
-color:#22c55e;
-font-weight:700;
-}
-
-.bad{
-color:#ef4444;
-font-weight:700;
-}
+/* MOBILE */
 
 @media(max-width:950px){
 
@@ -236,8 +331,13 @@ overflow:auto;
 flex-direction:row;
 }
 
-.menu button{
+.menu a{
 min-width:180px;
+}
+
+.header-box{
+flex-direction:column;
+align-items:flex-start;
 }
 
 }
@@ -262,7 +362,7 @@ min-width:180px;
 
 <h2>D'Mezzanine</h2>
 
-<p>Stockroom System</p>
+<p>Inventory System</p>
 
 </div>
 
@@ -270,46 +370,54 @@ min-width:180px;
 
 <div class="menu">
 
-<button class="active"
-onclick="showSection('itemsSection',this)">
+<a href="index.html">
+
+<i class="fa-solid fa-chart-line"></i>
+
+Dashboard
+
+</a>
+
+<a href="items-masterlist.html"
+class="active">
 
 <i class="fa-solid fa-box"></i>
 
-Items
+Items Masterlist
 
-</button>
+</a>
 
-<button onclick="showSection('stockInSection',this)">
+<a href="stock-in.html">
 
 <i class="fa-solid fa-truck"></i>
 
 Stock In
 
-</button>
+</a>
 
-<button onclick="showSection('stockOutSection',this)">
+<a href="stock-out.html">
 
 <i class="fa-solid fa-arrow-right-arrow-left"></i>
 
 Stock Out
 
-</button>
+</a>
 
-<button onclick="showSection('wasteSection',this)">
+<a href="waste.html">
 
 <i class="fa-solid fa-trash"></i>
 
 Waste
 
-</button>
+</a>
 
-<button onclick="showSection('dailySection',this)">
+<a href="daily-inventory.html">
 
 <i class="fa-solid fa-clipboard-list"></i>
 
 Daily Inventory
 
-</button>
+</a>
 
 </div>
 
@@ -319,35 +427,127 @@ Daily Inventory
 
 <div class="main">
 
+<!-- HEADER -->
+
 <div class="header-box">
 
-<h1>Stockroom Inventory 📦</h1>
+<div>
+
+<h1>Items Masterlist 📦</h1>
 
 <p id="dateTime"></p>
 
 </div>
 
-<!-- ITEMS -->
+</div>
 
-<div id="itemsSection"
-class="section active">
+<!-- CARDS -->
+
+<div class="cards">
+
+<div class="card">
+
+<i class="fa-solid fa-boxes-stacked"></i>
+
+<h3>Total Items</h3>
+
+<h2 id="totalItems">0</h2>
+
+</div>
+
+<div class="card">
+
+<i class="fa-solid fa-triangle-exclamation"></i>
+
+<h3>Low Stock</h3>
+
+<h2 id="lowStockCount">0</h2>
+
+</div>
+
+<div class="card">
+
+<i class="fa-solid fa-layer-group"></i>
+
+<h3>Categories</h3>
+
+<h2 id="categoryCount">0</h2>
+
+</div>
+
+</div>
+
+<!-- FORM -->
 
 <div class="form-box">
+
+<input type="text"
+id="itemCode"
+placeholder="Item Code">
 
 <input type="text"
 id="itemName"
 placeholder="Item Name">
 
+<select id="category">
+
+<option value="">
+Select Category
+</option>
+
+<option>
+Raw Materials
+</option>
+
+<option>
+Packaging
+</option>
+
+<option>
+Supplies
+</option>
+
+<option>
+Beverages
+</option>
+
+</select>
+
 <input type="text"
-id="itemCategory"
-placeholder="Category">
+id="unit"
+placeholder="Unit">
 
 <input type="number"
-id="itemStock"
+id="stock"
 placeholder="Beginning Stock">
+
+<input type="number"
+id="reorderLevel"
+placeholder="Reorder Level">
+
+<input type="text"
+id="supplier"
+placeholder="Supplier">
+
+<input type="number"
+id="cost"
+placeholder="Cost Per Unit">
+
+<input type="number"
+id="sellingPrice"
+placeholder="Selling Price">
+
+<input type="date"
+id="expiry">
+
+<input type="text"
+id="location"
+placeholder="Storage Location">
 
 <button class="save-btn"
 onclick="saveItem()">
+
+<i class="fa-solid fa-floppy-disk"></i>
 
 Save Item
 
@@ -355,6 +555,44 @@ Save Item
 
 </div>
 
+<!-- FILTERS -->
+
+<div class="filters">
+
+<input type="text"
+id="searchInput"
+placeholder="Search Item..."
+onkeyup="loadItems()">
+
+<select id="filterCategory"
+onchange="loadItems()">
+
+<option value="">
+All Categories
+</option>
+
+<option>
+Raw Materials
+</option>
+
+<option>
+Packaging
+</option>
+
+<option>
+Supplies
+</option>
+
+<option>
+Beverages
+</option>
+
+</select>
+
+</div>
+
+<!-- TABLE -->
+
 <div class="table-box">
 
 <table>
@@ -363,228 +601,39 @@ Save Item
 
 <tr>
 
-<th>Item</th>
+<th>Code</th>
+<th>Item Name</th>
 <th>Category</th>
+<th>Unit</th>
 <th>Current Stock</th>
-
-</tr>
-
-</thead>
-
-<tbody id="itemsTable"></tbody>
-
-</table>
-
-</div>
-
-</div>
-
-<!-- STOCK IN -->
-
-<div id="stockInSection"
-class="section">
-
-<div class="form-box">
-
-<select id="stockInItem"></select>
-
-<input type="number"
-id="stockInQty"
-placeholder="Quantity">
-
-<input type="text"
-id="stockInSupplier"
-placeholder="Supplier">
-
-<input type="date"
-id="stockInDate">
-
-<button class="save-btn"
-onclick="saveStockIn()">
-
-Save Stock In
-
-</button>
-
-</div>
-
-<div class="table-box">
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>Date</th>
-<th>Item</th>
-<th>Quantity</th>
+<th>Reorder</th>
 <th>Supplier</th>
+<th>Cost</th>
+<th>Selling</th>
+<th>Expiry</th>
+<th>Location</th>
+<th>Status</th>
+<th>Action</th>
 
 </tr>
 
 </thead>
 
-<tbody id="stockInTable"></tbody>
-
-</table>
-
-</div>
-
-</div>
-
-<!-- STOCK OUT -->
-
-<div id="stockOutSection"
-class="section">
-
-<div class="form-box">
-
-<select id="stockOutItem"></select>
-
-<input type="number"
-id="stockOutQty"
-placeholder="Quantity">
-
-<input type="text"
-id="stockOutReason"
-placeholder="Reason">
-
-<input type="date"
-id="stockOutDate">
-
-<button class="save-btn"
-onclick="saveStockOut()">
-
-Save Stock Out
-
-</button>
-
-</div>
-
-<div class="table-box">
-
-<table>
-
-<thead>
+<tbody id="itemsTable">
 
 <tr>
 
-<th>Date</th>
-<th>Item</th>
-<th>Quantity</th>
-<th>Reason</th>
+<td colspan="13">
+
+Loading...
+
+</td>
 
 </tr>
 
-</thead>
-
-<tbody id="stockOutTable"></tbody>
+</tbody>
 
 </table>
-
-</div>
-
-</div>
-
-<!-- WASTE -->
-
-<div id="wasteSection"
-class="section">
-
-<div class="form-box">
-
-<select id="wasteItem"></select>
-
-<input type="number"
-id="wasteQty"
-placeholder="Quantity">
-
-<input type="text"
-id="wasteReason"
-placeholder="Reason">
-
-<input type="date"
-id="wasteDate">
-
-<button class="save-btn"
-onclick="saveWaste()">
-
-Save Waste
-
-</button>
-
-</div>
-
-<div class="table-box">
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>Date</th>
-<th>Item</th>
-<th>Quantity</th>
-<th>Reason</th>
-
-</tr>
-
-</thead>
-
-<tbody id="wasteTable"></tbody>
-
-</table>
-
-</div>
-
-</div>
-
-<!-- DAILY INVENTORY -->
-
-<div id="dailySection"
-class="section">
-
-<div class="form-box">
-
-<input type="date"
-id="dailyDate">
-
-<button class="save-btn"
-onclick="generateDailyInventory()">
-
-Generate Daily Inventory
-
-</button>
-
-</div>
-
-<div class="table-box">
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>Item</th>
-<th>Current Stock</th>
-<th>Stock In</th>
-<th>Stock Out</th>
-<th>Waste</th>
-<th>Actual Count</th>
-<th>Variance</th>
-
-</tr>
-
-</thead>
-
-<tbody id="dailyTable"></tbody>
-
-</table>
-
-</div>
 
 </div>
 
@@ -603,11 +652,9 @@ getFirestore,
 collection,
 addDoc,
 getDocs,
+deleteDoc,
 doc,
-updateDoc,
-increment,
-query,
-where
+updateDoc
 
 }
 
@@ -646,535 +693,267 @@ setInterval(updateDateTime,1000);
 
 updateDateTime();
 
-/* SIDEBAR */
-
-window.showSection =
-function(id,btn){
-
-document.querySelectorAll(".section")
-.forEach(sec=>{
-
-sec.classList.remove("active");
-
-});
-
-document.getElementById(id)
-.classList.add("active");
-
-document.querySelectorAll(".menu button")
-.forEach(b=>{
-
-b.classList.remove("active");
-
-});
-
-btn.classList.add("active");
-
-}
-
 /* SAVE ITEM */
 
 window.saveItem =
 async function(){
 
-const name =
-document.getElementById("itemName").value;
+const item = {
 
-const category =
-document.getElementById("itemCategory").value;
+itemCode:
+document.getElementById("itemCode").value,
 
-const stock =
+itemName:
+document.getElementById("itemName").value,
+
+category:
+document.getElementById("category").value,
+
+unit:
+document.getElementById("unit").value,
+
+stock:
 Number(
-document.getElementById("itemStock").value
-);
+document.getElementById("stock").value
+),
 
-if(!name || !category){
+reorderLevel:
+Number(
+document.getElementById("reorderLevel").value
+),
 
-alert("Complete fields");
+supplier:
+document.getElementById("supplier").value,
+
+cost:
+Number(
+document.getElementById("cost").value
+),
+
+sellingPrice:
+Number(
+document.getElementById("sellingPrice").value
+),
+
+expiry:
+document.getElementById("expiry").value,
+
+location:
+document.getElementById("location").value,
+
+status:"Active",
+
+createdAt:new Date()
+
+};
+
+if(
+!item.itemCode ||
+!item.itemName
+){
+
+alert("Complete all required fields");
 
 return;
 
 }
 
 await addDoc(
-collection(db,"inventoryItems"),
-{
-
-name:name,
-category:category,
-stock:stock,
-createdAt:new Date()
-
-}
+collection(db,"inventoryMasterlist"),
+item
 );
 
-alert("Item Saved");
+alert("Item Saved Successfully");
+
+clearForm();
 
 loadItems();
 
 }
 
+/* CLEAR */
+
+function clearForm(){
+
+document.querySelectorAll(".form-box input")
+.forEach(input=>{
+
+input.value = "";
+
+});
+
+document.getElementById("category")
+.value = "";
+
+}
+
 /* LOAD ITEMS */
 
-async function loadItems(){
+window.loadItems =
+async function(){
 
 const table =
 document.getElementById("itemsTable");
 
 table.innerHTML = "";
 
-const selects = [
+const search =
+document.getElementById("searchInput")
+.value
+.toLowerCase();
 
-document.getElementById("stockInItem"),
-document.getElementById("stockOutItem"),
-document.getElementById("wasteItem")
-
-];
-
-selects.forEach(select=>{
-
-select.innerHTML =
-`<option value="">Select Item</option>`;
-
-});
+const filterCategory =
+document.getElementById("filterCategory")
+.value;
 
 const snapshot =
 await getDocs(
-collection(db,"inventoryItems")
+collection(db,"inventoryMasterlist")
 );
+
+let totalItems = 0;
+let lowStockCount = 0;
+
+let categories =
+new Set();
 
 snapshot.forEach((firebaseDoc)=>{
 
 const item =
 firebaseDoc.data();
 
+const docId =
+firebaseDoc.id;
+
+if(
+search &&
+!item.itemName
+.toLowerCase()
+.includes(search)
+){
+
+return;
+
+}
+
+if(
+filterCategory &&
+item.category !== filterCategory
+){
+
+return;
+
+}
+
+totalItems++;
+
+categories.add(item.category);
+
+const isLow =
+Number(item.stock)
+<=
+Number(item.reorderLevel);
+
+if(isLow){
+
+lowStockCount++;
+
+}
+
 table.innerHTML += `
 
 <tr>
 
-<td>${item.name}</td>
+<td>${item.itemCode}</td>
+
+<td>${item.itemName}</td>
+
 <td>${item.category}</td>
-<td>${item.stock}</td>
 
-</tr>
+<td>${item.unit}</td>
 
-`;
+<td class="${
+isLow
+?
+'low-stock'
+:
+'good-stock'
+}">
 
-selects.forEach(select=>{
+${item.stock}
 
-select.innerHTML += `
+</td>
 
-<option value="${firebaseDoc.id}">
+<td>${item.reorderLevel}</td>
 
-${item.name}
-(Current:
-${item.stock})
+<td>${item.supplier}</td>
 
-</option>
+<td>
+₱${Number(item.cost)
+.toLocaleString()}
+</td>
 
-`;
+<td>
+₱${Number(item.sellingPrice)
+.toLocaleString()}
+</td>
 
-});
+<td>${item.expiry || "-"}</td>
 
-});
+<td>${item.location}</td>
 
+<td class="${
+isLow
+?
+'low-stock'
+:
+'good-stock'
+}">
+
+${
+isLow
+?
+'LOW STOCK'
+:
+'GOOD'
 }
 
-/* STOCK IN */
-
-window.saveStockIn =
-async function(){
-
-const itemId =
-document.getElementById("stockInItem").value;
-
-const qty =
-Number(
-document.getElementById("stockInQty").value
-);
-
-const supplier =
-document.getElementById("stockInSupplier").value;
-
-const date =
-document.getElementById("stockInDate").value;
-
-const itemName =
-document.getElementById("stockInItem")
-.options[
-document.getElementById("stockInItem")
-.selectedIndex
-].text;
-
-await addDoc(
-collection(db,"stockIn"),
-{
-
-itemId,
-itemName,
-qty,
-supplier,
-date,
-createdAt:new Date()
-
-}
-);
-
-await updateDoc(
-doc(db,"inventoryItems",itemId),
-{
-
-stock:increment(qty)
-
-}
-);
-
-alert("Stock In Saved");
-
-loadItems();
-loadStockIn();
-
-}
-
-/* LOAD STOCK IN */
-
-async function loadStockIn(){
-
-const table =
-document.getElementById("stockInTable");
-
-table.innerHTML = "";
-
-const snapshot =
-await getDocs(
-collection(db,"stockIn")
-);
-
-snapshot.forEach((firebaseDoc)=>{
-
-const data =
-firebaseDoc.data();
-
-table.innerHTML += `
-
-<tr>
-
-<td>${data.date}</td>
-<td>${data.itemName}</td>
-<td>${data.qty}</td>
-<td>${data.supplier}</td>
-
-</tr>
-
-`;
-
-});
-
-}
-
-/* STOCK OUT */
-
-window.saveStockOut =
-async function(){
-
-const itemId =
-document.getElementById("stockOutItem").value;
-
-const qty =
-Number(
-document.getElementById("stockOutQty").value
-);
-
-const reason =
-document.getElementById("stockOutReason").value;
-
-const date =
-document.getElementById("stockOutDate").value;
-
-const itemName =
-document.getElementById("stockOutItem")
-.options[
-document.getElementById("stockOutItem")
-.selectedIndex
-].text;
-
-await addDoc(
-collection(db,"stockOut"),
-{
-
-itemId,
-itemName,
-qty,
-reason,
-date,
-createdAt:new Date()
-
-}
-);
-
-await updateDoc(
-doc(db,"inventoryItems",itemId),
-{
-
-stock:increment(-qty)
-
-}
-);
-
-alert("Stock Out Saved");
-
-loadItems();
-loadStockOut();
-
-}
-
-/* LOAD STOCK OUT */
-
-async function loadStockOut(){
-
-const table =
-document.getElementById("stockOutTable");
-
-table.innerHTML = "";
-
-const snapshot =
-await getDocs(
-collection(db,"stockOut")
-);
-
-snapshot.forEach((firebaseDoc)=>{
-
-const data =
-firebaseDoc.data();
-
-table.innerHTML += `
-
-<tr>
-
-<td>${data.date}</td>
-<td>${data.itemName}</td>
-<td>${data.qty}</td>
-<td>${data.reason}</td>
-
-</tr>
-
-`;
-
-});
-
-}
-
-/* WASTE */
-
-window.saveWaste =
-async function(){
-
-const itemId =
-document.getElementById("wasteItem").value;
-
-const qty =
-Number(
-document.getElementById("wasteQty").value
-);
-
-const reason =
-document.getElementById("wasteReason").value;
-
-const date =
-document.getElementById("wasteDate").value;
-
-const itemName =
-document.getElementById("wasteItem")
-.options[
-document.getElementById("wasteItem")
-.selectedIndex
-].text;
-
-await addDoc(
-collection(db,"waste"),
-{
-
-itemId,
-itemName,
-qty,
-reason,
-date,
-createdAt:new Date()
-
-}
-);
-
-await updateDoc(
-doc(db,"inventoryItems",itemId),
-{
-
-stock:increment(-qty)
-
-}
-);
-
-alert("Waste Saved");
-
-loadItems();
-loadWaste();
-
-}
-
-/* LOAD WASTE */
-
-async function loadWaste(){
-
-const table =
-document.getElementById("wasteTable");
-
-table.innerHTML = "";
-
-const snapshot =
-await getDocs(
-collection(db,"waste")
-);
-
-snapshot.forEach((firebaseDoc)=>{
-
-const data =
-firebaseDoc.data();
-
-table.innerHTML += `
-
-<tr>
-
-<td>${data.date}</td>
-<td>${data.itemName}</td>
-<td>${data.qty}</td>
-<td>${data.reason}</td>
-
-</tr>
-
-`;
-
-});
-
-}
-
-/* DAILY INVENTORY */
-
-window.generateDailyInventory =
-async function(){
-
-const date =
-document.getElementById("dailyDate").value;
-
-const table =
-document.getElementById("dailyTable");
-
-table.innerHTML = "";
-
-const itemsSnapshot =
-await getDocs(
-collection(db,"inventoryItems")
-);
-
-for(const itemDoc of itemsSnapshot.docs){
-
-const item =
-itemDoc.data();
-
-const itemId =
-itemDoc.id;
-
-/* STOCK IN */
-
-const stockInSnapshot =
-await getDocs(
-query(
-collection(db,"stockIn"),
-where("itemId","==",itemId),
-where("date","==",date)
-)
-);
-
-let stockInTotal = 0;
-
-stockInSnapshot.forEach(docu=>{
-
-stockInTotal +=
-Number(docu.data().qty || 0);
-
-});
-
-/* STOCK OUT */
-
-const stockOutSnapshot =
-await getDocs(
-query(
-collection(db,"stockOut"),
-where("itemId","==",itemId),
-where("date","==",date)
-)
-);
-
-let stockOutTotal = 0;
-
-stockOutSnapshot.forEach(docu=>{
-
-stockOutTotal +=
-Number(docu.data().qty || 0);
-
-});
-
-/* WASTE */
-
-const wasteSnapshot =
-await getDocs(
-query(
-collection(db,"waste"),
-where("itemId","==",itemId),
-where("date","==",date)
-)
-);
-
-let wasteTotal = 0;
-
-wasteSnapshot.forEach(docu=>{
-
-wasteTotal +=
-Number(docu.data().qty || 0);
-
-});
-
-table.innerHTML += `
-
-<tr>
-
-<td>${item.name}</td>
-
-<td>${item.stock}</td>
-
-<td>${stockInTotal}</td>
-
-<td>${stockOutTotal}</td>
-
-<td>${wasteTotal}</td>
+</td>
 
 <td>
 
-<input
-type="number"
-id="actual-${itemId}"
-value="${item.stock}"
-style="
-padding:10px;
-width:100px;
-border:none;
-border-radius:8px;
-background:#111827;
-color:white;
-">
+<button class="edit-btn"
+onclick="editItem('${docId}')">
+
+Edit
+
+</button>
+
+<button class="delete-btn"
+onclick="deleteItem('${docId}')">
+
+Delete
+
+</button>
 
 </td>
 
-<td id="variance-${itemId}">
-0
+</tr>
+
+`;
+
+});
+
+if(totalItems === 0){
+
+table.innerHTML = `
+
+<tr>
+
+<td colspan="13">
+
+No Items Found
+
 </td>
 
 </tr>
@@ -1182,15 +961,124 @@ color:white;
 `;
 
 }
+
+document.getElementById("totalItems")
+.innerText =
+totalItems;
+
+document.getElementById("lowStockCount")
+.innerText =
+lowStockCount;
+
+document.getElementById("categoryCount")
+.innerText =
+categories.size;
+
+}
+
+/* DELETE */
+
+window.deleteItem =
+async function(id){
+
+let confirmDelete =
+confirm("Delete this item?");
+
+if(!confirmDelete){
+
+return;
+
+}
+
+await deleteDoc(
+doc(db,"inventoryMasterlist",id)
+);
+
+alert("Item Deleted");
+
+loadItems();
+
+}
+
+/* EDIT */
+
+window.editItem =
+async function(id){
+
+const snapshot =
+await getDocs(
+collection(db,"inventoryMasterlist")
+);
+
+snapshot.forEach(async(firebaseDoc)=>{
+
+if(firebaseDoc.id === id){
+
+const item =
+firebaseDoc.data();
+
+document.getElementById("itemCode")
+.value =
+item.itemCode;
+
+document.getElementById("itemName")
+.value =
+item.itemName;
+
+document.getElementById("category")
+.value =
+item.category;
+
+document.getElementById("unit")
+.value =
+item.unit;
+
+document.getElementById("stock")
+.value =
+item.stock;
+
+document.getElementById("reorderLevel")
+.value =
+item.reorderLevel;
+
+document.getElementById("supplier")
+.value =
+item.supplier;
+
+document.getElementById("cost")
+.value =
+item.cost;
+
+document.getElementById("sellingPrice")
+.value =
+item.sellingPrice;
+
+document.getElementById("expiry")
+.value =
+item.expiry;
+
+document.getElementById("location")
+.value =
+item.location;
+
+await deleteDoc(
+doc(db,"inventoryMasterlist",id)
+);
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+}
+
+});
 
 }
 
 /* LOAD */
 
 loadItems();
-loadStockIn();
-loadStockOut();
-loadWaste();
 
 </script>
 
