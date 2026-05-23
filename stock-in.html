@@ -114,6 +114,8 @@ padding:25px;
 overflow-y:auto;
 }
 
+/* HEADER */
+
 .header-box{
 background:#1e293b;
 padding:25px;
@@ -177,7 +179,7 @@ overflow:auto;
 table{
 width:100%;
 border-collapse:collapse;
-min-width:1000px;
+min-width:1200px;
 }
 
 th{
@@ -316,7 +318,7 @@ Daily Inventory
 
 <div class="header-box">
 
-<h1>Stock In 📥</h1>
+<h1>Stock In 📦</h1>
 
 <p id="dateTime"></p>
 
@@ -326,17 +328,15 @@ Daily Inventory
 
 <div class="form-box">
 
-<select id="itemSelect">
-
-<option value="">
-Select Item
-</option>
-
-</select>
+<select id="itemSelect"></select>
 
 <input type="number"
 id="quantity"
 placeholder="Quantity">
+
+<input type="number"
+id="cost"
+placeholder="Unit Cost">
 
 <input type="text"
 id="supplier"
@@ -367,6 +367,8 @@ Save Stock In
 <th>Date</th>
 <th>Item</th>
 <th>Quantity</th>
+<th>Unit Cost</th>
+<th>Total Cost</th>
 <th>Supplier</th>
 <th>Action</th>
 
@@ -400,7 +402,8 @@ getDocs,
 deleteDoc,
 doc,
 updateDoc,
-increment
+increment,
+getDoc
 
 }
 
@@ -472,7 +475,11 @@ firebaseDoc.data();
 select.innerHTML += `
 
 <option value="${firebaseDoc.id}">
+
 ${item.name}
+(Current Stock:
+${Number(item.stock || 0)})
+
 </option>
 
 `;
@@ -496,9 +503,14 @@ document.getElementById("itemSelect")
 .selectedIndex
 ].text;
 
-const qty =
+const quantity =
 Number(
 document.getElementById("quantity").value
+);
+
+const cost =
+Number(
+document.getElementById("cost").value
 );
 
 const supplier =
@@ -509,7 +521,8 @@ document.getElementById("date").value;
 
 if(
 !itemId ||
-!qty ||
+!quantity ||
+!cost ||
 !supplier ||
 !date
 ){
@@ -520,6 +533,27 @@ return;
 
 }
 
+/* CHECK ITEM */
+
+const itemRef =
+doc(db,"inventoryItems",itemId);
+
+const itemSnap =
+await getDoc(itemRef);
+
+if(!itemSnap.exists()){
+
+alert("Item not found");
+
+return;
+
+}
+
+/* TOTAL */
+
+const totalCost =
+quantity * cost;
+
 /* SAVE STOCK IN */
 
 await addDoc(
@@ -528,7 +562,9 @@ collection(db,"stockIn"),
 
 itemId:itemId,
 itemName:itemName,
-qty:qty,
+qty:quantity,
+cost:cost,
+totalCost:totalCost,
 supplier:supplier,
 date:date,
 createdAt:new Date()
@@ -539,10 +575,10 @@ createdAt:new Date()
 /* UPDATE INVENTORY */
 
 await updateDoc(
-doc(db,"inventoryItems",itemId),
+itemRef,
 {
 
-stock:increment(qty)
+stock:increment(quantity)
 
 }
 );
@@ -554,11 +590,15 @@ alert("Stock In Saved");
 document.getElementById("quantity")
 .value = "";
 
+document.getElementById("cost")
+.value = "";
+
 document.getElementById("supplier")
 .value = "";
 
 /* RELOAD */
 
+loadItems();
 loadStockIn();
 
 }
@@ -577,14 +617,10 @@ await getDocs(
 collection(db,"stockIn")
 );
 
-let totalQty = 0;
-
 snapshot.forEach((firebaseDoc)=>{
 
 const data =
 firebaseDoc.data();
-
-totalQty += Number(data.qty || 0);
 
 table.innerHTML += `
 
@@ -596,13 +632,21 @@ table.innerHTML += `
 
 <td>${data.qty}</td>
 
+<td>₱${Number(data.cost).toLocaleString()}</td>
+
+<td>₱${Number(data.totalCost).toLocaleString()}</td>
+
 <td>${data.supplier}</td>
 
 <td>
 
 <button
 class="delete-btn"
-onclick="deleteStockIn('${firebaseDoc.id}','${data.itemId}',${data.qty})">
+onclick="deleteStockIn(
+'${firebaseDoc.id}',
+'${data.itemId}',
+${data.qty}
+)">
 
 Delete
 
@@ -631,7 +675,7 @@ await deleteDoc(
 doc(db,"stockIn",stockInId)
 );
 
-/* DEDUCT INVENTORY */
+/* RETURN STOCK */
 
 await updateDoc(
 doc(db,"inventoryItems",itemId),
@@ -642,6 +686,9 @@ stock:increment(-qty)
 }
 );
 
+/* RELOAD */
+
+loadItems();
 loadStockIn();
 
 }
