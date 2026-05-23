@@ -257,7 +257,7 @@ overflow:auto;
 table{
 width:100%;
 border-collapse:collapse;
-min-width:1200px;
+min-width:1600px;
 }
 
 th{
@@ -403,9 +403,9 @@ Daily Inventory
 
 <div class="card">
 
-<i class="fa-solid fa-box"></i>
+<i class="fa-solid fa-box-open"></i>
 
-<h3>Items Released</h3>
+<h3>Transactions</h3>
 
 <h2 id="releasedItems">0</h2>
 
@@ -439,6 +439,50 @@ Current Stock: 0
 id="quantity"
 placeholder="Quantity">
 
+<select id="stockOutType">
+
+<option value="">
+Select Stock Out Type
+</option>
+
+<option value="Sales">
+Sales
+</option>
+
+<option value="Transfer Branch">
+Transfer Branch
+</option>
+
+<option value="Production Use">
+Production Use
+</option>
+
+<option value="Staff Use">
+Staff Use
+</option>
+
+<option value="Freebies">
+Freebies
+</option>
+
+<option value="Damage">
+Damage
+</option>
+
+<option value="Expired">
+Expired
+</option>
+
+<option value="Pull Out">
+Pull Out
+</option>
+
+</select>
+
+<input type="text"
+id="branch"
+placeholder="Destination Branch">
+
 <input type="text"
 id="releasedTo"
 placeholder="Released To">
@@ -469,7 +513,9 @@ Save Stock Out
 
 <th>Date</th>
 <th>Item</th>
-<th>Quantity</th>
+<th>Qty</th>
+<th>Type</th>
+<th>Branch</th>
 <th>Released To</th>
 <th>Remarks</th>
 
@@ -481,7 +527,7 @@ Save Stock Out
 
 <tr>
 
-<td colspan="5">
+<td colspan="7">
 
 Loading...
 
@@ -557,7 +603,7 @@ setInterval(updateDateTime,1000);
 
 updateDateTime();
 
-/* LOAD ITEMS */
+/* ITEMS */
 
 let itemsMap = {};
 
@@ -578,6 +624,8 @@ const snapshot =
 await getDocs(
 collection(db,"inventoryMasterlist")
 );
+
+itemsMap = {};
 
 snapshot.forEach((firebaseDoc)=>{
 
@@ -605,7 +653,7 @@ ${item.itemName}
 
 }
 
-/* SHOW STOCK */
+/* CURRENT STOCK */
 
 document
 .getElementById("itemSelect")
@@ -656,6 +704,12 @@ Number(
 document.getElementById("quantity").value
 );
 
+const stockOutType =
+document.getElementById("stockOutType").value;
+
+const branch =
+document.getElementById("branch").value;
+
 const releasedTo =
 document.getElementById("releasedTo").value;
 
@@ -665,7 +719,8 @@ document.getElementById("remarks").value;
 if(
 !date ||
 !itemId ||
-!quantity
+!quantity ||
+!stockOutType
 ){
 
 alert("Complete all fields");
@@ -706,13 +761,20 @@ collection(db,"stockOut"),
 {
 
 date,
+
 itemId,
 
 itemName:
 selectedItem.itemName,
 
 quantity,
+
+type:stockOutType,
+
+branch,
+
 releasedTo,
+
 remarks,
 
 createdAt:
@@ -739,11 +801,52 @@ stock:newStock
 
 );
 
+/* STOCK MOVEMENT */
+
+await addDoc(
+collection(db,"stockMovements"),
+{
+
+date,
+
+itemId,
+
+itemName:
+selectedItem.itemName,
+
+movement:"OUT",
+
+type:stockOutType,
+
+quantity,
+
+beforeStock:
+currentStock,
+
+afterStock:
+newStock,
+
+branch,
+
+remarks,
+
+createdAt:
+new Date()
+
+}
+);
+
 alert("Stock Out Saved");
 
 /* CLEAR */
 
 document.getElementById("quantity")
+.value = "";
+
+document.getElementById("stockOutType")
+.value = "";
+
+document.getElementById("branch")
 .value = "";
 
 document.getElementById("releasedTo")
@@ -809,6 +912,10 @@ table.innerHTML += `
 
 <td>${data.quantity}</td>
 
+<td>${data.type}</td>
+
+<td>${data.branch || "-"}</td>
+
 <td>${data.releasedTo}</td>
 
 <td>${data.remarks}</td>
@@ -825,7 +932,7 @@ table.innerHTML = `
 
 <tr>
 
-<td colspan="5">
+<td colspan="7">
 
 No Stock Out Records
 
