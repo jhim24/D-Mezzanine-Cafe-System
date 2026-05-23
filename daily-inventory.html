@@ -25,8 +25,7 @@ font-family:'Poppins',sans-serif;
 }
 
 body{
-background:#0f172a;
-color:white;
+background:#f3f4f6;
 overflow:hidden;
 }
 
@@ -40,72 +39,70 @@ height:100vh;
 /* SIDEBAR */
 
 .sidebar{
-width:300px;
-background:#111827;
+width:280px;
+background:#050505;
 padding:20px;
 overflow-y:auto;
-border-right:1px solid rgba(255,255,255,0.08);
 }
 
 .logo-box{
 display:flex;
 align-items:center;
-gap:14px;
+gap:12px;
 margin-bottom:30px;
 }
 
 .logo-box img{
-width:65px;
-height:65px;
+width:60px;
+height:60px;
 border-radius:50%;
 background:white;
-padding:5px;
+padding:4px;
 border:3px solid #facc15;
-object-fit:contain;
 }
 
 .logo-text h2{
+color:white;
 font-size:20px;
-font-weight:700;
 }
 
 .logo-text p{
-font-size:13px;
 color:#d1d5db;
+font-size:13px;
 }
 
 .menu{
 display:flex;
 flex-direction:column;
-gap:12px;
+gap:8px;
 }
 
 .menu-title{
+color:#facc15;
 font-size:13px;
 font-weight:700;
-color:#facc15;
 margin-top:15px;
-padding-left:5px;
+margin-bottom:8px;
+padding-left:10px;
 }
 
 .menu a{
 display:flex;
 align-items:center;
 gap:14px;
-padding:15px;
-border-radius:16px;
+padding:14px;
+border-radius:14px;
 text-decoration:none;
 color:white;
-transition:.3s;
-background:rgba(255,255,255,0.03);
 font-size:15px;
+transition:.3s;
 }
 
 .menu a:hover,
 .menu a.active{
 background:#facc15;
 color:black;
-transform:translateX(4px);
+font-weight:600;
 }
 
 /* MAIN */
@@ -118,115 +115,51 @@ overflow-y:auto;
 
 /* HEADER */
 
-.header-box{
-background:#1e293b;
+.header{
+background:#0f172a;
 padding:25px;
-border-radius:24px;
-margin-bottom:25px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-flex-wrap:wrap;
-gap:15px;
-}
-
-.header-box h1{
-font-size:38px;
-}
-
-.header-box p{
-color:#cbd5e1;
-font-size:14px;
-}
-
-/* CARDS */
-
-.cards{
-display:grid;
-grid-template-columns:
-repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
+border-radius:20px;
+color:white;
 margin-bottom:25px;
 }
 
-.card{
-background:#1e293b;
-padding:25px;
-border-radius:24px;
-position:relative;
-overflow:hidden;
-}
-
-.card i{
-position:absolute;
-top:20px;
-right:20px;
-font-size:38px;
-color:rgba(250,204,21,0.25);
-}
-
-.card h4{
-font-size:15px;
-margin-bottom:12px;
-color:#e5e7eb;
-}
-
-.card h2{
-font-size:38px;
-margin-bottom:10px;
-}
-
-.card p{
-color:#22c55e;
-font-size:14px;
+.header h1{
+font-size:34px;
+margin-bottom:8px;
 }
 
 /* TABLE */
 
 .table-box{
-background:#1e293b;
+background:white;
 padding:20px;
-border-radius:24px;
+border-radius:20px;
 overflow:auto;
 }
 
 table{
 width:100%;
 border-collapse:collapse;
-min-width:1600px;
+min-width:1200px;
 }
 
-th{
-background:#111827;
-color:#facc15;
-padding:15px;
-text-align:left;
-font-size:14px;
-}
-
-td{
-padding:14px;
-border-bottom:1px solid rgba(255,255,255,0.08);
-font-size:14px;
-}
-
-input{
-width:100%;
-padding:10px;
-border:none;
-border-radius:10px;
+table th{
 background:#0f172a;
 color:white;
+padding:14px;
+font-size:14px;
 }
 
-.save-btn{
-background:#22c55e;
-border:none;
-padding:12px 20px;
-border-radius:12px;
+table td{
+padding:14px;
+border-bottom:1px solid #e5e7eb;
+font-size:14px;
+text-align:center;
+}
+
+.good-stock{
+color:#16a34a;
 font-weight:700;
-cursor:pointer;
-color:white;
 }
 
 .low-stock{
@@ -234,14 +167,9 @@ color:#ef4444;
 font-weight:700;
 }
 
-.good-stock{
-color:#22c55e;
-font-weight:700;
-}
-
 /* MOBILE */
 
-@media(max-width:950px){
+@media(max-width:900px){
 
 .container{
 flex-direction:column;
@@ -249,16 +177,10 @@ flex-direction:column;
 
 .sidebar{
 width:100%;
-display:flex;
-overflow:auto;
 }
 
-.menu{
-flex-direction:row;
-}
-
-.menu a{
-min-width:180px;
+.main{
+padding:15px;
 }
 
 }
@@ -283,7 +205,7 @@ min-width:180px;
 
 <h2>D'Mezzanine</h2>
 
-<p>Inventory System</p>
+<p>Stock Room System</p>
 
 </div>
 
@@ -292,26 +214,14 @@ min-width:180px;
 <div class="menu">
 
 <p class="menu-title">
-MAIN MENU
-</p>
-
-<a href="./index.html">
-
-<i class="fa-solid fa-house"></i>
-
-Dashboard
-
-</a>
-
-<p class="menu-title">
-STOCKROOM INVENTORY
+INVENTORY
 </p>
 
 <a href="stockroom.html">
 
 <i class="fa-solid fa-chart-line"></i>
 
-Stockroom Dashboard
+Dashboard
 
 </a>
 
@@ -356,15 +266,6 @@ Daily Inventory
 
 </a>
 
-<a href="#"
-id="logoutBtn">
-
-<i class="fa-solid fa-right-from-bracket"></i>
-
-Logout
-
-</a>
-
 </div>
 
 </div>
@@ -375,73 +276,13 @@ Logout
 
 <!-- HEADER -->
 
-<div class="header-box">
+<div class="header">
 
-<div>
+<h1>Daily Inventory</h1>
 
-<h1>Daily Inventory 📋</h1>
-
-<p id="dateTime">
-
+<p>
 Realtime Daily Inventory Monitoring
-
 </p>
-
-</div>
-
-</div>
-
-<!-- CARDS -->
-
-<div class="cards">
-
-<div class="card">
-
-<i class="fa-solid fa-box"></i>
-
-<h4>Total Items</h4>
-
-<h2 id="totalItems">0</h2>
-
-<p>Inventory Items</p>
-
-</div>
-
-<div class="card">
-
-<i class="fa-solid fa-arrow-down"></i>
-
-<h4>Total Stock In</h4>
-
-<h2 id="totalStockIn">0</h2>
-
-<p>Added Stocks</p>
-
-</div>
-
-<div class="card">
-
-<i class="fa-solid fa-arrow-up"></i>
-
-<h4>Total Stock Out</h4>
-
-<h2 id="totalStockOut">0</h2>
-
-<p>Released Stocks</p>
-
-</div>
-
-<div class="card">
-
-<i class="fa-solid fa-trash"></i>
-
-<h4>Total Waste</h4>
-
-<h2 id="totalWaste">0</h2>
-
-<p>Damaged Stocks</p>
-
-</div>
 
 </div>
 
@@ -455,23 +296,36 @@ Realtime Daily Inventory Monitoring
 
 <tr>
 
-<th>Item</th>
-<th>Category</th>
-<th>Beginning</th>
-<th>Stock In</th>
-<th>Stock Out</th>
-<th>Waste</th>
-<th>Ending</th>
-<th>Actual Count</th>
-<th>Variance</th>
-<th>Status</th>
-<th>Save</th>
+<th>ITEM</th>
+
+<th>BEGINNING</th>
+
+<th>STOCK IN</th>
+
+<th>STOCK OUT</th>
+
+<th>WASTE</th>
+
+<th>ENDING</th>
+
+<th>STATUS</th>
 
 </tr>
 
 </thead>
 
-<tbody id="inventoryTable">
+<tbody id="dailyInventoryTable">
+
+<tr>
+
+<td colspan="7"
+style="padding:20px;">
+
+Loading Inventory...
+
+</td>
+
+</tr>
 
 </tbody>
 
@@ -485,21 +339,23 @@ Realtime Daily Inventory Monitoring
 
 <script type="module">
 
+/* FIREBASE */
+
 import { initializeApp }
+
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 
 import {
 
 getFirestore,
 collection,
-getDocs,
-addDoc
+getDocs
 
 }
 
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
-/* FIREBASE */
+/* CONFIG */
 
 const firebaseConfig = {
 
@@ -517,107 +373,101 @@ appId: "1:152048365178:web:3e42c20e03a7c563d915c3"
 
 };
 
+/* INIT */
+
 const app =
 initializeApp(firebaseConfig);
 
 const db =
 getFirestore(app);
 
-/* DATE TIME */
-
-function updateDateTime(){
-
-document.getElementById("dateTime")
-.innerText =
-new Date().toLocaleString();
-
-}
-
-setInterval(updateDateTime,1000);
-
-updateDateTime();
-
 /* LOAD DAILY INVENTORY */
 
-async function loadInventory(){
+async function loadDailyInventory(){
 
 const table =
-document.getElementById("inventoryTable");
+document.getElementById("dailyInventoryTable");
 
 table.innerHTML = "";
 
-/* COLLECTIONS */
+/* ITEMS */
 
 const itemsSnapshot =
 await getDocs(
 collection(db,"inventoryItems")
 );
 
+/* STOCK IN */
+
 const stockInSnapshot =
 await getDocs(
-collection(db,"stockInRecords")
+collection(db,"stockIn")
 );
+
+/* STOCK OUT */
 
 const stockOutSnapshot =
 await getDocs(
-collection(db,"stockOutRecords")
+collection(db,"stockOut")
 );
+
+/* WASTE */
 
 const wasteSnapshot =
 await getDocs(
-collection(db,"wasteRecords")
+collection(db,"waste")
 );
 
-let totalItems = 0;
-let totalIn = 0;
-let totalOut = 0;
-let totalWaste = 0;
+/* EMPTY */
 
-/* TOTALS */
+if(itemsSnapshot.empty){
 
-stockInSnapshot.forEach(doc=>{
+table.innerHTML = `
 
-totalIn +=
-Number(doc.data().qty || 0);
+<tr>
 
-});
+<td colspan="7"
+style="padding:20px;">
 
-stockOutSnapshot.forEach(doc=>{
+No Inventory Items
 
-totalOut +=
-Number(doc.data().qty || 0);
+</td>
 
-});
+</tr>
 
-wasteSnapshot.forEach(doc=>{
+`;
 
-totalWaste +=
-Number(doc.data().qty || 0);
+return;
 
-});
+}
 
-/* ITEMS */
+/* LOOP ITEMS */
 
-itemsSnapshot.forEach((firebaseDoc)=>{
+itemsSnapshot.forEach((itemDoc)=>{
 
 const item =
-firebaseDoc.data();
+itemDoc.data();
 
-totalItems++;
+const itemId =
+itemDoc.id;
 
-let stockIn = 0;
-let stockOut = 0;
-let waste = 0;
+/* BEGINNING */
+
+const beginning =
+Number(item.stock || 0);
 
 /* STOCK IN */
 
-stockInSnapshot.forEach(doc=>{
+let stockInTotal = 0;
 
-const data = doc.data();
+stockInSnapshot.forEach((docu)=>{
 
-if(data.itemName === item.name){
+const data =
+docu.data();
 
-stockIn +=
+if(data.itemId === itemId){
+
+stockInTotal +=
 Number(data.qty || 0);
 
 }
@@ -626,13 +476,16 @@ Number(data.qty || 0);
 
 /* STOCK OUT */
 
-stockOutSnapshot.forEach(doc=>{
+let stockOutTotal = 0;
 
-const data = doc.data();
+stockOutSnapshot.forEach((docu)=>{
 
-if(data.itemName === item.name){
+const data =
+docu.data();
 
-stockOut +=
+if(data.itemId === itemId){
+
+stockOutTotal +=
 Number(data.qty || 0);
 
 }
@@ -641,82 +494,75 @@ Number(data.qty || 0);
 
 /* WASTE */
 
-wasteSnapshot.forEach(doc=>{
+let wasteTotal = 0;
 
-const data = doc.data();
+wasteSnapshot.forEach((docu)=>{
 
-if(data.itemName === item.name){
+const data =
+docu.data();
 
-waste +=
+if(data.itemId === itemId){
+
+wasteTotal +=
 Number(data.qty || 0);
 
 }
 
 });
 
-/* COMPUTE */
+/* ENDING */
 
 const ending =
-Number(item.stock || 0);
 
-const beginning =
-ending - stockIn + stockOut + waste;
+beginning +
+stockInTotal -
+stockOutTotal -
+wasteTotal;
+
+/* STATUS */
+
+let status = "GOOD";
+let statusClass = "good-stock";
+
+if(ending <= Number(item.low || 5)){
+
+status = "LOW STOCK";
+statusClass = "low-stock";
+
+}
+
+/* TABLE */
 
 table.innerHTML += `
 
 <tr>
 
-<td>${item.name}</td>
-
-<td>${item.category || '-'}</td>
-
-<td>${beginning}</td>
-
-<td>${stockIn}</td>
-
-<td>${stockOut}</td>
-
-<td>${waste}</td>
-
-<td>${ending}</td>
-
 <td>
-
-<input type="number"
-id="actual-${firebaseDoc.id}"
-placeholder="Count">
-
-</td>
-
-<td id="variance-${firebaseDoc.id}">
-0
-</td>
-
-<td id="status-${firebaseDoc.id}"
-class="
-${ending <= 5
-? 'low-stock'
-: 'good-stock'}
-">
-
-${ending <= 5
-? 'LOW'
-: 'GOOD'}
-
+${item.name || "-"}
 </td>
 
 <td>
+${beginning}
+</td>
 
-<button class="save-btn"
-onclick="saveInventory(
-'${firebaseDoc.id}',
+<td>
+${stockInTotal}
+</td>
+
+<td>
+${stockOutTotal}
+</td>
+
+<td>
+${wasteTotal}
+</td>
+
+<td class="${statusClass}">
 ${ending}
-)">
+</td>
 
-Save
-
-</button>
-
+<td class="${statusClass}">
+${status}
 </td>
 
 </tr>
@@ -725,84 +571,11 @@ Save
 
 });
 
-/* TOTALS */
-
-document.getElementById("totalItems")
-.innerText = totalItems;
-
-document.getElementById("totalStockIn")
-.innerText = totalIn;
-
-document.getElementById("totalStockOut")
-.innerText = totalOut;
-
-document.getElementById("totalWaste")
-.innerText = totalWaste;
-
 }
-
-/* SAVE DAILY INVENTORY */
-
-window.saveInventory =
-async function(id,ending){
-
-const actual =
-Number(
-document.getElementById(
-`actual-${id}`
-).value
-);
-
-const variance =
-actual - ending;
-
-document.getElementById(
-`variance-${id}`
-).innerText =
-variance;
-
-await addDoc(
-
-collection(db,"dailyInventoryRecords"),
-
-{
-
-itemId:id,
-ending:ending,
-actual:actual,
-variance:variance,
-date:new Date().toLocaleDateString()
-
-}
-
-);
-
-alert("Daily Inventory Saved");
-
-}
-
-/* LOGOUT */
-
-document
-.getElementById("logoutBtn")
-
-.addEventListener(
-"click",
-function(e){
-
-e.preventDefault();
-
-localStorage.clear();
-
-window.location.href =
-"login.html";
-
-}
-);
 
 /* LOAD */
 
-loadInventory();
+loadDailyInventory();
 
 </script>
 
