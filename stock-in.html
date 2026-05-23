@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Stock In</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#f3f4f6;
+overflow:hidden;
+}
+
+/* LAYOUT */
+
+.container{
+display:flex;
+height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+width:280px;
+background:#050505;
+padding:20px;
+overflow-y:auto;
+}
+
+.logo-box{
+display:flex;
+align-items:center;
+gap:12px;
+margin-bottom:30px;
+}
+
+.logo-box img{
+width:60px;
+height:60px;
+border-radius:50%;
+background:white;
+padding:4px;
+border:3px solid #facc15;
+}
+
+.logo-text h2{
+color:white;
+font-size:20px;
+}
+
+.logo-text p{
+color:#d1d5db;
+font-size:13px;
+}
+
+.menu{
+display:flex;
+flex-direction:column;
+gap:8px;
+}
+
+.menu-title{
+color:#facc15;
+font-size:13px;
+font-weight:700;
+margin-top:15px;
+margin-bottom:8px;
+padding-left:10px;
+}
+
+.menu a{
+display:flex;
+align-items:center;
+gap:14px;
+padding:14px;
+border-radius:14px;
+text-decoration:none;
+color:white;
+font-size:15px;
+transition:.3s;
+}
+
+.menu a:hover,
+.menu a.active{
+background:#facc15;
+color:black;
+font-weight:600;
+}
+
+/* MAIN */
+
+.main{
+flex:1;
+padding:25px;
+overflow-y:auto;
+}
+
+/* HEADER */
+
+.header{
+background:#0f172a;
+padding:25px;
+border-radius:20px;
+color:white;
+margin-bottom:25px;
+}
+
+.header h1{
+font-size:34px;
+margin-bottom:8px;
+}
+
+/* FORM */
+
+.form-box{
+background:white;
+padding:25px;
+border-radius:20px;
+margin-bottom:25px;
+}
+
+.form-grid{
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+}
+
+.input-group{
+display:flex;
+flex-direction:column;
+}
+
+.input-group label{
+margin-bottom:8px;
+font-weight:600;
+font-size:14px;
+}
+
+.input-group input,
+.input-group select{
+padding:14px;
+border:1px solid #d1d5db;
+border-radius:12px;
+font-size:14px;
+}
+
+/* BUTTON */
+
+.save-btn{
+margin-top:20px;
+background:#22c55e;
+color:white;
+border:none;
+padding:15px 25px;
+border-radius:14px;
+font-size:16px;
+font-weight:700;
+cursor:pointer;
+}
+
+/* TABLE */
+
+.table-box{
+background:white;
+padding:20px;
+border-radius:20px;
+overflow:auto;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+table th{
+background:#0f172a;
+color:white;
+padding:14px;
+font-size:14px;
+}
+
+table td{
+padding:14px;
+border-bottom:1px solid #e5e7eb;
+font-size:14px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<div class="logo-box">
+
+<img src="./logo.png">
+
+<div class="logo-text">
+
+<h2>D'Mezzanine</h2>
+
+<p>Stock Room System</p>
+
+</div>
+
+</div>
+
+<div class="menu">
+
+<p class="menu-title">
+INVENTORY
+</p>
+
+<a href="stockroom.html">
+
+<i class="fa-solid fa-chart-line"></i>
+
+Dashboard
+
+</a>
+
+<a href="items.html">
+
+<i class="fa-solid fa-boxes-stacked"></i>
+
+Items
+
+</a>
+
+<a href="stock-in.html"
+class="active">
+
+<i class="fa-solid fa-truck"></i>
+
+Stock In
+
+</a>
+
+<a href="stock-out.html">
+
+<i class="fa-solid fa-arrow-right-arrow-left"></i>
+
+Stock Out
+
+</a>
+
+<a href="waste.html">
+
+<i class="fa-solid fa-trash"></i>
+
+Waste
+
+</a>
+
+</div>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
+
+<div class="header">
+
+<h1>Stock In</h1>
+
+<p>
+Add supplier deliveries to inventory
+</p>
+
+</div>
+
+<!-- FORM -->
+
+<div class="form-box">
+
+<div class="form-grid">
+
+<div class="input-group">
+
+<label>Select Item</label>
+
+<select id="itemSelect">
+
+</select>
+
+</div>
+
+<div class="input-group">
+
+<label>Quantity</label>
+
+<input type="number"
+id="stockQty"
+placeholder="Enter quantity">
+
+</div>
+
+<div class="input-group">
+
+<label>Supplier</label>
+
+<input type="text"
+id="supplier"
+placeholder="Supplier name">
+
+</div>
+
+<div class="input-group">
+
+<label>Date</label>
+
+<input type="date"
+id="stockDate">
+
+</div>
+
+</div>
+
+<button class="save-btn"
+onclick="saveStockIn()">
+
+<i class="fa-solid fa-floppy-disk"></i>
+
+Save Stock In
+
+</button>
+
+</div>
+
+<!-- HISTORY -->
+
+<div class="table-box">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>DATE</th>
+<th>ITEM</th>
+<th>QUANTITY</th>
+<th>SUPPLIER</th>
+
+</tr>
+
+</thead>
+
+<tbody id="stockInTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+/* LOAD ITEMS */
+
+function loadItems(){
+
+const select =
+document.getElementById("itemSelect");
+
+select.innerHTML = "";
+
+let items =
+JSON.parse(
+localStorage.getItem("inventoryItems")
+) || [];
+
+items.forEach(item=>{
+
+select.innerHTML += `
+
+<option value="${item.name}">
+
+${item.name}
+
+</option>
+
+`;
+
+});
+
+}
+
+/* SAVE STOCK IN */
+
+function saveStockIn(){
+
+const itemName =
+document.getElementById("itemSelect").value;
+
+const qty =
+Number(
+document.getElementById("stockQty").value
+);
+
+const supplier =
+document.getElementById("supplier").value;
+
+const date =
+document.getElementById("stockDate").value;
+
+/* SAVE HISTORY */
+
+const stockData = {
+
+item:itemName,
+qty:qty,
+supplier:supplier,
+date:date
+
+};
+
+let stockHistory =
+JSON.parse(
+localStorage.getItem("stockInHistory")
+) || [];
+
+stockHistory.unshift(stockData);
+
+localStorage.setItem(
+"stockInHistory",
+JSON.stringify(stockHistory)
+);
+
+/* UPDATE ITEM STOCK */
+
+let items =
+JSON.parse(
+localStorage.getItem("inventoryItems")
+) || [];
+
+items = items.map(item=>{
+
+if(item.name === itemName){
+
+item.stock =
+Number(item.stock) + qty;
+
+}
+
+return item;
+
+});
+
+localStorage.setItem(
+"inventoryItems",
+JSON.stringify(items)
+);
+
+alert("Stock In Saved!");
+
+/* CLEAR */
+
+document.getElementById("stockQty").value = "";
+document.getElementById("supplier").value = "";
+
+/* RELOAD */
+
+loadStockIn();
+
+}
+
+/* LOAD HISTORY */
+
+function loadStockIn(){
+
+const table =
+document.getElementById("stockInTable");
+
+table.innerHTML = "";
+
+let history =
+JSON.parse(
+localStorage.getItem("stockInHistory")
+) || [];
+
+if(history.length === 0){
+
+table.innerHTML = `
+
+<tr>
+
+<td colspan="4"
+style="padding:20px;text-align:center;">
+
+No Stock In Records
+
+</td>
+
+</tr>
+
+`;
+
+return;
+
+}
+
+history.forEach(data=>{
+
+table.innerHTML += `
+
+<tr>
+
+<td>${data.date}</td>
+
+<td>${data.item}</td>
+
+<td>${data.qty}</td>
+
+<td>${data.supplier}</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+/* AUTO DATE */
+
+document.getElementById("stockDate")
+.value =
+new Date()
+.toISOString()
+.split("T")[0];
+
+/* LOAD */
+
+loadItems();
+loadStockIn();
+
+</script>
+
+</body>
+</html>
