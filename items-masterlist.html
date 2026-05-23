@@ -503,10 +503,6 @@ placeholder="Item Name">
 Select Category
 </option>
 
-<option value="">
-Select Category
-</option>
-
 </select>
 
 <input type="text"
@@ -565,11 +561,6 @@ onchange="loadItems()">
 <option value="">
 All Categories
 </option>
-
-<option>Raw Materials</option>
-<option>Packaging</option>
-<option>Supplies</option>
-<option>Beverages</option>
 
 </select>
 
@@ -640,6 +631,7 @@ deleteDoc,
 doc,
 updateDoc,
 getDoc,
+getDocs,
 onSnapshot
 
 }
@@ -1085,7 +1077,6 @@ alert("Item Deleted");
 
 }
 
-/* LOAD */
 /* LOAD CATEGORIES */
 
 async function loadCategories(){
@@ -1093,10 +1084,21 @@ async function loadCategories(){
 const categorySelect =
 document.getElementById("category");
 
+const filterCategory =
+document.getElementById("filterCategory");
+
 categorySelect.innerHTML = `
 
 <option value="">
 Select Category
+</option>
+
+`;
+
+filterCategory.innerHTML = `
+
+<option value="">
+All Categories
 </option>
 
 `;
@@ -1112,6 +1114,16 @@ const data =
 firebaseDoc.data();
 
 categorySelect.innerHTML += `
+
+<option value="${data.categoryName}">
+
+${data.categoryName}
+
+</option>
+
+`;
+
+filterCategory.innerHTML += `
 
 <option value="${data.categoryName}">
 
