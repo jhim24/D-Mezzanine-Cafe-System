@@ -7,7 +7,16 @@
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>Items Inventory</title>
+<meta http-equiv="Cache-Control"
+content="no-cache, no-store, must-revalidate">
+
+<meta http-equiv="Pragma"
+content="no-cache">
+
+<meta http-equiv="Expires"
+content="0">
+
+<title>D'Mezzanine Items Masterlist</title>
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -30,6 +39,18 @@ color:white;
 overflow:hidden;
 }
 
+/* SCROLLBAR */
+
+::-webkit-scrollbar{
+width:8px;
+height:8px;
+}
+
+::-webkit-scrollbar-thumb{
+background:#facc15;
+border-radius:10px;
+}
+
 /* LAYOUT */
 
 .container{
@@ -40,7 +61,7 @@ height:100vh;
 /* SIDEBAR */
 
 .sidebar{
-width:300px;
+width:290px;
 background:#111827;
 padding:20px;
 overflow-y:auto;
@@ -72,6 +93,7 @@ font-weight:700;
 .logo-text p{
 font-size:13px;
 color:#d1d5db;
+margin-top:3px;
 }
 
 .menu{
@@ -80,25 +102,18 @@ flex-direction:column;
 gap:12px;
 }
 
-.menu-title{
-font-size:13px;
-font-weight:700;
-color:#facc15;
-margin-top:15px;
-padding-left:5px;
-}
-
 .menu a{
 display:flex;
 align-items:center;
 gap:14px;
-padding:15px;
-border-radius:16px;
+padding:16px;
+border-radius:18px;
 text-decoration:none;
 color:white;
+font-size:15px;
+font-weight:500;
 transition:.3s;
 background:rgba(255,255,255,0.03);
-font-size:15px;
 }
 
 .menu a:hover,
@@ -120,9 +135,14 @@ overflow-y:auto;
 
 .header-box{
 background:#1e293b;
-padding:25px;
+padding:28px;
 border-radius:24px;
 margin-bottom:25px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+gap:15px;
 }
 
 .header-box h1{
@@ -131,7 +151,44 @@ font-size:38px;
 
 .header-box p{
 color:#cbd5e1;
-margin-top:8px;
+margin-top:5px;
+}
+
+/* CARDS */
+
+.cards{
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+margin-bottom:25px;
+}
+
+.card{
+background:#1e293b;
+padding:25px;
+border-radius:22px;
+position:relative;
+overflow:hidden;
+}
+
+.card i{
+position:absolute;
+top:20px;
+right:20px;
+font-size:38px;
+color:rgba(250,204,21,0.25);
+}
+
+.card h3{
+font-size:15px;
+color:#cbd5e1;
+margin-bottom:12px;
+}
+
+.card h2{
+font-size:38px;
+color:#facc15;
 }
 
 /* FORM */
@@ -159,6 +216,14 @@ color:white;
 font-size:14px;
 }
 
+.form-box input:focus,
+.form-box select:focus{
+outline:none;
+border:1px solid #facc15;
+}
+
+/* BUTTON */
+
 .save-btn{
 background:#22c55e;
 border:none;
@@ -167,6 +232,30 @@ border-radius:12px;
 font-weight:700;
 cursor:pointer;
 color:white;
+transition:.3s;
+}
+
+.save-btn:hover{
+transform:translateY(-3px);
+}
+
+/* FILTERS */
+
+.filters{
+display:flex;
+gap:15px;
+margin-bottom:20px;
+flex-wrap:wrap;
+}
+
+.filters input,
+.filters select{
+padding:14px;
+border:none;
+border-radius:12px;
+background:#1e293b;
+color:white;
+min-width:220px;
 }
 
 /* TABLE */
@@ -181,20 +270,38 @@ overflow:auto;
 table{
 width:100%;
 border-collapse:collapse;
-min-width:1000px;
+min-width:1700px;
 }
 
 th{
 background:#111827;
 color:#facc15;
 padding:15px;
+font-size:14px;
 text-align:left;
+white-space:nowrap;
 }
 
 td{
-padding:15px;
+padding:14px;
 border-bottom:1px solid rgba(255,255,255,0.08);
+font-size:14px;
+white-space:nowrap;
 }
+
+/* STATUS */
+
+.low-stock{
+color:#ef4444;
+font-weight:700;
+}
+
+.good-stock{
+color:#22c55e;
+font-weight:700;
+}
+
+/* ACTION */
 
 .delete-btn{
 background:#ef4444;
@@ -225,6 +332,11 @@ flex-direction:row;
 
 .menu a{
 min-width:180px;
+}
+
+.header-box{
+flex-direction:column;
+align-items:flex-start;
 }
 
 }
@@ -301,6 +413,7 @@ Daily Inventory
 </a>
 
 </div>
+
 </div>
 
 <!-- MAIN -->
@@ -309,15 +422,59 @@ Daily Inventory
 
 <div class="header-box">
 
-<h1>Items Inventory 📦</h1>
+<div>
+
+<h1>Items Masterlist 📦</h1>
 
 <p id="dateTime"></p>
+
+</div>
+
+</div>
+
+<!-- CARDS -->
+
+<div class="cards">
+
+<div class="card">
+
+<i class="fa-solid fa-boxes-stacked"></i>
+
+<h3>Total Items</h3>
+
+<h2 id="totalItems">0</h2>
+
+</div>
+
+<div class="card">
+
+<i class="fa-solid fa-triangle-exclamation"></i>
+
+<h3>Low Stock</h3>
+
+<h2 id="lowStockCount">0</h2>
+
+</div>
+
+<div class="card">
+
+<i class="fa-solid fa-layer-group"></i>
+
+<h3>Categories</h3>
+
+<h2 id="categoryCount">0</h2>
+
+</div>
 
 </div>
 
 <!-- FORM -->
 
 <div class="form-box">
+
+<input type="text"
+id="itemCode"
+placeholder="Item Code">
 
 <input type="text"
 id="itemName"
@@ -329,29 +486,98 @@ placeholder="Item Name">
 Select Category
 </option>
 
-<option>Coffee</option>
-<option>Milk</option>
-<option>Powder</option>
-<option>Syrup</option>
-<option>Food</option>
-<option>Packaging</option>
+<option>
+Raw Materials
+</option>
+
+<option>
+Packaging
+</option>
+
+<option>
+Supplies
+</option>
+
+<option>
+Beverages
+</option>
 
 </select>
+
+<input type="text"
+id="unit"
+placeholder="Unit">
 
 <input type="number"
 id="stock"
 placeholder="Beginning Stock">
 
+<input type="number"
+id="reorderLevel"
+placeholder="Reorder Level">
+
 <input type="text"
-id="unit"
-placeholder="Unit (pcs, kg, liters)">
+id="supplier"
+placeholder="Supplier">
+
+<input type="number"
+id="cost"
+placeholder="Cost Per Unit">
+
+<input type="number"
+id="sellingPrice"
+placeholder="Selling Price">
+
+<input type="date"
+id="expiry">
+
+<input type="text"
+id="location"
+placeholder="Storage Location">
 
 <button class="save-btn"
 onclick="saveItem()">
 
+<i class="fa-solid fa-floppy-disk"></i>
 Save Item
 
 </button>
+
+</div>
+
+<!-- FILTER -->
+
+<div class="filters">
+
+<input type="text"
+id="searchInput"
+placeholder="Search Item..."
+onkeyup="loadItems()">
+
+<select id="filterCategory"
+onchange="loadItems()">
+
+<option value="">
+All Categories
+</option>
+
+<option>
+Raw Materials
+</option>
+
+<option>
+Packaging
+</option>
+
+<option>
+Supplies
+</option>
+
+<option>
+Beverages
+</option>
+
+</select>
 
 </div>
 
@@ -365,11 +591,18 @@ Save Item
 
 <tr>
 
-<th>Item ID</th>
+<th>Code</th>
 <th>Item Name</th>
 <th>Category</th>
-<th>Stock</th>
 <th>Unit</th>
+<th>Current Stock</th>
+<th>Reorder</th>
+<th>Supplier</th>
+<th>Cost</th>
+<th>Selling</th>
+<th>Expiry</th>
+<th>Location</th>
+<th>Status</th>
 <th>Action</th>
 
 </tr>
@@ -377,6 +610,16 @@ Save Item
 </thead>
 
 <tbody id="itemsTable">
+
+<tr>
+
+<td colspan="13">
+
+Loading...
+
+</td>
+
+</tr>
 
 </tbody>
 
@@ -388,7 +631,48 @@ Save Item
 
 </div>
 
-<script>
+<script type="module">
+
+import { initializeApp }
+
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+
+import {
+
+getFirestore,
+collection,
+addDoc,
+deleteDoc,
+doc,
+onSnapshot
+
+}
+
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+/* FIREBASE */
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyCYjuZlpgE-Lci33e53014F7fRIid6u7Dg",
+
+authDomain: "family-web-10cb8.firebaseapp.com",
+
+projectId: "family-web-10cb8",
+
+storageBucket: "family-web-10cb8.firebasestorage.app",
+
+messagingSenderId: "152048365178",
+
+appId: "1:152048365178:web:3e42c20e03a7c563d915c3"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
 
 /* DATE TIME */
 
@@ -406,128 +690,259 @@ updateDateTime();
 
 /* SAVE ITEM */
 
-function saveItem(){
+window.saveItem =
+async function(){
+
+try{
+
+const itemCode =
+document.getElementById("itemCode").value.trim();
 
 const itemName =
-document.getElementById("itemName").value;
+document.getElementById("itemName").value.trim();
 
 const category =
 document.getElementById("category").value;
 
-const stock =
-document.getElementById("stock").value;
-
 const unit =
-document.getElementById("unit").value;
+document.getElementById("unit").value.trim();
+
+const stock =
+Number(
+document.getElementById("stock").value
+);
+
+const reorderLevel =
+Number(
+document.getElementById("reorderLevel").value
+);
+
+const supplier =
+document.getElementById("supplier").value.trim();
+
+const cost =
+Number(
+document.getElementById("cost").value
+);
+
+const sellingPrice =
+Number(
+document.getElementById("sellingPrice").value
+);
+
+const expiry =
+document.getElementById("expiry").value;
+
+const location =
+document.getElementById("location").value.trim();
 
 if(
+!itemCode ||
 !itemName ||
 !category ||
-!stock ||
 !unit
 ){
 
-alert("Complete all fields");
+alert("Please complete required fields");
 
 return;
 
 }
 
-let items =
-JSON.parse(
-localStorage.getItem("inventoryItems")
-) || [];
+await addDoc(
+collection(db,"inventoryMasterlist"),
+{
 
-/* SAVE WITH ID */
+itemCode,
+itemName,
+category,
+unit,
+stock,
+reorderLevel,
+supplier,
+cost,
+sellingPrice,
+expiry,
+location,
 
-items.unshift({
+createdAt:
+new Date()
 
-id:Date.now().toString(),
+}
+);
 
-name:itemName,
+alert("Item Saved Successfully");
 
-category:category,
+/* CLEAR */
 
-stock:Number(stock),
+document.querySelectorAll(
+".form-box input"
+).forEach(input=>{
 
-unit:unit
+input.value = "";
 
 });
 
-localStorage.setItem(
-"inventoryItems",
-JSON.stringify(items)
+document.getElementById("category")
+.value = "";
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Firebase Error: " +
+error.message
 );
-
-alert("Item Saved");
-
-document.getElementById("itemName")
-.value = "";
-
-document.getElementById("stock")
-.value = "";
-
-document.getElementById("unit")
-.value = "";
-
-loadItems();
 
 }
 
-/* LOAD ITEMS */
+}
 
-function loadItems(){
+/* REALTIME LOAD */
+
+let unsubscribe = null;
+
+window.loadItems =
+function(){
+
+if(unsubscribe){
+
+unsubscribe();
+
+}
 
 const table =
 document.getElementById("itemsTable");
 
+const search =
+document.getElementById("searchInput")
+.value
+.toLowerCase();
+
+const filterCategory =
+document.getElementById("filterCategory")
+.value;
+
+unsubscribe = onSnapshot(
+
+collection(db,"inventoryMasterlist"),
+
+(snapshot)=>{
+
 table.innerHTML = "";
 
-let items =
-JSON.parse(
-localStorage.getItem("inventoryItems")
-) || [];
+let totalItems = 0;
+let lowStockCount = 0;
 
-if(items.length === 0){
+let categories =
+new Set();
 
-table.innerHTML = `
+snapshot.forEach((firebaseDoc)=>{
 
-<tr>
+const item =
+firebaseDoc.data();
 
-<td colspan="6">
+const docId =
+firebaseDoc.id;
 
-No items found
-
-</td>
-
-</tr>
-
-`;
+if(
+search &&
+!item.itemName
+.toLowerCase()
+.includes(search)
+){
 
 return;
 
 }
 
-items.forEach((item,index)=>{
+if(
+filterCategory &&
+item.category !== filterCategory
+){
+
+return;
+
+}
+
+totalItems++;
+
+categories.add(item.category);
+
+const isLow =
+Number(item.stock)
+<=
+Number(item.reorderLevel);
+
+if(isLow){
+
+lowStockCount++;
+
+}
 
 table.innerHTML += `
 
 <tr>
 
-<td>${item.id}</td>
+<td>${item.itemCode}</td>
 
-<td>${item.name}</td>
+<td>${item.itemName}</td>
 
 <td>${item.category}</td>
 
-<td>${item.stock}</td>
-
 <td>${item.unit}</td>
+
+<td class="${
+isLow
+?
+'low-stock'
+:
+'good-stock'
+}">
+${item.stock}
+</td>
+
+<td>${item.reorderLevel}</td>
+
+<td>${item.supplier}</td>
+
+<td>
+₱${Number(item.cost)
+.toLocaleString()}
+</td>
+
+<td>
+₱${Number(item.sellingPrice)
+.toLocaleString()}
+</td>
+
+<td>${item.expiry || "-"}</td>
+
+<td>${item.location || "-"}</td>
+
+<td class="${
+isLow
+?
+'low-stock'
+:
+'good-stock'
+}">
+
+${
+isLow
+?
+'LOW STOCK'
+:
+'GOOD'
+}
+
+</td>
 
 <td>
 
 <button class="delete-btn"
-onclick="deleteItem(${index})">
+onclick="deleteItem('${docId}')">
 
 Delete
 
@@ -541,25 +956,81 @@ Delete
 
 });
 
+if(totalItems === 0){
+
+table.innerHTML = `
+
+<tr>
+
+<td colspan="13">
+
+No Items Found
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+document.getElementById("totalItems")
+.innerText =
+totalItems;
+
+document.getElementById("lowStockCount")
+.innerText =
+lowStockCount;
+
+document.getElementById("categoryCount")
+.innerText =
+categories.size;
+
+},
+
+(error)=>{
+
+console.error(error);
+
+table.innerHTML = `
+
+<tr>
+
+<td colspan="13">
+
+Firebase Connection Error
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+);
+
 }
 
 /* DELETE */
 
-function deleteItem(index){
+window.deleteItem =
+async function(id){
 
-let items =
-JSON.parse(
-localStorage.getItem("inventoryItems")
-) || [];
+let confirmDelete =
+confirm("Delete this item?");
 
-items.splice(index,1);
+if(!confirmDelete){
 
-localStorage.setItem(
-"inventoryItems",
-JSON.stringify(items)
+return;
+
+}
+
+await deleteDoc(
+doc(db,"inventoryMasterlist",id)
 );
 
-loadItems();
+alert("Item Deleted");
 
 }
 
