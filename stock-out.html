@@ -253,7 +253,28 @@ padding:20px;
 border-radius:24px;
 overflow:auto;
 }
+/* ACTION BUTTONS */
 
+.edit-btn{
+background:#3b82f6;
+border:none;
+padding:8px 14px;
+border-radius:8px;
+color:white;
+cursor:pointer;
+margin-right:8px;
+font-weight:600;
+}
+
+.delete-btn{
+background:#ef4444;
+border:none;
+padding:8px 14px;
+border-radius:8px;
+color:white;
+cursor:pointer;
+font-weight:600;
+}
 table{
 width:100%;
 border-collapse:collapse;
@@ -518,6 +539,7 @@ Save Stock Out
 <th>Branch</th>
 <th>Released To</th>
 <th>Remarks</th>
+<th>Actions</th>
 
 </tr>
 
@@ -559,6 +581,8 @@ addDoc,
 onSnapshot,
 doc,
 updateDoc,
+deleteDoc,
+getDoc,
 getDocs
 
 }
@@ -920,6 +944,38 @@ table.innerHTML += `
 
 <td>${data.remarks}</td>
 
+<td>
+
+<button
+class="edit-btn"
+onclick="editStockOut(
+'${firebaseDoc.id}',
+'${data.date}',
+'${data.quantity}',
+'${data.type}',
+'${data.branch || ""}',
+'${data.releasedTo || ""}',
+'${data.remarks || ""}'
+)">
+
+Edit
+
+</button>
+
+<button
+class="delete-btn"
+onclick="deleteStockOut(
+'${firebaseDoc.id}',
+'${data.itemId}',
+${data.quantity}
+)">
+
+Delete
+
+</button>
+
+</td>
+
 </tr>
 
 `;
@@ -957,7 +1013,103 @@ releasedItems;
 );
 
 }
+/* DELETE */
 
+window.deleteStockOut =
+async function(id,itemId,quantity){
+
+const confirmDelete =
+confirm("Delete this stock out?");
+
+if(!confirmDelete){
+
+return;
+
+}
+
+try{
+
+/* GET CURRENT ITEM */
+
+const itemRef =
+doc(db,"inventoryMasterlist",itemId);
+
+const itemSnap =
+await getDoc(itemRef);
+
+if(itemSnap.exists()){
+
+const itemData =
+itemSnap.data();
+
+const currentStock =
+Number(itemData.stock || 0);
+
+/* RETURN STOCK */
+
+await updateDoc(itemRef,{
+
+stock:
+currentStock + Number(quantity)
+
+});
+
+}
+
+/* DELETE RECORD */
+
+await deleteDoc(
+doc(db,"stockOut",id)
+);
+
+alert("Stock Out Deleted");
+
+}catch(error){
+
+console.error(error);
+
+alert(error.message);
+
+}
+
+}
+
+/* EDIT */
+
+window.editStockOut =
+function(
+id,
+date,
+quantity,
+type,
+branch,
+releasedTo,
+remarks
+){
+
+document.getElementById("date")
+.value = date;
+
+document.getElementById("quantity")
+.value = quantity;
+
+document.getElementById("stockOutType")
+.value = type;
+
+document.getElementById("branch")
+.value = branch;
+
+document.getElementById("releasedTo")
+.value = releasedTo;
+
+document.getElementById("remarks")
+.value = remarks;
+
+alert(
+"Edit mode loaded.\nDelete old transaction first then save new changes."
+);
+
+}
 /* LOAD */
 
 loadItems();
