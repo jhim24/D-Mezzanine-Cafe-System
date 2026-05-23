@@ -25,11 +25,10 @@ font-family:'Poppins',sans-serif;
 }
 
 body{
-background:#f3f4f6;
+background:#0f172a;
+color:white;
 overflow:hidden;
 }
-
-/* LAYOUT */
 
 .container{
 display:flex;
@@ -39,70 +38,72 @@ height:100vh;
 /* SIDEBAR */
 
 .sidebar{
-width:280px;
-background:#050505;
+width:300px;
+background:#111827;
 padding:20px;
 overflow-y:auto;
+border-right:1px solid rgba(255,255,255,0.08);
 }
 
 .logo-box{
 display:flex;
 align-items:center;
-gap:12px;
+gap:14px;
 margin-bottom:30px;
 }
 
 .logo-box img{
-width:60px;
-height:60px;
+width:65px;
+height:65px;
 border-radius:50%;
 background:white;
-padding:4px;
+padding:5px;
 border:3px solid #facc15;
+object-fit:contain;
 }
 
 .logo-text h2{
-color:white;
 font-size:20px;
+font-weight:700;
 }
 
 .logo-text p{
-color:#d1d5db;
 font-size:13px;
+color:#d1d5db;
 }
 
 .menu{
 display:flex;
 flex-direction:column;
-gap:8px;
+gap:12px;
 }
 
 .menu-title{
-color:#facc15;
 font-size:13px;
 font-weight:700;
+color:#facc15;
 margin-top:15px;
-margin-bottom:8px;
-padding-left:10px;
+padding-left:5px;
 }
 
 .menu a{
 display:flex;
 align-items:center;
 gap:14px;
-padding:14px;
-border-radius:14px;
+padding:15px;
+border-radius:16px;
 text-decoration:none;
 color:white;
-font-size:15px;
 transition:.3s;
+background:rgba(255,255,255,0.03);
+font-size:15px;
 }
 
 .menu a:hover,
 .menu a.active{
 background:#facc15;
 color:black;
-font-weight:600;
+transform:translateX(4px);
 }
 
 /* MAIN */
@@ -113,83 +114,63 @@ padding:25px;
 overflow-y:auto;
 }
 
-/* HEADER */
-
-.header{
-background:#0f172a;
+.header-box{
+background:#1e293b;
 padding:25px;
-border-radius:20px;
-color:white;
+border-radius:24px;
 margin-bottom:25px;
 }
 
-.header h1{
-font-size:34px;
-margin-bottom:8px;
+.header-box h1{
+font-size:38px;
+}
+
+.header-box p{
+color:#cbd5e1;
+margin-top:8px;
 }
 
 /* FORM */
 
 .form-box{
-background:white;
+background:#1e293b;
 padding:25px;
-border-radius:20px;
+border-radius:24px;
 margin-bottom:25px;
-}
 
-.form-title{
-font-size:24px;
-margin-bottom:20px;
-font-weight:700;
-}
-
-.form-grid{
 display:grid;
 grid-template-columns:
 repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
+
+gap:15px;
 }
 
-.input-group{
-display:flex;
-flex-direction:column;
-}
-
-.input-group label{
-margin-bottom:8px;
-font-size:14px;
-font-weight:600;
-}
-
-.input-group input,
-.input-group select{
+.form-box input,
+.form-box select{
 padding:14px;
-border:1px solid #d1d5db;
+border:none;
 border-radius:12px;
+background:#111827;
+color:white;
 font-size:14px;
-outline:none;
 }
-
-/* BUTTON */
 
 .save-btn{
-margin-top:20px;
 background:#ef4444;
-color:white;
 border:none;
-padding:15px 25px;
-border-radius:14px;
-font-size:16px;
+padding:14px;
+border-radius:12px;
 font-weight:700;
 cursor:pointer;
+color:white;
 }
 
 /* TABLE */
 
 .table-box{
-background:white;
+background:#1e293b;
 padding:20px;
-border-radius:20px;
+border-radius:24px;
 overflow:auto;
 }
 
@@ -199,22 +180,30 @@ border-collapse:collapse;
 min-width:1000px;
 }
 
-table th{
-background:#0f172a;
-color:white;
-padding:14px;
-font-size:14px;
+th{
+background:#111827;
+color:#facc15;
+padding:15px;
+text-align:left;
 }
 
-table td{
-padding:14px;
-border-bottom:1px solid #e5e7eb;
-font-size:14px;
+td{
+padding:15px;
+border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+.delete-btn{
+background:#ef4444;
+border:none;
+padding:8px 12px;
+border-radius:8px;
+color:white;
+cursor:pointer;
 }
 
 /* MOBILE */
 
-@media(max-width:900px){
+@media(max-width:950px){
 
 .container{
 flex-direction:column;
@@ -222,10 +211,16 @@ flex-direction:column;
 
 .sidebar{
 width:100%;
+display:flex;
+overflow:auto;
 }
 
-.main{
-padding:15px;
+.menu{
+flex-direction:row;
+}
+
+.menu a{
+min-width:180px;
 }
 
 }
@@ -250,7 +245,7 @@ padding:15px;
 
 <h2>D'Mezzanine</h2>
 
-<p>Stock Room System</p>
+<p>Inventory System</p>
 
 </div>
 
@@ -259,7 +254,7 @@ padding:15px;
 <div class="menu">
 
 <p class="menu-title">
-INVENTORY
+STOCKROOM
 </p>
 
 <a href="stockroom.html">
@@ -319,15 +314,11 @@ Daily Inventory
 
 <div class="main">
 
-<!-- HEADER -->
+<div class="header-box">
 
-<div class="header">
+<h1>Stock Out 📤</h1>
 
-<h1>Stock Out</h1>
-
-<p>
-Deduct inventory items used daily
-</p>
+<p id="dateTime"></p>
 
 </div>
 
@@ -335,72 +326,27 @@ Deduct inventory items used daily
 
 <div class="form-box">
 
-<h2 class="form-title">
-Stock Out Entry
-</h2>
-
-<div class="form-grid">
-
-<div class="input-group">
-
-<label>Select Item</label>
-
 <select id="itemSelect">
 
 <option value="">
-Loading Items...
-
+Select Item
 </option>
 
 </select>
 
-</div>
-
-<div class="input-group">
-
-<label>Quantity Out</label>
-
 <input type="number"
-id="stockOutQty"
-placeholder="Enter quantity">
+id="quantity"
+placeholder="Quantity">
 
-</div>
-
-<div class="input-group">
-
-<label>Reason</label>
-
-<select id="stockOutReason">
-
-<option>Kitchen Usage</option>
-
-<option>Production</option>
-
-<option>Transfer</option>
-
-<option>Staff Consumption</option>
-
-<option>Other</option>
-
-</select>
-
-</div>
-
-<div class="input-group">
-
-<label>Date</label>
+<input type="text"
+id="reason"
+placeholder="Reason">
 
 <input type="date"
-id="stockOutDate">
-
-</div>
-
-</div>
+id="date">
 
 <button class="save-btn"
 onclick="saveStockOut()">
-
-<i class="fa-solid fa-floppy-disk"></i>
 
 Save Stock Out
 
@@ -418,27 +364,17 @@ Save Stock Out
 
 <tr>
 
-<th>DATE</th>
-<th>ITEM</th>
-<th>QUANTITY OUT</th>
-<th>REASON</th>
+<th>Date</th>
+<th>Item</th>
+<th>Quantity</th>
+<th>Reason</th>
+<th>Action</th>
 
 </tr>
 
 </thead>
 
 <tbody id="stockOutTable">
-
-<tr>
-
-<td colspan="4"
-style="text-align:center;padding:20px;">
-
-Loading Stock Out...
-
-</td>
-
-</tr>
 
 </tbody>
 
@@ -452,10 +388,7 @@ Loading Stock Out...
 
 <script type="module">
 
-/* FIREBASE */
-
 import { initializeApp }
-
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 
 import {
@@ -464,33 +397,33 @@ getFirestore,
 collection,
 addDoc,
 getDocs,
-updateDoc,
+deleteDoc,
 doc,
+updateDoc,
+increment,
 getDoc
 
 }
 
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
-/* CONFIG */
+/* FIREBASE */
 
 const firebaseConfig = {
 
-apiKey: "AIzaSyCYjuZlpgE-Lci33e53014F7fRIid6u7Dg",
+apiKey: "YOUR_API_KEY",
 
-authDomain: "family-web-10cb8.firebaseapp.com",
+authDomain: "YOUR_AUTH_DOMAIN",
 
-projectId: "family-web-10cb8",
+projectId: "YOUR_PROJECT_ID",
 
-storageBucket: "family-web-10cb8.firebasestorage.app",
+storageBucket: "YOUR_STORAGE_BUCKET",
 
-messagingSenderId: "152048365178",
+messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
 
-appId: "1:152048365178:web:3e42c20e03a7c563d915c3"
+appId: "YOUR_APP_ID"
 
 };
-
-/* INIT */
 
 const app =
 initializeApp(firebaseConfig);
@@ -498,10 +431,19 @@ initializeApp(firebaseConfig);
 const db =
 getFirestore(app);
 
-/* AUTO DATE */
+/* DATE TIME */
 
-document.getElementById("stockOutDate")
-.valueAsDate = new Date();
+function updateDateTime(){
+
+document.getElementById("dateTime")
+.innerText =
+new Date().toLocaleString();
+
+}
+
+setInterval(updateDateTime,1000);
+
+updateDateTime();
 
 /* LOAD ITEMS */
 
@@ -511,9 +453,11 @@ const select =
 document.getElementById("itemSelect");
 
 select.innerHTML = `
+
 <option value="">
 Select Item
 </option>
+
 `;
 
 const snapshot =
@@ -529,10 +473,7 @@ firebaseDoc.data();
 select.innerHTML += `
 
 <option value="${firebaseDoc.id}">
-
 ${item.name}
-(Current: ${item.stock || 0})
-
 </option>
 
 `;
@@ -549,36 +490,38 @@ async function(){
 const itemId =
 document.getElementById("itemSelect").value;
 
+const itemName =
+document.getElementById("itemSelect")
+.options[
+document.getElementById("itemSelect")
+.selectedIndex
+].text;
+
 const qty =
 Number(
-document.getElementById("stockOutQty").value
+document.getElementById("quantity").value
 );
 
 const reason =
-document.getElementById("stockOutReason").value;
+document.getElementById("reason").value;
 
 const date =
-document.getElementById("stockOutDate").value;
+document.getElementById("date").value;
 
-if(itemId === ""){
+if(
+!itemId ||
+!qty ||
+!reason ||
+!date
+){
 
-alert("Select item");
-
-return;
-
-}
-
-if(qty <= 0){
-
-alert("Enter quantity");
+alert("Complete all fields");
 
 return;
 
 }
 
-try{
-
-/* GET ITEM */
+/* CHECK STOCK */
 
 const itemRef =
 doc(db,"inventoryItems",itemId);
@@ -586,74 +529,59 @@ doc(db,"inventoryItems",itemId);
 const itemSnap =
 await getDoc(itemRef);
 
-if(!itemSnap.exists()){
-
-alert("Item not found");
-
-return;
-
-}
-
-const itemData =
-itemSnap.data();
-
 const currentStock =
-Number(itemData.stock || 0);
-
-/* CHECK STOCK */
+Number(
+itemSnap.data().stock || 0
+);
 
 if(qty > currentStock){
 
-alert("Insufficient stock");
+alert("Not enough stock");
 
 return;
 
 }
 
-/* UPDATE STOCK */
-
-const newStock =
-currentStock - qty;
-
-await updateDoc(itemRef,{
-
-stock:newStock
-
-});
-
-/* SAVE LOG */
+/* SAVE */
 
 await addDoc(
-
 collection(db,"stockOut"),
-
 {
 
 itemId:itemId,
-itemName:itemData.name,
+itemName:itemName,
 qty:qty,
 reason:reason,
 date:date,
 createdAt:new Date()
 
 }
-
 );
 
-alert("Stock Out Saved!");
+/* DEDUCT STOCK */
 
-document.getElementById("stockOutQty").value = "";
+await updateDoc(
+itemRef,
+{
 
-loadItems();
-loadStockOut();
-
-}catch(error){
-
-console.error(error);
-
-alert("Failed to save stock out");
+stock:increment(-qty)
 
 }
+);
+
+alert("Stock Out Saved");
+
+/* CLEAR */
+
+document.getElementById("quantity")
+.value = "";
+
+document.getElementById("reason")
+.value = "";
+
+/* RELOAD */
+
+loadStockOut();
 
 }
 
@@ -666,33 +594,10 @@ document.getElementById("stockOutTable");
 
 table.innerHTML = "";
 
-try{
-
 const snapshot =
 await getDocs(
 collection(db,"stockOut")
 );
-
-if(snapshot.empty){
-
-table.innerHTML = `
-
-<tr>
-
-<td colspan="4"
-style="text-align:center;padding:20px;">
-
-No Stock Out Records
-
-</td>
-
-</tr>
-
-`;
-
-return;
-
-}
 
 snapshot.forEach((firebaseDoc)=>{
 
@@ -703,32 +608,23 @@ table.innerHTML += `
 
 <tr>
 
-<td>${data.date || "-"}</td>
+<td>${data.date}</td>
 
-<td>${data.itemName || "-"}</td>
+<td>${data.itemName}</td>
 
-<td>${data.qty || 0}</td>
+<td>${data.qty}</td>
 
-<td>${data.reason || "-"}</td>
+<td>${data.reason}</td>
 
-</tr>
+<td>
 
-`;
+<button
+class="delete-btn"
+onclick="deleteStockOut('${firebaseDoc.id}','${data.itemId}',${data.qty})">
 
-});
+Delete
 
-}catch(error){
-
-console.error(error);
-
-table.innerHTML = `
-
-<tr>
-
-<td colspan="4"
-style="text-align:center;padding:20px;">
-
-Failed to load stock out
+</button>
 
 </td>
 
@@ -736,7 +632,35 @@ Failed to load stock out
 
 `;
 
+});
+
 }
+
+/* DELETE */
+
+window.deleteStockOut =
+async function(stockOutId,itemId,qty){
+
+if(!confirm("Delete stock out?")) return;
+
+/* DELETE */
+
+await deleteDoc(
+doc(db,"stockOut",stockOutId)
+);
+
+/* RETURN STOCK */
+
+await updateDoc(
+doc(db,"inventoryItems",itemId),
+{
+
+stock:increment(qty)
+
+}
+);
+
+loadStockOut();
 
 }
 
