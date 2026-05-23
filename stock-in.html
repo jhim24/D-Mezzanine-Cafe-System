@@ -138,7 +138,7 @@ overflow:auto;
 table{
 width:100%;
 border-collapse:collapse;
-min-width:1000px;
+min-width:1200px;
 }
 
 th{
@@ -151,6 +151,29 @@ text-align:left;
 td{
 padding:14px;
 border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+/* ACTION BUTTONS */
+
+.edit-btn{
+background:#3b82f6;
+border:none;
+padding:8px 14px;
+border-radius:8px;
+color:white;
+cursor:pointer;
+margin-right:8px;
+font-weight:600;
+}
+
+.delete-btn{
+background:#ef4444;
+border:none;
+padding:8px 14px;
+border-radius:8px;
+color:white;
+cursor:pointer;
+font-weight:600;
 }
 
 /* MOBILE */
@@ -306,6 +329,7 @@ Save Stock In
 <th>Quantity</th>
 <th>Supplier</th>
 <th>Invoice</th>
+<th>Actions</th>
 
 </tr>
 
@@ -315,7 +339,7 @@ Save Stock In
 
 <tr>
 
-<td colspan="5">
+<td colspan="6">
 
 Loading...
 
@@ -347,6 +371,8 @@ addDoc,
 onSnapshot,
 doc,
 updateDoc,
+deleteDoc,
+getDoc,
 getDocs
 
 }
@@ -377,6 +403,8 @@ initializeApp(firebaseConfig);
 const db =
 getFirestore(app);
 
+let itemsMap = {};
+
 /* LOAD ITEMS */
 
 async function loadItems(){
@@ -397,10 +425,19 @@ await getDocs(
 collection(db,"inventoryMasterlist")
 );
 
+itemsMap = {};
+
 snapshot.forEach((firebaseDoc)=>{
 
 const item =
 firebaseDoc.data();
+
+itemsMap[firebaseDoc.id] = {
+
+id:firebaseDoc.id,
+...item
+
+};
 
 select.innerHTML += `
 
@@ -452,29 +489,8 @@ return;
 
 }
 
-/* GET ITEM */
-
-const snapshot =
-await getDocs(
-collection(db,"inventoryMasterlist")
-);
-
-let selectedItem = null;
-
-snapshot.forEach((firebaseDoc)=>{
-
-if(firebaseDoc.id === itemId){
-
-selectedItem = {
-
-id:firebaseDoc.id,
-...firebaseDoc.data()
-
-};
-
-}
-
-});
+const selectedItem =
+itemsMap[itemId];
 
 if(!selectedItem){
 
@@ -492,6 +508,7 @@ collection(db,"stockIn"),
 
 date,
 itemId,
+
 itemName:
 selectedItem.itemName,
 
@@ -542,6 +559,8 @@ document.getElementById("supplier")
 document.getElementById("invoice")
 .value = "";
 
+loadItems();
+
 }catch(error){
 
 console.error(error);
@@ -549,6 +568,89 @@ console.error(error);
 alert(error.message);
 
 }
+
+}
+
+/* DELETE */
+
+window.deleteStockIn =
+async function(id,itemId,quantity){
+
+const confirmDelete =
+confirm("Delete this stock in?");
+
+if(!confirmDelete){
+
+return;
+
+}
+
+try{
+
+const itemRef =
+doc(db,"inventoryMasterlist",itemId);
+
+const itemSnap =
+await getDoc(itemRef);
+
+if(itemSnap.exists()){
+
+const itemData =
+itemSnap.data();
+
+const currentStock =
+Number(itemData.stock || 0);
+
+await updateDoc(itemRef,{
+
+stock:
+currentStock - Number(quantity)
+
+});
+
+}
+
+await deleteDoc(
+doc(db,"stockIn",id)
+);
+
+alert("Stock In Deleted");
+
+}catch(error){
+
+console.error(error);
+
+alert(error.message);
+
+}
+
+}
+
+/* EDIT */
+
+window.editStockIn =
+function(
+date,
+quantity,
+supplier,
+invoice
+){
+
+document.getElementById("date")
+.value = date;
+
+document.getElementById("quantity")
+.value = quantity;
+
+document.getElementById("supplier")
+.value = supplier;
+
+document.getElementById("invoice")
+.value = invoice;
+
+alert(
+"Edit mode loaded.\nDelete old transaction first then save new changes."
+);
 
 }
 
@@ -586,11 +688,58 @@ table.innerHTML += `
 
 <td>${data.invoice}</td>
 
+<td>
+
+<button
+class="edit-btn"
+onclick="editStockIn(
+'${data.date}',
+'${data.quantity}',
+'${data.supplier}',
+'${data.invoice}'
+)">
+
+Edit
+
+</button>
+
+<button
+class="delete-btn"
+onclick="deleteStockIn(
+'${firebaseDoc.id}',
+'${data.itemId}',
+${data.quantity}
+)">
+
+Delete
+
+</button>
+
+</td>
+
 </tr>
 
 `;
 
 });
+
+if(snapshot.empty){
+
+table.innerHTML = `
+
+<tr>
+
+<td colspan="6">
+
+No Stock In Records
+
+</td>
+
+</tr>
+
+`;
+
+}
 
 }
 
