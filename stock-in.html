@@ -30,8 +30,6 @@ color:white;
 overflow:hidden;
 }
 
-/* LAYOUT */
-
 .container{
 display:flex;
 height:100vh;
@@ -116,18 +114,11 @@ padding:25px;
 overflow-y:auto;
 }
 
-/* HEADER */
-
 .header-box{
 background:#1e293b;
 padding:25px;
 border-radius:24px;
 margin-bottom:25px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-flex-wrap:wrap;
-gap:15px;
 }
 
 .header-box h1{
@@ -136,10 +127,8 @@ font-size:38px;
 
 .header-box p{
 color:#cbd5e1;
-font-size:14px;
+margin-top:8px;
 }
-
-/* CARDS */
 
 .cards{
 display:grid;
@@ -252,8 +241,6 @@ color:white;
 cursor:pointer;
 }
 
-/* MOBILE */
-
 @media(max-width:950px){
 
 .container{
@@ -290,8 +277,7 @@ min-width:180px;
 
 <div class="logo-box">
 
-<img src="./logo.png"
-alt="Logo">
+<img src="./logo.png">
 
 <div class="logo-text">
 
@@ -306,26 +292,14 @@ alt="Logo">
 <div class="menu">
 
 <p class="menu-title">
-MAIN MENU
-</p>
-
-<a href="./index.html">
-
-<i class="fa-solid fa-house"></i>
-
-Dashboard
-
-</a>
-
-<p class="menu-title">
-STOCKROOM INVENTORY
+STOCKROOM
 </p>
 
 <a href="stockroom.html">
 
 <i class="fa-solid fa-chart-line"></i>
 
-Stockroom Dashboard
+Dashboard
 
 </a>
 
@@ -370,15 +344,6 @@ Daily Inventory
 
 </a>
 
-<a href="#"
-id="logoutBtn">
-
-<i class="fa-solid fa-right-from-bracket"></i>
-
-Logout
-
-</a>
-
 </div>
 
 </div>
@@ -387,21 +352,11 @@ Logout
 
 <div class="main">
 
-<!-- HEADER -->
-
 <div class="header-box">
-
-<div>
 
 <h1>Stock In 📥</h1>
 
-<p id="dateTime">
-
-Realtime Stock Receiving
-
-</p>
-
-</div>
+<p id="dateTime"></p>
 
 </div>
 
@@ -513,7 +468,7 @@ Save Stock In
 
 <script>
 
-/* DATE */
+/* DATE TIME */
 
 function updateDateTime(){
 
@@ -535,11 +490,9 @@ const select =
 document.getElementById("itemSelect");
 
 select.innerHTML = `
-
 <option value="">
 Select Item
 </option>
-
 `;
 
 let items =
@@ -551,7 +504,7 @@ items.forEach(item=>{
 
 select.innerHTML += `
 
-<option value="${item.name}">
+<option value="${item.id}">
 ${item.name}
 </option>
 
@@ -565,8 +518,15 @@ ${item.name}
 
 function saveStockIn(){
 
-const itemName =
+const itemId =
 document.getElementById("itemSelect").value;
+
+const itemName =
+document.getElementById("itemSelect")
+.options[
+document.getElementById("itemSelect")
+.selectedIndex
+].text;
 
 const qty =
 Number(
@@ -580,7 +540,7 @@ const date =
 document.getElementById("date").value;
 
 if(
-!itemName ||
+!itemId ||
 !qty ||
 !supplier ||
 !date
@@ -592,7 +552,7 @@ return;
 
 }
 
-/* UPDATE ITEM STOCK */
+/* UPDATE STOCK */
 
 let items =
 JSON.parse(
@@ -601,10 +561,12 @@ localStorage.getItem("inventoryItems")
 
 items = items.map(item=>{
 
-if(item.name === itemName){
+if(item.id === itemId){
 
 item.stock =
-Number(item.stock) + qty;
+Number(item.stock || 0)
++
+qty;
 
 }
 
@@ -617,7 +579,7 @@ localStorage.setItem(
 JSON.stringify(items)
 );
 
-/* SAVE RECORD */
+/* SAVE STOCK IN */
 
 let stockIns =
 JSON.parse(
@@ -626,10 +588,12 @@ localStorage.getItem("stockInRecords")
 
 stockIns.unshift({
 
-itemName,
-qty,
-supplier,
-date
+itemId:itemId,
+itemName:itemName,
+qty:qty,
+supplier:supplier,
+date:date,
+createdAt:new Date()
 
 });
 
@@ -661,167 +625,4 @@ table.innerHTML = "";
 
 let stockIns =
 JSON.parse(
-localStorage.getItem("stockInRecords")
-) || [];
-
-document.getElementById("totalStockIn")
-.innerText = stockIns.length;
-
-let totalQty = 0;
-
-let todayDeliveries = 0;
-
-const today =
-new Date()
-.toISOString()
-.split("T")[0];
-
-if(stockIns.length === 0){
-
-table.innerHTML = `
-
-<tr>
-
-<td colspan="5">
-
-No stock in records
-
-</td>
-
-</tr>
-
-`;
-
-document.getElementById("totalQty")
-.innerText = 0;
-
-document.getElementById("todayDeliveries")
-.innerText = 0;
-
-return;
-
-}
-
-stockIns.forEach((record,index)=>{
-
-totalQty += Number(record.qty);
-
-if(record.date === today){
-
-todayDeliveries++;
-
-}
-
-table.innerHTML += `
-
-<tr>
-
-<td>${record.date}</td>
-
-<td>${record.itemName}</td>
-
-<td>${record.qty}</td>
-
-<td>${record.supplier}</td>
-
-<td>
-
-<button class="delete-btn"
-onclick="deleteStockIn(${index})">
-
-Delete
-
-</button>
-
-</td>
-
-</tr>
-
-`;
-
-});
-
-document.getElementById("totalQty")
-.innerText = totalQty;
-
-document.getElementById("todayDeliveries")
-.innerText = todayDeliveries;
-
-}
-
-/* DELETE */
-
-function deleteStockIn(index){
-
-let stockIns =
-JSON.parse(
-localStorage.getItem("stockInRecords")
-) || [];
-
-const deleted =
-stockIns[index];
-
-let items =
-JSON.parse(
-localStorage.getItem("inventoryItems")
-) || [];
-
-items = items.map(item=>{
-
-if(item.name === deleted.itemName){
-
-item.stock =
-Number(item.stock)
--
-Number(deleted.qty);
-
-}
-
-return item;
-
-});
-
-localStorage.setItem(
-"inventoryItems",
-JSON.stringify(items)
-);
-
-stockIns.splice(index,1);
-
-localStorage.setItem(
-"stockInRecords",
-JSON.stringify(stockIns)
-);
-
-loadStockIn();
-
-}
-
-/* LOGOUT */
-
-document
-.getElementById("logoutBtn")
-
-.addEventListener(
-"click",
-function(e){
-
-e.preventDefault();
-
-localStorage.clear();
-
-window.location.href =
-"login.html";
-
-}
-);
-
-/* LOAD */
-
-loadItems();
-loadStockIn();
-
-</script>
-
-</body>
-</html>
+local
