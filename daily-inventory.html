@@ -25,11 +25,10 @@ font-family:'Poppins',sans-serif;
 }
 
 body{
-background:#f3f4f6;
+background:#0f172a;
+color:white;
 overflow:hidden;
 }
-
-/* LAYOUT */
 
 .container{
 display:flex;
@@ -39,70 +38,72 @@ height:100vh;
 /* SIDEBAR */
 
 .sidebar{
-width:280px;
-background:#050505;
+width:300px;
+background:#111827;
 padding:20px;
 overflow-y:auto;
+border-right:1px solid rgba(255,255,255,0.08);
 }
 
 .logo-box{
 display:flex;
 align-items:center;
-gap:12px;
+gap:14px;
 margin-bottom:30px;
 }
 
 .logo-box img{
-width:60px;
-height:60px;
+width:65px;
+height:65px;
 border-radius:50%;
 background:white;
-padding:4px;
+padding:5px;
 border:3px solid #facc15;
+object-fit:contain;
 }
 
 .logo-text h2{
-color:white;
 font-size:20px;
+font-weight:700;
 }
 
 .logo-text p{
-color:#d1d5db;
 font-size:13px;
+color:#d1d5db;
 }
 
 .menu{
 display:flex;
 flex-direction:column;
-gap:8px;
+gap:12px;
 }
 
 .menu-title{
-color:#facc15;
 font-size:13px;
 font-weight:700;
+color:#facc15;
 margin-top:15px;
-margin-bottom:8px;
-padding-left:10px;
+padding-left:5px;
 }
 
 .menu a{
 display:flex;
 align-items:center;
 gap:14px;
-padding:14px;
-border-radius:14px;
+padding:15px;
+border-radius:16px;
 text-decoration:none;
 color:white;
-font-size:15px;
 transition:.3s;
+background:rgba(255,255,255,0.03);
+font-size:15px;
 }
 
 .menu a:hover,
 .menu a.active{
 background:#facc15;
 color:black;
-font-weight:600;
+transform:translateX(4px);
 }
 
 /* MAIN */
@@ -115,92 +116,123 @@ overflow-y:auto;
 
 /* HEADER */
 
-.header{
-background:#0f172a;
+.header-box{
+background:#1e293b;
 padding:25px;
-border-radius:20px;
-color:white;
+border-radius:24px;
 margin-bottom:25px;
 }
 
-.header h1{
-font-size:34px;
-margin-bottom:8px;
+.header-box h1{
+font-size:38px;
+}
+
+.header-box p{
+color:#cbd5e1;
+margin-top:8px;
+}
+
+/* TOP FORM */
+
+.top-form{
+background:#1e293b;
+padding:20px;
+border-radius:20px;
+margin-bottom:25px;
+
+display:flex;
+gap:15px;
+align-items:center;
+flex-wrap:wrap;
+}
+
+.top-form input{
+padding:14px;
+border:none;
+border-radius:12px;
+background:#111827;
+color:white;
+font-size:14px;
+}
+
+.generate-btn{
+background:#facc15;
+color:black;
+border:none;
+padding:14px 20px;
+border-radius:12px;
+font-weight:700;
+cursor:pointer;
 }
 
 /* TABLE */
 
 .table-box{
-background:white;
+background:#1e293b;
 padding:20px;
-border-radius:20px;
+border-radius:24px;
 overflow:auto;
 }
 
 table{
 width:100%;
 border-collapse:collapse;
-min-width:1800px;
+min-width:1600px;
 }
 
-table th{
-background:#0f172a;
-color:white;
+th{
+background:#111827;
+color:#facc15;
 padding:14px;
-font-size:14px;
-white-space:nowrap;
-}
-
-table td{
-padding:14px;
-border-bottom:1px solid #e5e7eb;
-font-size:14px;
+font-size:13px;
 text-align:center;
 white-space:nowrap;
 }
 
-table input{
+td{
+padding:12px;
+border-bottom:1px solid rgba(255,255,255,0.08);
+text-align:center;
+white-space:nowrap;
+}
+
+input.actual-input{
+width:100px;
 padding:10px;
-border:1px solid #d1d5db;
-border-radius:10px;
-width:120px;
+border:none;
+border-radius:8px;
+background:#111827;
+color:white;
 text-align:center;
-}
-
-/* STATUS */
-
-.good{
-color:#16a34a;
-font-weight:700;
-}
-
-.short{
-color:#ef4444;
-font-weight:700;
-}
-
-.over{
-color:#2563eb;
-font-weight:700;
 }
 
 /* BUTTON */
 
 .save-btn{
-margin-top:20px;
-background:#facc15;
-color:black;
+background:#22c55e;
 border:none;
-padding:14px 25px;
-border-radius:14px;
-font-size:15px;
+padding:10px 14px;
+border-radius:10px;
 font-weight:700;
+color:white;
 cursor:pointer;
+}
+
+/* STATUS */
+
+.good{
+color:#22c55e;
+font-weight:700;
+}
+
+.bad{
+color:#ef4444;
+font-weight:700;
 }
 
 /* MOBILE */
 
-@media(max-width:900px){
+@media(max-width:950px){
 
 .container{
 flex-direction:column;
@@ -208,10 +240,16 @@ flex-direction:column;
 
 .sidebar{
 width:100%;
+display:flex;
+overflow:auto;
 }
 
-.main{
-padding:15px;
+.menu{
+flex-direction:row;
+}
+
+.menu a{
+min-width:180px;
 }
 
 }
@@ -236,7 +274,7 @@ padding:15px;
 
 <h2>D'Mezzanine</h2>
 
-<p>Stock Room System</p>
+<p>Inventory System</p>
 
 </div>
 
@@ -245,7 +283,7 @@ padding:15px;
 <div class="menu">
 
 <p class="menu-title">
-INVENTORY
+STOCKROOM
 </p>
 
 <a href="stockroom.html">
@@ -305,15 +343,31 @@ Daily Inventory
 
 <div class="main">
 
-<div class="header">
+<div class="header-box">
 
-<h1>Daily Inventory</h1>
+<h1>Daily Inventory 📋</h1>
 
-<p>
-Closing Inventory Monitoring
-</p>
+<p id="dateTime"></p>
 
 </div>
+
+<!-- TOP -->
+
+<div class="top-form">
+
+<input type="date"
+id="inventoryDate">
+
+<button class="generate-btn"
+onclick="generateInventory()">
+
+Generate Inventory
+
+</button>
+
+</div>
+
+<!-- TABLE -->
 
 <div class="table-box">
 
@@ -323,55 +377,26 @@ Closing Inventory Monitoring
 
 <tr>
 
-<th>DATE</th>
-
-<th>ITEM</th>
-
-<th>BEGINNING</th>
-
-<th>STOCK IN</th>
-
-<th>STOCK OUT</th>
-
-<th>WASTE</th>
-
-<th>SYSTEM ENDING</th>
-
-<th>ACTUAL COUNT</th>
-
-<th>VARIANCE</th>
-
-<th>STATUS</th>
+<th>Item</th>
+<th>Beginning</th>
+<th>Stock In</th>
+<th>Stock Out</th>
+<th>Waste</th>
+<th>Expected</th>
+<th>Actual Count</th>
+<th>Variance</th>
+<th>Status</th>
+<th>Action</th>
 
 </tr>
 
 </thead>
 
-<tbody id="dailyInventoryTable">
-
-<tr>
-
-<td colspan="10"
-style="padding:20px;">
-
-Loading Inventory...
-
-</td>
-
-</tr>
+<tbody id="inventoryTable">
 
 </tbody>
 
 </table>
-
-<button class="save-btn"
-onclick="saveDailyInventory()">
-
-<i class="fa-solid fa-floppy-disk"></i>
-
-Save Daily Inventory
-
-</button>
 
 </div>
 
@@ -381,10 +406,7 @@ Save Daily Inventory
 
 <script type="module">
 
-/* FIREBASE */
-
 import { initializeApp }
-
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 
 import {
@@ -392,31 +414,31 @@ import {
 getFirestore,
 collection,
 getDocs,
+query,
+where,
 addDoc
 
 }
 
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
-/* CONFIG */
+/* FIREBASE */
 
 const firebaseConfig = {
 
-apiKey: "AIzaSyCYjuZlpgE-Lci33e53014F7fRIid6u7Dg",
+apiKey: "YOUR_API_KEY",
 
-authDomain: "family-web-10cb8.firebaseapp.com",
+authDomain: "YOUR_AUTH_DOMAIN",
 
-projectId: "family-web-10cb8",
+projectId: "YOUR_PROJECT_ID",
 
-storageBucket: "family-web-10cb8.firebasestorage.app",
+storageBucket: "YOUR_STORAGE_BUCKET",
 
-messagingSenderId: "152048365178",
+messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
 
-appId: "1:152048365178:web:3e42c20e03a7c563d915c3"
+appId: "YOUR_APP_ID"
 
 };
-
-/* INIT */
 
 const app =
 initializeApp(firebaseConfig);
@@ -424,12 +446,38 @@ initializeApp(firebaseConfig);
 const db =
 getFirestore(app);
 
-/* LOAD DAILY INVENTORY */
+/* DATE TIME */
 
-async function loadDailyInventory(){
+function updateDateTime(){
+
+document.getElementById("dateTime")
+.innerText =
+new Date().toLocaleString();
+
+}
+
+setInterval(updateDateTime,1000);
+
+updateDateTime();
+
+/* GENERATE */
+
+window.generateInventory =
+async function(){
+
+const date =
+document.getElementById("inventoryDate").value;
+
+if(!date){
+
+alert("Select date");
+
+return;
+
+}
 
 const table =
-document.getElementById("dailyInventoryTable");
+document.getElementById("inventoryTable");
 
 table.innerHTML = "";
 
@@ -444,174 +492,173 @@ collection(db,"inventoryItems")
 
 const stockInSnapshot =
 await getDocs(
-collection(db,"stockIn")
+query(
+collection(db,"stockIn"),
+where("date","==",date)
+)
 );
 
 /* STOCK OUT */
 
 const stockOutSnapshot =
 await getDocs(
-collection(db,"stockOut")
+query(
+collection(db,"stockOut"),
+where("date","==",date)
+)
 );
 
 /* WASTE */
 
 const wasteSnapshot =
 await getDocs(
-collection(db,"waste")
+query(
+collection(db,"waste"),
+where("date","==",date)
+)
 );
 
-/* TODAY */
+let stockInMap = {};
+let stockOutMap = {};
+let wasteMap = {};
 
-const today =
-new Date().toISOString().split("T")[0];
+/* STOCK IN MAP */
 
-itemsSnapshot.forEach((itemDoc)=>{
+stockInSnapshot.forEach(docu=>{
+
+const data =
+docu.data();
+
+if(!stockInMap[data.itemId]){
+
+stockInMap[data.itemId] = 0;
+
+}
+
+stockInMap[data.itemId] +=
+Number(data.qty || 0);
+
+});
+
+/* STOCK OUT MAP */
+
+stockOutSnapshot.forEach(docu=>{
+
+const data =
+docu.data();
+
+if(!stockOutMap[data.itemId]){
+
+stockOutMap[data.itemId] = 0;
+
+}
+
+stockOutMap[data.itemId] +=
+Number(data.qty || 0);
+
+});
+
+/* WASTE MAP */
+
+wasteSnapshot.forEach(docu=>{
+
+const data =
+docu.data();
+
+if(!wasteMap[data.itemId]){
+
+wasteMap[data.itemId] = 0;
+
+}
+
+wasteMap[data.itemId] +=
+Number(data.qty || 0);
+
+});
+
+/* ITEMS LOOP */
+
+itemsSnapshot.forEach((firebaseDoc)=>{
 
 const item =
-itemDoc.data();
+firebaseDoc.data();
 
 const itemId =
-itemDoc.id;
-
-/* BEGINNING */
+firebaseDoc.id;
 
 const beginning =
 Number(item.stock || 0);
 
-/* STOCK IN */
+const stockIn =
+stockInMap[itemId] || 0;
 
-let stockInTotal = 0;
+const stockOut =
+stockOutMap[itemId] || 0;
 
-stockInSnapshot.forEach((docu)=>{
+const waste =
+wasteMap[itemId] || 0;
 
-const data =
-docu.data();
-
-if(data.itemId === itemId){
-
-stockInTotal +=
-Number(data.qty || 0);
-
-}
-
-});
-
-/* STOCK OUT */
-
-let stockOutTotal = 0;
-
-stockOutSnapshot.forEach((docu)=>{
-
-const data =
-docu.data();
-
-if(data.itemId === itemId){
-
-stockOutTotal +=
-Number(data.qty || 0);
-
-}
-
-});
-
-/* WASTE */
-
-let wasteTotal = 0;
-
-wasteSnapshot.forEach((docu)=>{
-
-const data =
-docu.data();
-
-if(data.itemId === itemId){
-
-wasteTotal +=
-Number(data.qty || 0);
-
-}
-
-});
-
-/* SYSTEM ENDING */
-
-const systemEnding =
+const expected =
 
 beginning +
-stockInTotal -
-stockOutTotal -
-wasteTotal;
-
-/* TABLE */
+stockIn -
+stockOut -
+waste;
 
 table.innerHTML += `
 
 <tr>
 
-<td>
+<td>${item.name}</td>
 
-${today}
+<td>${beginning}</td>
 
-</td>
+<td>${stockIn}</td>
 
-<td>
+<td>${stockOut}</td>
 
-${item.name || "-"}
+<td>${waste}</td>
 
-</td>
-
-<td>
-
-${beginning}
-
-</td>
+<td>${expected}</td>
 
 <td>
 
-${stockInTotal}
-
-</td>
-
-<td>
-
-${stockOutTotal}
-
-</td>
-
-<td>
-
-${wasteTotal}
-
-</td>
-
-<td id="system-${itemId}">
-
-${systemEnding}
-
-</td>
-
-<td>
-
-<input type="number"
+<input
+type="number"
+class="actual-input"
 id="actual-${itemId}"
-value="${systemEnding}"
-oninput="computeVariance(
-'${itemId}',
-${systemEnding}
-)">
+value="${expected}">
 
 </td>
 
 <td id="variance-${itemId}">
-
 0
-
 </td>
 
 <td id="status-${itemId}"
 class="good">
 
-BALANCED
+GOOD
+
+</td>
+
+<td>
+
+<button
+class="save-btn"
+onclick="saveDailyInventory(
+'${itemId}',
+'${item.name}',
+${beginning},
+${stockIn},
+${stockOut},
+${waste},
+${expected}
+)">
+
+Save
+
+</button>
 
 </td>
 
@@ -621,12 +668,25 @@ BALANCED
 
 });
 
-}
+};
 
-/* COMPUTE VARIANCE */
+/* SAVE */
 
-window.computeVariance =
-function(itemId,systemEnding){
+window.saveDailyInventory =
+async function(
+
+itemId,
+itemName,
+beginning,
+stockIn,
+stockOut,
+waste,
+expected
+
+){
+
+const date =
+document.getElementById("inventoryDate").value;
 
 const actual =
 Number(
@@ -636,7 +696,7 @@ document.getElementById(
 );
 
 const variance =
-actual - systemEnding;
+actual - expected;
 
 const varianceCell =
 document.getElementById(
@@ -648,147 +708,56 @@ document.getElementById(
 `status-${itemId}`
 );
 
-/* RESET */
+/* UI */
 
-varianceCell.className = "";
-statusCell.className = "";
-
-/* BALANCED */
+varianceCell.innerText =
+variance;
 
 if(variance === 0){
 
-varianceCell.innerHTML = 0;
+statusCell.innerText =
+"GOOD";
 
-statusCell.innerHTML = "BALANCED";
+statusCell.className =
+"good";
 
-varianceCell.classList.add("good");
-statusCell.classList.add("good");
+}else{
 
-}
+statusCell.innerText =
+"WITH VARIANCE";
 
-/* SHORT */
-
-else if(variance < 0){
-
-varianceCell.innerHTML = variance;
-
-statusCell.innerHTML = "SHORT";
-
-varianceCell.classList.add("short");
-statusCell.classList.add("short");
+statusCell.className =
+"bad";
 
 }
 
-/* OVER */
-
-else{
-
-varianceCell.innerHTML =
-"+" + variance;
-
-statusCell.innerHTML = "OVER";
-
-varianceCell.classList.add("over");
-statusCell.classList.add("over");
-
-}
-
-}
-
-/* SAVE DAILY INVENTORY */
-
-window.saveDailyInventory =
-async function(){
-
-const rows =
-document.querySelectorAll(
-"#dailyInventoryTable tr"
-);
-
-try{
-
-for(const row of rows){
-
-const cells =
-row.querySelectorAll("td");
-
-if(cells.length === 0) continue;
-
-const date =
-cells[0].innerText;
-
-const item =
-cells[1].innerText;
-
-const beginning =
-Number(cells[2].innerText);
-
-const stockIn =
-Number(cells[3].innerText);
-
-const stockOut =
-Number(cells[4].innerText);
-
-const waste =
-Number(cells[5].innerText);
-
-const systemEnding =
-Number(cells[6].innerText);
-
-const actualCount =
-Number(
-cells[7]
-.querySelector("input")
-.value
-);
-
-const variance =
-cells[8].innerText;
-
-const status =
-cells[9].innerText;
-
-/* SAVE */
+/* SAVE FIREBASE */
 
 await addDoc(
-
 collection(db,"dailyInventory"),
-
 {
 
 date:date,
-item:item,
+itemId:itemId,
+itemName:itemName,
+
 beginning:beginning,
 stockIn:stockIn,
 stockOut:stockOut,
 waste:waste,
-systemEnding:systemEnding,
-actualCount:actualCount,
+
+expected:expected,
+actual:actual,
 variance:variance,
-status:status,
+
 createdAt:new Date()
 
 }
-
 );
 
-}
+alert("Daily Inventory Saved");
 
-alert("Daily Inventory Saved!");
-
-}catch(error){
-
-console.error(error);
-
-alert("Failed to save daily inventory");
-
-}
-
-}
-
-/* LOAD */
-
-loadDailyInventory();
+};
 
 </script>
 
