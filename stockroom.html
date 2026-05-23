@@ -373,7 +373,6 @@ align-items:flex-start;
 <a href="index.html">
 
 <i class="fa-solid fa-chart-line"></i>
-
 Dashboard
 
 </a>
@@ -382,7 +381,6 @@ Dashboard
 class="active">
 
 <i class="fa-solid fa-box"></i>
-
 Items Masterlist
 
 </a>
@@ -390,7 +388,6 @@ Items Masterlist
 <a href="stock-in.html">
 
 <i class="fa-solid fa-truck"></i>
-
 Stock In
 
 </a>
@@ -398,7 +395,6 @@ Stock In
 <a href="stock-out.html">
 
 <i class="fa-solid fa-arrow-right-arrow-left"></i>
-
 Stock Out
 
 </a>
@@ -406,7 +402,6 @@ Stock Out
 <a href="waste.html">
 
 <i class="fa-solid fa-trash"></i>
-
 Waste
 
 </a>
@@ -414,7 +409,6 @@ Waste
 <a href="daily-inventory.html">
 
 <i class="fa-solid fa-clipboard-list"></i>
-
 Daily Inventory
 
 </a>
@@ -548,7 +542,6 @@ placeholder="Storage Location">
 onclick="saveItem()">
 
 <i class="fa-solid fa-floppy-disk"></i>
-
 Save Item
 
 </button>
@@ -653,8 +646,7 @@ collection,
 addDoc,
 getDocs,
 deleteDoc,
-doc,
-updateDoc
+doc
 
 }
 
@@ -755,7 +747,7 @@ return;
 
 }
 
-/* SAVE TO FIREBASE */
+/* SAVE FIREBASE */
 
 await addDoc(
 collection(db,"inventoryMasterlist"),
@@ -789,11 +781,9 @@ createdAt:new Date()
 }
 );
 
-/* SUCCESS */
-
 alert("Item Saved Successfully");
 
-/* CLEAR FORM */
+/* CLEAR */
 
 document.getElementById("itemCode").value = "";
 document.getElementById("itemName").value = "";
@@ -807,8 +797,6 @@ document.getElementById("sellingPrice").value = "";
 document.getElementById("expiry").value = "";
 document.getElementById("location").value = "";
 
-/* RELOAD TABLE */
-
 loadItems();
 
 }catch(error){
@@ -821,95 +809,6 @@ error.message
 );
 
 }
-
-}
-
-const item = {
-
-itemCode:
-document.getElementById("itemCode").value,
-
-itemName:
-document.getElementById("itemName").value,
-
-category:
-document.getElementById("category").value,
-
-unit:
-document.getElementById("unit").value,
-
-stock:
-Number(
-document.getElementById("stock").value
-),
-
-reorderLevel:
-Number(
-document.getElementById("reorderLevel").value
-),
-
-supplier:
-document.getElementById("supplier").value,
-
-cost:
-Number(
-document.getElementById("cost").value
-),
-
-sellingPrice:
-Number(
-document.getElementById("sellingPrice").value
-),
-
-expiry:
-document.getElementById("expiry").value,
-
-location:
-document.getElementById("location").value,
-
-status:"Active",
-
-createdAt:new Date()
-
-};
-
-if(
-!item.itemCode ||
-!item.itemName
-){
-
-alert("Complete all required fields");
-
-return;
-
-}
-
-await addDoc(
-collection(db,"inventoryMasterlist"),
-item
-);
-
-alert("Item Saved Successfully");
-
-clearForm();
-
-loadItems();
-
-}
-
-/* CLEAR */
-
-function clearForm(){
-
-document.querySelectorAll(".form-box input")
-.forEach(input=>{
-
-input.value = "";
-
-});
-
-document.getElementById("category")
-.value = "";
 
 }
 
@@ -1048,13 +947,6 @@ isLow
 
 <td>
 
-<button class="edit-btn"
-onclick="editItem('${docId}')">
-
-Edit
-
-</button>
-
 <button class="delete-btn"
 onclick="deleteItem('${docId}')">
 
@@ -1123,82 +1015,6 @@ doc(db,"inventoryMasterlist",id)
 alert("Item Deleted");
 
 loadItems();
-
-}
-
-/* EDIT */
-
-window.editItem =
-async function(id){
-
-const snapshot =
-await getDocs(
-collection(db,"inventoryMasterlist")
-);
-
-snapshot.forEach(async(firebaseDoc)=>{
-
-if(firebaseDoc.id === id){
-
-const item =
-firebaseDoc.data();
-
-document.getElementById("itemCode")
-.value =
-item.itemCode;
-
-document.getElementById("itemName")
-.value =
-item.itemName;
-
-document.getElementById("category")
-.value =
-item.category;
-
-document.getElementById("unit")
-.value =
-item.unit;
-
-document.getElementById("stock")
-.value =
-item.stock;
-
-document.getElementById("reorderLevel")
-.value =
-item.reorderLevel;
-
-document.getElementById("supplier")
-.value =
-item.supplier;
-
-document.getElementById("cost")
-.value =
-item.cost;
-
-document.getElementById("sellingPrice")
-.value =
-item.sellingPrice;
-
-document.getElementById("expiry")
-.value =
-item.expiry;
-
-document.getElementById("location")
-.value =
-item.location;
-
-await deleteDoc(
-doc(db,"inventoryMasterlist",id)
-);
-
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
-
-}
-
-});
 
 }
 
