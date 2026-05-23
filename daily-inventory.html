@@ -370,7 +370,7 @@ initializeApp(firebaseConfig);
 const db =
 getFirestore(app);
 
-/* DAILY INVENTORY */
+/* LOAD DAILY INVENTORY */
 
 window.loadDailyInventory =
 async function(){
@@ -482,6 +482,7 @@ Number(data.quantity || 0);
 });
 
 /* SALES */
+/* FIXED VERSION */
 
 salesSnapshot.forEach((doc)=>{
 
@@ -495,8 +496,10 @@ Array.isArray(sale.items)
 
 sale.items.forEach((saleItem)=>{
 
+/* IMPORTANT FIX */
+
 if(
-saleItem.itemId === itemId
+saleItem.name === itemName
 ){
 
 sold +=
