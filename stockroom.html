@@ -294,16 +294,6 @@ font-weight:700;
 
 /* ACTION */
 
-.edit-btn{
-background:#3b82f6;
-border:none;
-padding:8px 12px;
-border-radius:8px;
-color:white;
-cursor:pointer;
-margin-right:5px;
-}
-
 .delete-btn{
 background:#ef4444;
 border:none;
@@ -644,9 +634,9 @@ import {
 getFirestore,
 collection,
 addDoc,
-getDocs,
 deleteDoc,
-doc
+doc,
+onSnapshot
 
 }
 
@@ -732,8 +722,6 @@ document.getElementById("expiry").value;
 const location =
 document.getElementById("location").value.trim();
 
-/* VALIDATION */
-
 if(
 !itemCode ||
 !itemName ||
@@ -746,8 +734,6 @@ alert("Please complete required fields");
 return;
 
 }
-
-/* SAVE FIREBASE */
 
 await addDoc(
 collection(db,"inventoryMasterlist"),
@@ -797,8 +783,6 @@ document.getElementById("sellingPrice").value = "";
 document.getElementById("expiry").value = "";
 document.getElementById("location").value = "";
 
-loadItems();
-
 }catch(error){
 
 console.error(error);
@@ -812,15 +796,20 @@ error.message
 
 }
 
-/* LOAD ITEMS */
+/* REALTIME LOAD */
 
-window.loadItems =
-async function(){
+let unsubscribe = null;
+
+window.loadItems = function(){
+
+if(unsubscribe){
+
+unsubscribe();
+
+}
 
 const table =
 document.getElementById("itemsTable");
-
-table.innerHTML = "";
 
 const search =
 document.getElementById("searchInput")
@@ -831,10 +820,13 @@ const filterCategory =
 document.getElementById("filterCategory")
 .value;
 
-const snapshot =
-await getDocs(
-collection(db,"inventoryMasterlist")
-);
+unsubscribe = onSnapshot(
+
+collection(db,"inventoryMasterlist"),
+
+(snapshot)=>{
+
+table.innerHTML = "";
 
 let totalItems = 0;
 let lowStockCount = 0;
@@ -904,9 +896,7 @@ isLow
 :
 'good-stock'
 }">
-
 ${item.stock}
-
 </td>
 
 <td>${item.reorderLevel}</td>
@@ -992,6 +982,30 @@ document.getElementById("categoryCount")
 .innerText =
 categories.size;
 
+},
+
+(error)=>{
+
+console.error(error);
+
+table.innerHTML = `
+
+<tr>
+
+<td colspan="13">
+
+Firebase Connection Error
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+);
+
 }
 
 /* DELETE */
@@ -1013,8 +1027,6 @@ doc(db,"inventoryMasterlist",id)
 );
 
 alert("Item Deleted");
-
-loadItems();
 
 }
 
