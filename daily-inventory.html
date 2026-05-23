@@ -30,6 +30,8 @@ color:white;
 overflow:hidden;
 }
 
+/* LAYOUT */
+
 .container{
 display:flex;
 height:100vh;
@@ -38,38 +40,17 @@ height:100vh;
 /* SIDEBAR */
 
 .sidebar{
-width:300px;
+width:280px;
 background:#111827;
 padding:20px;
 overflow-y:auto;
-border-right:1px solid rgba(255,255,255,0.08);
 }
 
-.logo-box{
-display:flex;
-align-items:center;
-gap:14px;
-margin-bottom:30px;
-}
-
-.logo-box img{
-width:65px;
-height:65px;
-border-radius:50%;
-background:white;
-padding:5px;
-border:3px solid #facc15;
-object-fit:contain;
-}
-
-.logo-text h2{
-font-size:20px;
+.logo{
+font-size:24px;
 font-weight:700;
-}
-
-.logo-text p{
-font-size:13px;
-color:#d1d5db;
+margin-bottom:30px;
+color:#facc15;
 }
 
 .menu{
@@ -78,32 +59,22 @@ flex-direction:column;
 gap:12px;
 }
 
-.menu-title{
-font-size:13px;
-font-weight:700;
-color:#facc15;
-margin-top:15px;
-padding-left:5px;
-}
-
 .menu a{
-display:flex;
-align-items:center;
-gap:14px;
 padding:15px;
-border-radius:16px;
+border-radius:14px;
 text-decoration:none;
 color:white;
+background:#1e293b;
 transition:.3s;
-background:rgba(255,255,255,0.03);
-font-size:15px;
+display:flex;
+align-items:center;
+gap:10px;
 }
 
 .menu a:hover,
 .menu a.active{
 background:#facc15;
 color:black;
-transform:translateX(4px);
 }
 
 /* MAIN */
@@ -116,53 +87,12 @@ overflow-y:auto;
 
 /* HEADER */
 
-.header-box{
-background:#1e293b;
-padding:25px;
-border-radius:24px;
+.header{
 margin-bottom:25px;
 }
 
-.header-box h1{
+.header h1{
 font-size:38px;
-}
-
-.header-box p{
-color:#cbd5e1;
-margin-top:8px;
-}
-
-/* TOP FORM */
-
-.top-form{
-background:#1e293b;
-padding:20px;
-border-radius:20px;
-margin-bottom:25px;
-
-display:flex;
-gap:15px;
-align-items:center;
-flex-wrap:wrap;
-}
-
-.top-form input{
-padding:14px;
-border:none;
-border-radius:12px;
-background:#111827;
-color:white;
-font-size:14px;
-}
-
-.generate-btn{
-background:#facc15;
-color:black;
-border:none;
-padding:14px 20px;
-border-radius:12px;
-font-weight:700;
-cursor:pointer;
 }
 
 /* TABLE */
@@ -170,69 +100,77 @@ cursor:pointer;
 .table-box{
 background:#1e293b;
 padding:20px;
-border-radius:24px;
+border-radius:20px;
 overflow:auto;
 }
 
 table{
 width:100%;
 border-collapse:collapse;
-min-width:1600px;
+min-width:1800px;
 }
 
 th{
 background:#111827;
 color:#facc15;
-padding:14px;
-font-size:13px;
-text-align:center;
-white-space:nowrap;
+padding:15px;
+text-align:left;
 }
 
 td{
-padding:12px;
+padding:14px;
 border-bottom:1px solid rgba(255,255,255,0.08);
-text-align:center;
-white-space:nowrap;
 }
 
-input.actual-input{
+/* INPUT */
+
+.actual-input{
 width:100px;
 padding:10px;
 border:none;
 border-radius:8px;
 background:#111827;
 color:white;
-text-align:center;
 }
 
-/* BUTTON */
+/* BUTTONS */
 
 .save-btn{
 background:#22c55e;
 border:none;
-padding:10px 14px;
-border-radius:10px;
-font-weight:700;
+padding:10px 16px;
+border-radius:8px;
 color:white;
 cursor:pointer;
+font-weight:700;
 }
 
-/* STATUS */
+.refresh-btn{
+background:#3b82f6;
+border:none;
+padding:10px 16px;
+border-radius:8px;
+color:white;
+cursor:pointer;
+font-weight:700;
+margin-bottom:20px;
+}
 
-.good{
+/* VARIANCE */
+
+.positive{
 color:#22c55e;
 font-weight:700;
 }
 
-.bad{
+.negative{
 color:#ef4444;
 font-weight:700;
 }
 
 /* MOBILE */
 
-@media(max-width:950px){
+@media(max-width:900px){
 
 .container{
 flex-direction:column;
@@ -266,46 +204,31 @@ min-width:180px;
 
 <div class="sidebar">
 
-<div class="logo-box">
+<div class="logo">
 
-<img src="./logo.png">
-
-<div class="logo-text">
-
-<h2>D'Mezzanine</h2>
-
-<p>Inventory System</p>
-
-</div>
+D'Mezzanine
 
 </div>
 
 <div class="menu">
 
-<p class="menu-title">
-STOCKROOM
-</p>
-
-<a href="stockroom.html">
+<a href="index.html">
 
 <i class="fa-solid fa-chart-line"></i>
-
 Dashboard
 
 </a>
 
-<a href="items.html">
+<a href="items-masterlist.html">
 
-<i class="fa-solid fa-boxes-stacked"></i>
-
-Items
+<i class="fa-solid fa-box"></i>
+Items Masterlist
 
 </a>
 
 <a href="stock-in.html">
 
 <i class="fa-solid fa-truck"></i>
-
 Stock In
 
 </a>
@@ -313,7 +236,6 @@ Stock In
 <a href="stock-out.html">
 
 <i class="fa-solid fa-arrow-right-arrow-left"></i>
-
 Stock Out
 
 </a>
@@ -321,7 +243,6 @@ Stock Out
 <a href="waste.html">
 
 <i class="fa-solid fa-trash"></i>
-
 Waste
 
 </a>
@@ -330,7 +251,6 @@ Waste
 class="active">
 
 <i class="fa-solid fa-clipboard-list"></i>
-
 Daily Inventory
 
 </a>
@@ -343,29 +263,18 @@ Daily Inventory
 
 <div class="main">
 
-<div class="header-box">
+<div class="header">
 
 <h1>Daily Inventory 📋</h1>
 
-<p id="dateTime"></p>
-
 </div>
 
-<!-- TOP -->
+<button class="refresh-btn"
+onclick="loadDailyInventory()">
 
-<div class="top-form">
-
-<input type="date"
-id="inventoryDate">
-
-<button class="generate-btn"
-onclick="generateInventory()">
-
-Generate Inventory
+Refresh Inventory
 
 </button>
-
-</div>
 
 <!-- TABLE -->
 
@@ -377,22 +286,33 @@ Generate Inventory
 
 <tr>
 
+<th>Date</th>
 <th>Item</th>
 <th>Beginning</th>
 <th>Stock In</th>
 <th>Stock Out</th>
 <th>Waste</th>
-<th>Expected</th>
+<th>System Ending</th>
 <th>Actual Count</th>
 <th>Variance</th>
-<th>Status</th>
+<th>Final Ending</th>
 <th>Action</th>
 
 </tr>
 
 </thead>
 
-<tbody id="inventoryTable">
+<tbody id="dailyTable">
+
+<tr>
+
+<td colspan="11">
+
+Loading...
+
+</td>
+
+</tr>
 
 </tbody>
 
@@ -407,6 +327,7 @@ Generate Inventory
 <script type="module">
 
 import { initializeApp }
+
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 
 import {
@@ -414,9 +335,8 @@ import {
 getFirestore,
 collection,
 getDocs,
-query,
-where,
-addDoc
+doc,
+setDoc
 
 }
 
@@ -426,17 +346,17 @@ from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
 const firebaseConfig = {
 
-apiKey: "YOUR_API_KEY",
+apiKey: "AIzaSyCYjuZlpgE-Lci33e53014F7fRIid6u7Dg",
 
-authDomain: "YOUR_AUTH_DOMAIN",
+authDomain: "family-web-10cb8.firebaseapp.com",
 
-projectId: "YOUR_PROJECT_ID",
+projectId: "family-web-10cb8",
 
-storageBucket: "YOUR_STORAGE_BUCKET",
+storageBucket: "family-web-10cb8.firebasestorage.app",
 
-messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+messagingSenderId: "152048365178",
 
-appId: "YOUR_APP_ID"
+appId: "1:152048365178:web:3e42c20e03a7c563d915c3"
 
 };
 
@@ -446,139 +366,48 @@ initializeApp(firebaseConfig);
 const db =
 getFirestore(app);
 
-/* DATE TIME */
+/* DAILY INVENTORY */
 
-function updateDateTime(){
-
-document.getElementById("dateTime")
-.innerText =
-new Date().toLocaleString();
-
-}
-
-setInterval(updateDateTime,1000);
-
-updateDateTime();
-
-/* GENERATE */
-
-window.generateInventory =
+window.loadDailyInventory =
 async function(){
 
-const date =
-document.getElementById("inventoryDate").value;
-
-if(!date){
-
-alert("Select date");
-
-return;
-
-}
-
 const table =
-document.getElementById("inventoryTable");
+document.getElementById("dailyTable");
 
 table.innerHTML = "";
 
-/* ITEMS */
+const today =
+new Date().toISOString().split("T")[0];
+
+/* MASTERLIST */
 
 const itemsSnapshot =
 await getDocs(
-collection(db,"inventoryItems")
+collection(db,"inventoryMasterlist")
 );
 
 /* STOCK IN */
 
 const stockInSnapshot =
 await getDocs(
-query(
-collection(db,"stockIn"),
-where("date","==",date)
-)
+collection(db,"stockIn")
 );
 
 /* STOCK OUT */
 
 const stockOutSnapshot =
 await getDocs(
-query(
-collection(db,"stockOut"),
-where("date","==",date)
-)
+collection(db,"stockOut")
 );
 
 /* WASTE */
 
 const wasteSnapshot =
 await getDocs(
-query(
-collection(db,"waste"),
-where("date","==",date)
-)
+collection(db,"waste")
 );
 
-let stockInMap = {};
-let stockOutMap = {};
-let wasteMap = {};
-
-/* STOCK IN MAP */
-
-stockInSnapshot.forEach(docu=>{
-
-const data =
-docu.data();
-
-if(!stockInMap[data.itemId]){
-
-stockInMap[data.itemId] = 0;
-
-}
-
-stockInMap[data.itemId] +=
-Number(data.qty || 0);
-
-});
-
-/* STOCK OUT MAP */
-
-stockOutSnapshot.forEach(docu=>{
-
-const data =
-docu.data();
-
-if(!stockOutMap[data.itemId]){
-
-stockOutMap[data.itemId] = 0;
-
-}
-
-stockOutMap[data.itemId] +=
-Number(data.qty || 0);
-
-});
-
-/* WASTE MAP */
-
-wasteSnapshot.forEach(docu=>{
-
-const data =
-docu.data();
-
-if(!wasteMap[data.itemId]){
-
-wasteMap[data.itemId] = 0;
-
-}
-
-wasteMap[data.itemId] +=
-Number(data.qty || 0);
-
-});
-
-/* ITEMS LOOP */
-
-itemsSnapshot.forEach((firebaseDoc)=>{
+for(const firebaseDoc of itemsSnapshot.docs){
 
 const item =
 firebaseDoc.data();
@@ -586,30 +415,88 @@ firebaseDoc.data();
 const itemId =
 firebaseDoc.id;
 
-const beginning =
+const itemName =
+item.itemName;
+
+const currentStock =
 Number(item.stock || 0);
 
-const stockIn =
-stockInMap[itemId] || 0;
+/* COMPUTE */
 
-const stockOut =
-stockOutMap[itemId] || 0;
+let stockIn = 0;
+let stockOut = 0;
+let waste = 0;
 
-const waste =
-wasteMap[itemId] || 0;
+stockInSnapshot.forEach((doc)=>{
 
-const expected =
+const data = doc.data();
 
-beginning +
-stockIn -
-stockOut -
+if(data.itemId === itemId){
+
+stockIn +=
+Number(data.quantity || 0);
+
+}
+
+});
+
+stockOutSnapshot.forEach((doc)=>{
+
+const data = doc.data();
+
+if(data.itemId === itemId){
+
+stockOut +=
+Number(data.quantity || 0);
+
+}
+
+});
+
+wasteSnapshot.forEach((doc)=>{
+
+const data = doc.data();
+
+if(data.itemId === itemId){
+
+waste +=
+Number(data.quantity || 0);
+
+}
+
+});
+
+/* BEGINNING */
+
+const beginning =
+
+currentStock
+-
+stockIn
++
+stockOut
++
+waste;
+
+/* SYSTEM ENDING */
+
+const systemEnding =
+
+beginning
++
+stockIn
+-
+stockOut
+-
 waste;
 
 table.innerHTML += `
 
 <tr>
 
-<td>${item.name}</td>
+<td>${today}</td>
+
+<td>${itemName}</td>
 
 <td>${beginning}</td>
 
@@ -619,7 +506,7 @@ table.innerHTML += `
 
 <td>${waste}</td>
 
-<td>${expected}</td>
+<td>${systemEnding}</td>
 
 <td>
 
@@ -627,7 +514,7 @@ table.innerHTML += `
 type="number"
 class="actual-input"
 id="actual-${itemId}"
-value="${expected}">
+value="${systemEnding}">
 
 </td>
 
@@ -635,11 +522,8 @@ value="${expected}">
 0
 </td>
 
-<td id="status-${itemId}"
-class="good">
-
-GOOD
-
+<td id="ending-${itemId}">
+${systemEnding}
 </td>
 
 <td>
@@ -648,12 +532,12 @@ GOOD
 class="save-btn"
 onclick="saveDailyInventory(
 '${itemId}',
-'${item.name}',
+'${itemName}',
 ${beginning},
 ${stockIn},
 ${stockOut},
 ${waste},
-${expected}
+${systemEnding}
 )">
 
 Save
@@ -666,29 +550,26 @@ Save
 
 `;
 
-});
+}
 
-};
+}
 
-/* SAVE */
+/* SAVE DAILY INVENTORY */
 
 window.saveDailyInventory =
 async function(
-
 itemId,
 itemName,
 beginning,
 stockIn,
 stockOut,
 waste,
-expected
-
+systemEnding
 ){
 
-const date =
-document.getElementById("inventoryDate").value;
+try{
 
-const actual =
+const actualCount =
 Number(
 document.getElementById(
 `actual-${itemId}`
@@ -696,68 +577,91 @@ document.getElementById(
 );
 
 const variance =
-actual - expected;
+actualCount - systemEnding;
 
-const varianceCell =
+const finalEnding =
+actualCount;
+
 document.getElementById(
 `variance-${itemId}`
-);
+).innerHTML =
 
-const statusCell =
+variance >= 0
+
+?
+
+`<span class="positive">
+${variance}
+</span>`
+
+:
+
+`<span class="negative">
+${variance}
+</span>`;
+
 document.getElementById(
-`status-${itemId}`
-);
+`ending-${itemId}`
+).innerText =
+finalEnding;
 
-/* UI */
+const today =
+new Date().toISOString().split("T")[0];
 
-varianceCell.innerText =
-variance;
+await setDoc(
 
-if(variance === 0){
+doc(
+db,
+"dailyInventory",
+today + "_" + itemId
+),
 
-statusCell.innerText =
-"GOOD";
-
-statusCell.className =
-"good";
-
-}else{
-
-statusCell.innerText =
-"WITH VARIANCE";
-
-statusCell.className =
-"bad";
-
-}
-
-/* SAVE FIREBASE */
-
-await addDoc(
-collection(db,"dailyInventory"),
 {
 
-date:date,
-itemId:itemId,
-itemName:itemName,
+date:today,
 
-beginning:beginning,
-stockIn:stockIn,
-stockOut:stockOut,
-waste:waste,
+itemId,
 
-expected:expected,
-actual:actual,
-variance:variance,
+itemName,
 
-createdAt:new Date()
+beginning,
+
+stockIn,
+
+stockOut,
+
+waste,
+
+systemEnding,
+
+actualCount,
+
+variance,
+
+finalEnding,
+
+createdAt:
+new Date()
 
 }
+
 );
 
 alert("Daily Inventory Saved");
 
-};
+}catch(error){
+
+console.error(error);
+
+alert(error.message);
+
+}
+
+}
+
+/* LOAD */
+
+loadDailyInventory();
 
 </script>
 
