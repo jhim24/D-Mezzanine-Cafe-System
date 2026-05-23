@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Inventory Items</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#f3f4f6;
+overflow:hidden;
+}
+
+/* LAYOUT */
+
+.container{
+display:flex;
+height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+width:280px;
+background:#050505;
+padding:20px;
+overflow-y:auto;
+}
+
+.logo-box{
+display:flex;
+align-items:center;
+gap:12px;
+margin-bottom:30px;
+}
+
+.logo-box img{
+width:60px;
+height:60px;
+border-radius:50%;
+background:white;
+padding:4px;
+border:3px solid #facc15;
+}
+
+.logo-text h2{
+color:white;
+font-size:20px;
+}
+
+.logo-text p{
+color:#d1d5db;
+font-size:13px;
+}
+
+.menu{
+display:flex;
+flex-direction:column;
+gap:8px;
+}
+
+.menu-title{
+color:#facc15;
+font-size:13px;
+font-weight:700;
+margin-top:15px;
+margin-bottom:8px;
+padding-left:10px;
+}
+
+.menu a{
+display:flex;
+align-items:center;
+gap:14px;
+padding:14px;
+border-radius:14px;
+text-decoration:none;
+color:white;
+font-size:15px;
+transition:.3s;
+}
+
+.menu a:hover,
+.menu a.active{
+background:#facc15;
+color:black;
+font-weight:600;
+}
+
+/* MAIN */
+
+.main{
+flex:1;
+padding:25px;
+overflow-y:auto;
+}
+
+/* HEADER */
+
+.header{
+background:#0f172a;
+padding:25px;
+border-radius:20px;
+color:white;
+margin-bottom:25px;
+}
+
+.header h1{
+font-size:34px;
+margin-bottom:8px;
+}
+
+/* FORM */
+
+.form-box{
+background:white;
+padding:25px;
+border-radius:20px;
+margin-bottom:25px;
+}
+
+.form-title{
+font-size:24px;
+margin-bottom:20px;
+font-weight:700;
+}
+
+.form-grid{
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+}
+
+.input-group{
+display:flex;
+flex-direction:column;
+}
+
+.input-group label{
+margin-bottom:8px;
+font-size:14px;
+font-weight:600;
+}
+
+.input-group input,
+.input-group select{
+padding:14px;
+border:1px solid #d1d5db;
+border-radius:12px;
+font-size:14px;
+outline:none;
+}
+
+/* BUTTON */
+
+.save-btn{
+margin-top:20px;
+background:#facc15;
+color:black;
+border:none;
+padding:15px 25px;
+border-radius:14px;
+font-size:16px;
+font-weight:700;
+cursor:pointer;
+}
+
+/* TABLE */
+
+.table-box{
+background:white;
+padding:20px;
+border-radius:20px;
+overflow:auto;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+min-width:1000px;
+}
+
+table th{
+background:#0f172a;
+color:white;
+padding:14px;
+font-size:14px;
+}
+
+table td{
+padding:14px;
+border-bottom:1px solid #e5e7eb;
+font-size:14px;
+}
+
+.low-stock{
+color:#ef4444;
+font-weight:700;
+}
+
+.delete-btn{
+background:#ef4444;
+color:white;
+border:none;
+padding:8px 12px;
+border-radius:8px;
+cursor:pointer;
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+.container{
+flex-direction:column;
+}
+
+.sidebar{
+width:100%;
+}
+
+.main{
+padding:15px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<div class="logo-box">
+
+<img src="./logo.png">
+
+<div class="logo-text">
+
+<h2>D'Mezzanine</h2>
+
+<p>Stock Room System</p>
+
+</div>
+
+</div>
+
+<div class="menu">
+
+<p class="menu-title">
+INVENTORY
+</p>
+
+<a href="stockroom.html">
+
+<i class="fa-solid fa-chart-line"></i>
+
+Dashboard
+
+</a>
+
+<a href="items.html"
+class="active">
+
+<i class="fa-solid fa-boxes-stacked"></i>
+
+Items
+
+</a>
+
+<a href="stock-in.html">
+
+<i class="fa-solid fa-truck"></i>
+
+Stock In
+
+</a>
+
+<a href="stock-out.html">
+
+<i class="fa-solid fa-arrow-right-arrow-left"></i>
+
+Stock Out
+
+</a>
+
+<a href="waste.html">
+
+<i class="fa-solid fa-trash"></i>
+
+Waste
+
+</a>
+
+</div>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
+
+<!-- HEADER -->
+
+<div class="header">
+
+<h1>Inventory Items</h1>
+
+<p>
+Manage all stockroom items
+</p>
+
+</div>
+
+<!-- FORM -->
+
+<div class="form-box">
+
+<h2 class="form-title">
+Add New Item
+</h2>
+
+<div class="form-grid">
+
+<div class="input-group">
+
+<label>Item Name</label>
+
+<input type="text"
+id="itemName"
+placeholder="Enter item name">
+
+</div>
+
+<div class="input-group">
+
+<label>Category</label>
+
+<select id="itemCategory">
+
+<option>Beverage</option>
+<option>Kitchen</option>
+<option>Bar</option>
+<option>Supplies</option>
+
+</select>
+
+</div>
+
+<div class="input-group">
+
+<label>Unit</label>
+
+<select id="itemUnit">
+
+<option>KG</option>
+<option>Liter</option>
+<option>Bottle</option>
+<option>Pack</option>
+<option>Piece</option>
+
+</select>
+
+</div>
+
+<div class="input-group">
+
+<label>Beginning Stock</label>
+
+<input type="number"
+id="itemStock"
+placeholder="0">
+
+</div>
+
+<div class="input-group">
+
+<label>Low Stock Alert</label>
+
+<input type="number"
+id="lowStock"
+placeholder="5">
+
+</div>
+
+</div>
+
+<button class="save-btn"
+onclick="saveItem()">
+
+<i class="fa-solid fa-floppy-disk"></i>
+
+Save Item
+
+</button>
+
+</div>
+
+<!-- TABLE -->
+
+<div class="table-box">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>ITEM</th>
+<th>CATEGORY</th>
+<th>UNIT</th>
+<th>STOCK</th>
+<th>LOW ALERT</th>
+<th>STATUS</th>
+<th>ACTION</th>
+
+</tr>
+
+</thead>
+
+<tbody id="itemsTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+/* LOAD */
+
+loadItems();
+
+/* SAVE */
+
+function saveItem(){
+
+const item = {
+
+name:
+document.getElementById("itemName").value,
+
+category:
+document.getElementById("itemCategory").value,
+
+unit:
+document.getElementById("itemUnit").value,
+
+stock:
+document.getElementById("itemStock").value,
+
+low:
+document.getElementById("lowStock").value
+
+};
+
+let items =
+JSON.parse(
+localStorage.getItem("inventoryItems")
+) || [];
+
+items.push(item);
+
+localStorage.setItem(
+"inventoryItems",
+JSON.stringify(items)
+);
+
+alert("Item Saved!");
+
+clearInputs();
+
+loadItems();
+
+}
+
+/* LOAD ITEMS */
+
+function loadItems(){
+
+const table =
+document.getElementById("itemsTable");
+
+table.innerHTML = "";
+
+let items =
+JSON.parse(
+localStorage.getItem("inventoryItems")
+) || [];
+
+if(items.length === 0){
+
+table.innerHTML = `
+
+<tr>
+
+<td colspan="7"
+style="text-align:center;padding:20px;">
+
+No Items Found
+
+</td>
+
+</tr>
+
+`;
+
+return;
+
+}
+
+items.forEach((item,index)=>{
+
+const stock =
+Number(item.stock);
+
+const low =
+Number(item.low);
+
+table.innerHTML += `
+
+<tr>
+
+<td>${item.name}</td>
+
+<td>${item.category}</td>
+
+<td>${item.unit}</td>
+
+<td>${item.stock}</td>
+
+<td>${item.low}</td>
+
+<td class="${
+stock <= low
+? 'low-stock'
+: ''
+}">
+
+${stock <= low
+? 'LOW STOCK'
+: 'OK'}
+
+</td>
+
+<td>
+
+<button class="delete-btn"
+onclick="deleteItem(${index})">
+
+Delete
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+/* DELETE */
+
+function deleteItem(index){
+
+let items =
+JSON.parse(
+localStorage.getItem("inventoryItems")
+) || [];
+
+items.splice(index,1);
+
+localStorage.setItem(
+"inventoryItems",
+JSON.stringify(items)
+);
+
+loadItems();
+
+}
+
+/* CLEAR */
+
+function clearInputs(){
+
+document.getElementById("itemName").value = "";
+
+document.getElementById("itemStock").value = "";
+
+document.getElementById("lowStock").value = "";
+
+}
+
+</script>
+
+</body>
+</html>
