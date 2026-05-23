@@ -7,6 +7,15 @@
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
+<meta http-equiv="Cache-Control"
+content="no-cache, no-store, must-revalidate">
+
+<meta http-equiv="Pragma"
+content="no-cache">
+
+<meta http-equiv="Expires"
+content="0">
+
 <title>D'Mezzanine Items Masterlist</title>
 
 <link rel="stylesheet"
@@ -411,8 +420,6 @@ Daily Inventory
 
 <div class="main">
 
-<!-- HEADER -->
-
 <div class="header-box">
 
 <div>
@@ -538,7 +545,7 @@ Save Item
 
 </div>
 
-<!-- FILTERS -->
+<!-- FILTER -->
 
 <div class="filters">
 
@@ -627,6 +634,7 @@ Loading...
 <script type="module">
 
 import { initializeApp }
+
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 
 import {
@@ -646,12 +654,17 @@ from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
 const firebaseConfig = {
 
-apiKey:"YOUR_API_KEY",
-authDomain:"YOUR_AUTH_DOMAIN",
-projectId:"YOUR_PROJECT_ID",
-storageBucket:"YOUR_STORAGE_BUCKET",
-messagingSenderId:"YOUR_SENDER_ID",
-appId:"YOUR_APP_ID"
+apiKey: "AIzaSyCYjuZlpgE-Lci33e53014F7fRIid6u7Dg",
+
+authDomain: "family-web-10cb8.firebaseapp.com",
+
+projectId: "family-web-10cb8",
+
+storageBucket: "family-web-10cb8.firebasestorage.app",
+
+messagingSenderId: "152048365178",
+
+appId: "1:152048365178:web:3e42c20e03a7c563d915c3"
 
 };
 
@@ -677,7 +690,8 @@ updateDateTime();
 
 /* SAVE ITEM */
 
-window.saveItem = async function(){
+window.saveItem =
+async function(){
 
 try{
 
@@ -739,30 +753,20 @@ await addDoc(
 collection(db,"inventoryMasterlist"),
 {
 
-itemCode:itemCode,
-itemName:itemName,
-category:category,
-unit:unit,
+itemCode,
+itemName,
+category,
+unit,
+stock,
+reorderLevel,
+supplier,
+cost,
+sellingPrice,
+expiry,
+location,
 
-stock:stock || 0,
-
-reorderLevel:
-reorderLevel || 0,
-
-supplier:supplier,
-
-cost:cost || 0,
-
-sellingPrice:
-sellingPrice || 0,
-
-expiry:expiry || "",
-
-location:location || "",
-
-status:"Active",
-
-createdAt:new Date()
+createdAt:
+new Date()
 
 }
 );
@@ -771,24 +775,23 @@ alert("Item Saved Successfully");
 
 /* CLEAR */
 
-document.getElementById("itemCode").value = "";
-document.getElementById("itemName").value = "";
-document.getElementById("category").value = "";
-document.getElementById("unit").value = "";
-document.getElementById("stock").value = "";
-document.getElementById("reorderLevel").value = "";
-document.getElementById("supplier").value = "";
-document.getElementById("cost").value = "";
-document.getElementById("sellingPrice").value = "";
-document.getElementById("expiry").value = "";
-document.getElementById("location").value = "";
+document.querySelectorAll(
+".form-box input"
+).forEach(input=>{
+
+input.value = "";
+
+});
+
+document.getElementById("category")
+.value = "";
 
 }catch(error){
 
 console.error(error);
 
 alert(
-"Firebase Save Error: " +
+"Firebase Error: " +
 error.message
 );
 
@@ -800,7 +803,8 @@ error.message
 
 let unsubscribe = null;
 
-window.loadItems = function(){
+window.loadItems =
+function(){
 
 if(unsubscribe){
 
@@ -915,7 +919,7 @@ ${item.stock}
 
 <td>${item.expiry || "-"}</td>
 
-<td>${item.location}</td>
+<td>${item.location || "-"}</td>
 
 <td class="${
 isLow
