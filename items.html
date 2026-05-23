@@ -317,6 +317,14 @@ Waste
 
 </a>
 
+<a href="daily-inventory.html">
+
+<i class="fa-solid fa-clipboard-list"></i>
+
+Daily Inventory
+
+</a>
+
 </div>
 
 </div>
@@ -445,6 +453,17 @@ Save Item
 
 <tbody id="itemsTable">
 
+<tr>
+
+<td colspan="7"
+style="text-align:center;padding:20px;">
+
+Loading Items...
+
+</td>
+
+</tr>
+
 </tbody>
 
 </table>
@@ -455,45 +474,104 @@ Save Item
 
 </div>
 
-<script>
+<script type="module">
 
-/* LOAD */
+/* FIREBASE */
 
-loadItems();
+import { initializeApp }
 
-/* SAVE */
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 
-function saveItem(){
+import {
 
-const item = {
+getFirestore,
+collection,
+addDoc,
+getDocs,
+deleteDoc,
+doc
 
-name:
-document.getElementById("itemName").value,
+}
 
-category:
-document.getElementById("itemCategory").value,
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
-unit:
-document.getElementById("itemUnit").value,
+/* CONFIG */
 
-stock:
-document.getElementById("itemStock").value,
+const firebaseConfig = {
 
-low:
-document.getElementById("lowStock").value
+apiKey: "AIzaSyCYjuZlpgE-Lci33e53014F7fRIid6u7Dg",
+
+authDomain: "family-web-10cb8.firebaseapp.com",
+
+projectId: "family-web-10cb8",
+
+storageBucket: "family-web-10cb8.firebasestorage.app",
+
+messagingSenderId: "152048365178",
+
+appId: "1:152048365178:web:3e42c20e03a7c563d915c3"
 
 };
 
-let items =
-JSON.parse(
-localStorage.getItem("inventoryItems")
-) || [];
+/* INIT */
 
-items.push(item);
+const app =
+initializeApp(firebaseConfig);
 
-localStorage.setItem(
-"inventoryItems",
-JSON.stringify(items)
+const db =
+getFirestore(app);
+
+/* SAVE ITEM */
+
+window.saveItem =
+async function(){
+
+const name =
+document.getElementById("itemName").value;
+
+const category =
+document.getElementById("itemCategory").value;
+
+const unit =
+document.getElementById("itemUnit").value;
+
+const stock =
+Number(
+document.getElementById("itemStock").value
+);
+
+const low =
+Number(
+document.getElementById("lowStock").value
+);
+
+/* VALIDATION */
+
+if(name === ""){
+
+alert("Enter item name");
+
+return;
+
+}
+
+try{
+
+await addDoc(
+
+collection(db,"inventoryItems"),
+
+{
+
+name:name,
+category:category,
+unit:unit,
+stock:stock,
+low:low,
+createdAt:new Date()
+
+}
+
 );
 
 alert("Item Saved!");
@@ -502,23 +580,33 @@ clearInputs();
 
 loadItems();
 
+}catch(error){
+
+console.error(error);
+
+alert("Failed to save item");
+
+}
+
 }
 
 /* LOAD ITEMS */
 
-function loadItems(){
+async function loadItems(){
 
 const table =
 document.getElementById("itemsTable");
 
 table.innerHTML = "";
 
-let items =
-JSON.parse(
-localStorage.getItem("inventoryItems")
-) || [];
+try{
 
-if(items.length === 0){
+const snapshot =
+await getDocs(
+collection(db,"inventoryItems")
+);
+
+if(snapshot.empty){
 
 table.innerHTML = `
 
@@ -539,27 +627,33 @@ return;
 
 }
 
-items.forEach((item,index)=>{
+snapshot.forEach((firebaseDoc)=>{
+
+const item =
+firebaseDoc.data();
+
+const id =
+firebaseDoc.id;
 
 const stock =
-Number(item.stock);
+Number(item.stock || 0);
 
 const low =
-Number(item.low);
+Number(item.low || 0);
 
 table.innerHTML += `
 
 <tr>
 
-<td>${item.name}</td>
+<td>${item.name || "-"}</td>
 
-<td>${item.category}</td>
+<td>${item.category || "-"}</td>
 
-<td>${item.unit}</td>
+<td>${item.unit || "-"}</td>
 
-<td>${item.stock}</td>
+<td>${stock}</td>
 
-<td>${item.low}</td>
+<td>${low}</td>
 
 <td class="${
 stock <= low
@@ -576,7 +670,7 @@ ${stock <= low
 <td>
 
 <button class="delete-btn"
-onclick="deleteItem(${index})">
+onclick="deleteItem('${id}')">
 
 Delete
 
@@ -590,25 +684,54 @@ Delete
 
 });
 
+}catch(error){
+
+console.error(error);
+
+table.innerHTML = `
+
+<tr>
+
+<td colspan="7"
+style="text-align:center;padding:20px;">
+
+Failed to load items
+
+</td>
+
+</tr>
+
+`;
+
+}
+
 }
 
 /* DELETE */
 
-function deleteItem(index){
+window.deleteItem =
+async function(id){
 
-let items =
-JSON.parse(
-localStorage.getItem("inventoryItems")
-) || [];
+const confirmDelete =
+confirm("Delete this item?");
 
-items.splice(index,1);
+if(!confirmDelete) return;
 
-localStorage.setItem(
-"inventoryItems",
-JSON.stringify(items)
+try{
+
+await deleteDoc(
+doc(db,"inventoryItems",id)
 );
 
 loadItems();
+
+}catch(error){
+
+console.error(error);
+
+alert("Delete failed");
+
+}
 
 }
 
@@ -623,6 +746,10 @@ document.getElementById("itemStock").value = "";
 document.getElementById("lowStock").value = "";
 
 }
+
+/* LOAD */
+
+loadItems();
 
 </script>
 
