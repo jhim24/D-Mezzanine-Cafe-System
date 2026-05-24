@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<meta http-equiv="Cache-Control"
+content="no-cache, no-store, must-revalidate">
+
+<meta http-equiv="Pragma"
+content="no-cache">
+
+<meta http-equiv="Expires"
+content="0">
+
+<title>D'Mezzanine Approval System</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#d8ecec;
+color:#111827;
+overflow:hidden;
+}
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar{
+width:8px;
+height:8px;
+}
+
+::-webkit-scrollbar-thumb{
+background:#0f766e;
+border-radius:10px;
+}
+
+/* LAYOUT */
+
+.container{
+display:flex;
+height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+width:280px;
+background:#0f172a;
+padding:20px;
+overflow-y:auto;
+border-right:3px solid #134e4a;
+}
+
+.logo-box{
+display:flex;
+align-items:center;
+gap:14px;
+margin-bottom:30px;
+}
+
+.logo-box img{
+width:70px;
+height:70px;
+border-radius:50%;
+background:white;
+padding:5px;
+border:3px solid #facc15;
+object-fit:contain;
+}
+
+.logo-text h2{
+font-size:24px;
+font-weight:700;
+color:white;
+}
+
+.logo-text p{
+font-size:13px;
+color:#cbd5e1;
+margin-top:3px;
+}
+
+.menu{
+display:flex;
+flex-direction:column;
+gap:12px;
+}
+
+.menu-title{
+font-size:13px;
+font-weight:700;
+color:#facc15;
+margin-top:18px;
+margin-bottom:5px;
+padding-left:5px;
+}
+
+.menu a{
+display:flex;
+align-items:center;
+gap:14px;
+padding:16px;
+border-radius:14px;
+text-decoration:none;
+color:white;
+font-size:15px;
+font-weight:500;
+transition:.3s;
+background:#1e293b;
+}
+
+.menu a:hover,
+.menu a.active{
+background:#facc15;
+color:black;
+transform:translateX(4px);
+}
+
+/* MAIN */
+
+.main{
+flex:1;
+padding:20px;
+overflow-y:auto;
+}
+
+/* HEADER */
+
+.header-box{
+background:#b8dede;
+padding:20px;
+border:2px solid #6b9e9e;
+margin-bottom:18px;
+}
+
+.header-box h1{
+font-size:32px;
+font-weight:700;
+}
+
+.header-box p{
+margin-top:5px;
+font-size:14px;
+}
+
+/* CARDS */
+
+.cards{
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+margin-bottom:20px;
+}
+
+.card{
+background:#c7e4e4;
+border:2px solid #7aa6a6;
+padding:20px;
+position:relative;
+}
+
+.card i{
+position:absolute;
+top:15px;
+right:15px;
+font-size:34px;
+color:#134e4a;
+}
+
+.card h3{
+font-size:15px;
+margin-bottom:10px;
+}
+
+.card h2{
+font-size:38px;
+color:#0f172a;
+}
+
+/* FILTERS */
+
+.filters{
+display:flex;
+gap:12px;
+margin-bottom:18px;
+flex-wrap:wrap;
+}
+
+.filters input,
+.filters select{
+padding:12px;
+border:1px solid #7aa6a6;
+background:white;
+min-width:220px;
+}
+
+/* TABLE */
+
+.table-box{
+background:#c7e4e4;
+border:2px solid #7aa6a6;
+overflow:auto;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+min-width:2400px;
+background:white;
+}
+
+th{
+background:#374151;
+padding:7px 10px;
+border:1px solid #111827;
+font-size:13px;
+font-weight:700;
+text-align:left;
+color:white;
+}
+
+td{
+padding:5px 10px;
+border:1px solid #4b5563;
+font-size:13px;
+font-weight:700;
+background:#d1d5db;
+color:#000;
+line-height:1.1;
+}
+
+/* BUTTONS */
+
+.approve-btn{
+background:#15803d;
+border:none;
+padding:8px 12px;
+color:white;
+cursor:pointer;
+margin-right:5px;
+font-size:13px;
+}
+
+.reject-btn{
+background:#dc2626;
+border:none;
+padding:8px 12px;
+color:white;
+cursor:pointer;
+margin-right:5px;
+font-size:13px;
+}
+
+.release-btn{
+background:#2563eb;
+border:none;
+padding:8px 12px;
+color:white;
+cursor:pointer;
+font-size:13px;
+}
+
+/* STATUS */
+
+.pending{
+color:#dc2626;
+font-weight:700;
+}
+
+.approved{
+color:#15803d;
+font-weight:700;
+}
+
+.released{
+color:#2563eb;
+font-weight:700;
+}
+
+.rejected{
+color:#991b1b;
+font-weight:700;
+}
+
+/* MOBILE */
+
+@media(max-width:950px){
+
+.container{
+flex-direction:column;
+}
+
+.sidebar{
+width:100%;
+display:flex;
+overflow:auto;
+}
+
+.menu{
+flex-direction:row;
+}
+
+.menu a{
+min-width:180px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<div class="logo-box">
+
+<img src="./logo.png">
+
+<div class="logo-text">
+
+<h2>D'Mezzanine</h2>
+
+<p>Approval System</p>
+
+</div>
+
+</div>
+
+<div class="menu">
+
+<div class="menu-title">
+WORKFLOW
+</div>
+
+<a href="stock-request.html">
+
+<i class="fa-solid fa-paper-plane"></i>
+Stock Request
+
+</a>
+
+<a href="approval.html"
+class="active">
+
+<i class="fa-solid fa-circle-check"></i>
+Approval
+
+</a>
+
+<a href="release.html">
+
+<i class="fa-solid fa-box-open"></i>
+Release
+
+</a>
+
+</div>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
+
+<div class="header-box">
+
+<h1>Approval Management ✅</h1>
+
+<p id="dateTime"></p>
+
+</div>
+
+<!-- CARDS -->
+
+<div class="cards">
+
+<div class="card">
+
+<i class="fa-solid fa-clock"></i>
+
+<h3>Pending</h3>
+
+<h2 id="pendingCount">
+0
+</h2>
+
+</div>
+
+<div class="card">
+
+<i class="fa-solid fa-circle-check"></i>
+
+<h3>Approved</h3>
+
+<h2 id="approvedCount">
+0
+</h2>
+
+</div>
+
+<div class="card">
+
+<i class="fa-solid fa-ban"></i>
+
+<h3>Rejected</h3>
+
+<h2 id="rejectedCount">
+0
+</h2>
+
+</div>
+
+<div class="card">
+
+<i class="fa-solid fa-box-open"></i>
+
+<h3>Released</h3>
+
+<h2 id="releasedCount">
+0
+</h2>
+
+</div>
+
+</div>
+
+<!-- FILTER -->
+
+<div class="filters">
+
+<input type="text"
+id="searchInput"
+placeholder="Search Request..."
+onkeyup="loadApprovals()">
+
+<select id="statusFilter"
+onchange="loadApprovals()">
+
+<option value="">
+All Status
+</option>
+
+<option value="Pending">
+Pending
+</option>
+
+<option value="Approved">
+Approved
+</option>
+
+<option value="Rejected">
+Rejected
+</option>
+
+<option value="Released">
+Released
+</option>
+
+</select>
+
+</div>
+
+<!-- TABLE -->
+
+<div class="table-box">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Date</th>
+<th>Item</th>
+<th>Quantity</th>
+<th>Requested By</th>
+<th>Department</th>
+<th>Purpose</th>
+<th>Status</th>
+<th>Actions</th>
+
+</tr>
+
+</thead>
+
+<tbody id="approvalTable">
+
+<tr>
+
+<td colspan="8">
+
+Loading...
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+
+import {
+
+getFirestore,
+collection,
+doc,
+updateDoc,
+getDoc,
+onSnapshot,
+addDoc
+
+}
+
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+/* FIREBASE */
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyCYjuZlpgE-Lci33e53014F7fRIid6u7Dg",
+
+authDomain: "family-web-10cb8.firebaseapp.com",
+
+projectId: "family-web-10cb8",
+
+storageBucket: "family-web-10cb8.firebasestorage.app",
+
+messagingSenderId: "152048365178",
+
+appId: "1:152048365178:web:3e42c20e03a7c563d915c3"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
+
+/* DATE TIME */
+
+function updateDateTime(){
+
+document.getElementById("dateTime")
+.innerText =
+new Date().toLocaleString();
+
+}
+
+setInterval(updateDateTime,1000);
+
+updateDateTime();
+
+/* LOAD APPROVALS */
+
+window.loadApprovals =
+function(){
+
+const table =
+document.getElementById("approvalTable");
+
+const search =
+document.getElementById("searchInput")
+.value
+.toLowerCase();
+
+const statusFilter =
+document.getElementById("statusFilter")
+.value;
+
+onSnapshot(
+
+collection(db,"stockRequests"),
+
+(snapshot)=>{
+
+table.innerHTML = "";
+
+let pendingCount = 0;
+let approvedCount = 0;
+let rejectedCount = 0;
+let releasedCount = 0;
+
+snapshot.forEach((firebaseDoc)=>{
+
+const data =
+firebaseDoc.data();
+
+const docId =
+firebaseDoc.id;
+
+if(
+search &&
+!data.itemName
+.toLowerCase()
+.includes(search)
+){
+
+return;
+
+}
+
+if(
+statusFilter &&
+data.status !== statusFilter
+){
+
+return;
+
+}
+
+/* COUNTS */
+
+if(data.status === "Pending"){
+
+pendingCount++;
+
+}
+
+if(data.status === "Approved"){
+
+approvedCount++;
+
+}
+
+if(data.status === "Rejected"){
+
+rejectedCount++;
+
+}
+
+if(data.status === "Released"){
+
+releasedCount++;
+
+}
+
+table.innerHTML += `
+
+<tr>
+
+<td>${data.requestDate}</td>
+
+<td>${data.itemName}</td>
+
+<td>${data.quantity}</td>
+
+<td>${data.requestedBy}</td>
+
+<td>${data.department || "-"}</td>
+
+<td>${data.purpose || "-"}</td>
+
+<td class="${
+data.status === "Pending"
+?
+"pending"
+:
+data.status === "Approved"
+?
+"approved"
+:
+data.status === "Released"
+?
+"released"
+:
+"rejected"
+}">
+
+${data.status}
+
+</td>
+
+<td>
+
+<button class="approve-btn"
+onclick="approveRequest('${docId}')">
+
+Approve
+
+</button>
+
+<button class="reject-btn"
+onclick="rejectRequest('${docId}')">
+
+Reject
+
+</button>
+
+<button class="release-btn"
+onclick="releaseRequest('${docId}')">
+
+Release
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+if(table.innerHTML === ""){
+
+table.innerHTML = `
+
+<tr>
+
+<td colspan="8">
+
+No Requests Found
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+document.getElementById("pendingCount")
+.innerText =
+pendingCount;
+
+document.getElementById("approvedCount")
+.innerText =
+approvedCount;
+
+document.getElementById("rejectedCount")
+.innerText =
+rejectedCount;
+
+document.getElementById("releasedCount")
+.innerText =
+releasedCount;
+
+}
+
+);
+
+}
+
+/* APPROVE */
+
+window.approveRequest =
+async function(id){
+
+await updateDoc(
+doc(db,"stockRequests",id),
+{
+status:"Approved"
+}
+);
+
+alert("Request Approved");
+
+}
+
+/* REJECT */
+
+window.rejectRequest =
+async function(id){
+
+await updateDoc(
+doc(db,"stockRequests",id),
+{
+status:"Rejected"
+}
+);
+
+alert("Request Rejected");
+
+}
+
+/* RELEASE */
+
+window.releaseRequest =
+async function(id){
+
+try{
+
+const requestRef =
+doc(db,"stockRequests",id);
+
+const requestSnap =
+await getDoc(requestRef);
+
+if(!requestSnap.exists()){
+
+alert("Request not found");
+
+return;
+
+}
+
+const request =
+requestSnap.data();
+
+if(request.status !== "Approved"){
+
+alert("Approve request first");
+
+return;
+
+}
+
+/* UPDATE STATUS */
+
+await updateDoc(
+requestRef,
+{
+status:"Released"
+}
+);
+
+/* UPDATE INVENTORY */
+
+const itemRef =
+doc(db,"inventoryMasterlist",request.itemId);
+
+const itemSnap =
+await getDoc(itemRef);
+
+if(itemSnap.exists()){
+
+const item =
+itemSnap.data();
+
+const currentStock =
+Number(item.stock || 0);
+
+const newStock =
+currentStock - Number(request.quantity);
+
+await updateDoc(itemRef,{
+
+stock:newStock
+
+});
+
+}
+
+/* AUTO STOCK OUT */
+
+await addDoc(
+collection(db,"stockOut"),
+{
+
+date:
+new Date().toLocaleDateString(),
+
+itemId:
+request.itemId,
+
+itemName:
+request.itemName,
+
+quantity:
+request.quantity,
+
+purpose:
+"Approved Request",
+
+destination:
+request.department,
+
+requestedBy:
+request.requestedBy,
+
+createdAt:
+new Date()
+
+}
+);
+
+alert("Stock Released");
+
+}catch(error){
+
+console.error(error);
+
+alert(error.message);
+
+}
+
+}
+
+/* LOAD */
+
+loadApprovals();
+
+</script>
+
+</body>
+</html>
