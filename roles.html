@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>D'Mezzanine Roles</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+
+body{
+font-family:Arial;
+background:#d8ecec;
+margin:0;
+padding:20px;
+}
+
+.form-box{
+background:white;
+padding:20px;
+margin-bottom:20px;
+}
+
+input{
+padding:12px;
+width:300px;
+}
+
+button{
+padding:12px 20px;
+background:#0f766e;
+color:white;
+border:none;
+cursor:pointer;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+background:white;
+}
+
+th{
+background:#374151;
+color:white;
+padding:10px;
+}
+
+td{
+padding:10px;
+border:1px solid #ccc;
+}
+
+.edit-btn{
+background:#2563eb;
+color:white;
+border:none;
+padding:8px 12px;
+cursor:pointer;
+}
+
+.delete-btn{
+background:#dc2626;
+color:white;
+border:none;
+padding:8px 12px;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Roles Management 🛡️</h1>
+
+<div class="form-box">
+
+<input type="text"
+id="roleName"
+placeholder="Role Name">
+
+<button onclick="saveRole()">
+
+Save Role
+
+</button>
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Role Name</th>
+<th>Actions</th>
+
+</tr>
+
+</thead>
+
+<tbody id="rolesTable">
+
+<tr>
+
+<td colspan="2">
+
+Loading...
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+<script type="module">
+
+import { initializeApp }
+
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+
+import {
+
+getFirestore,
+collection,
+addDoc,
+deleteDoc,
+doc,
+updateDoc,
+getDoc,
+onSnapshot
+
+}
+
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+/* FIREBASE */
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyCYjuZlpgE-Lci33e53014F7fRIid6u7Dg",
+
+authDomain: "family-web-10cb8.firebaseapp.com",
+
+projectId: "family-web-10cb8",
+
+storageBucket: "family-web-10cb8.firebasestorage.app",
+
+messagingSenderId: "152048365178",
+
+appId: "1:152048365178:web:3e42c20e03a7c563d915c3"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
+
+let editId = null;
+
+/* SAVE */
+
+window.saveRole =
+async function(){
+
+const roleName =
+document.getElementById("roleName")
+.value;
+
+if(!roleName){
+
+alert("Enter role");
+
+return;
+
+}
+
+const roleData = {
+
+roleName,
+
+createdAt:
+new Date()
+
+};
+
+if(editId){
+
+await updateDoc(
+doc(db,"roles",editId),
+roleData
+);
+
+alert("Role Updated");
+
+editId = null;
+
+}else{
+
+await addDoc(
+collection(db,"roles"),
+roleData
+);
+
+alert("Role Saved");
+
+}
+
+document.getElementById("roleName")
+.value = "";
+
+}
+
+/* LOAD */
+
+window.loadRoles =
+function(){
+
+const table =
+document.getElementById("rolesTable");
+
+onSnapshot(
+
+collection(db,"roles"),
+
+(snapshot)=>{
+
+table.innerHTML = "";
+
+snapshot.forEach((firebaseDoc)=>{
+
+const role =
+firebaseDoc.data();
+
+table.innerHTML += `
+
+<tr>
+
+<td>${role.roleName}</td>
+
+<td>
+
+<button class="edit-btn"
+onclick="editRole('${firebaseDoc.id}')">
+
+Edit
+
+</button>
+
+<button class="delete-btn"
+onclick="deleteRole('${firebaseDoc.id}')">
+
+Delete
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+);
+
+}
+
+/* EDIT */
+
+window.editRole =
+async function(id){
+
+const roleRef =
+doc(db,"roles",id);
+
+const roleSnap =
+await getDoc(roleRef);
+
+if(roleSnap.exists()){
+
+const role =
+roleSnap.data();
+
+editId = id;
+
+document.getElementById("roleName")
+.value = role.roleName || "";
+
+}
+
+}
+
+/* DELETE */
+
+window.deleteRole =
+async function(id){
+
+const confirmDelete =
+confirm("Delete this role?");
+
+if(!confirmDelete){
+
+return;
+
+}
+
+await deleteDoc(
+doc(db,"roles",id)
+);
+
+alert("Role Deleted");
+
+}
+
+/* LOAD */
+
+loadRoles();
+
+</script>
+
+</body>
+</html>
