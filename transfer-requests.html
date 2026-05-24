@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<meta http-equiv="Cache-Control"
+content="no-cache, no-store, must-revalidate">
+
+<meta http-equiv="Pragma"
+content="no-cache">
+
+<meta http-equiv="Expires"
+content="0">
+
+<title>D'Mezzanine Transfer Requests</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#d8ecec;
+color:#111827;
+overflow:hidden;
+}
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar{
+width:8px;
+height:8px;
+}
+
+::-webkit-scrollbar-thumb{
+background:#0f766e;
+border-radius:10px;
+}
+
+/* LAYOUT */
+
+.container{
+display:flex;
+height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+width:280px;
+background:#0f172a;
+padding:20px;
+overflow-y:auto;
+border-right:3px solid #134e4a;
+}
+
+.logo-box{
+display:flex;
+align-items:center;
+gap:14px;
+margin-bottom:30px;
+}
+
+.logo-box img{
+width:70px;
+height:70px;
+border-radius:50%;
+background:white;
+padding:5px;
+border:3px solid #facc15;
+object-fit:contain;
+}
+
+.logo-text h2{
+font-size:24px;
+font-weight:700;
+color:white;
+}
+
+.logo-text p{
+font-size:13px;
+color:#cbd5e1;
+margin-top:3px;
+}
+
+.menu{
+display:flex;
+flex-direction:column;
+gap:12px;
+}
+
+.menu-title{
+font-size:13px;
+font-weight:700;
+color:#facc15;
+margin-top:18px;
+margin-bottom:5px;
+padding-left:5px;
+}
+
+.menu a{
+display:flex;
+align-items:center;
+gap:14px;
+padding:16px;
+border-radius:14px;
+text-decoration:none;
+color:white;
+font-size:15px;
+font-weight:500;
+transition:.3s;
+background:#1e293b;
+}
+
+.menu a:hover,
+.menu a.active{
+background:#facc15;
+color:black;
+transform:translateX(4px);
+}
+
+/* MAIN */
+
+.main{
+flex:1;
+padding:20px;
+overflow-y:auto;
+}
+
+/* HEADER */
+
+.header-box{
+background:#b8dede;
+padding:20px;
+border:2px solid #6b9e9e;
+margin-bottom:18px;
+}
+
+.header-box h1{
+font-size:32px;
+font-weight:700;
+}
+
+.header-box p{
+margin-top:5px;
+font-size:14px;
+}
+
+/* CARDS */
+
+.cards{
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+margin-bottom:20px;
+}
+
+.card{
+background:#c7e4e4;
+border:2px solid #7aa6a6;
+padding:20px;
+position:relative;
+}
+
+.card i{
+position:absolute;
+top:15px;
+right:15px;
+font-size:34px;
+color:#134e4a;
+}
+
+.card h3{
+font-size:15px;
+margin-bottom:10px;
+}
+
+.card h2{
+font-size:38px;
+color:#0f172a;
+}
+
+/* FORM */
+
+.form-box{
+background:#c7e4e4;
+border:2px solid #7aa6a6;
+padding:20px;
+margin-bottom:18px;
+
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
+
+gap:12px;
+}
+
+.form-box input,
+.form-box select,
+.form-box textarea{
+padding:12px;
+border:1px solid #7aa6a6;
+background:white;
+font-size:14px;
+resize:none;
+}
+
+.form-box input:focus,
+.form-box select:focus,
+.form-box textarea:focus{
+outline:none;
+border:2px solid #0f766e;
+}
+
+/* BUTTONS */
+
+.save-btn{
+background:#0f766e;
+border:none;
+padding:13px;
+color:white;
+font-weight:700;
+cursor:pointer;
+transition:.3s;
+}
+
+.save-btn:hover{
+background:#115e59;
+}
+
+.edit-btn{
+background:#2563eb;
+border:none;
+padding:8px 12px;
+color:white;
+cursor:pointer;
+margin-right:5px;
+font-size:13px;
+}
+
+.delete-btn{
+background:#dc2626;
+border:none;
+padding:8px 12px;
+color:white;
+cursor:pointer;
+font-size:13px;
+}
+
+/* FILTERS */
+
+.filters{
+display:flex;
+gap:12px;
+margin-bottom:18px;
+flex-wrap:wrap;
+}
+
+.filters input,
+.filters select{
+padding:12px;
+border:1px solid #7aa6a6;
+background:white;
+min-width:220px;
+}
+
+/* TABLE */
+
+.table-box{
+background:#c7e4e4;
+border:2px solid #7aa6a6;
+overflow:auto;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+min-width:2600px;
+background:white;
+}
+
+th{
+background:#374151;
+padding:7px 10px;
+border:1px solid #111827;
+font-size:13px;
+font-weight:700;
+text-align:left;
+color:white;
+}
+
+td{
+padding:5px 10px;
+border:1px solid #4b5563;
+font-size:13px;
+font-weight:700;
+background:#d1d5db;
+color:#000;
+line-height:1.1;
+}
+
+/* STATUS */
+
+.pending{
+color:#dc2626;
+font-weight:700;
+}
+
+.approved{
+color:#15803d;
+font-weight:700;
+}
+
+.released{
+color:#2563eb;
+font-weight:700;
+}
+
+.completed{
+color:#0f766e;
+font-weight:700;
+}
+
+.rejected{
+color:#991b1b;
+font-weight:700;
+}
+
+/* MOBILE */
+
+@media(max-width:950px){
+
+.container{
+flex-direction:column;
+}
+
+.sidebar{
+width:100%;
+display:flex;
+overflow:auto;
+}
+
+.menu{
+flex-direction:row;
+}
+
+.menu a{
+min-width:180px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<div class="logo-box">
+
+<img src="./logo.png">
+
+<div class="logo-text">
+
+<h2>D'Mezzanine</h2>
+
+<p>Transfer Workflow</p>
+
+</div>
+
+</div>
+
+<div class="menu">
+
+<div class="menu-title">
+WORKFLOW
+</div>
+
+<a href="transfer-requests.html"
+class="active">
+
+<i class="fa-solid fa-paper-plane"></i>
+Transfer Requests
+
+</a>
+
+<a href="approval.html">
+
+<i class="fa-solid fa-circle-check"></i>
+Approval
+
+</a>
+
+<a href="release.html">
+
+<i class="fa-solid fa-box-open"></i>
+Release
+
+</a>
+
+</div>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
+
+<div class="header-box">
+
+<h1>Transfer Requests 🔄</h1>
+
+<p id="dateTime"></p>
+
+</div>
+
+<!-- CARDS -->
+
+<div class="cards">
+
+<div class="card">
+
+<i class="fa-solid fa-paper-plane"></i>
+
+<h3>Total Requests</h3>
+
+<h2 id="totalRequests">
+0
+</h2>
+
+</div>
+
+<div class="card">
+
+<i class="fa-solid fa-clock"></i>
+
+<h3>Pending</h3>
+
+<h2 id="pendingRequests">
+0
+</h2>
+
+</div>
+
+<div class="card">
+
+<i class="fa-solid fa-circle-check"></i>
+
+<h3>Approved</h3>
+
+<h2 id="approvedRequests">
+0
+</h2>
+
+</div>
+
+<div class="card">
+
+<i class="fa-solid fa-box-open"></i>
+
+<h3>Released</h3>
+
+<h2 id="releasedRequests">
+0
+</h2>
+
+</div>
+
+</div>
+
+<!-- FORM -->
+
+<div class="form-box">
+
+<input type="date"
+id="requestDate">
+
+<select id="itemSelect">
+
+<option value="">
+Select Item
+</option>
+
+</select>
+
+<input type="number"
+id="quantity"
+placeholder="Transfer Quantity">
+
+<input type="text"
+id="fromBranch"
+placeholder="From Branch">
+
+<input type="text"
+id="toBranch"
+placeholder="To Branch">
+
+<input type="text"
+id="requestedBy"
+placeholder="Requested By">
+
+<textarea
+id="purpose"
+placeholder="Purpose"></textarea>
+
+<select id="status">
+
+<option value="Pending">
+Pending
+</option>
+
+<option value="Approved">
+Approved
+</option>
+
+<option value="Released">
+Released
+</option>
+
+<option value="Completed">
+Completed
+</option>
+
+<option value="Rejected">
+Rejected
+</option>
+
+</select>
+
+<button class="save-btn"
+onclick="saveTransferRequest()">
+
+<i class="fa-solid fa-floppy-disk"></i>
+Save Request
+
+</button>
+
+</div>
+
+<!-- FILTERS -->
+
+<div class="filters">
+
+<input type="text"
+id="searchInput"
+placeholder="Search Request..."
+onkeyup="loadRequests()">
+
+<select id="statusFilter"
+onchange="loadRequests()">
+
+<option value="">
+All Status
+</option>
+
+<option value="Pending">
+Pending
+</option>
+
+<option value="Approved">
+Approved
+</option>
+
+<option value="Released">
+Released
+</option>
+
+<option value="Completed">
+Completed
+</option>
+
+<option value="Rejected">
+Rejected
+</option>
+
+</select>
+
+</div>
+
+<!-- TABLE -->
+
+<div class="table-box">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Date</th>
+<th>Item</th>
+<th>Qty</th>
+<th>From Branch</th>
+<th>To Branch</th>
+<th>Requested By</th>
+<th>Purpose</th>
+<th>Status</th>
+<th>Actions</th>
+
+</tr>
+
+</thead>
+
+<tbody id="requestsTable">
+
+<tr>
+
+<td colspan="9">
+
+Loading...
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+
+import {
+
+getFirestore,
+collection,
+addDoc,
+deleteDoc,
+doc,
+updateDoc,
+getDoc,
+getDocs,
+onSnapshot
+
+}
+
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+/* FIREBASE */
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyCYjuZlpgE-Lci33e53014F7fRIid6u7Dg",
+
+authDomain: "family-web-10cb8.firebaseapp.com",
+
+projectId: "family-web-10cb8",
+
+storageBucket: "family-web-10cb8.firebasestorage.app",
+
+messagingSenderId: "152048365178",
+
+appId: "1:152048365178:web:3e42c20e03a7c563d915c3"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
+
+let editId = null;
+
+/* DATE TIME */
+
+function updateDateTime(){
+
+document.getElementById("dateTime")
+.innerText =
+new Date().toLocaleString();
+
+}
+
+setInterval(updateDateTime,1000);
+
+updateDateTime();
+
+/* LOAD ITEMS */
+
+async function loadItems(){
+
+const select =
+document.getElementById("itemSelect");
+
+select.innerHTML = `
+
+<option value="">
+Select Item
+</option>
+
+`;
+
+const snapshot =
+await getDocs(
+collection(db,"inventoryMasterlist")
+);
+
+snapshot.forEach((firebaseDoc)=>{
+
+const item =
+firebaseDoc.data();
+
+select.innerHTML += `
+
+<option value="${firebaseDoc.id}">
+
+${item.itemName}
+
+</option>
+
+`;
+
+});
+
+}
+
+/* SAVE */
+
+window.saveTransferRequest =
+async function(){
+
+try{
+
+const requestDate =
+document.getElementById("requestDate").value;
+
+const itemId =
+document.getElementById("itemSelect").value;
+
+const itemName =
+document.getElementById("itemSelect")
+.options[
+document.getElementById("itemSelect")
+.selectedIndex
+].text;
+
+const quantity =
+Number(
+document.getElementById("quantity").value
+);
+
+const fromBranch =
+document.getElementById("fromBranch").value.trim();
+
+const toBranch =
+document.getElementById("toBranch").value.trim();
+
+const requestedBy =
+document.getElementById("requestedBy").value.trim();
+
+const purpose =
+document.getElementById("purpose").value.trim();
+
+const status =
+document.getElementById("status").value;
+
+if(
+!requestDate ||
+!itemId ||
+!quantity ||
+!fromBranch ||
+!toBranch
+){
+
+alert("Complete all fields");
+
+return;
+
+}
+
+const requestData = {
+
+requestDate,
+itemId,
+itemName,
+quantity,
+fromBranch,
+toBranch,
+requestedBy,
+purpose,
+status,
+
+createdAt:
+new Date()
+
+};
+
+if(editId){
+
+await updateDoc(
+doc(db,"transferRequests",editId),
+requestData
+);
+
+alert("Request Updated");
+
+editId = null;
+
+}else{
+
+await addDoc(
+collection(db,"transferRequests"),
+requestData
+);
+
+alert("Request Saved");
+
+}
+
+clearForm();
+
+}catch(error){
+
+console.error(error);
+
+alert(error.message);
+
+}
+
+}
+
+/* CLEAR */
+
+function clearForm(){
+
+document.getElementById("requestDate")
+.value = "";
+
+document.getElementById("itemSelect")
+.value = "";
+
+document.getElementById("quantity")
+.value = "";
+
+document.getElementById("fromBranch")
+.value = "";
+
+document.getElementById("toBranch")
+.value = "";
+
+document.getElementById("requestedBy")
+.value = "";
+
+document.getElementById("purpose")
+.value = "";
+
+document.getElementById("status")
+.value = "Pending";
+
+}
+
+/* LOAD REQUESTS */
+
+window.loadRequests =
+function(){
+
+const table =
+document.getElementById("requestsTable");
+
+const search =
+document.getElementById("searchInput")
+.value
+.toLowerCase();
+
+const statusFilter =
+document.getElementById("statusFilter")
+.value;
+
+onSnapshot(
+
+collection(db,"transferRequests"),
+
+(snapshot)=>{
+
+table.innerHTML = "";
+
+let totalRequests = 0;
+let pendingRequests = 0;
+let approvedRequests = 0;
+let releasedRequests = 0;
+
+snapshot.forEach((firebaseDoc)=>{
+
+const data =
+firebaseDoc.data();
+
+const docId =
+firebaseDoc.id;
+
+if(
+search &&
+!data.itemName
+.toLowerCase()
+.includes(search)
+){
+
+return;
+
+}
+
+if(
+statusFilter &&
+data.status !== statusFilter
+){
+
+return;
+
+}
+
+totalRequests++;
+
+if(data.status === "Pending"){
+
+pendingRequests++;
+
+}
+
+if(data.status === "Approved"){
+
+approvedRequests++;
+
+}
+
+if(data.status === "Released"){
+
+releasedRequests++;
+
+}
+
+table.innerHTML += `
+
+<tr>
+
+<td>${data.requestDate}</td>
+
+<td>${data.itemName}</td>
+
+<td>${data.quantity}</td>
+
+<td>${data.fromBranch}</td>
+
+<td>${data.toBranch}</td>
+
+<td>${data.requestedBy}</td>
+
+<td>${data.purpose || "-"}</td>
+
+<td class="${
+data.status === "Pending"
+?
+"pending"
+:
+data.status === "Approved"
+?
+"approved"
+:
+data.status === "Released"
+?
+"released"
+:
+data.status === "Completed"
+?
+"completed"
+:
+"rejected"
+}">
+
+${data.status}
+
+</td>
+
+<td>
+
+<button class="edit-btn"
+onclick="editRequest('${docId}')">
+
+Edit
+
+</button>
+
+<button class="delete-btn"
+onclick="deleteRequest('${docId}')">
+
+Delete
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+if(totalRequests === 0){
+
+table.innerHTML = `
+
+<tr>
+
+<td colspan="9">
+
+No Requests Found
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+document.getElementById("totalRequests")
+.innerText =
+totalRequests;
+
+document.getElementById("pendingRequests")
+.innerText =
+pendingRequests;
+
+document.getElementById("approvedRequests")
+.innerText =
+approvedRequests;
+
+document.getElementById("releasedRequests")
+.innerText =
+releasedRequests;
+
+}
+
+);
+
+}
+
+/* EDIT */
+
+window.editRequest =
+async function(id){
+
+const requestRef =
+doc(db,"transferRequests",id);
+
+const requestSnap =
+await getDoc(requestRef);
+
+if(requestSnap.exists()){
+
+const data =
+requestSnap.data();
+
+editId = id;
+
+document.getElementById("requestDate")
+.value = data.requestDate || "";
+
+document.getElementById("itemSelect")
+.value = data.itemId || "";
+
+document.getElementById("quantity")
+.value = data.quantity || "";
+
+document.getElementById("fromBranch")
+.value = data.fromBranch || "";
+
+document.getElementById("toBranch")
+.value = data.toBranch || "";
+
+document.getElementById("requestedBy")
+.value = data.requestedBy || "";
+
+document.getElementById("purpose")
+.value = data.purpose || "";
+
+document.getElementById("status")
+.value = data.status || "";
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+}
+
+}
+
+/* DELETE */
+
+window.deleteRequest =
+async function(id){
+
+const confirmDelete =
+confirm("Delete this request?");
+
+if(!confirmDelete){
+
+return;
+
+}
+
+await deleteDoc(
+doc(db,"transferRequests",id)
+);
+
+alert("Request Deleted");
+
+}
+
+/* LOAD */
+
+loadItems();
+loadRequests();
+
+</script>
+
+</body>
+</html>
