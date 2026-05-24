@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<meta http-equiv="Cache-Control"
+content="no-cache, no-store, must-revalidate">
+
+<meta http-equiv="Pragma"
+content="no-cache">
+
+<meta http-equiv="Expires"
+content="0">
+
+<title>D'Mezzanine Release System</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#d8ecec;
+color:#111827;
+overflow:hidden;
+}
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar{
+width:8px;
+height:8px;
+}
+
+::-webkit-scrollbar-thumb{
+background:#0f766e;
+border-radius:10px;
+}
+
+/* LAYOUT */
+
+.container{
+display:flex;
+height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+width:280px;
+background:#0f172a;
+padding:20px;
+overflow-y:auto;
+border-right:3px solid #134e4a;
+}
+
+.logo-box{
+display:flex;
+align-items:center;
+gap:14px;
+margin-bottom:30px;
+}
+
+.logo-box img{
+width:70px;
+height:70px;
+border-radius:50%;
+background:white;
+padding:5px;
+border:3px solid #facc15;
+object-fit:contain;
+}
+
+.logo-text h2{
+font-size:24px;
+font-weight:700;
+color:white;
+}
+
+.logo-text p{
+font-size:13px;
+color:#cbd5e1;
+margin-top:3px;
+}
+
+.menu{
+display:flex;
+flex-direction:column;
+gap:12px;
+}
+
+.menu-title{
+font-size:13px;
+font-weight:700;
+color:#facc15;
+margin-top:18px;
+margin-bottom:5px;
+padding-left:5px;
+}
+
+.menu a{
+display:flex;
+align-items:center;
+gap:14px;
+padding:16px;
+border-radius:14px;
+text-decoration:none;
+color:white;
+font-size:15px;
+font-weight:500;
+transition:.3s;
+background:#1e293b;
+}
+
+.menu a:hover,
+.menu a.active{
+background:#facc15;
+color:black;
+transform:translateX(4px);
+}
+
+/* MAIN */
+
+.main{
+flex:1;
+padding:20px;
+overflow-y:auto;
+}
+
+/* HEADER */
+
+.header-box{
+background:#b8dede;
+padding:20px;
+border:2px solid #6b9e9e;
+margin-bottom:18px;
+}
+
+.header-box h1{
+font-size:32px;
+font-weight:700;
+}
+
+.header-box p{
+margin-top:5px;
+font-size:14px;
+}
+
+/* CARDS */
+
+.cards{
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+margin-bottom:20px;
+}
+
+.card{
+background:#c7e4e4;
+border:2px solid #7aa6a6;
+padding:20px;
+position:relative;
+}
+
+.card i{
+position:absolute;
+top:15px;
+right:15px;
+font-size:34px;
+color:#134e4a;
+}
+
+.card h3{
+font-size:15px;
+margin-bottom:10px;
+}
+
+.card h2{
+font-size:38px;
+color:#0f172a;
+}
+
+/* FILTERS */
+
+.filters{
+display:flex;
+gap:12px;
+margin-bottom:18px;
+flex-wrap:wrap;
+}
+
+.filters input{
+padding:12px;
+border:1px solid #7aa6a6;
+background:white;
+min-width:220px;
+}
+
+/* TABLE */
+
+.table-box{
+background:#c7e4e4;
+border:2px solid #7aa6a6;
+overflow:auto;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+min-width:2400px;
+background:white;
+}
+
+th{
+background:#374151;
+padding:7px 10px;
+border:1px solid #111827;
+font-size:13px;
+font-weight:700;
+text-align:left;
+color:white;
+}
+
+td{
+padding:5px 10px;
+border:1px solid #4b5563;
+font-size:13px;
+font-weight:700;
+background:#d1d5db;
+color:#000;
+line-height:1.1;
+}
+
+/* BUTTONS */
+
+.release-btn{
+background:#2563eb;
+border:none;
+padding:8px 12px;
+color:white;
+cursor:pointer;
+margin-right:5px;
+font-size:13px;
+}
+
+.delete-btn{
+background:#dc2626;
+border:none;
+padding:8px 12px;
+color:white;
+cursor:pointer;
+font-size:13px;
+}
+
+/* STATUS */
+
+.pending{
+color:#dc2626;
+font-weight:700;
+}
+
+.released{
+color:#2563eb;
+font-weight:700;
+}
+
+.completed{
+color:#15803d;
+font-weight:700;
+}
+
+/* MOBILE */
+
+@media(max-width:950px){
+
+.container{
+flex-direction:column;
+}
+
+.sidebar{
+width:100%;
+display:flex;
+overflow:auto;
+}
+
+.menu{
+flex-direction:row;
+}
+
+.menu a{
+min-width:180px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<div class="logo-box">
+
+<img src="./logo.png">
+
+<div class="logo-text">
+
+<h2>D'Mezzanine</h2>
+
+<p>Release System</p>
+
+</div>
+
+</div>
+
+<div class="menu">
+
+<div class="menu-title">
+WORKFLOW
+</div>
+
+<a href="stock-request.html">
+
+<i class="fa-solid fa-paper-plane"></i>
+Stock Request
+
+</a>
+
+<a href="approval.html">
+
+<i class="fa-solid fa-circle-check"></i>
+Approval
+
+</a>
+
+<a href="release.html"
+class="active">
+
+<i class="fa-solid fa-box-open"></i>
+Release
+
+</a>
+
+</div>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
+
+<div class="header-box">
+
+<h1>Release Management 📦</h1>
+
+<p id="dateTime"></p>
+
+</div>
+
+<!-- CARDS -->
+
+<div class="cards">
+
+<div class="card">
+
+<i class="fa-solid fa-box-open"></i>
+
+<h3>Total Releases</h3>
+
+<h2 id="totalReleases">
+0
+</h2>
+
+</div>
+
+<div class="card">
+
+<i class="fa-solid fa-clock"></i>
+
+<h3>Pending Releases</h3>
+
+<h2 id="pendingReleases">
+0
+</h2>
+
+</div>
+
+<div class="card">
+
+<i class="fa-solid fa-circle-check"></i>
+
+<h3>Completed Releases</h3>
+
+<h2 id="completedReleases">
+0
+</h2>
+
+</div>
+
+</div>
+
+<!-- FILTER -->
+
+<div class="filters">
+
+<input type="text"
+id="searchInput"
+placeholder="Search Release..."
+onkeyup="loadReleases()">
+
+</div>
+
+<!-- TABLE -->
+
+<div class="table-box">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Date</th>
+<th>Item</th>
+<th>Quantity</th>
+<th>Requested By</th>
+<th>Department</th>
+<th>Status</th>
+<th>Released By</th>
+<th>Release Date</th>
+<th>Actions</th>
+
+</tr>
+
+</thead>
+
+<tbody id="releaseTable">
+
+<tr>
+
+<td colspan="9">
+
+Loading...
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+
+import {
+
+getFirestore,
+collection,
+doc,
+updateDoc,
+getDoc,
+deleteDoc,
+onSnapshot,
+addDoc
+
+}
+
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+/* FIREBASE */
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyCYjuZlpgE-Lci33e53014F7fRIid6u7Dg",
+
+authDomain: "family-web-10cb8.firebaseapp.com",
+
+projectId: "family-web-10cb8",
+
+storageBucket: "family-web-10cb8.firebasestorage.app",
+
+messagingSenderId: "152048365178",
+
+appId: "1:152048365178:web:3e42c20e03a7c563d915c3"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
+
+/* DATE TIME */
+
+function updateDateTime(){
+
+document.getElementById("dateTime")
+.innerText =
+new Date().toLocaleString();
+
+}
+
+setInterval(updateDateTime,1000);
+
+updateDateTime();
+
+/* LOAD RELEASES */
+
+window.loadReleases =
+function(){
+
+const table =
+document.getElementById("releaseTable");
+
+const search =
+document.getElementById("searchInput")
+.value
+.toLowerCase();
+
+onSnapshot(
+
+collection(db,"stockRequests"),
+
+(snapshot)=>{
+
+table.innerHTML = "";
+
+let totalReleases = 0;
+let pendingReleases = 0;
+let completedReleases = 0;
+
+snapshot.forEach((firebaseDoc)=>{
+
+const data =
+firebaseDoc.data();
+
+const docId =
+firebaseDoc.id;
+
+if(data.status !== "Approved" &&
+data.status !== "Released"){
+
+return;
+
+}
+
+if(
+search &&
+!data.itemName
+.toLowerCase()
+.includes(search)
+){
+
+return;
+
+}
+
+totalReleases++;
+
+if(data.status === "Approved"){
+
+pendingReleases++;
+
+}
+
+if(data.status === "Released"){
+
+completedReleases++;
+
+}
+
+table.innerHTML += `
+
+<tr>
+
+<td>${data.requestDate}</td>
+
+<td>${data.itemName}</td>
+
+<td>${data.quantity}</td>
+
+<td>${data.requestedBy}</td>
+
+<td>${data.department || "-"}</td>
+
+<td class="${
+data.status === "Approved"
+?
+"pending"
+:
+"released"
+}">
+
+${data.status}
+
+</td>
+
+<td>
+${data.releasedBy || "-"}
+</td>
+
+<td>
+${data.releaseDate || "-"}
+</td>
+
+<td>
+
+<button class="release-btn"
+onclick="releaseStock('${docId}')">
+
+Release
+
+</button>
+
+<button class="delete-btn"
+onclick="deleteRelease('${docId}')">
+
+Delete
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+if(totalReleases === 0){
+
+table.innerHTML = `
+
+<tr>
+
+<td colspan="9">
+
+No Releases Found
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+document.getElementById("totalReleases")
+.innerText =
+totalReleases;
+
+document.getElementById("pendingReleases")
+.innerText =
+pendingReleases;
+
+document.getElementById("completedReleases")
+.innerText =
+completedReleases;
+
+}
+
+);
+
+}
+
+/* RELEASE STOCK */
+
+window.releaseStock =
+async function(id){
+
+try{
+
+const releasedBy =
+prompt("Enter Released By");
+
+if(!releasedBy){
+
+return;
+
+}
+
+const requestRef =
+doc(db,"stockRequests",id);
+
+const requestSnap =
+await getDoc(requestRef);
+
+if(!requestSnap.exists()){
+
+alert("Request not found");
+
+return;
+
+}
+
+const request =
+requestSnap.data();
+
+if(request.status === "Released"){
+
+alert("Already Released");
+
+return;
+
+}
+
+/* CHECK STOCK */
+
+const itemRef =
+doc(db,"inventoryMasterlist",request.itemId);
+
+const itemSnap =
+await getDoc(itemRef);
+
+if(!itemSnap.exists()){
+
+alert("Item not found");
+
+return;
+
+}
+
+const item =
+itemSnap.data();
+
+const currentStock =
+Number(item.stock || 0);
+
+if(request.quantity > currentStock){
+
+alert("Insufficient stock");
+
+return;
+
+}
+
+/* UPDATE INVENTORY */
+
+const newStock =
+currentStock - Number(request.quantity);
+
+await updateDoc(itemRef,{
+
+stock:newStock
+
+});
+
+/* UPDATE REQUEST */
+
+await updateDoc(requestRef,{
+
+status:"Released",
+
+releasedBy,
+
+releaseDate:
+new Date().toLocaleDateString()
+
+});
+
+/* SAVE STOCK OUT */
+
+await addDoc(
+collection(db,"stockOut"),
+{
+
+date:
+new Date().toLocaleDateString(),
+
+itemId:
+request.itemId,
+
+itemName:
+request.itemName,
+
+quantity:
+request.quantity,
+
+purpose:
+"Released Request",
+
+destination:
+request.department,
+
+requestedBy:
+request.requestedBy,
+
+releasedBy,
+
+createdAt:
+new Date()
+
+}
+);
+
+/* SAVE RELEASE LOG */
+
+await addDoc(
+collection(db,"stockReleases"),
+{
+
+requestId:id,
+
+itemId:
+request.itemId,
+
+itemName:
+request.itemName,
+
+quantity:
+request.quantity,
+
+requestedBy:
+request.requestedBy,
+
+department:
+request.department,
+
+releasedBy,
+
+releaseDate:
+new Date().toLocaleDateString(),
+
+createdAt:
+new Date()
+
+}
+);
+
+alert("Stock Released Successfully");
+
+}catch(error){
+
+console.error(error);
+
+alert(error.message);
+
+}
+
+}
+
+/* DELETE */
+
+window.deleteRelease =
+async function(id){
+
+const confirmDelete =
+confirm("Delete this release?");
+
+if(!confirmDelete){
+
+return;
+
+}
+
+await deleteDoc(
+doc(db,"stockRequests",id)
+);
+
+alert("Release Deleted");
+
+}
+
+/* LOAD */
+
+loadReleases();
+
+</script>
+
+</body>
+</html>
