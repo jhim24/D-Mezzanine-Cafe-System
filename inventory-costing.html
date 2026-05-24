@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<meta http-equiv="Cache-Control"
+content="no-cache, no-store, must-revalidate">
+
+<meta http-equiv="Pragma"
+content="no-cache">
+
+<meta http-equiv="Expires"
+content="0">
+
+<title>D'Mezzanine Inventory Costing</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#d8ecec;
+color:#111827;
+overflow:hidden;
+}
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar{
+width:8px;
+height:8px;
+}
+
+::-webkit-scrollbar-thumb{
+background:#0f766e;
+border-radius:10px;
+}
+
+/* LAYOUT */
+
+.container{
+display:flex;
+height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+width:280px;
+background:#0f172a;
+padding:20px;
+overflow-y:auto;
+border-right:3px solid #134e4a;
+}
+
+.logo-box{
+display:flex;
+align-items:center;
+gap:14px;
+margin-bottom:30px;
+}
+
+.logo-box img{
+width:70px;
+height:70px;
+border-radius:50%;
+background:white;
+padding:5px;
+border:3px solid #facc15;
+object-fit:contain;
+}
+
+.logo-text h2{
+font-size:24px;
+font-weight:700;
+color:white;
+}
+
+.logo-text p{
+font-size:13px;
+color:#cbd5e1;
+margin-top:3px;
+}
+
+.menu{
+display:flex;
+flex-direction:column;
+gap:12px;
+}
+
+.menu-title{
+font-size:13px;
+font-weight:700;
+color:#facc15;
+margin-top:18px;
+margin-bottom:5px;
+padding-left:5px;
+}
+
+.menu a{
+display:flex;
+align-items:center;
+gap:14px;
+padding:16px;
+border-radius:14px;
+text-decoration:none;
+color:white;
+font-size:15px;
+font-weight:500;
+transition:.3s;
+background:#1e293b;
+}
+
+.menu a:hover,
+.menu a.active{
+background:#facc15;
+color:black;
+transform:translateX(4px);
+}
+
+/* MAIN */
+
+.main{
+flex:1;
+padding:20px;
+overflow-y:auto;
+}
+
+/* HEADER */
+
+.header-box{
+background:#b8dede;
+padding:20px;
+border:2px solid #6b9e9e;
+margin-bottom:18px;
+}
+
+.header-box h1{
+font-size:32px;
+font-weight:700;
+}
+
+.header-box p{
+margin-top:5px;
+font-size:14px;
+}
+
+/* CARDS */
+
+.cards{
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(250px,1fr));
+gap:15px;
+margin-bottom:20px;
+}
+
+.card{
+background:#c7e4e4;
+border:2px solid #7aa6a6;
+padding:20px;
+position:relative;
+}
+
+.card i{
+position:absolute;
+top:15px;
+right:15px;
+font-size:34px;
+color:#134e4a;
+}
+
+.card h3{
+font-size:15px;
+margin-bottom:10px;
+}
+
+.card h2{
+font-size:34px;
+color:#0f172a;
+}
+
+/* FILTER */
+
+.filters{
+display:flex;
+gap:12px;
+margin-bottom:18px;
+flex-wrap:wrap;
+}
+
+.filters input,
+.filters select{
+padding:12px;
+border:1px solid #7aa6a6;
+background:white;
+min-width:220px;
+}
+
+/* TABLE */
+
+.table-box{
+background:#c7e4e4;
+border:2px solid #7aa6a6;
+overflow:auto;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+min-width:2400px;
+background:white;
+}
+
+th{
+background:#374151;
+padding:7px 10px;
+border:1px solid #111827;
+font-size:13px;
+font-weight:700;
+text-align:left;
+color:white;
+white-space:nowrap;
+}
+
+td{
+padding:5px 10px;
+border:1px solid #4b5563;
+font-size:13px;
+font-weight:700;
+background:#d1d5db;
+color:#000;
+line-height:1.1;
+white-space:nowrap;
+}
+
+/* STATUS */
+
+.good{
+color:#15803d;
+font-weight:700;
+}
+
+.warning{
+color:#dc2626;
+font-weight:700;
+}
+
+/* MOBILE */
+
+@media(max-width:950px){
+
+.container{
+flex-direction:column;
+}
+
+.sidebar{
+width:100%;
+display:flex;
+overflow:auto;
+}
+
+.menu{
+flex-direction:row;
+}
+
+.menu a{
+min-width:180px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<div class="logo-box">
+
+<img src="./logo.png">
+
+<div class="logo-text">
+
+<h2>D'Mezzanine</h2>
+
+<p>Costing System</p>
+
+</div>
+
+</div>
+
+<div class="menu">
+
+<div class="menu-title">
+MAIN
+</div>
+
+<a href="index.html">
+
+<i class="fa-solid fa-chart-line"></i>
+Dashboard
+
+</a>
+
+<div class="menu-title">
+PURCHASES
+</div>
+
+<a href="suppliers.html">
+
+<i class="fa-solid fa-truck-field"></i>
+Suppliers
+
+</a>
+
+<a href="purchase-orders.html">
+
+<i class="fa-solid fa-file-invoice"></i>
+Purchase Orders
+
+</a>
+
+<a href="receiving.html">
+
+<i class="fa-solid fa-box-open"></i>
+Receiving
+
+</a>
+
+<div class="menu-title">
+INVENTORY
+</div>
+
+<a href="categories.html">
+
+<i class="fa-solid fa-layer-group"></i>
+Categories
+
+</a>
+
+<a href="items-masterlist.html">
+
+<i class="fa-solid fa-box"></i>
+Items Masterlist
+
+</a>
+
+<a href="inventory-costing.html"
+class="active">
+
+<i class="fa-solid fa-money-bill-wave"></i>
+Inventory Costing
+
+</a>
+
+<a href="stock-in.html">
+
+<i class="fa-solid fa-truck"></i>
+Stock In
+
+</a>
+
+<a href="stock-out.html">
+
+<i class="fa-solid fa-arrow-right-arrow-left"></i>
+Stock Out
+
+</a>
+
+<a href="waste.html">
+
+<i class="fa-solid fa-trash"></i>
+Waste
+
+</a>
+
+<a href="daily-inventory.html">
+
+<i class="fa-solid fa-clipboard-list"></i>
+Daily Inventory
+
+</a>
+
+</div>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
+
+<div class="header-box">
+
+<h1>Inventory Costing 💰</h1>
+
+<p id="dateTime"></p>
+
+</div>
+
+<!-- CARDS -->
+
+<div class="cards">
+
+<div class="card">
+
+<i class="fa-solid fa-boxes-stacked"></i>
+
+<h3>Total Inventory Value</h3>
+
+<h2 id="totalInventoryValue">
+₱0
+</h2>
+
+</div>
+
+<div class="card">
+
+<i class="fa-solid fa-cubes"></i>
+
+<h3>Total Inventory Qty</h3>
+
+<h2 id="totalInventoryQty">
+0
+</h2>
+
+</div>
+
+<div class="card">
+
+<i class="fa-solid fa-triangle-exclamation"></i>
+
+<h3>Low Value Items</h3>
+
+<h2 id="lowValueItems">
+0
+</h2>
+
+</div>
+
+</div>
+
+<!-- FILTER -->
+
+<div class="filters">
+
+<input type="text"
+id="searchInput"
+placeholder="Search Item..."
+onkeyup="loadCosting()">
+
+<select id="categoryFilter"
+onchange="loadCosting()">
+
+<option value="">
+All Categories
+</option>
+
+</select>
+
+</div>
+
+<!-- TABLE -->
+
+<div class="table-box">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Item Name</th>
+<th>Category</th>
+<th>Stock Qty</th>
+<th>Unit</th>
+<th>Latest Cost</th>
+<th>Average Cost</th>
+<th>Total Value</th>
+<th>Stock Status</th>
+<th>Last Supplier</th>
+<th>Last Purchase</th>
+
+</tr>
+
+</thead>
+
+<tbody id="costingTable">
+
+<tr>
+
+<td colspan="10">
+
+Loading...
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+
+import {
+
+getFirestore,
+collection,
+getDocs
+
+}
+
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+/* FIREBASE */
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyCYjuZlpgE-Lci33e53014F7fRIid6u7Dg",
+
+authDomain: "family-web-10cb8.firebaseapp.com",
+
+projectId: "family-web-10cb8",
+
+storageBucket: "family-web-10cb8.firebasestorage.app",
+
+messagingSenderId: "152048365178",
+
+appId: "1:152048365178:web:3e42c20e03a7c563d915c3"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
+
+/* DATE TIME */
+
+function updateDateTime(){
+
+document.getElementById("dateTime")
+.innerText =
+new Date().toLocaleString();
+
+}
+
+setInterval(updateDateTime,1000);
+
+updateDateTime();
+
+/* LOAD CATEGORY FILTER */
+
+async function loadCategories(){
+
+const categoryFilter =
+document.getElementById("categoryFilter");
+
+const snapshot =
+await getDocs(
+collection(db,"inventoryCategories")
+);
+
+snapshot.forEach((firebaseDoc)=>{
+
+const data =
+firebaseDoc.data();
+
+categoryFilter.innerHTML += `
+
+<option value="${data.categoryName}">
+
+${data.categoryName}
+
+</option>
+
+`;
+
+});
+
+}
+
+/* LOAD COSTING */
+
+window.loadCosting =
+async function(){
+
+const table =
+document.getElementById("costingTable");
+
+table.innerHTML = "";
+
+const search =
+document.getElementById("searchInput")
+.value
+.toLowerCase();
+
+const categoryFilter =
+document.getElementById("categoryFilter")
+.value;
+
+const itemsSnapshot =
+await getDocs(
+collection(db,"inventoryMasterlist")
+);
+
+const poSnapshot =
+await getDocs(
+collection(db,"purchaseOrders")
+);
+
+let totalInventoryValue = 0;
+let totalInventoryQty = 0;
+let lowValueItems = 0;
+
+itemsSnapshot.forEach((firebaseDoc)=>{
+
+const item =
+firebaseDoc.data();
+
+const itemId =
+firebaseDoc.id;
+
+const itemName =
+item.itemName || "-";
+
+const category =
+item.category || "-";
+
+const stock =
+Number(item.stock || 0);
+
+const unit =
+item.unit || "-";
+
+if(
+search &&
+!itemName.toLowerCase().includes(search)
+){
+
+return;
+
+}
+
+if(
+categoryFilter &&
+category !== categoryFilter
+){
+
+return;
+
+}
+
+let latestCost = 0;
+let totalCost = 0;
+let totalQty = 0;
+let lastSupplier = "-";
+let lastPurchase = "-";
+
+/* GET PURCHASE HISTORY */
+
+poSnapshot.forEach((poDoc)=>{
+
+const po =
+poDoc.data();
+
+if(po.itemId === itemId){
+
+latestCost =
+Number(po.cost || 0);
+
+totalCost +=
+Number(po.cost || 0);
+
+totalQty++;
+
+lastSupplier =
+po.supplier || "-";
+
+lastPurchase =
+po.poDate || "-";
+
+}
+
+});
+
+/* AVERAGE COST */
+
+const averageCost =
+
+totalQty > 0
+
+?
+
+(totalCost / totalQty)
+
+:
+
+0;
+
+/* TOTAL VALUE */
+
+const totalValue =
+stock * averageCost;
+
+totalInventoryValue +=
+totalValue;
+
+totalInventoryQty +=
+stock;
+
+if(totalValue <= 1000){
+
+lowValueItems++;
+
+}
+
+/* STATUS */
+
+let stockStatus = "";
+
+if(stock <= 5){
+
+stockStatus = `
+
+<span class="warning">
+
+LOW STOCK
+
+</span>
+
+`;
+
+}else{
+
+stockStatus = `
+
+<span class="good">
+
+GOOD
+
+</span>
+
+`;
+
+}
+
+table.innerHTML += `
+
+<tr>
+
+<td>${itemName}</td>
+
+<td>${category}</td>
+
+<td>${stock}</td>
+
+<td>${unit}</td>
+
+<td>
+₱${latestCost.toLocaleString()}
+</td>
+
+<td>
+₱${averageCost.toFixed(2)}
+</td>
+
+<td>
+₱${totalValue.toFixed(2)}
+</td>
+
+<td>
+${stockStatus}
+</td>
+
+<td>${lastSupplier}</td>
+
+<td>${lastPurchase}</td>
+
+</tr>
+
+`;
+
+});
+
+if(table.innerHTML === ""){
+
+table.innerHTML = `
+
+<tr>
+
+<td colspan="10">
+
+No Costing Records Found
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+document.getElementById("totalInventoryValue")
+.innerText =
+
+"₱" +
+totalInventoryValue.toLocaleString(
+undefined,
+{
+minimumFractionDigits:2
+}
+);
+
+document.getElementById("totalInventoryQty")
+.innerText =
+
+totalInventoryQty;
+
+document.getElementById("lowValueItems")
+.innerText =
+
+lowValueItems;
+
+}
+
+/* LOAD */
+
+loadCategories();
+loadCosting();
+
+</script>
+
+</body>
+</html>
