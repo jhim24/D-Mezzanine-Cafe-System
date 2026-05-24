@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>D'Mezzanine Users</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#d8ecec;
+overflow:hidden;
+}
+
+.container{
+display:flex;
+height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+width:280px;
+background:#0f172a;
+padding:20px;
+overflow-y:auto;
+}
+
+.logo{
+font-size:26px;
+font-weight:700;
+color:#facc15;
+margin-bottom:30px;
+}
+
+.menu{
+display:flex;
+flex-direction:column;
+gap:12px;
+}
+
+.menu-title{
+font-size:13px;
+font-weight:700;
+color:#facc15;
+margin-top:15px;
+}
+
+.menu a{
+display:flex;
+align-items:center;
+gap:12px;
+padding:15px;
+border-radius:14px;
+text-decoration:none;
+color:white;
+background:#1e293b;
+transition:.3s;
+}
+
+.menu a:hover,
+.menu a.active{
+background:#facc15;
+color:black;
+}
+
+/* MAIN */
+
+.main{
+flex:1;
+padding:20px;
+overflow-y:auto;
+}
+
+/* HEADER */
+
+.header{
+background:#b8dede;
+padding:20px;
+border:2px solid #7aa6a6;
+margin-bottom:20px;
+}
+
+.header h1{
+font-size:32px;
+}
+
+/* FORM */
+
+.form-box{
+background:#c7e4e4;
+padding:20px;
+border:2px solid #7aa6a6;
+margin-bottom:20px;
+
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
+
+gap:12px;
+}
+
+.form-box input,
+.form-box select{
+padding:12px;
+border:1px solid #7aa6a6;
+background:white;
+}
+
+.save-btn{
+background:#0f766e;
+border:none;
+padding:13px;
+color:white;
+font-weight:700;
+cursor:pointer;
+}
+
+/* TABLE */
+
+.table-box{
+background:#c7e4e4;
+border:2px solid #7aa6a6;
+overflow:auto;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+min-width:1600px;
+background:white;
+}
+
+th{
+background:#374151;
+padding:8px;
+color:white;
+font-size:13px;
+}
+
+td{
+padding:6px 10px;
+border:1px solid #4b5563;
+background:#d1d5db;
+font-size:13px;
+font-weight:700;
+}
+
+.edit-btn{
+background:#2563eb;
+border:none;
+padding:8px 12px;
+color:white;
+cursor:pointer;
+margin-right:5px;
+}
+
+.delete-btn{
+background:#dc2626;
+border:none;
+padding:8px 12px;
+color:white;
+cursor:pointer;
+}
+
+.active-status{
+color:#15803d;
+font-weight:700;
+}
+
+.inactive-status{
+color:#dc2626;
+font-weight:700;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<div class="logo">
+
+D'Mezzanine
+
+</div>
+
+<div class="menu">
+
+<div class="menu-title">
+MAIN
+</div>
+
+<a href="index.html">
+
+<i class="fa-solid fa-chart-line"></i>
+Dashboard
+
+</a>
+
+<div class="menu-title">
+USER MANAGEMENT
+</div>
+
+<a href="users.html"
+class="active">
+
+<i class="fa-solid fa-users"></i>
+Users
+
+</a>
+
+<a href="roles.html">
+
+<i class="fa-solid fa-user-shield"></i>
+Roles
+
+</a>
+
+</div>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
+
+<div class="header">
+
+<h1>Users Management 👥</h1>
+
+</div>
+
+<!-- FORM -->
+
+<div class="form-box">
+
+<input type="text"
+id="fullName"
+placeholder="Full Name">
+
+<input type="text"
+id="username"
+placeholder="Username">
+
+<input type="password"
+id="password"
+placeholder="Password">
+
+<select id="role">
+
+<option value="">
+Select Role
+</option>
+
+</select>
+
+<select id="status">
+
+<option value="Active">
+Active
+</option>
+
+<option value="Inactive">
+Inactive
+</option>
+
+</select>
+
+<button class="save-btn"
+onclick="saveUser()">
+
+Save User
+
+</button>
+
+</div>
+
+<!-- TABLE -->
+
+<div class="table-box">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Full Name</th>
+<th>Username</th>
+<th>Role</th>
+<th>Status</th>
+<th>Actions</th>
+
+</tr>
+
+</thead>
+
+<tbody id="usersTable">
+
+<tr>
+
+<td colspan="5">
+
+Loading...
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+
+import {
+
+getFirestore,
+collection,
+addDoc,
+deleteDoc,
+doc,
+updateDoc,
+getDoc,
+getDocs,
+onSnapshot
+
+}
+
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+/* FIREBASE */
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyCYjuZlpgE-Lci33e53014F7fRIid6u7Dg",
+
+authDomain: "family-web-10cb8.firebaseapp.com",
+
+projectId: "family-web-10cb8",
+
+storageBucket: "family-web-10cb8.firebasestorage.app",
+
+messagingSenderId: "152048365178",
+
+appId: "1:152048365178:web:3e42c20e03a7c563d915c3"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
+
+let editId = null;
+
+/* LOAD ROLES */
+
+async function loadRoles(){
+
+const roleSelect =
+document.getElementById("role");
+
+roleSelect.innerHTML = `
+
+<option value="">
+Select Role
+</option>
+
+`;
+
+const snapshot =
+await getDocs(
+collection(db,"roles")
+);
+
+snapshot.forEach((firebaseDoc)=>{
+
+const role =
+firebaseDoc.data();
+
+roleSelect.innerHTML += `
+
+<option value="${role.roleName}">
+
+${role.roleName}
+
+</option>
+
+`;
+
+});
+
+}
+
+/* SAVE USER */
+
+window.saveUser =
+async function(){
+
+const fullName =
+document.getElementById("fullName").value;
+
+const username =
+document.getElementById("username").value;
+
+const password =
+document.getElementById("password").value;
+
+const role =
+document.getElementById("role").value;
+
+const status =
+document.getElementById("status").value;
+
+if(
+!fullName ||
+!username ||
+!password ||
+!role
+){
+
+alert("Complete all fields");
+
+return;
+
+}
+
+const userData = {
+
+fullName,
+username,
+password,
+role,
+status,
+
+createdAt:
+new Date()
+
+};
+
+if(editId){
+
+await updateDoc(
+doc(db,"users",editId),
+userData
+);
+
+alert("User Updated");
+
+editId = null;
+
+}else{
+
+await addDoc(
+collection(db,"users"),
+userData
+);
+
+alert("User Saved");
+
+}
+
+clearForm();
+
+}
+
+/* CLEAR */
+
+function clearForm(){
+
+document.getElementById("fullName")
+.value = "";
+
+document.getElementById("username")
+.value = "";
+
+document.getElementById("password")
+.value = "";
+
+document.getElementById("role")
+.value = "";
+
+document.getElementById("status")
+.value = "Active";
+
+}
+
+/* LOAD USERS */
+
+window.loadUsers =
+function(){
+
+const table =
+document.getElementById("usersTable");
+
+onSnapshot(
+
+collection(db,"users"),
+
+(snapshot)=>{
+
+table.innerHTML = "";
+
+snapshot.forEach((firebaseDoc)=>{
+
+const user =
+firebaseDoc.data();
+
+table.innerHTML += `
+
+<tr>
+
+<td>${user.fullName}</td>
+
+<td>${user.username}</td>
+
+<td>${user.role}</td>
+
+<td class="${
+user.status === "Active"
+?
+"active-status"
+:
+"inactive-status"
+}">
+
+${user.status}
+
+</td>
+
+<td>
+
+<button class="edit-btn"
+onclick="editUser('${firebaseDoc.id}')">
+
+Edit
+
+</button>
+
+<button class="delete-btn"
+onclick="deleteUser('${firebaseDoc.id}')">
+
+Delete
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+);
+
+}
+
+/* EDIT */
+
+window.editUser =
+async function(id){
+
+const userRef =
+doc(db,"users",id);
+
+const userSnap =
+await getDoc(userRef);
+
+if(userSnap.exists()){
+
+const user =
+userSnap.data();
+
+editId = id;
+
+document.getElementById("fullName")
+.value = user.fullName || "";
+
+document.getElementById("username")
+.value = user.username || "";
+
+document.getElementById("password")
+.value = user.password || "";
+
+document.getElementById("role")
+.value = user.role || "";
+
+document.getElementById("status")
+.value = user.status || "";
+
+}
+
+}
+
+/* DELETE */
+
+window.deleteUser =
+async function(id){
+
+const confirmDelete =
+confirm("Delete this user?");
+
+if(!confirmDelete){
+
+return;
+
+}
+
+await deleteDoc(
+doc(db,"users",id)
+);
+
+alert("User Deleted");
+
+}
+
+/* LOAD */
+
+loadRoles();
+loadUsers();
+
+</script>
+
+</body>
+</html>
