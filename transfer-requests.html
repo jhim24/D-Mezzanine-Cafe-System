@@ -35,8 +35,8 @@ font-family:'Poppins',sans-serif;
 
 body{
 background:#d8ecec;
-color:#111827;
 overflow:hidden;
+color:#111827;
 }
 
 /* SCROLLBAR */
@@ -107,8 +107,7 @@ gap:12px;
 font-size:13px;
 font-weight:700;
 color:#facc15;
-margin-top:18px;
-margin-bottom:5px;
+margin-top:15px;
 padding-left:5px;
 }
 
@@ -116,14 +115,14 @@ padding-left:5px;
 display:flex;
 align-items:center;
 gap:14px;
-padding:16px;
+padding:15px;
 border-radius:14px;
 text-decoration:none;
 color:white;
+background:#1e293b;
+transition:.3s;
 font-size:15px;
 font-weight:500;
-transition:.3s;
-background:#1e293b;
 }
 
 .menu a:hover,
@@ -146,12 +145,12 @@ overflow-y:auto;
 .header-box{
 background:#b8dede;
 padding:20px;
-border:2px solid #6b9e9e;
-margin-bottom:18px;
+border:2px solid #7aa6a6;
+margin-bottom:20px;
 }
 
 .header-box h1{
-font-size:32px;
+font-size:34px;
 font-weight:700;
 }
 
@@ -192,7 +191,6 @@ margin-bottom:10px;
 
 .card h2{
 font-size:38px;
-color:#0f172a;
 }
 
 /* FORM */
@@ -201,7 +199,7 @@ color:#0f172a;
 background:#c7e4e4;
 border:2px solid #7aa6a6;
 padding:20px;
-margin-bottom:18px;
+margin-bottom:20px;
 
 display:grid;
 grid-template-columns:
@@ -236,7 +234,6 @@ padding:13px;
 color:white;
 font-weight:700;
 cursor:pointer;
-transition:.3s;
 }
 
 .save-btn:hover{
@@ -267,7 +264,7 @@ font-size:13px;
 .filters{
 display:flex;
 gap:12px;
-margin-bottom:18px;
+margin-bottom:20px;
 flex-wrap:wrap;
 }
 
@@ -290,7 +287,7 @@ overflow:auto;
 table{
 width:100%;
 border-collapse:collapse;
-min-width:2600px;
+min-width:2000px;
 background:white;
 }
 
@@ -305,13 +302,13 @@ color:white;
 }
 
 td{
-padding:5px 10px;
+padding:6px 10px;
 border:1px solid #4b5563;
 font-size:13px;
 font-weight:700;
 background:#d1d5db;
-color:#000;
-line-height:1.1;
+color:black;
+line-height:1.2;
 }
 
 /* STATUS */
@@ -379,7 +376,8 @@ min-width:180px;
 
 <div class="logo-box">
 
-<img src="./logo.png">
+<img src="./logo.png"
+onerror="this.src='https://via.placeholder.com/70'">
 
 <div class="logo-text">
 
@@ -416,6 +414,24 @@ Approval
 
 <i class="fa-solid fa-box-open"></i>
 Release
+
+</a>
+
+<div class="menu-title">
+INVENTORY
+</div>
+
+<a href="items-masterlist.html">
+
+<i class="fa-solid fa-box"></i>
+Items Masterlist
+
+</a>
+
+<a href="stock-transfer.html">
+
+<i class="fa-solid fa-arrow-right-arrow-left"></i>
+Stock Transfer
 
 </a>
 
@@ -558,7 +574,7 @@ Save Request
 
 </div>
 
-<!-- FILTERS -->
+<!-- FILTER -->
 
 <div class="filters">
 
@@ -647,11 +663,9 @@ Loading...
 <script type="module">
 
 import { initializeApp }
-
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 
 import {
-
 getFirestore,
 collection,
 addDoc,
@@ -661,9 +675,7 @@ updateDoc,
 getDoc,
 getDocs,
 onSnapshot
-
 }
-
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
 /* FIREBASE */
@@ -714,12 +726,12 @@ const select =
 document.getElementById("itemSelect");
 
 select.innerHTML = `
-
 <option value="">
 Select Item
 </option>
-
 `;
+
+try{
 
 const snapshot =
 await getDocs(
@@ -732,16 +744,18 @@ const item =
 firebaseDoc.data();
 
 select.innerHTML += `
-
 <option value="${firebaseDoc.id}">
-
-${item.itemName}
-
+${item.itemName || "Unnamed Item"}
 </option>
-
 `;
 
 });
+
+}catch(error){
+
+console.error(error);
+
+}
 
 }
 
@@ -763,7 +777,7 @@ document.getElementById("itemSelect")
 .options[
 document.getElementById("itemSelect")
 .selectedIndex
-].text;
+]?.text || "";
 
 const quantity =
 Number(
@@ -794,7 +808,6 @@ if(
 ){
 
 alert("Complete all fields");
-
 return;
 
 }
@@ -843,7 +856,6 @@ clearForm();
 }catch(error){
 
 console.error(error);
-
 alert(error.message);
 
 }
@@ -918,11 +930,13 @@ firebaseDoc.data();
 const docId =
 firebaseDoc.id;
 
+const itemName =
+(data.itemName || "")
+.toLowerCase();
+
 if(
 search &&
-!data.itemName
-.toLowerCase()
-.includes(search)
+!itemName.includes(search)
 ){
 
 return;
@@ -941,38 +955,32 @@ return;
 totalRequests++;
 
 if(data.status === "Pending"){
-
 pendingRequests++;
-
 }
 
 if(data.status === "Approved"){
-
 approvedRequests++;
-
 }
 
 if(data.status === "Released"){
-
 releasedRequests++;
-
 }
 
 table.innerHTML += `
 
 <tr>
 
-<td>${data.requestDate}</td>
+<td>${data.requestDate || "-"}</td>
 
-<td>${data.itemName}</td>
+<td>${data.itemName || "-"}</td>
 
-<td>${data.quantity}</td>
+<td>${data.quantity || 0}</td>
 
-<td>${data.fromBranch}</td>
+<td>${data.fromBranch || "-"}</td>
 
-<td>${data.toBranch}</td>
+<td>${data.toBranch || "-"}</td>
 
-<td>${data.requestedBy}</td>
+<td>${data.requestedBy || "-"}</td>
 
 <td>${data.purpose || "-"}</td>
 
@@ -996,7 +1004,7 @@ data.status === "Completed"
 "rejected"
 }">
 
-${data.status}
+${data.status || "-"}
 
 </td>
 
@@ -1069,6 +1077,8 @@ releasedRequests;
 window.editRequest =
 async function(id){
 
+try{
+
 const requestRef =
 doc(db,"transferRequests",id);
 
@@ -1113,6 +1123,12 @@ behavior:"smooth"
 
 }
 
+}catch(error){
+
+console.error(error);
+
+}
+
 }
 
 /* DELETE */
@@ -1124,16 +1140,22 @@ const confirmDelete =
 confirm("Delete this request?");
 
 if(!confirmDelete){
-
 return;
-
 }
+
+try{
 
 await deleteDoc(
 doc(db,"transferRequests",id)
 );
 
 alert("Request Deleted");
+
+}catch(error){
+
+console.error(error);
+
+}
 
 }
 
